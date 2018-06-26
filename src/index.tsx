@@ -6,6 +6,8 @@ import { Options } from './options';
 import { toString, isArray, keys } from './utils';
 import { SelectProps, SelectState, Option, Rect } from './typings';
 
+export { SelectProps, Option };
+
 export class Select extends React.PureComponent<SelectProps, SelectState> {
     private static Container = styled.div`
         display: flex;

@@ -1,7 +1,7 @@
 /// <reference types="react" />
 export interface SelectProps<T = any> {
     className?: string;
-    options: Option2<T>[];
+    options: Option<T>[];
     value?: T | T[];
     placeholder?: string;
     creatable?: boolean;
@@ -19,7 +19,7 @@ export interface SelectState {
     search?: string;
     selectedIndex?: number;
 }
-export interface Option2<T = any> {
+export interface Option<T = any> {
     value: T;
     disabled?: boolean;
     label: string;

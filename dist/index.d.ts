@@ -1,7 +1,8 @@
 /// <reference types="react" />
 import * as React from 'react';
-import { SelectProps, SelectState } from './typings';
-export declare class Select2 extends React.PureComponent<SelectProps, SelectState> {
+import { SelectProps, SelectState, Option } from './typings';
+export { SelectProps, Option };
+export declare class Select extends React.PureComponent<SelectProps, SelectState> {
     private static Container;
     private static NativeSelect;
     private nativeSelect;

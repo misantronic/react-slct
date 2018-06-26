@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { SelectLabel } from './label';
 import { toString, keys, isArray } from './utils';
 const Button = styled.button `
-    appearance: none;
     background: transparent;
     border: none;
     margin: 0;

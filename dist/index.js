@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Value } from './value';
 import { Options } from './options';
 import { toString, isArray, keys } from './utils';
-export class Select2 extends React.PureComponent {
+export class Select extends React.PureComponent {
     constructor(props) {
         super(props);
         this.rect = { left: 0, top: 0, width: 0, height: 0 };
@@ -36,7 +36,7 @@ export class Select2 extends React.PureComponent {
         this.removeDocumentListener();
     }
     render() {
-        const { Container } = Select2;
+        const { Container } = Select;
         const { className, options, creatable, clearable, placeholder, value, disabled, labelComponent, multi, native } = this.props;
         const { open, search, selectedIndex } = this.state;
         const searchable = this.props.searchable || creatable;
@@ -46,7 +46,7 @@ export class Select2 extends React.PureComponent {
             React.createElement(Options, { open: open, options: this.options, rect: this.rect, value: value, multi: multi, search: search, selectedIndex: selectedIndex, labelComponent: labelComponent, onSelect: this.onOptionSelect })));
     }
     renderNativeSelect() {
-        const { NativeSelect } = Select2;
+        const { NativeSelect } = Select;
         const { native, placeholder, multi, disabled } = this.props;
         const value = multi
             ? (this.props.value || []).map(val => toString(val))
@@ -206,7 +206,7 @@ export class Select2 extends React.PureComponent {
         }
     }
 }
-Select2.Container = styled.div `
+Select.Container = styled.div `
         display: flex;
         position: relative;
         cursor: default;
@@ -214,7 +214,7 @@ Select2.Container = styled.div `
         pointer-events: ${(props) => props.disabled ? 'none' : 'auto'};
         opacity: ${(props) => props.disabled ? 0.75 : 1};
     `;
-Select2.NativeSelect = styled.select `
+Select.NativeSelect = styled.select `
         display: block;
         z-index: ${(props) => props.native ? '1' : 'auto'};
         opacity: 0;
@@ -229,59 +229,59 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
-], Select2.prototype, "toggleMenu", null);
+], Select.prototype, "toggleMenu", null);
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
-], Select2.prototype, "onChangeNativeSelect", null);
+], Select.prototype, "onChangeNativeSelect", null);
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
-], Select2.prototype, "onSearchFocus", null);
+], Select.prototype, "onSearchFocus", null);
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
-], Select2.prototype, "onOptionSelect", null);
+], Select.prototype, "onOptionSelect", null);
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
-], Select2.prototype, "onOptionRemove", null);
+], Select.prototype, "onOptionRemove", null);
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
-], Select2.prototype, "onClear", null);
+], Select.prototype, "onClear", null);
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [String]),
     tslib_1.__metadata("design:returntype", void 0)
-], Select2.prototype, "onSearch", null);
+], Select.prototype, "onSearch", null);
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
-], Select2.prototype, "onDocumentClick", null);
+], Select.prototype, "onDocumentClick", null);
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
-], Select2.prototype, "onKeyDown", null);
+], Select.prototype, "onKeyDown", null);
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
-], Select2.prototype, "onKeyUp", null);
+], Select.prototype, "onKeyUp", null);
 //# sourceMappingURL=index.js.map
