@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "target": "es2017",
+        "module": "es2015",
+        "allowJs": false,
+        "jsx": "react",
+        "sourceMap": true,
+        "rootDir": "./src",
+        "noEmit": false,
+        "outDir": "./dist",
+        "importHelpers": true,
+        "downlevelIteration": true,
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noImplicitAny": false,
+        "noFallthroughCasesInSwitch": true,
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "baseUrl": ".",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "declaration": true
+    },
+    "include": ["."],
+    "exclude": ["node_modules"]
+}
