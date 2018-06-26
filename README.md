@@ -1,6 +1,6 @@
 # react-slct 🐘
 
-Yet another Select-Box based on react, styled-components and react-virtulized.
+Yet another Select-Box based on react, styled-components and react-virtualized.
 
 ## Install
 
