@@ -8,4 +8,5 @@ export const SelectLabel = styled.span`
     white-space: nowrap;
     text-overflow: ellipsis;
     user-select: none;
+    box-sizing: border-box;
 `;

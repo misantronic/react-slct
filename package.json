@@ -1,10 +1,11 @@
 {
   "name": "react-slct",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Yet another Select-Box based on react and styled-components",
   "main": "dist/index.js",
   "scripts": {
-    "compile": "rm -rf dist && tsc -p . && node fuse"
+    "compile": "rm -rf dist && tsc -p .",
+    "examples": "parcel examples/src/index.html --out-dir examples/dist"
   },
   "repository": {
     "type": "git",
@@ -31,7 +32,7 @@
     "@types/react": "^16.4.2",
     "@types/react-dom": "^16.0.6",
     "@types/react-virtualized": "^9.18.3",
-    "fuse-box": "^3.3.0",
+    "parcel-bundler": "^1.9.3",
     "typescript": "^2.9.2"
   }
 }

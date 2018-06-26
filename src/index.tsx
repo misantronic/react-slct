@@ -14,10 +14,12 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         position: relative;
         cursor: default;
         width: 100%;
+        box-sizing: border-box;
         pointer-events: ${(props: { disabled?: boolean }) =>
             props.disabled ? 'none' : 'auto'};
         opacity: ${(props: { disabled?: boolean }) =>
             props.disabled ? 0.75 : 1};
+        user-select: none;
     `;
 
     private static NativeSelect = styled.select`
@@ -94,7 +96,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
 
         return (
             <Container
-                className={className}
+                className={className ? `react-slct ${className}` : 'react-slct'}
                 disabled={disabled}
                 innerRef={this.container}
                 onKeyUp={this.onKeyUp}
@@ -105,6 +107,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                     clearable={clearable}
                     searchable={searchable}
                     open={open}
+                    disabled={disabled}
                     multi={multi}
                     mobile={native}
                     options={options}
@@ -275,7 +278,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
 
     @bind
     private onClear(): void {
-        this.onOptionSelect(undefined);
+        this.onOptionSelect(this.props.multi ? [] : undefined);
     }
 
     @bind

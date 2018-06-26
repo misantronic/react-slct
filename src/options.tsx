@@ -41,6 +41,7 @@ class OptionComponent extends React.PureComponent<OptionComponentProps> {
         padding: 0 10px;
         min-width: 0;
         cursor: pointer;
+        box-sizing: border-box;
         background-color: ${(props: OptionItemProps) =>
             props.active ? '#ddd' : props.selected ? '#eee' : '#fff'};
 
@@ -106,6 +107,7 @@ export class Options extends React.PureComponent<OptionsProps> {
         width: ${(props: { rect: Rect }) => props.rect.width}px;
         z-index: 9999;
         background: #fff;
+        box-sizing: border-box;
         box-shadow: ${(props: { rect: Rect }) =>
             menuPosition(props.rect) === 'bottom'
                 ? '0 2px 5px rgba(0, 0, 0, 0.1)'
@@ -155,6 +157,12 @@ export class Options extends React.PureComponent<OptionsProps> {
     public render(): React.ReactNode {
         const { OptionsContainer, Empty } = Options;
         const { open, rect, options, multi, selectedIndex } = this.props;
+        const rowHeight = 32;
+        const menuHeight = 185;
+        const height = Math.min(
+            Math.max(options.length * rowHeight, rowHeight),
+            menuHeight
+        );
 
         return open
             ? createPortal(
@@ -162,8 +170,8 @@ export class Options extends React.PureComponent<OptionsProps> {
                       <List
                           ref={this.list}
                           width={rect.width}
-                          height={185}
-                          rowHeight={32}
+                          height={height}
+                          rowHeight={rowHeight}
                           rowCount={options.length}
                           rowRenderer={this.rowRenderer}
                           scrollToRow={multi ? 0 : selectedIndex}

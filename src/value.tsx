@@ -14,6 +14,7 @@ export interface ValueProps {
     labelComponent: SelectProps['labelComponent'];
     multi: SelectProps['multi'];
     mobile: SelectProps['native'];
+    disabled: SelectProps['disabled'];
     search?: string;
     open: boolean;
     onClear(): void;
@@ -33,6 +34,16 @@ interface SearchProps {
     multi?: boolean;
 }
 
+interface ValueContainerProps {
+    mobile?: boolean;
+    disabled?: boolean;
+}
+
+interface ValueLeftProps {
+    multi?: boolean;
+    hasValue?: boolean;
+}
+
 const Button = styled.button`
     background: transparent;
     border: none;
@@ -50,7 +61,7 @@ const Button = styled.button`
 const ArrowButton = styled(Button)`
     font-size: 12px;
     color: #ccc;
-    transform: translateY(-1px) scaleY(0.8);
+    transform: translateY(2px);
 
     &:hover {
         color: #333;
@@ -62,29 +73,36 @@ const ValueContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     flex: 1;
-    min-height: ${(props: { mobile?: boolean }) =>
+    min-height: ${(props: ValueContainerProps) =>
         props.mobile ? '42px' : '32px'};
-    pointer-events: ${(props: { mobile?: boolean }) =>
-        props.mobile ? 'none' : 'auto'};
+    pointer-events: ${(props: ValueContainerProps) =>
+        props.mobile || props.disabled ? 'none' : 'auto'};
     padding: 5px 10px;
     background: #fff;
     cursor: default;
     border: 1px solid #ccc;
     z-index: 0;
+    box-sizing: border-box;
+    max-width: 100%;
 `;
 
 const ValueLeft = styled.div`
     display: flex;
     flex: 1;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: ${(props: ValueLeftProps) =>
+        props.multi && props.hasValue ? 'wrap' : 'nowrap'};
     user-select: none;
     min-width: 0;
-    margin: ${(props: { multi?: boolean }) => (props.multi ? '-2px -5px' : 0)};
+    box-sizing: border-box;
+    margin: ${(props: ValueLeftProps) => (props.multi ? '-2px -5px' : 0)};
 `;
 
 const ValueRight = styled.div`
+    display: flex;
+    align-items: center;
     margin-left: 4px;
+    box-sizing: border-box;
 `;
 
 const Placeholder = styled(SelectLabel)`
@@ -184,7 +202,15 @@ export class Value extends React.PureComponent<ValueProps> {
     }
 
     public render(): React.ReactNode {
-        const { options, value, clearable, open, mobile, multi } = this.props;
+        const {
+            options,
+            value,
+            disabled,
+            clearable,
+            open,
+            mobile,
+            multi
+        } = this.props;
         const valueOptions = options.filter(option => {
             if (isArray(value)) {
                 return value.some(
@@ -195,17 +221,24 @@ export class Value extends React.PureComponent<ValueProps> {
             }
         });
         const showClearer = Boolean(clearable && valueOptions.length);
+        const searchAtStart = !multi || valueOptions.length === 0;
+        const searchAtEnd = multi && valueOptions.length > 0;
 
         return (
             <ValueContainer
                 className="value-container"
+                disabled={disabled}
                 mobile={mobile}
                 onClick={this.onClick}
             >
-                <ValueLeft className="value-left" multi={multi}>
-                    {!multi && this.renderSearch()}
+                <ValueLeft
+                    className="value-left"
+                    multi={multi}
+                    hasValue={!!valueOptions.length}
+                >
+                    {searchAtStart && this.renderSearch()}
                     {this.renderValues(valueOptions)}
-                    {multi && this.renderSearch()}
+                    {searchAtEnd && this.renderSearch()}
                 </ValueLeft>
                 <ValueRight className="value-right">
                     {showClearer && (
@@ -226,8 +259,12 @@ export class Value extends React.PureComponent<ValueProps> {
     }
 
     private renderSearch(): React.ReactNode {
-        const { open, searchable, multi, onSearchFocus } = this.props;
+        const { open, disabled, searchable, multi, onSearchFocus } = this.props;
         const canSearch = open && searchable;
+
+        if (disabled) {
+            return null;
+        }
 
         return (
             <Search
@@ -272,11 +309,13 @@ export class Value extends React.PureComponent<ValueProps> {
 
     @bind
     private onClick(): void {
-        if (this.search.current) {
-            this.search.current.focus();
-        }
+        if (!this.props.disabled) {
+            if (this.search.current) {
+                this.search.current.focus();
+            }
 
-        this.props.onClick();
+            this.props.onClick();
+        }
     }
 
     @bind
@@ -288,15 +327,19 @@ export class Value extends React.PureComponent<ValueProps> {
 
     @bind
     private onSearch(e: React.SyntheticEvent<HTMLSpanElement>) {
-        this.props.onSearch(e.currentTarget.innerText.trim());
+        if (this.props.searchable) {
+            this.props.onSearch(e.currentTarget.innerText.trim());
+        } else {
+            e.preventDefault();
+        }
     }
 
     @bind
     private onKeyDown(e: React.KeyboardEvent<HTMLSpanElement>) {
-        const { open, searchable } = this.props;
+        const { searchable } = this.props;
 
         if (
-            (!open && !searchable) ||
+            (!searchable && e.keyCode !== keys.TAB) ||
             e.keyCode === keys.ENTER ||
             e.keyCode === keys.ARROW_UP ||
             e.keyCode === keys.ARROW_DOWN

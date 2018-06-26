@@ -6,8 +6,7 @@
         "jsx": "react",
         "sourceMap": true,
         "rootDir": "./src",
-        "noEmit": false,
-        "outDir": "./dist",
+        "noEmit": true,
         "importHelpers": true,
         "downlevelIteration": true,
         "strict": true,
@@ -23,6 +22,6 @@
         "emitDecoratorMetadata": true,
         "declaration": true
     },
-    "include": ["./src"],
+    "include": ["."],
     "exclude": ["node_modules"]
 }
