@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import * as React from 'react';
 import { SelectProps } from './typings';
 export interface ValueProps {
@@ -23,10 +22,10 @@ export declare class Value extends React.PureComponent<ValueProps> {
     constructor(props: ValueProps);
     componentDidUpdate(prevProps: ValueProps): void;
     render(): React.ReactNode;
-    private renderSearch();
-    private renderValues(valueOptions);
-    private onClick();
-    private onClear(e);
-    private onSearch(e);
-    private onKeyDown(e);
+    private renderSearch;
+    private renderValues;
+    private onClick;
+    private onClear;
+    private onSearch;
+    private onKeyDown;
 }

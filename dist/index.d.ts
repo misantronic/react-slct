@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import * as React from 'react';
 import { SelectProps, SelectState, Option } from './typings';
 export { SelectProps, Option };
@@ -12,19 +11,19 @@ export declare class Select extends React.PureComponent<SelectProps, SelectState
     private readonly options;
     componentWillUnmount(): void;
     render(): React.ReactNode;
-    private renderNativeSelect();
-    private toggleMenu();
-    private openMenu();
-    private closeMenu(callback?);
-    private addDocumentListener();
-    private removeDocumentListener();
-    private onChangeNativeSelect(e);
-    private onSearchFocus();
-    private onOptionSelect(value);
-    private onOptionRemove(value);
-    private onClear();
-    private onSearch(search);
-    private onDocumentClick();
-    private onKeyDown({keyCode});
-    private onKeyUp({keyCode});
+    private renderNativeSelect;
+    private toggleMenu;
+    private openMenu;
+    private closeMenu;
+    private addDocumentListener;
+    private removeDocumentListener;
+    private onChangeNativeSelect;
+    private onSearchFocus;
+    private onOptionSelect;
+    private onOptionRemove;
+    private onClear;
+    private onSearch;
+    private onDocumentClick;
+    private onKeyDown;
+    private onKeyUp;
 }

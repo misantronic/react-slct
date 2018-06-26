@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import * as React from 'react';
 import { SelectProps, Rect } from './typings';
 export interface OptionsProps<T = any> {
@@ -19,6 +18,6 @@ export declare class Options extends React.PureComponent<OptionsProps> {
     constructor(props: any);
     componentDidUpdate(prevProps: OptionsProps): void;
     render(): React.ReactNode;
-    private rowRenderer({key, index, style});
-    private onSelect(value);
+    private rowRenderer;
+    private onSelect;
 }
