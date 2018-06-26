@@ -4,8 +4,16 @@ FuseBox.pkg("default", {}, function(___scope___){
 ___scope___.file("index.jsx", function(exports, require, module, __filename, __dirname){
 
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
 var _a, _b, _c;
 "use strict";
 const lodash_decorators_1 = require("lodash-decorators");
@@ -236,65 +244,65 @@ Select.NativeSelect = styled_components_1.default.select `
         width: 100%;
         height: 100%;
     `;
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", []),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
 ], Select.prototype, "toggleMenu", null);
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [typeof (_a = (typeof React !== "undefined" && React).SyntheticEvent) === "function" && _a || Object]),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_a = (typeof React !== "undefined" && React).SyntheticEvent) === "function" && _a || Object]),
+    __metadata("design:returntype", void 0)
 ], Select.prototype, "onChangeNativeSelect", null);
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", []),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
 ], Select.prototype, "onSearchFocus", null);
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
 ], Select.prototype, "onOptionSelect", null);
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
 ], Select.prototype, "onOptionRemove", null);
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", []),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
 ], Select.prototype, "onClear", null);
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [String]),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
 ], Select.prototype, "onSearch", null);
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", []),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
 ], Select.prototype, "onDocumentClick", null);
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [typeof (_b = (typeof React !== "undefined" && React).KeyboardEvent) === "function" && _b || Object]),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_b = (typeof React !== "undefined" && React).KeyboardEvent) === "function" && _b || Object]),
+    __metadata("design:returntype", void 0)
 ], Select.prototype, "onKeyDown", null);
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [typeof (_c = (typeof React !== "undefined" && React).KeyboardEvent) === "function" && _c || Object]),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_c = (typeof React !== "undefined" && React).KeyboardEvent) === "function" && _c || Object]),
+    __metadata("design:returntype", void 0)
 ], Select.prototype, "onKeyUp", null);
 exports.Select = Select;
 //# sourceMappingURL=index.js.map
@@ -302,8 +310,16 @@ exports.Select = Select;
 ___scope___.file("value.jsx", function(exports, require, module, __filename, __dirname){
 
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
 var _a, _b, _c, _d;
 "use strict";
 const lodash_decorators_1 = require("lodash-decorators");
@@ -422,11 +438,11 @@ class TagRemove extends React.PureComponent {
         this.props.onClick(this.props.value);
     }
 }
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [typeof (_a = (typeof React !== "undefined" && React).SyntheticEvent) === "function" && _a || Object]),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_a = (typeof React !== "undefined" && React).SyntheticEvent) === "function" && _a || Object]),
+    __metadata("design:returntype", void 0)
 ], TagRemove.prototype, "onClick", null);
 class Value extends React.PureComponent {
     constructor(props) {
@@ -499,29 +515,29 @@ class Value extends React.PureComponent {
         }
     }
 }
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", []),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
 ], Value.prototype, "onClick", null);
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [typeof (_b = (typeof React !== "undefined" && React).SyntheticEvent) === "function" && _b || Object]),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_b = (typeof React !== "undefined" && React).SyntheticEvent) === "function" && _b || Object]),
+    __metadata("design:returntype", void 0)
 ], Value.prototype, "onClear", null);
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [typeof (_c = (typeof React !== "undefined" && React).SyntheticEvent) === "function" && _c || Object]),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_c = (typeof React !== "undefined" && React).SyntheticEvent) === "function" && _c || Object]),
+    __metadata("design:returntype", void 0)
 ], Value.prototype, "onSearch", null);
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [typeof (_d = (typeof React !== "undefined" && React).KeyboardEvent) === "function" && _d || Object]),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_d = (typeof React !== "undefined" && React).KeyboardEvent) === "function" && _d || Object]),
+    __metadata("design:returntype", void 0)
 ], Value.prototype, "onKeyDown", null);
 exports.Value = Value;
 //# sourceMappingURL=value.js.map
@@ -579,8 +595,16 @@ exports.keys = {
 ___scope___.file("options.jsx", function(exports, require, module, __filename, __dirname){
 
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
 const lodash_decorators_1 = require("lodash-decorators");
 const React = require("react");
 const react_dom_1 = require("react-dom");
@@ -615,11 +639,11 @@ OptionComponent.OptionItem = styled_components_1.default.div `
             background-color: ${(props) => props.active ? '#ddd' : '#eee'};
         }
     `;
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", []),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
 ], OptionComponent.prototype, "onClick", null);
 function getWindowInnerHeight(defaultHeight = 700) {
     if (typeof window !== 'undefined') {
@@ -705,17 +729,17 @@ Options.OptionsContainer = styled_components_1.default.div `
 Options.Empty = () => (React.createElement(OptionComponent.OptionItem, null,
     React.createElement(label_1.SelectLabel, null,
         React.createElement("i", null, "No results"))));
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
 ], Options.prototype, "rowRenderer", null);
-tslib_1.__decorate([
+__decorate([
     lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
 ], Options.prototype, "onSelect", null);
 exports.Options = Options;
 //# sourceMappingURL=options.js.map
