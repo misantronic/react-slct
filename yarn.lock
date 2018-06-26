@@ -6,6 +6,10 @@
   version "10.3.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.3.6.tgz#ea8aab9439b59f40d19ec5f13b44642344872b11"
 
+"@types/prettier@^1.13.1":
+  version "1.13.1"
+  resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-1.13.1.tgz#5dd359398de96863a0629156f382913a06ebe013"
+
 "@types/prop-types@*":
   version "15.5.3"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.3.tgz#bef071852dca2a2dbb65fecdb7bfb30cedae2de2"
@@ -2902,6 +2906,10 @@ prelude-ls@~1.1.2:
 prepend-http@^1.0.0:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-1.0.4.tgz#d4f4562b0ce3696e41ac52d0e002e57a635dc6dc"
+
+prettier@^1.13.6:
+  version "1.13.6"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.13.6.tgz#00ae0b777ad92f81a9e7a1df2f0470b6dab0cb44"
 
 private@^0.1.6, private@^0.1.8:
   version "0.1.8"
