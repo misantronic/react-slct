@@ -7,6 +7,7 @@ import { isMobile } from '../utils/browser';
 interface State {
     value?: string;
     options: Option[];
+    native: boolean;
 }
 
 export class Single extends React.PureComponent<Partial<SelectProps>, State> {
@@ -15,8 +16,17 @@ export class Single extends React.PureComponent<Partial<SelectProps>, State> {
 
         this.state = {
             value: undefined,
+            native: isMobile.matches,
             options: [...options]
         };
+    }
+
+    public componentDidMount(): void {
+        isMobile.addListener(this.onResize);
+    }
+
+    public componentWillUnmount(): void {
+        isMobile.removeListener(this.onResize);
     }
 
     public render(): React.ReactNode {
@@ -46,5 +56,10 @@ export class Single extends React.PureComponent<Partial<SelectProps>, State> {
             },
             () => this.onChange(value)
         );
+    }
+
+    @bind
+    private onResize(): void {
+        this.setState({ native: isMobile.matches });
     }
 }
