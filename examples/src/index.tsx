@@ -15,9 +15,10 @@ injectGlobal`
 
 const App = styled.div`
     max-width: 100%;
-    width: 300px;
+    width: 480px;
     margin: 0;
-    padding: 5px 20px;
+    padding: 5px 10px;
+    box-sizing: border-box;
 `;
 
 const Example = styled.div`

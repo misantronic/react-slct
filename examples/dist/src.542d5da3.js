@@ -40233,7 +40233,7 @@ tslib_1.__decorate([_lodashDecorators.bind, tslib_1.__metadata("design:type", Fu
 'use strict';
 
 var _templateObject = _taggedTemplateLiteral(['\n    body {  \n        font-family: sans-serif;\n        font-size: 13px;\n    }\n'], ['\n    body {  \n        font-family: sans-serif;\n        font-size: 13px;\n    }\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n    max-width: 100%;\n    width: 300px;\n    margin: 0;\n    padding: 5px 20px;\n'], ['\n    max-width: 100%;\n    width: 300px;\n    margin: 0;\n    padding: 5px 20px;\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n    max-width: 100%;\n    width: 480px;\n    margin: 0;\n    padding: 5px 10px;\n    box-sizing: border-box;\n'], ['\n    max-width: 100%;\n    width: 480px;\n    margin: 0;\n    padding: 5px 10px;\n    box-sizing: border-box;\n']),
     _templateObject3 = _taggedTemplateLiteral(['\n    display: flex;\n    margin-bottom: 10px;\n'], ['\n    display: flex;\n    margin-bottom: 10px;\n']);
 
 var _react = require('react');
