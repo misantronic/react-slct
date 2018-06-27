@@ -39,7 +39,6 @@ const optionsWithoutIcons = options.map(option => ({
 }));
 
 const code = (...props) => `<Select placeholder="Please select..." 
-    onChange={this.onChange} 
     value={this.state.value} ${props.join('\n\t')}
     options={${JSON.stringify(optionsWithoutIcons, null, 2)}} />`;
 
@@ -53,19 +52,19 @@ render(
 
         <Example>
             <Single placeholder="Simple select..." />
-            <Code>{code()}</Code>
+            <Code>{code(`onChange={value => ...}`)}</Code>
         </Example>
         <Example>
             <Single placeholder="Clearable select..." clearable />
-            <Code>{code(`creatable`)}</Code>
+            <Code>{code(`creatable`, `onChange={value => ...}`)}</Code>
         </Example>
         <Example>
             <Single placeholder="Searchable select..." searchable />
-            <Code>{code(`searchable`)}</Code>
+            <Code>{code(`searchable`, `onChange={value => ...}`)}</Code>
         </Example>
         <Example>
             <Single placeholder="Disabled select..." disabled />
-            <Code>{code(`disabled`)}</Code>
+            <Code>{code(`disabled`, `onChange={value => ...}`)}</Code>
         </Example>
 
         <br />
@@ -75,7 +74,7 @@ render(
 
         <Example>
             <Multi placeholder="Simple multi select..." />
-            <Code>{code(`multi`)}</Code>
+            <Code>{code(`multi`, `onChange={values => ...}`)}</Code>
         </Example>
 
         <br />
@@ -85,11 +84,24 @@ render(
 
         <Example>
             <Single placeholder="Creatable single select.." creatable />
-            <Code>{code(`creatable`)}</Code>
+            <Code>
+                {code(
+                    `creatable`,
+                    `onChange={value => ...}`,
+                    `onCreate={value => ...}`
+                )}
+            </Code>
         </Example>
         <Example>
             <Multi placeholder="Creatable multi select..." creatable />
-            <Code>{code(`creatable`, `multi`)}</Code>
+            <Code>
+                {code(
+                    `creatable`,
+                    `multi`,
+                    `onChange={values => ...}`,
+                    `onCreate={value => ...}`
+                )}
+            </Code>
         </Example>
 
         <br />
@@ -111,7 +123,10 @@ render(
 );
 
 `}
-                {code(`labelComponent={labelComponent}`)}
+                {code(
+                    `labelComponent={labelComponent}`,
+                    `onChange={value => ...}`
+                )}
             </Code>
         </Example>
     </App>,

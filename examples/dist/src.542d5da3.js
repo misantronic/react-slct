@@ -40397,7 +40397,7 @@ var Code = exports.Code = function (_React$PureComponent) {
 }(React.PureComponent);
 
 tslib_1.__decorate([_lodashDecorators.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", []), tslib_1.__metadata("design:returntype", void 0)], Code.prototype, "onToggleSource", null);
-},{"tslib":43,"react":13,"styled-components":15,"lodash-decorators":44}],4:[function(require,module,exports) {
+},{"tslib":43,"react":13,"styled-components":15,"lodash-decorators":44}],2:[function(require,module,exports) {
 'use strict';
 
 var _templateObject = _taggedTemplateLiteral(['\n    body {  \n        font-family: sans-serif;\n        font-size: 13px;\n    }\n'], ['\n    body {  \n        font-family: sans-serif;\n        font-size: 13px;\n    }\n']),
@@ -40445,10 +40445,10 @@ var code = function code() {
         props[_key] = arguments[_key];
     }
 
-    return '<Select placeholder="Please select..." \n    onChange={this.onChange} \n    value={this.state.value} ' + props.join('\n\t') + '\n    options={' + JSON.stringify(optionsWithoutIcons, null, 2) + '} />';
+    return '<Select placeholder="Please select..." \n    value={this.state.value} ' + props.join('\n\t') + '\n    options={' + JSON.stringify(optionsWithoutIcons, null, 2) + '} />';
 };
-(0, _reactDom.render)(React.createElement(App, { className: "app" }, React.createElement("h1", null, '\uD83D\uDC18 react-slct examples'), React.createElement("br", null), React.createElement("h2", null, '\uD83D\uDC83 Single'), React.createElement(Example, null, React.createElement(_single.Single, { placeholder: "Simple select..." }), React.createElement(_code.Code, null, code())), React.createElement(Example, null, React.createElement(_single.Single, { placeholder: "Clearable select...", clearable: true }), React.createElement(_code.Code, null, code('creatable'))), React.createElement(Example, null, React.createElement(_single.Single, { placeholder: "Searchable select...", searchable: true }), React.createElement(_code.Code, null, code('searchable'))), React.createElement(Example, null, React.createElement(_single.Single, { placeholder: "Disabled select...", disabled: true }), React.createElement(_code.Code, null, code('disabled'))), React.createElement("br", null), React.createElement("br", null), React.createElement("h2", null, '\uD83D\uDC6F Multi'), React.createElement(Example, null, React.createElement(_multi.Multi, { placeholder: "Simple multi select..." }), React.createElement(_code.Code, null, code('multi'))), React.createElement("br", null), React.createElement("br", null), React.createElement("h2", null, '\uD83D\uDC77 Creatable'), React.createElement(Example, null, React.createElement(_single.Single, { placeholder: "Creatable single select..", creatable: true }), React.createElement(_code.Code, null, code('creatable'))), React.createElement(Example, null, React.createElement(_multi.Multi, { placeholder: "Creatable multi select...", creatable: true }), React.createElement(_code.Code, null, code('creatable', 'multi'))), React.createElement("br", null), React.createElement("br", null), React.createElement("h2", null, '\uD83D\uDC79 Custom'), React.createElement(Example, null, React.createElement(_single.Single, { placeholder: "Custom labels..", labelComponent: labelComponent }), React.createElement(_code.Code, null, 'const labelComponent = (props: { children: React.ReactNode; icon: string }) => (\n    <div>\n        <span style={{ marginRight: 4 }}>{props.icon}</span>\n        <span>{props.children}</span>\n    </div>\n);\n\n', code('labelComponent={labelComponent}')))), document.getElementById('app'));
-},{"react":13,"react-dom":14,"styled-components":15,"./components/single":7,"./components/multi":8,"./components/code":9,"./utils/options":19}],491:[function(require,module,exports) {
+(0, _reactDom.render)(React.createElement(App, { className: "app" }, React.createElement("h1", null, '\uD83D\uDC18 react-slct examples'), React.createElement("br", null), React.createElement("h2", null, '\uD83D\uDC83 Single'), React.createElement(Example, null, React.createElement(_single.Single, { placeholder: "Simple select..." }), React.createElement(_code.Code, null, code('onChange={value => ...}'))), React.createElement(Example, null, React.createElement(_single.Single, { placeholder: "Clearable select...", clearable: true }), React.createElement(_code.Code, null, code('creatable', 'onChange={value => ...}'))), React.createElement(Example, null, React.createElement(_single.Single, { placeholder: "Searchable select...", searchable: true }), React.createElement(_code.Code, null, code('searchable', 'onChange={value => ...}'))), React.createElement(Example, null, React.createElement(_single.Single, { placeholder: "Disabled select...", disabled: true }), React.createElement(_code.Code, null, code('disabled', 'onChange={value => ...}'))), React.createElement("br", null), React.createElement("br", null), React.createElement("h2", null, '\uD83D\uDC6F Multi'), React.createElement(Example, null, React.createElement(_multi.Multi, { placeholder: "Simple multi select..." }), React.createElement(_code.Code, null, code('multi', 'onChange={values => ...}'))), React.createElement("br", null), React.createElement("br", null), React.createElement("h2", null, '\uD83D\uDC77 Creatable'), React.createElement(Example, null, React.createElement(_single.Single, { placeholder: "Creatable single select..", creatable: true }), React.createElement(_code.Code, null, code('creatable', 'onChange={value => ...}', 'onCreate={value => ...}'))), React.createElement(Example, null, React.createElement(_multi.Multi, { placeholder: "Creatable multi select...", creatable: true }), React.createElement(_code.Code, null, code('creatable', 'multi', 'onChange={values => ...}', 'onCreate={value => ...}'))), React.createElement("br", null), React.createElement("br", null), React.createElement("h2", null, '\uD83D\uDC79 Custom'), React.createElement(Example, null, React.createElement(_single.Single, { placeholder: "Custom labels..", labelComponent: labelComponent }), React.createElement(_code.Code, null, 'const labelComponent = (props: { children: React.ReactNode; icon: string }) => (\n    <div>\n        <span style={{ marginRight: 4 }}>{props.icon}</span>\n        <span>{props.children}</span>\n    </div>\n);\n\n', code('labelComponent={labelComponent}', 'onChange={value => ...}')))), document.getElementById('app'));
+},{"react":13,"react-dom":14,"styled-components":15,"./components/single":7,"./components/multi":8,"./components/code":9,"./utils/options":19}],449:[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 
@@ -40477,7 +40477,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '64291' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '52187' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -40618,5 +40618,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},[491,4], null)
+},{}]},{},[449,2], null)
 //# sourceMappingURL=/src.542d5da3.map
