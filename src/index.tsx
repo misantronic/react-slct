@@ -233,14 +233,18 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
     private onChangeNativeSelect(
         e: React.SyntheticEvent<HTMLSelectElement>
     ): void {
-        const { onChange } = this.props;
+        const { onChange, multi } = this.props;
 
         if (onChange) {
             const values = Array.from(e.currentTarget.selectedOptions).map(
                 htmlOption => this.options[htmlOption.index - 1].value
             );
 
-            onChange(values.length === 1 ? values[0] : values);
+            if (multi) {
+                onChange(values);
+            } else {
+                onChange(values[0]);
+            }
         }
     }
 

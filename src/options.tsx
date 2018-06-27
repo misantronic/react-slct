@@ -5,7 +5,8 @@ import { List } from 'react-virtualized/dist/commonjs/List';
 import styled from 'styled-components';
 import { SelectLabel } from './label';
 import { toString, isArray } from './utils';
-import { SelectProps, Rect, Option } from './typings';
+import { SelectProps, Rect } from './typings';
+import { OptionComponent } from './option';
 
 export interface OptionsProps<T = any> {
     options: SelectProps['options'];
@@ -17,61 +18,6 @@ export interface OptionsProps<T = any> {
     rect: Rect;
     search?: string;
     onSelect(value: T | T[]): void;
-}
-
-interface OptionComponentProps<T = any> extends Option<T> {
-    active?: boolean;
-    selected?: boolean;
-    labelComponent: SelectProps['labelComponent'];
-    onSelect(value: T): void;
-}
-
-interface OptionItemProps {
-    active?: OptionComponentProps['active'];
-    selected?: OptionComponentProps['selected'];
-}
-
-class OptionComponent extends React.PureComponent<OptionComponentProps> {
-    public static OptionItem = styled.div`
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex: 1;
-        height: 32px;
-        padding: 0 10px;
-        min-width: 0;
-        cursor: pointer;
-        box-sizing: border-box;
-        background-color: ${(props: OptionItemProps) =>
-            props.active ? '#ddd' : props.selected ? '#eee' : '#fff'};
-
-        &:hover {
-            background-color: ${(props: OptionItemProps) =>
-                props.active ? '#ddd' : '#eee'};
-        }
-    `;
-
-    public render(): React.ReactNode {
-        const { OptionItem } = OptionComponent;
-        const { active, selected, label, labelComponent } = this.props;
-        const Label = labelComponent ? labelComponent : SelectLabel;
-
-        return (
-            <OptionItem
-                className="option"
-                selected={selected}
-                active={active}
-                onClick={this.onClick}
-            >
-                <Label {...this.props}>{label}</Label>
-            </OptionItem>
-        );
-    }
-
-    @bind
-    private onClick(): void {
-        this.props.onSelect(this.props.value);
-    }
 }
 
 function getWindowInnerHeight(defaultHeight = 700): number {
