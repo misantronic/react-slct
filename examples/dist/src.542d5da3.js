@@ -39989,6 +39989,15 @@ var options = exports.options = [{
     value: 'SoroSuub-Gesellschaft',
     icon: '🍎'
 }];
+},{}],474:[function(require,module,exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+// note: this is just a very shallow check
+// don't do this at home!
+var isMobile = exports.isMobile = matchMedia('only screen and (max-width: 760px)');
 },{}],7:[function(require,module,exports) {
 'use strict';
 
@@ -40012,6 +40021,8 @@ var React = _interopRequireWildcard(_react);
 var _src = require('../../../src');
 
 var _options = require('../utils/options');
+
+var _browser = require('../utils/browser');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -40041,7 +40052,7 @@ var Single = exports.Single = function (_React$PureComponent) {
     _createClass(Single, [{
         key: 'render',
         value: function render() {
-            return React.createElement(_src.Select, Object.assign({ placeholder: "Please select...", options: this.state.options, onChange: this.onChange, onCreate: this.onCreate, value: this.state.value }, this.props));
+            return React.createElement(_src.Select, Object.assign({ placeholder: "Please select...", options: this.state.options, onChange: this.onChange, onCreate: this.onCreate, value: this.state.value, native: _browser.isMobile.matches }, this.props));
         }
     }, {
         key: 'onChange',
@@ -40066,7 +40077,7 @@ var Single = exports.Single = function (_React$PureComponent) {
 
 tslib_1.__decorate([_lodashDecorators.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [String]), tslib_1.__metadata("design:returntype", void 0)], Single.prototype, "onChange", null);
 tslib_1.__decorate([_lodashDecorators.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [String]), tslib_1.__metadata("design:returntype", void 0)], Single.prototype, "onCreate", null);
-},{"tslib":43,"lodash-decorators":44,"react":11,"../../../src":47,"../utils/options":16}],8:[function(require,module,exports) {
+},{"tslib":43,"lodash-decorators":44,"react":11,"../../../src":47,"../utils/options":16,"../utils/browser":474}],8:[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40089,6 +40100,8 @@ var React = _interopRequireWildcard(_react);
 var _src = require('../../../src');
 
 var _options = require('../utils/options');
+
+var _browser = require('../utils/browser');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -40118,7 +40131,7 @@ var Multi = exports.Multi = function (_React$PureComponent) {
     _createClass(Multi, [{
         key: 'render',
         value: function render() {
-            return React.createElement(_src.Select, Object.assign({ multi: true, placeholder: "Please select...", options: this.state.options, onChange: this.onChange, onCreate: this.onCreate, value: this.state.value }, this.props));
+            return React.createElement(_src.Select, Object.assign({ multi: true, placeholder: "Please select...", options: this.state.options, onChange: this.onChange, onCreate: this.onCreate, value: this.state.value, native: _browser.isMobile.matches }, this.props));
         }
     }, {
         key: 'onChange',
@@ -40143,7 +40156,7 @@ var Multi = exports.Multi = function (_React$PureComponent) {
 
 tslib_1.__decorate([_lodashDecorators.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [Array]), tslib_1.__metadata("design:returntype", void 0)], Multi.prototype, "onChange", null);
 tslib_1.__decorate([_lodashDecorators.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [String]), tslib_1.__metadata("design:returntype", void 0)], Multi.prototype, "onCreate", null);
-},{"tslib":43,"lodash-decorators":44,"react":11,"../../../src":47,"../utils/options":16}],9:[function(require,module,exports) {
+},{"tslib":43,"lodash-decorators":44,"react":11,"../../../src":47,"../utils/options":16,"../utils/browser":474}],9:[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
