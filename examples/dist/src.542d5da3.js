@@ -40245,7 +40245,7 @@ exports.Code = undefined;
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _templateObject = _taggedTemplateLiteral(['\n    margin: 0 0 0 10px;\n    padding: 0;\n    background: none;\n    border: none;\n    cursor: pointer;\n\n    &:focus {\n        outline: none;\n    }\n'], ['\n    margin: 0 0 0 10px;\n    padding: 0;\n    background: none;\n    border: none;\n    cursor: pointer;\n\n    &:focus {\n        outline: none;\n    }\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n    white-space: pre;\n    position: absolute;\n    left: 360px;\n    background: #111;\n    color: #fff;\n    padding: 8px;\n'], ['\n    white-space: pre;\n    position: absolute;\n    left: 360px;\n    background: #111;\n    color: #fff;\n    padding: 8px;\n']);
+    _templateObject2 = _taggedTemplateLiteral(['\n    white-space: pre;\n    position: absolute;\n    left: 520px;\n    background: #111;\n    color: #fff;\n    padding: 8px;\n'], ['\n    white-space: pre;\n    position: absolute;\n    left: 520px;\n    background: #111;\n    color: #fff;\n    padding: 8px;\n']);
 
 var _tslib = require('tslib');
 

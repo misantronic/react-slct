@@ -25,7 +25,7 @@ const Button = styled.button`
 const Container = styled.code`
     white-space: pre;
     position: absolute;
-    left: 360px;
+    left: 520px;
     background: #111;
     color: #fff;
     padding: 8px;
