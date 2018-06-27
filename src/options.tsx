@@ -38,18 +38,22 @@ function getContainerTop(props: { rect: Rect }): string {
 }
 
 export class Options extends React.PureComponent<OptionsProps> {
-    private static OptionsContainer = styled.div`
+    // @ts-ignore
+    private static OptionsContainer = styled.div.attrs({
+        style: (props: { rect: Rect }) => ({
+            top: getContainerTop(props),
+            left: `${props.rect.left}px`,
+            width: `props.rect.width}px`,
+            boxShadow:
+                menuPosition(props.rect) === 'bottom'
+                    ? '0 2px 5px rgba(0, 0, 0, 0.1)'
+                    : '0 -2px 5px rgba(0, 0, 0, 0.1)'
+        })
+    })`
         position: fixed;
-        left: ${(props: { rect: Rect }) => props.rect.left}px;
-        top: ${getContainerTop};
-        width: ${(props: { rect: Rect }) => props.rect.width}px;
         z-index: 9999;
         background: #fff;
         box-sizing: border-box;
-        box-shadow: ${(props: { rect: Rect }) =>
-            menuPosition(props.rect) === 'bottom'
-                ? '0 2px 5px rgba(0, 0, 0, 0.1)'
-                : '0 -2px 5px rgba(0, 0, 0, 0.1)'};
 
         .ReactVirtualized__List {
             border: 1px solid #ccc;

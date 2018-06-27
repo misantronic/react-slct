@@ -419,17 +419,25 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         }
     }
 
-    @bind
-    private onScroll(e): void {
+    private allowScrolling(e): boolean {
         if (this.state.open) {
             if (
                 e.target &&
                 e.target.classList &&
                 e.target.classList.contains('react-slct-options-list')
             ) {
-                return;
+                return false;
             }
 
+            return true;
+        }
+
+        return false;
+    }
+
+    @bind
+    private onScroll(e): void {
+        if (this.allowScrolling(e)) {
             this.setState({ rect: this.rect });
         }
     }
