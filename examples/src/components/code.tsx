@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { bind } from 'lodash-decorators';
 
 interface CodeProps {
-    children: string;
+    children: string | string[];
 }
 
 interface CodeState {
