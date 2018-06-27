@@ -18,6 +18,7 @@ yarn add react-slct
 * Multi-select
 * Searchable
 * Clearable
+* Disabled (whole box or single options)
 * Creatable in single- and multi-select
 * Automatic menu-position (top or bottom)
 * Customizable label-component
