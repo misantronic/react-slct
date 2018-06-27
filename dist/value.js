@@ -147,7 +147,7 @@ export class Value extends React.PureComponent {
                 return toString(option.value) === toString(value);
             }
         });
-        const showClearer = Boolean(clearable && valueOptions.length);
+        const showClearer = Boolean(clearable && valueOptions.length && !mobile);
         const searchAtStart = !multi || valueOptions.length === 0;
         const searchAtEnd = multi && valueOptions.length > 0;
         return (React.createElement(ValueContainer, { className: "value-container", disabled: disabled, mobile: mobile, onClick: this.onClick },

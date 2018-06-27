@@ -6,9 +6,12 @@ export declare class Select extends React.PureComponent<SelectProps, SelectState
     private static NativeSelect;
     private nativeSelect;
     private container;
-    private rect;
     constructor(props: SelectProps);
     private readonly options;
+    private readonly window;
+    private readonly document;
+    private readonly rect;
+    componentDidUpdate(_: any, prevState: SelectState): void;
     componentWillUnmount(): void;
     render(): React.ReactNode;
     private renderNativeSelect;
@@ -17,6 +20,8 @@ export declare class Select extends React.PureComponent<SelectProps, SelectState
     private closeMenu;
     private addDocumentListener;
     private removeDocumentListener;
+    private addScrollListener;
+    private removeScrollListener;
     private onChangeNativeSelect;
     private onSearchFocus;
     private onOptionSelect;
@@ -26,4 +31,6 @@ export declare class Select extends React.PureComponent<SelectProps, SelectState
     private onDocumentClick;
     private onKeyDown;
     private onKeyUp;
+    private allowScrolling;
+    private onScroll;
 }

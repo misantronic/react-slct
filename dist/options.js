@@ -5,47 +5,8 @@ import { createPortal } from 'react-dom';
 import { List } from 'react-virtualized/dist/commonjs/List';
 import styled from 'styled-components';
 import { SelectLabel } from './label';
-import { toString, isArray } from './utils';
-class OptionComponent extends React.PureComponent {
-    render() {
-        const { OptionItem } = OptionComponent;
-        const { active, selected, label, labelComponent } = this.props;
-        const Label = labelComponent ? labelComponent : SelectLabel;
-        return (React.createElement(OptionItem, { className: "option", selected: selected, active: active, onClick: this.onClick },
-            React.createElement(Label, Object.assign({}, this.props), label)));
-    }
-    onClick() {
-        this.props.onSelect(this.props.value);
-    }
-}
-OptionComponent.OptionItem = styled.div `
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex: 1;
-        height: 32px;
-        padding: 0 10px;
-        min-width: 0;
-        cursor: pointer;
-        box-sizing: border-box;
-        background-color: ${(props) => props.active ? '#ddd' : props.selected ? '#eee' : '#fff'};
-
-        &:hover {
-            background-color: ${(props) => props.active ? '#ddd' : '#eee'};
-        }
-    `;
-tslib_1.__decorate([
-    bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", []),
-    tslib_1.__metadata("design:returntype", void 0)
-], OptionComponent.prototype, "onClick", null);
-function getWindowInnerHeight(defaultHeight = 700) {
-    if (typeof window !== 'undefined') {
-        return window.innerHeight;
-    }
-    return defaultHeight;
-}
+import { toString, isArray, getWindowInnerHeight } from './utils';
+import { OptionComponent } from './option';
 function menuPosition(rect) {
     if (rect.top + rect.height + 185 <= getWindowInnerHeight()) {
         return 'bottom';
@@ -85,8 +46,8 @@ export class Options extends React.PureComponent {
         const menuHeight = 185;
         const height = Math.min(Math.max(options.length * rowHeight, rowHeight), menuHeight);
         return open
-            ? createPortal(React.createElement(OptionsContainer, { className: "options-container", rect: rect },
-                React.createElement(List, { ref: this.list, width: rect.width, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToRow: multi ? 0 : selectedIndex, noRowsRenderer: Empty })), document.body)
+            ? createPortal(React.createElement(OptionsContainer, { className: "react-slct-options-container", rect: rect },
+                React.createElement(List, { className: "react-slct-options-list", ref: this.list, width: rect.width, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToRow: multi ? 0 : selectedIndex, noRowsRenderer: Empty })), document.body)
             : null;
     }
     rowRenderer({ key, index, style }) {
@@ -105,17 +66,21 @@ export class Options extends React.PureComponent {
             : value);
     }
 }
-Options.OptionsContainer = styled.div `
+// @ts-ignore
+Options.OptionsContainer = styled.div.attrs({
+    style: (props) => ({
+        top: getContainerTop(props),
+        left: `${props.rect.left}px`,
+        width: `props.rect.width}px`,
+        boxShadow: menuPosition(props.rect) === 'bottom'
+            ? '0 2px 5px rgba(0, 0, 0, 0.1)'
+            : '0 -2px 5px rgba(0, 0, 0, 0.1)'
+    })
+}) `
         position: fixed;
-        left: ${(props) => props.rect.left}px;
-        top: ${getContainerTop};
-        width: ${(props) => props.rect.width}px;
         z-index: 9999;
         background: #fff;
         box-sizing: border-box;
-        box-shadow: ${(props) => menuPosition(props.rect) === 'bottom'
-    ? '0 2px 5px rgba(0, 0, 0, 0.1)'
-    : '0 -2px 5px rgba(0, 0, 0, 0.1)'};
 
         .ReactVirtualized__List {
             border: 1px solid #ccc;

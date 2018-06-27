@@ -19,6 +19,25 @@ export function isArray(val) {
     }
     return false;
 }
+export function getDocument() {
+    if (typeof document !== 'undefined') {
+        return document;
+    }
+    return undefined;
+}
+export function getWindow() {
+    if (typeof window !== 'undefined') {
+        return window;
+    }
+    return undefined;
+}
+export function getWindowInnerHeight(defaultHeight = 700) {
+    const window = getWindow();
+    if (window) {
+        return window.innerHeight;
+    }
+    return defaultHeight;
+}
 export const keys = {
     ARROW_UP: 38,
     ARROW_DOWN: 40,

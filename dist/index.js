@@ -4,15 +4,15 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Value } from './value';
 import { Options } from './options';
-import { toString, isArray, keys } from './utils';
+import { toString, isArray, keys, getWindow, getDocument } from './utils';
 export class Select extends React.PureComponent {
     constructor(props) {
         super(props);
-        this.rect = { left: 0, top: 0, width: 0, height: 0 };
         this.nativeSelect = React.createRef();
         this.container = React.createRef();
         this.state = {
-            open: false
+            open: false,
+            rect: { left: 0, top: 0, width: 0, height: 0 }
         };
     }
     get options() {
@@ -32,27 +32,56 @@ export class Select extends React.PureComponent {
         }
         return options;
     }
+    get window() {
+        return getWindow();
+    }
+    get document() {
+        return getDocument();
+    }
+    get rect() {
+        let rect = this.state.rect;
+        if (this.container.current) {
+            const clientRect = this.container.current.getBoundingClientRect();
+            rect = {
+                left: Math.round(clientRect.left),
+                top: Math.round(clientRect.top),
+                width: Math.round(clientRect.width),
+                height: Math.round(clientRect.height)
+            };
+        }
+        return rect;
+    }
+    componentDidUpdate(_, prevState) {
+        if (prevState.open && !this.state.open) {
+            this.removeScrollListener();
+        }
+        if (!prevState.open && this.state.open) {
+            this.addScrollListener();
+        }
+    }
     componentWillUnmount() {
         this.removeDocumentListener();
+        this.removeScrollListener();
     }
     render() {
         const { Container } = Select;
         const { className, options, creatable, clearable, placeholder, value, disabled, labelComponent, multi, native } = this.props;
-        const { open, search, selectedIndex } = this.state;
+        const { open, search, rect, selectedIndex } = this.state;
         const searchable = this.props.searchable || creatable;
         return (React.createElement(Container, { className: className ? `react-slct ${className}` : 'react-slct', disabled: disabled, innerRef: this.container, onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
             this.renderNativeSelect(),
             React.createElement(Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, options: options, placeholder: placeholder, value: value, search: search, labelComponent: labelComponent, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onOptionRemove: this.onOptionRemove }),
-            React.createElement(Options, { open: open, options: this.options, rect: this.rect, value: value, multi: multi, search: search, selectedIndex: selectedIndex, labelComponent: labelComponent, onSelect: this.onOptionSelect })));
+            React.createElement(Options, { open: open, options: this.options, rect: rect, value: value, multi: multi, search: search, selectedIndex: selectedIndex, labelComponent: labelComponent, onSelect: this.onOptionSelect })));
     }
     renderNativeSelect() {
         const { NativeSelect } = Select;
         const { native, placeholder, multi, disabled } = this.props;
+        const clearable = this.props.clearable && native;
         const value = multi
             ? (this.props.value || []).map(val => toString(val))
             : toString(this.props.value || '');
         return (React.createElement(NativeSelect, { innerRef: this.nativeSelect, multiple: multi, value: value, disabled: disabled, native: native, tabIndex: -1, onChange: this.onChangeNativeSelect },
-            React.createElement("option", { value: "", disabled: true }, placeholder),
+            React.createElement("option", { value: "", disabled: !clearable }, placeholder),
             this.options.map(option => {
                 const value = toString(option.value);
                 return (React.createElement("option", { disabled: option.disabled, value: value, key: value }, option.label));
@@ -68,16 +97,9 @@ export class Select extends React.PureComponent {
         }
     }
     openMenu() {
-        let selectedIndex = this.state.selectedIndex;
-        if (this.container.current) {
-            const rect = this.container.current.getBoundingClientRect();
-            this.rect.left = rect.left;
-            this.rect.top = rect.top;
-            this.rect.width = rect.width;
-            this.rect.height = rect.height;
-            selectedIndex = this.options.findIndex(option => toString(option.value) === toString(this.props.value));
-        }
-        this.setState({ open: true, search: undefined, selectedIndex }, () => this.addDocumentListener());
+        const rect = this.rect;
+        const selectedIndex = this.options.findIndex(option => toString(option.value) === toString(this.props.value));
+        this.setState({ open: true, search: undefined, selectedIndex, rect }, () => this.addDocumentListener());
     }
     closeMenu(callback = () => { }) {
         this.removeDocumentListener();
@@ -88,20 +110,41 @@ export class Select extends React.PureComponent {
         }, callback);
     }
     addDocumentListener() {
-        if (typeof document !== 'undefined') {
+        if (this.document) {
             document.addEventListener('click', this.onDocumentClick);
         }
     }
     removeDocumentListener() {
-        if (typeof document !== 'undefined') {
+        if (this.document) {
             document.removeEventListener('click', this.onDocumentClick);
         }
     }
+    addScrollListener() {
+        if (this.window) {
+            this.window.addEventListener('scroll', this.onScroll, true);
+        }
+    }
+    removeScrollListener() {
+        if (this.window) {
+            this.window.removeEventListener('scroll', this.onScroll, true);
+        }
+    }
     onChangeNativeSelect(e) {
-        const { onChange } = this.props;
+        const { onChange, multi } = this.props;
+        const { currentTarget } = e;
         if (onChange) {
-            const values = Array.from(e.currentTarget.selectedOptions).map(htmlOption => this.options[htmlOption.index - 1].value);
-            onChange(values.length === 1 ? values[0] : values);
+            if (currentTarget.value === '') {
+                this.onClear();
+            }
+            else {
+                const values = Array.from(currentTarget.selectedOptions).map(htmlOption => this.options[htmlOption.index - 1].value);
+                if (multi) {
+                    onChange(values);
+                }
+                else {
+                    onChange(values[0]);
+                }
+            }
         }
     }
     onSearchFocus() {
@@ -160,7 +203,7 @@ export class Select extends React.PureComponent {
                     if (selectedIndex !== undefined) {
                         selectedIndex = selectedIndex - 1;
                         if (selectedIndex < 0) {
-                            selectedIndex = undefined;
+                            selectedIndex = this.options.length - 1;
                         }
                     }
                     this.setState({ selectedIndex });
@@ -171,14 +214,12 @@ export class Select extends React.PureComponent {
                 break;
             case keys.ARROW_DOWN:
                 if (open) {
-                    if (selectedIndex === undefined) {
+                    if (selectedIndex === undefined ||
+                        selectedIndex === this.options.length - 1) {
                         selectedIndex = 0;
                     }
                     else {
                         selectedIndex = selectedIndex + 1;
-                    }
-                    if (selectedIndex >= this.options.length) {
-                        selectedIndex = undefined;
                     }
                     this.setState({ selectedIndex });
                 }
@@ -203,6 +244,22 @@ export class Select extends React.PureComponent {
                     this.closeMenu();
                 }
                 break;
+        }
+    }
+    allowScrolling(e) {
+        if (this.state.open) {
+            if (e.target &&
+                e.target.classList &&
+                e.target.classList.contains('react-slct-options-list')) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+    onScroll(e) {
+        if (this.allowScrolling(e)) {
+            this.setState({ rect: this.rect });
         }
     }
 }
@@ -286,4 +343,10 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onKeyUp", null);
+tslib_1.__decorate([
+    bind,
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:returntype", void 0)
+], Select.prototype, "onScroll", null);
 //# sourceMappingURL=index.js.map
