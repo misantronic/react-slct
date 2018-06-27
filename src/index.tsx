@@ -325,7 +325,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                         selectedIndex = selectedIndex - 1;
 
                         if (selectedIndex < 0) {
-                            selectedIndex = undefined;
+                            selectedIndex = this.options.length - 1;
                         }
                     }
 
@@ -336,14 +336,13 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                 break;
             case keys.ARROW_DOWN:
                 if (open) {
-                    if (selectedIndex === undefined) {
+                    if (
+                        selectedIndex === undefined ||
+                        selectedIndex === this.options.length - 1
+                    ) {
                         selectedIndex = 0;
                     } else {
                         selectedIndex = selectedIndex + 1;
-                    }
-
-                    if (selectedIndex >= this.options.length) {
-                        selectedIndex = undefined;
                     }
 
                     this.setState({ selectedIndex });
