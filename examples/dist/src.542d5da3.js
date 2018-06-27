@@ -39507,7 +39507,7 @@ exports.Options = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n        position: fixed;\n        left: ', 'px;\n        top: ', ';\n        width: ', 'px;\n        z-index: 9999;\n        background: #fff;\n        box-sizing: border-box;\n        box-shadow: ', ';\n\n        .ReactVirtualized__List {\n            border: 1px solid #ccc;\n\n            &:focus {\n                outline: none;\n            }\n        }\n    '], ['\n        position: fixed;\n        left: ', 'px;\n        top: ', ';\n        width: ', 'px;\n        z-index: 9999;\n        background: #fff;\n        box-sizing: border-box;\n        box-shadow: ', ';\n\n        .ReactVirtualized__List {\n            border: 1px solid #ccc;\n\n            &:focus {\n                outline: none;\n            }\n        }\n    ']);
+var _templateObject = _taggedTemplateLiteral(['\n        position: fixed;\n        z-index: 9999;\n        background: #fff;\n        box-sizing: border-box;\n\n        .ReactVirtualized__List {\n            border: 1px solid #ccc;\n\n            &:focus {\n                outline: none;\n            }\n        }\n    '], ['\n        position: fixed;\n        z-index: 9999;\n        background: #fff;\n        box-sizing: border-box;\n\n        .ReactVirtualized__List {\n            border: 1px solid #ccc;\n\n            &:focus {\n                outline: none;\n            }\n        }\n    ']);
 
 var _tslib = require('tslib');
 
@@ -39638,14 +39638,19 @@ var Options = exports.Options = function (_React$PureComponent) {
 
     return Options;
 }(React.PureComponent);
+// @ts-ignore
 
-Options.OptionsContainer = _styledComponents2.default.div(_templateObject, function (props) {
-    return props.rect.left;
-}, getContainerTop, function (props) {
-    return props.rect.width;
-}, function (props) {
-    return menuPosition(props.rect) === 'bottom' ? '0 2px 5px rgba(0, 0, 0, 0.1)' : '0 -2px 5px rgba(0, 0, 0, 0.1)';
-});
+
+Options.OptionsContainer = _styledComponents2.default.div.attrs({
+    style: function style(props) {
+        return {
+            top: getContainerTop(props),
+            left: props.rect.left + 'px',
+            width: 'props.rect.width}px',
+            boxShadow: menuPosition(props.rect) === 'bottom' ? '0 2px 5px rgba(0, 0, 0, 0.1)' : '0 -2px 5px rgba(0, 0, 0, 0.1)'
+        };
+    }
+})(_templateObject);
 Options.Empty = function () {
     return React.createElement(_option.OptionComponent.OptionItem, null, React.createElement(_label.SelectLabel, null, React.createElement("i", null, "No results")));
 };
@@ -39997,12 +40002,20 @@ var Select = exports.Select = function (_React$PureComponent) {
             }
         }
     }, {
-        key: 'onScroll',
-        value: function onScroll(e) {
+        key: 'allowScrolling',
+        value: function allowScrolling(e) {
             if (this.state.open) {
                 if (e.target && e.target.classList && e.target.classList.contains('react-slct-options-list')) {
-                    return;
+                    return false;
                 }
+                return true;
+            }
+            return false;
+        }
+    }, {
+        key: 'onScroll',
+        value: function onScroll(e) {
+            if (this.allowScrolling(e)) {
                 this.setState({ rect: this.rect });
             }
         }
