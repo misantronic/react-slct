@@ -98,8 +98,14 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         return rect;
     }
 
-    public componentDidMount(): void {
-        this.addScrollListener();
+    public componentDidUpdate(_, prevState: SelectState): void {
+        if (prevState.open && !this.state.open) {
+            this.removeScrollListener();
+        }
+
+        if (!prevState.open && this.state.open) {
+            this.addScrollListener();
+        }
     }
 
     public componentWillUnmount(): void {
@@ -414,8 +420,16 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
     }
 
     @bind
-    private onScroll(): void {
+    private onScroll(e): void {
         if (this.state.open) {
+            if (
+                e.target &&
+                e.target.classList &&
+                e.target.classList.contains('react-slct-options-list')
+            ) {
+                return;
+            }
+
             this.setState({ rect: this.rect });
         }
     }

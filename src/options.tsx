@@ -104,8 +104,12 @@ export class Options extends React.PureComponent<OptionsProps> {
 
         return open
             ? createPortal(
-                  <OptionsContainer className="options-container" rect={rect}>
+                  <OptionsContainer
+                      className="react-slct-options-container"
+                      rect={rect}
+                  >
                       <List
+                          className="react-slct-options-list"
                           ref={this.list}
                           width={rect.width}
                           height={height}
