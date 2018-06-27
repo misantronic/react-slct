@@ -18,6 +18,7 @@ export interface SelectState {
     open: boolean;
     search?: string;
     selectedIndex?: number;
+    rect: Rect;
 }
 
 export interface Option<T = any> {

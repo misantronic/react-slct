@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import { List } from 'react-virtualized/dist/commonjs/List';
 import styled from 'styled-components';
 import { SelectLabel } from './label';
-import { toString, isArray } from './utils';
+import { toString, isArray, getWindowInnerHeight } from './utils';
 import { SelectProps, Rect } from './typings';
 import { OptionComponent } from './option';
 
@@ -18,14 +18,6 @@ export interface OptionsProps<T = any> {
     rect: Rect;
     search?: string;
     onSelect(value: T | T[]): void;
-}
-
-function getWindowInnerHeight(defaultHeight = 700): number {
-    if (typeof window !== 'undefined') {
-        return window.innerHeight;
-    }
-
-    return defaultHeight;
 }
 
 function menuPosition(rect: Rect): 'top' | 'bottom' {

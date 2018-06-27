@@ -34250,6 +34250,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 exports.toString = toString;
 exports.isArray = isArray;
+exports.getDocument = getDocument;
+exports.getWindow = getWindow;
+exports.getWindowInnerHeight = getWindowInnerHeight;
 function toString(value) {
     if (typeof value === 'string') {
         return value;
@@ -34270,6 +34273,27 @@ function isArray(val) {
         return true;
     }
     return false;
+}
+function getDocument() {
+    if (typeof document !== 'undefined') {
+        return document;
+    }
+    return undefined;
+}
+function getWindow() {
+    if (typeof window !== 'undefined') {
+        return window;
+    }
+    return undefined;
+}
+function getWindowInnerHeight() {
+    var defaultHeight = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 700;
+
+    var window = getWindow();
+    if (window) {
+        return window.innerHeight;
+    }
+    return defaultHeight;
 }
 var keys = exports.keys = {
     ARROW_UP: 38,
@@ -34421,7 +34445,7 @@ var Value = exports.Value = function (_React$PureComponent2) {
                     return (0, _utils.toString)(option.value) === (0, _utils.toString)(value);
                 }
             });
-            var showClearer = Boolean(clearable && valueOptions.length);
+            var showClearer = Boolean(clearable && valueOptions.length && !mobile);
             var searchAtStart = !multi || valueOptions.length === 0;
             var searchAtEnd = multi && valueOptions.length > 0;
             return React.createElement(ValueContainer, { className: "value-container", disabled: disabled, mobile: mobile, onClick: this.onClick }, React.createElement(ValueLeft, { className: "value-left", multi: multi, hasValue: !!valueOptions.length }, searchAtStart && this.renderSearch(), this.renderValues(valueOptions), searchAtEnd && this.renderSearch()), React.createElement(ValueRight, { className: "value-right" }, showClearer && React.createElement(Clearer, { tabIndex: -1, className: "clearer", onClick: this.onClear }, '\xD7'), React.createElement(ArrowButton, { className: "arrow", tabIndex: -1 }, open ? '▲' : '▼')));
@@ -39523,16 +39547,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function getWindowInnerHeight() {
-    var defaultHeight = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 700;
-
-    if (typeof window !== 'undefined') {
-        return window.innerHeight;
-    }
-    return defaultHeight;
-}
 function menuPosition(rect) {
-    if (rect.top + rect.height + 185 <= getWindowInnerHeight()) {
+    if (rect.top + rect.height + 185 <= (0, _utils.getWindowInnerHeight)()) {
         return 'bottom';
     }
     return 'top';
@@ -39698,19 +39714,25 @@ var Select = exports.Select = function (_React$PureComponent) {
 
         var _this = _possibleConstructorReturn(this, (Select.__proto__ || Object.getPrototypeOf(Select)).call(this, props));
 
-        _this.rect = { left: 0, top: 0, width: 0, height: 0 };
         _this.nativeSelect = React.createRef();
         _this.container = React.createRef();
         _this.state = {
-            open: false
+            open: false,
+            rect: { left: 0, top: 0, width: 0, height: 0 }
         };
         return _this;
     }
 
     _createClass(Select, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.addScrollListener();
+        }
+    }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             this.removeDocumentListener();
+            this.removeScrollListener();
         }
     }, {
         key: 'render',
@@ -39730,10 +39752,11 @@ var Select = exports.Select = function (_React$PureComponent) {
             var _state = this.state,
                 open = _state.open,
                 search = _state.search,
+                rect = _state.rect,
                 selectedIndex = _state.selectedIndex;
 
             var searchable = this.props.searchable || creatable;
-            return React.createElement(Container, { className: className ? 'react-slct ' + className : 'react-slct', disabled: disabled, innerRef: this.container, onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown }, this.renderNativeSelect(), React.createElement(_value.Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, options: options, placeholder: placeholder, value: value, search: search, labelComponent: labelComponent, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onOptionRemove: this.onOptionRemove }), React.createElement(_options.Options, { open: open, options: this.options, rect: this.rect, value: value, multi: multi, search: search, selectedIndex: selectedIndex, labelComponent: labelComponent, onSelect: this.onOptionSelect }));
+            return React.createElement(Container, { className: className ? 'react-slct ' + className : 'react-slct', disabled: disabled, innerRef: this.container, onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown }, this.renderNativeSelect(), React.createElement(_value.Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, options: options, placeholder: placeholder, value: value, search: search, labelComponent: labelComponent, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onOptionRemove: this.onOptionRemove }), React.createElement(_options.Options, { open: open, options: this.options, rect: rect, value: value, multi: multi, search: search, selectedIndex: selectedIndex, labelComponent: labelComponent, onSelect: this.onOptionSelect }));
         }
     }, {
         key: 'renderNativeSelect',
@@ -39745,10 +39768,11 @@ var Select = exports.Select = function (_React$PureComponent) {
                 multi = _props2.multi,
                 disabled = _props2.disabled;
 
+            var clearable = this.props.clearable && native;
             var value = multi ? (this.props.value || []).map(function (val) {
                 return (0, _utils.toString)(val);
             }) : (0, _utils.toString)(this.props.value || '');
-            return React.createElement(NativeSelect, { innerRef: this.nativeSelect, multiple: multi, value: value, disabled: disabled, native: native, tabIndex: -1, onChange: this.onChangeNativeSelect }, React.createElement("option", { value: "", disabled: true }, placeholder), this.options.map(function (option) {
+            return React.createElement(NativeSelect, { innerRef: this.nativeSelect, multiple: multi, value: value, disabled: disabled, native: native, tabIndex: -1, onChange: this.onChangeNativeSelect }, React.createElement("option", { value: "", disabled: !clearable }, placeholder), this.options.map(function (option) {
                 var value = (0, _utils.toString)(option.value);
                 return React.createElement("option", { disabled: option.disabled, value: value, key: value }, option.label);
             }));
@@ -39768,18 +39792,11 @@ var Select = exports.Select = function (_React$PureComponent) {
         value: function openMenu() {
             var _this2 = this;
 
-            var selectedIndex = this.state.selectedIndex;
-            if (this.container.current) {
-                var rect = this.container.current.getBoundingClientRect();
-                this.rect.left = rect.left;
-                this.rect.top = rect.top;
-                this.rect.width = rect.width;
-                this.rect.height = rect.height;
-                selectedIndex = this.options.findIndex(function (option) {
-                    return (0, _utils.toString)(option.value) === (0, _utils.toString)(_this2.props.value);
-                });
-            }
-            this.setState({ open: true, search: undefined, selectedIndex: selectedIndex }, function () {
+            var rect = this.rect;
+            var selectedIndex = this.options.findIndex(function (option) {
+                return (0, _utils.toString)(option.value) === (0, _utils.toString)(_this2.props.value);
+            });
+            this.setState({ open: true, search: undefined, selectedIndex: selectedIndex, rect: rect }, function () {
                 return _this2.addDocumentListener();
             });
         }
@@ -39798,15 +39815,29 @@ var Select = exports.Select = function (_React$PureComponent) {
     }, {
         key: 'addDocumentListener',
         value: function addDocumentListener() {
-            if (typeof document !== 'undefined') {
+            if (this.document) {
                 document.addEventListener('click', this.onDocumentClick);
             }
         }
     }, {
         key: 'removeDocumentListener',
         value: function removeDocumentListener() {
-            if (typeof document !== 'undefined') {
+            if (this.document) {
                 document.removeEventListener('click', this.onDocumentClick);
+            }
+        }
+    }, {
+        key: 'addScrollListener',
+        value: function addScrollListener() {
+            if (this.window) {
+                this.window.addEventListener('scroll', this.onScroll, true);
+            }
+        }
+    }, {
+        key: 'removeScrollListener',
+        value: function removeScrollListener() {
+            if (this.window) {
+                this.window.removeEventListener('scroll', this.onScroll, true);
             }
         }
     }, {
@@ -39817,15 +39848,20 @@ var Select = exports.Select = function (_React$PureComponent) {
             var _props3 = this.props,
                 onChange = _props3.onChange,
                 multi = _props3.multi;
+            var currentTarget = e.currentTarget;
 
             if (onChange) {
-                var values = Array.from(e.currentTarget.selectedOptions).map(function (htmlOption) {
-                    return _this3.options[htmlOption.index - 1].value;
-                });
-                if (multi) {
-                    onChange(values);
+                if (currentTarget.value === '') {
+                    this.onClear();
                 } else {
-                    onChange(values[0]);
+                    var values = Array.from(currentTarget.selectedOptions).map(function (htmlOption) {
+                        return _this3.options[htmlOption.index - 1].value;
+                    });
+                    if (multi) {
+                        onChange(values);
+                    } else {
+                        onChange(values[0]);
+                    }
                 }
             }
         }
@@ -39956,6 +39992,13 @@ var Select = exports.Select = function (_React$PureComponent) {
             }
         }
     }, {
+        key: 'onScroll',
+        value: function onScroll() {
+            if (this.state.open) {
+                this.setState({ rect: this.rect });
+            }
+        }
+    }, {
         key: 'options',
         get: function get() {
             var search = this.state.search;
@@ -39974,6 +40017,31 @@ var Select = exports.Select = function (_React$PureComponent) {
                 options = [{ label: 'Create "' + search + '"', value: 'CREATE' }].concat(_toConsumableArray(options));
             }
             return options;
+        }
+    }, {
+        key: 'window',
+        get: function get() {
+            return (0, _utils.getWindow)();
+        }
+    }, {
+        key: 'document',
+        get: function get() {
+            return (0, _utils.getDocument)();
+        }
+    }, {
+        key: 'rect',
+        get: function get() {
+            var rect = this.state.rect;
+            if (this.container.current) {
+                var clientRect = this.container.current.getBoundingClientRect();
+                rect = {
+                    left: Math.round(clientRect.left),
+                    top: Math.round(clientRect.top),
+                    width: Math.round(clientRect.width),
+                    height: Math.round(clientRect.height)
+                };
+            }
+            return rect;
         }
     }]);
 
@@ -39998,6 +40066,7 @@ tslib_1.__decorate([_lodashDecorators.bind, tslib_1.__metadata("design:type", Fu
 tslib_1.__decorate([_lodashDecorators.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", []), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onDocumentClick", null);
 tslib_1.__decorate([_lodashDecorators.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [typeof (_b = (typeof React !== "undefined" && React).KeyboardEvent) === "function" && _b || Object]), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onKeyDown", null);
 tslib_1.__decorate([_lodashDecorators.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [typeof (_c = (typeof React !== "undefined" && React).KeyboardEvent) === "function" && _c || Object]), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onKeyUp", null);
+tslib_1.__decorate([_lodashDecorators.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", []), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onScroll", null);
 },{"tslib":43,"lodash-decorators":44,"react":10,"styled-components":12,"./value":62,"./options":63,"./utils":64,"./typings":65}],16:[function(require,module,exports) {
 'use strict';
 

@@ -3,7 +3,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Value } from './value';
 import { Options } from './options';
-import { toString, isArray, keys } from './utils';
+import { toString, isArray, keys, getWindow, getDocument } from './utils';
 import { SelectProps, SelectState, Option, Rect } from './typings';
 
 export { SelectProps, Option };
@@ -36,7 +36,6 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
 
     private nativeSelect: React.RefObject<HTMLSelectElement>;
     private container: React.RefObject<HTMLDivElement>;
-    private rect: Rect = { left: 0, top: 0, width: 0, height: 0 };
 
     constructor(props: SelectProps) {
         super(props);
@@ -45,7 +44,8 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         this.container = React.createRef();
 
         this.state = {
-            open: false
+            open: false,
+            rect: { left: 0, top: 0, width: 0, height: 0 }
         };
     }
 
@@ -73,8 +73,38 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         return options;
     }
 
+    private get window() {
+        return getWindow();
+    }
+
+    private get document() {
+        return getDocument();
+    }
+
+    private get rect(): Rect {
+        let rect = this.state.rect;
+
+        if (this.container.current) {
+            const clientRect = this.container.current.getBoundingClientRect();
+
+            rect = {
+                left: Math.round(clientRect.left),
+                top: Math.round(clientRect.top),
+                width: Math.round(clientRect.width),
+                height: Math.round(clientRect.height)
+            };
+        }
+
+        return rect;
+    }
+
+    public componentDidMount(): void {
+        this.addScrollListener();
+    }
+
     public componentWillUnmount(): void {
         this.removeDocumentListener();
+        this.removeScrollListener();
     }
 
     public render(): React.ReactNode {
@@ -91,7 +121,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
             multi,
             native
         } = this.props;
-        const { open, search, selectedIndex } = this.state;
+        const { open, search, rect, selectedIndex } = this.state;
         const searchable = this.props.searchable || creatable;
 
         return (
@@ -124,7 +154,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                 <Options
                     open={open}
                     options={this.options}
-                    rect={this.rect}
+                    rect={rect}
                     value={value}
                     multi={multi}
                     search={search}
@@ -139,6 +169,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
     private renderNativeSelect(): React.ReactNode {
         const { NativeSelect } = Select;
         const { native, placeholder, multi, disabled } = this.props;
+        const clearable = this.props.clearable && native;
         const value = multi
             ? (this.props.value || []).map(val => toString(val))
             : toString(this.props.value || '');
@@ -153,7 +184,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                 tabIndex={-1}
                 onChange={this.onChangeNativeSelect}
             >
-                <option value="" disabled>
+                <option value="" disabled={!clearable}>
                     {placeholder}
                 </option>
                 {this.options.map(option => {
@@ -185,23 +216,14 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
     }
 
     private openMenu(): void {
-        let selectedIndex = this.state.selectedIndex;
+        const rect = this.rect;
+        const selectedIndex = this.options.findIndex(
+            option => toString(option.value) === toString(this.props.value)
+        );
 
-        if (this.container.current) {
-            const rect = this.container.current.getBoundingClientRect();
-
-            this.rect.left = rect.left;
-            this.rect.top = rect.top;
-            this.rect.width = rect.width;
-            this.rect.height = rect.height;
-
-            selectedIndex = this.options.findIndex(
-                option => toString(option.value) === toString(this.props.value)
-            );
-        }
-
-        this.setState({ open: true, search: undefined, selectedIndex }, () =>
-            this.addDocumentListener()
+        this.setState(
+            { open: true, search: undefined, selectedIndex, rect },
+            () => this.addDocumentListener()
         );
     }
 
@@ -218,14 +240,26 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
     }
 
     private addDocumentListener(): void {
-        if (typeof document !== 'undefined') {
+        if (this.document) {
             document.addEventListener('click', this.onDocumentClick);
         }
     }
 
     private removeDocumentListener(): void {
-        if (typeof document !== 'undefined') {
+        if (this.document) {
             document.removeEventListener('click', this.onDocumentClick);
+        }
+    }
+
+    private addScrollListener(): void {
+        if (this.window) {
+            this.window.addEventListener('scroll', this.onScroll, true);
+        }
+    }
+
+    private removeScrollListener(): void {
+        if (this.window) {
+            this.window.removeEventListener('scroll', this.onScroll, true);
         }
     }
 
@@ -234,16 +268,21 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         e: React.SyntheticEvent<HTMLSelectElement>
     ): void {
         const { onChange, multi } = this.props;
+        const { currentTarget } = e;
 
         if (onChange) {
-            const values = Array.from(e.currentTarget.selectedOptions).map(
-                htmlOption => this.options[htmlOption.index - 1].value
-            );
-
-            if (multi) {
-                onChange(values);
+            if (currentTarget.value === '') {
+                this.onClear();
             } else {
-                onChange(values[0]);
+                const values = Array.from(currentTarget.selectedOptions).map(
+                    htmlOption => this.options[htmlOption.index - 1].value
+                );
+
+                if (multi) {
+                    onChange(values);
+                } else {
+                    onChange(values[0]);
+                }
             }
         }
     }
@@ -371,6 +410,13 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                     this.closeMenu();
                 }
                 break;
+        }
+    }
+
+    @bind
+    private onScroll(): void {
+        if (this.state.open) {
+            this.setState({ rect: this.rect });
         }
     }
 }

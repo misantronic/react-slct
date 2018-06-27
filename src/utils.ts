@@ -25,6 +25,32 @@ export function isArray<T = any>(val: any): val is Array<T> {
     return false;
 }
 
+export function getDocument(): Document | undefined {
+    if (typeof document !== 'undefined') {
+        return document;
+    }
+
+    return undefined;
+}
+
+export function getWindow(): Window | undefined {
+    if (typeof window !== 'undefined') {
+        return window;
+    }
+
+    return undefined;
+}
+
+export function getWindowInnerHeight(defaultHeight = 700): number {
+    const window = getWindow();
+
+    if (window) {
+        return window.innerHeight;
+    }
+
+    return defaultHeight;
+}
+
 export const keys = {
     ARROW_UP: 38,
     ARROW_DOWN: 40,
