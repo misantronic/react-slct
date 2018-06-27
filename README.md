@@ -19,7 +19,7 @@ yarn add react-slct
 * Searchable
 * Clearable
 * Creatable in single- and multi-select
-* Automatic menu-position
+* Automatic menu-position (top or bottom)
 * Customizable label-component
 * Native support (e.g. on mobile devices)
 * Full keyboard-support inkl. TAB-behavior
