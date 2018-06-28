@@ -2,7 +2,7 @@
 
 Yet another Select-Box based on react, styled-components and react-virtualized.
 
-## Install 🎨
+## Install
 
 ```bash
 npm i react-slct --save
@@ -12,7 +12,7 @@ npm i react-slct --save
 yarn add react-slct
 ```
 
-## Features 💚
+## Features
 
 * Single-select
 * Multi-select
