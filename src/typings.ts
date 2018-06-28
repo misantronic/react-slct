@@ -10,8 +10,18 @@ export interface SelectProps<T = any> {
     multi?: boolean;
     native?: boolean;
     labelComponent?: React.ComponentClass<any> | React.StatelessComponent<any>;
+    optionComponent?:
+        | React.ComponentClass<OptionComponentProps>
+        | React.StatelessComponent<OptionComponentProps>;
+    valueComponentSingle?:
+        | React.ComponentClass<ValueComponentSingleProps>
+        | React.StatelessComponent<ValueComponentSingleProps>;
+    valueComponentMulti?:
+        | React.ComponentClass<ValueComponentMultiProps>
+        | React.StatelessComponent<ValueComponentMultiProps>;
     onChange?(value: T | T[]): void;
     onCreate?(value: string): void;
+    onSearch?(value: string): void;
 }
 
 export interface SelectState {
@@ -25,6 +35,24 @@ export interface Option<T = any> {
     value: T;
     disabled?: boolean;
     label: string;
+    [key: string]: any;
+}
+
+export interface OptionComponentProps<T = any> extends Option<T> {
+    active?: boolean;
+    selected?: boolean;
+    labelComponent: SelectProps['labelComponent'];
+    onSelect(value: T): void;
+}
+
+export interface ValueComponentSingleProps<T = any> {
+    option: Option<T>;
+    labelComponent: SelectProps['labelComponent'];
+}
+
+export interface ValueComponentMultiProps<T = any>
+    extends ValueComponentSingleProps<T> {
+    onRemove(value: T): void;
 }
 
 export interface Rect {

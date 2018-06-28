@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { SelectLabel } from './label';
 import { toString, keys, isArray } from './utils';
 import { SelectProps, Option } from './typings';
+import { ValueComponentMulti } from './value-component-multi';
+import { ValueComponentSingle } from './value-component-single';
 
 export interface ValueProps {
     options: SelectProps['options'];
@@ -12,6 +14,8 @@ export interface ValueProps {
     clearable: SelectProps['clearable'];
     searchable: SelectProps['searchable'];
     labelComponent: SelectProps['labelComponent'];
+    valueComponentSingle: SelectProps['valueComponentSingle'];
+    valueComponentMulti: SelectProps['valueComponentMulti'];
     multi: SelectProps['multi'];
     mobile: SelectProps['native'];
     disabled: SelectProps['disabled'];
@@ -22,11 +26,6 @@ export interface ValueProps {
     onSearch(search: string): void;
     onSearchFocus(): void;
     onOptionRemove(value: any): void;
-}
-
-interface TagRemoveProps<T = any> {
-    value: T;
-    onClick(value: T): void;
 }
 
 interface SearchProps {
@@ -129,63 +128,6 @@ const Search = styled.span`
     }
 `;
 
-const TagLabel = styled.span`
-    display: table-cell;
-    padding: 0px 3px;
-    background-color: rgba(0, 126, 255, 0.08);
-    border-radius: 2px;
-    border: 1px solid rgba(0, 126, 255, 0.24);
-    color: #007eff;
-    font-size: 0.9em;
-    line-height: 1.4;
-    margin: 3px;
-    vertical-align: middle;
-`;
-
-const StyledTagRemove = styled.button`
-    cursor: pointer;
-    color: #007eff;
-    border: none;
-    background: none;
-    padding: 2px 4px;
-    margin: 0;
-    margin-right: 4px;
-    line-height: 1;
-    display: inline-block;
-    border-right: 1px solid rgba(0, 126, 255, 0.24);
-    margin-left: -2px;
-    font-size: 13px;
-
-    &:hover {
-        background-color: rgba(0, 113, 230, 0.08);
-    }
-
-    &:focus {
-        outline: none;
-    }
-`;
-
-class TagRemove extends React.PureComponent<TagRemoveProps> {
-    public render(): React.ReactNode {
-        return (
-            <StyledTagRemove
-                className="remove"
-                tabIndex={-1}
-                onClick={this.onClick}
-            >
-                ×
-            </StyledTagRemove>
-        );
-    }
-
-    @bind
-    private onClick(e: React.SyntheticEvent<HTMLButtonElement>): void {
-        e.stopPropagation();
-
-        this.props.onClick(this.props.value);
-    }
-}
-
 export class Value extends React.PureComponent<ValueProps> {
     search: React.RefObject<HTMLSpanElement>;
 
@@ -283,8 +225,14 @@ export class Value extends React.PureComponent<ValueProps> {
     }
 
     private renderValues(valueOptions: Option[]): React.ReactNode {
-        const { placeholder, search, labelComponent, multi } = this.props;
-        const Label = labelComponent || (multi ? TagLabel : SelectLabel);
+        const {
+            placeholder,
+            search,
+            labelComponent,
+            valueComponentSingle,
+            valueComponentMulti,
+            multi
+        } = this.props;
 
         if (search && !multi) {
             return null;
@@ -294,19 +242,26 @@ export class Value extends React.PureComponent<ValueProps> {
             return <Placeholder>{placeholder}</Placeholder>;
         }
 
-        return valueOptions.map(option => (
-            <Label className="value" key={toString(option.value)} {...option}>
-                {multi && (
-                    <TagRemove
-                        value={option.value}
-                        onClick={this.props.onOptionRemove}
-                    >
-                        ×
-                    </TagRemove>
-                )}
-                {option.label}
-            </Label>
-        ));
+        const Single = valueComponentSingle || ValueComponentSingle;
+        const Multi = valueComponentMulti || ValueComponentMulti;
+
+        return valueOptions.map(
+            option =>
+                multi ? (
+                    <Multi
+                        key={toString(option.value)}
+                        option={option}
+                        labelComponent={labelComponent}
+                        onRemove={this.props.onOptionRemove}
+                    />
+                ) : (
+                    <Single
+                        key={toString(option.value)}
+                        option={option}
+                        labelComponent={labelComponent}
+                    />
+                )
+        );
     }
 
     @bind

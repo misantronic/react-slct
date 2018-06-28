@@ -124,6 +124,9 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
             value,
             disabled,
             labelComponent,
+            optionComponent,
+            valueComponentSingle,
+            valueComponentMulti,
             multi,
             native
         } = this.props;
@@ -151,6 +154,8 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                     value={value}
                     search={search}
                     labelComponent={labelComponent}
+                    valueComponentSingle={valueComponentSingle}
+                    valueComponentMulti={valueComponentMulti}
                     onClear={this.onClear}
                     onClick={this.toggleMenu}
                     onSearch={this.onSearch}
@@ -166,6 +171,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                     search={search}
                     selectedIndex={selectedIndex}
                     labelComponent={labelComponent}
+                    optionComponent={optionComponent}
                     onSelect={this.onOptionSelect}
                 />
             </Container>
@@ -337,6 +343,10 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                 this.setState({ selectedIndex: 0 });
             } else {
                 this.setState({ selectedIndex: undefined });
+            }
+
+            if (this.props.onSearch) {
+                this.props.onSearch(search);
             }
         });
     }

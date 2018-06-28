@@ -5,6 +5,7 @@ import { Single } from './components/single';
 import { Multi } from './components/multi';
 import { Code } from './components/code';
 import { options } from './utils/options';
+import { OptionComponentProps } from '../../src/typings';
 
 injectGlobal`
     body {  
@@ -26,11 +27,36 @@ const Example = styled.div`
     margin-bottom: 10px;
 `;
 
+const CustomOptionComponent = styled.div`
+    background-color: palevioletred;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    height: 32px;
+    padding: 0 10px;
+    min-width: 0;
+    cursor: pointer;
+    box-sizing: border-box;
+
+    &:hover {
+        background-color: palegreen;
+        color: black;
+    }
+`;
+
 const labelComponent = (props: { children: React.ReactNode; icon: string }) => (
     <div>
         <span style={{ marginRight: 4 }}>{props.icon}</span>
         <span>{props.children}</span>
     </div>
+);
+
+const optionComponent = (props: OptionComponentProps) => (
+    <CustomOptionComponent onClick={() => props.onSelect(props.value)}>
+        {props.icon} {props.label}
+    </CustomOptionComponent>
 );
 
 const optionsWithoutIcons = options.map(option => ({
@@ -125,6 +151,25 @@ render(
 `}
                 {code(
                     `labelComponent={labelComponent}`,
+                    `onChange={value => ...}`
+                )}
+            </Code>
+        </Example>
+        <Example>
+            <Single
+                placeholder="Custom optionComponent.."
+                optionComponent={optionComponent}
+            />
+            <Code>
+                {`const optionComponent = (props: OptionComponentProps) => (
+    <CustomOptionComponent onClick={() => props.onSelect(props.value)}>
+        {props.icon} {props.label}
+    </CustomOptionComponent>
+);
+
+`}
+                {code(
+                    `optionComponent={optionComponent}`,
                     `onChange={value => ...}`
                 )}
             </Code>

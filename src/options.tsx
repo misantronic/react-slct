@@ -12,6 +12,7 @@ export interface OptionsProps<T = any> {
     options: SelectProps['options'];
     value: SelectProps['value'];
     labelComponent: SelectProps['labelComponent'];
+    optionComponent: SelectProps['optionComponent'];
     multi: SelectProps['multi'];
     selectedIndex?: number;
     open: boolean;
@@ -131,16 +132,22 @@ export class Options extends React.PureComponent<OptionsProps> {
 
     @bind
     private rowRenderer({ key, index, style }) {
-        const { options, labelComponent, selectedIndex } = this.props;
+        const {
+            options,
+            labelComponent,
+            selectedIndex,
+            optionComponent
+        } = this.props;
         const option = options[index];
         const currentValue = isArray(this.props.value)
             ? this.props.value.map(val => toString(val))
             : [toString(this.props.value)];
         const value = toString(option.value);
+        const Component = optionComponent || OptionComponent;
 
         return (
             <div key={key} style={style}>
-                <OptionComponent
+                <Component
                     {...option}
                     labelComponent={labelComponent}
                     active={currentValue.some(val => val === value)}
