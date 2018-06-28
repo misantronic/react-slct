@@ -21,7 +21,7 @@ yarn add react-slct
 * Disabled (whole box or single options)
 * Creatable in single- and multi-select
 * Automatic menu-position (top or bottom)
-* Customizable label-component
+* Customizable components
 * Native support (e.g. on mobile devices)
 * Full keyboard-support inkl. TAB-behavior
 
