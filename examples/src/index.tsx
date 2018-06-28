@@ -5,7 +5,11 @@ import { Single } from './components/single';
 import { Multi } from './components/multi';
 import { Code } from './components/code';
 import { options } from './utils/options';
-import { OptionComponentProps } from '../../src/typings';
+import {
+    OptionComponentProps,
+    MenuComponentProps,
+    Option
+} from '../../src/typings';
 
 injectGlobal`
     body {  
@@ -46,7 +50,7 @@ const CustomOptionComponent = styled.div`
     }
 `;
 
-const labelComponent = (props: { children: React.ReactNode; icon: string }) => (
+const labelComponent = (props: Option) => (
     <div>
         <span style={{ marginRight: 4 }}>{props.icon}</span>
         <span>{props.children}</span>
@@ -57,6 +61,21 @@ const optionComponent = (props: OptionComponentProps) => (
     <CustomOptionComponent onClick={() => props.onSelect(props.value)}>
         {props.icon} {props.label}
     </CustomOptionComponent>
+);
+
+const menuComponent = (props: MenuComponentProps) => (
+    <div style={{ border: '1px solid #ccc', padding: 10 }}>
+        {props.options.map((option, i) => (
+            <div key={i}>
+                <button
+                    onClick={() => props.onSelect(option.value)}
+                    style={{ width: '100%' }}
+                >
+                    {option.icon} {option.label}
+                </button>
+            </div>
+        ))}
+    </div>
 );
 
 const optionsWithoutIcons = options.map(option => ({
@@ -170,6 +189,34 @@ render(
 `}
                 {code(
                     `optionComponent={optionComponent}`,
+                    `onChange={value => ...}`
+                )}
+            </Code>
+        </Example>
+        <Example>
+            <Single
+                placeholder="Custom menuComponent..."
+                menuComponent={menuComponent}
+            />
+            <Code>
+                {`const menuComponent = (props: MenuComponentProps) => (
+    <div style={{ border: '1px solid #ccc', padding: 10 }}>
+        {props.options.map((option, i) => (
+            <div key={i}>
+                <button
+                    onClick={() => props.onSelect(option.value)}
+                    style={{ width: '100%' }}
+                >
+                    {option.icon} {option.label}
+                </button>
+            </div>
+        ))}
+    </div>
+);
+
+`}
+                {code(
+                    `menuComponent={menuComponent}`,
                     `onChange={value => ...}`
                 )}
             </Code>

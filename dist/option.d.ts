@@ -1,11 +1,5 @@
 import * as React from 'react';
-import { Option, SelectProps } from './typings';
-interface OptionComponentProps<T = any> extends Option<T> {
-    active?: boolean;
-    selected?: boolean;
-    labelComponent: SelectProps['labelComponent'];
-    onSelect(value: T): void;
-}
+import { OptionComponentProps } from './typings';
 interface OptionItemProps {
     active?: OptionComponentProps['active'];
     selected?: OptionComponentProps['selected'];

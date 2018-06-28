@@ -7,6 +7,8 @@ export interface ValueProps {
     clearable: SelectProps['clearable'];
     searchable: SelectProps['searchable'];
     labelComponent: SelectProps['labelComponent'];
+    valueComponentSingle: SelectProps['valueComponentSingle'];
+    valueComponentMulti: SelectProps['valueComponentMulti'];
     multi: SelectProps['multi'];
     mobile: SelectProps['native'];
     disabled: SelectProps['disabled'];

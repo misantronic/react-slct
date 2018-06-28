@@ -9,7 +9,12 @@ export interface SelectProps<T = any> {
     disabled?: boolean;
     multi?: boolean;
     native?: boolean;
-    labelComponent?: React.ComponentClass<any> | React.StatelessComponent<any>;
+    menuComponent?:
+        | React.ComponentClass<MenuComponentProps>
+        | React.StatelessComponent<MenuComponentProps>;
+    labelComponent?:
+        | React.ComponentClass<Option<T>>
+        | React.StatelessComponent<Option<T>>;
     optionComponent?:
         | React.ComponentClass<OptionComponentProps>
         | React.StatelessComponent<OptionComponentProps>;
@@ -36,6 +41,20 @@ export interface Option<T = any> {
     disabled?: boolean;
     label: string;
     [key: string]: any;
+}
+
+export interface MenuComponentProps<T = any> {
+    options: SelectProps['options'];
+    value: SelectProps['value'];
+    menuComponent: SelectProps['menuComponent'];
+    labelComponent: SelectProps['labelComponent'];
+    optionComponent: SelectProps['optionComponent'];
+    multi: SelectProps['multi'];
+    selectedIndex?: number;
+    open: boolean;
+    rect: Rect;
+    search?: string;
+    onSelect(value: T | T[]): void;
 }
 
 export interface OptionComponentProps<T = any> extends Option<T> {

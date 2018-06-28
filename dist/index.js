@@ -3,8 +3,9 @@ import { bind } from 'lodash-decorators';
 import * as React from 'react';
 import styled from 'styled-components';
 import { Value } from './value';
-import { Options } from './options';
+import { Menu } from './menu';
 import { toString, isArray, keys, getWindow, getDocument } from './utils';
+export { Menu };
 export class Select extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -54,24 +55,27 @@ export class Select extends React.PureComponent {
     componentDidUpdate(_, prevState) {
         if (prevState.open && !this.state.open) {
             this.removeScrollListener();
+            this.removeResizeListener();
         }
         if (!prevState.open && this.state.open) {
             this.addScrollListener();
+            this.addResizeListener();
         }
     }
     componentWillUnmount() {
         this.removeDocumentListener();
         this.removeScrollListener();
+        this.removeResizeListener();
     }
     render() {
         const { Container } = Select;
-        const { className, options, creatable, clearable, placeholder, value, disabled, labelComponent, multi, native } = this.props;
+        const { className, options, creatable, clearable, placeholder, value, disabled, menuComponent, labelComponent, optionComponent, valueComponentSingle, valueComponentMulti, multi, native } = this.props;
         const { open, search, rect, selectedIndex } = this.state;
         const searchable = this.props.searchable || creatable;
         return (React.createElement(Container, { className: className ? `react-slct ${className}` : 'react-slct', disabled: disabled, innerRef: this.container, onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
             this.renderNativeSelect(),
-            React.createElement(Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, options: options, placeholder: placeholder, value: value, search: search, labelComponent: labelComponent, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onOptionRemove: this.onOptionRemove }),
-            React.createElement(Options, { open: open, options: this.options, rect: rect, value: value, multi: multi, search: search, selectedIndex: selectedIndex, labelComponent: labelComponent, onSelect: this.onOptionSelect })));
+            React.createElement(Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, options: options, placeholder: placeholder, value: value, search: search, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onOptionRemove: this.onOptionRemove }),
+            React.createElement(Menu, { open: open, options: this.options, rect: rect, value: value, multi: multi, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, onSelect: this.onOptionSelect })));
     }
     renderNativeSelect() {
         const { NativeSelect } = Select;
@@ -129,6 +133,16 @@ export class Select extends React.PureComponent {
             this.window.removeEventListener('scroll', this.onScroll, true);
         }
     }
+    addResizeListener() {
+        if (this.window) {
+            this.window.addEventListener('resize', this.onResize, true);
+        }
+    }
+    removeResizeListener() {
+        if (this.window) {
+            this.window.removeEventListener('resize', this.onResize, true);
+        }
+    }
     onChangeNativeSelect(e) {
         const { onChange, multi } = this.props;
         const { currentTarget } = e;
@@ -178,6 +192,9 @@ export class Select extends React.PureComponent {
             }
             else {
                 this.setState({ selectedIndex: undefined });
+            }
+            if (this.props.onSearch) {
+                this.props.onSearch(search);
             }
         });
     }
@@ -246,11 +263,11 @@ export class Select extends React.PureComponent {
                 break;
         }
     }
-    allowScrolling(e) {
+    allowRectChange(e) {
         if (this.state.open) {
             if (e.target &&
                 e.target.classList &&
-                e.target.classList.contains('react-slct-options-list')) {
+                e.target.classList.contains('react-slct-menu-list')) {
                 return false;
             }
             return true;
@@ -258,7 +275,12 @@ export class Select extends React.PureComponent {
         return false;
     }
     onScroll(e) {
-        if (this.allowScrolling(e)) {
+        if (this.allowRectChange(e)) {
+            this.setState({ rect: this.rect });
+        }
+    }
+    onResize(e) {
+        if (this.allowRectChange(e)) {
             this.setState({ rect: this.rect });
         }
     }
@@ -349,4 +371,10 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onScroll", null);
+tslib_1.__decorate([
+    bind,
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:returntype", void 0)
+], Select.prototype, "onResize", null);
 //# sourceMappingURL=index.js.map

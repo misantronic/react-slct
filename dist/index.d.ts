@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { SelectProps, SelectState, Option } from './typings';
-export { SelectProps, Option };
+import { Menu } from './menu';
+import { SelectProps, SelectState, MenuComponentProps, Option } from './typings';
+export { SelectProps, Menu, MenuComponentProps, Option };
 export declare class Select extends React.PureComponent<SelectProps, SelectState> {
     private static Container;
     private static NativeSelect;
@@ -22,6 +23,8 @@ export declare class Select extends React.PureComponent<SelectProps, SelectState
     private removeDocumentListener;
     private addScrollListener;
     private removeScrollListener;
+    private addResizeListener;
+    private removeResizeListener;
     private onChangeNativeSelect;
     private onSearchFocus;
     private onOptionSelect;
@@ -31,6 +34,7 @@ export declare class Select extends React.PureComponent<SelectProps, SelectState
     private onDocumentClick;
     private onKeyDown;
     private onKeyUp;
-    private allowScrolling;
+    private allowRectChange;
     private onScroll;
+    private onResize;
 }

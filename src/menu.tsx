@@ -5,21 +5,8 @@ import { List } from 'react-virtualized/dist/commonjs/List';
 import styled from 'styled-components';
 import { SelectLabel } from './label';
 import { toString, isArray, getWindowInnerHeight } from './utils';
-import { SelectProps, Rect } from './typings';
+import { Rect, MenuComponentProps } from './typings';
 import { OptionComponent } from './option';
-
-export interface OptionsProps<T = any> {
-    options: SelectProps['options'];
-    value: SelectProps['value'];
-    labelComponent: SelectProps['labelComponent'];
-    optionComponent: SelectProps['optionComponent'];
-    multi: SelectProps['multi'];
-    selectedIndex?: number;
-    open: boolean;
-    rect: Rect;
-    search?: string;
-    onSelect(value: T | T[]): void;
-}
 
 function menuPosition(rect: Rect): 'top' | 'bottom' {
     if (rect.top + rect.height + 185 <= getWindowInnerHeight()) {
@@ -38,13 +25,13 @@ function getContainerTop(props: { rect: Rect }): string {
     }
 }
 
-export class Options extends React.PureComponent<OptionsProps> {
+export class Menu extends React.PureComponent<MenuComponentProps> {
     // @ts-ignore
-    private static OptionsContainer = styled.div.attrs({
+    private static MenuContainer = styled.div.attrs({
         style: (props: { rect: Rect }) => ({
             top: getContainerTop(props),
             left: `${props.rect.left}px`,
-            width: `props.rect.width}px`,
+            width: `${props.rect.width}px`,
             boxShadow:
                 menuPosition(props.rect) === 'bottom'
                     ? '0 2px 5px rgba(0, 0, 0, 0.1)'
@@ -81,7 +68,7 @@ export class Options extends React.PureComponent<OptionsProps> {
         this.list = React.createRef();
     }
 
-    public componentDidUpdate(prevProps: OptionsProps): void {
+    public componentDidUpdate(prevProps: MenuComponentProps): void {
         const { selectedIndex, search } = this.props;
         const { current } = this.list;
 
@@ -98,8 +85,9 @@ export class Options extends React.PureComponent<OptionsProps> {
     }
 
     public render(): React.ReactNode {
-        const { OptionsContainer, Empty } = Options;
+        const { MenuContainer, Empty } = Menu;
         const { open, rect, options, multi, selectedIndex } = this.props;
+        const MenuContent = this.props.menuComponent;
         const rowHeight = 32;
         const menuHeight = 185;
         const height = Math.min(
@@ -109,22 +97,23 @@ export class Options extends React.PureComponent<OptionsProps> {
 
         return open
             ? createPortal(
-                  <OptionsContainer
-                      className="react-slct-options-container"
-                      rect={rect}
-                  >
-                      <List
-                          className="react-slct-options-list"
-                          ref={this.list}
-                          width={rect.width}
-                          height={height}
-                          rowHeight={rowHeight}
-                          rowCount={options.length}
-                          rowRenderer={this.rowRenderer}
-                          scrollToRow={multi ? 0 : selectedIndex}
-                          noRowsRenderer={Empty}
-                      />
-                  </OptionsContainer>,
+                  <MenuContainer className="react-slct-menu" rect={rect}>
+                      {MenuContent ? (
+                          <MenuContent {...this.props} />
+                      ) : (
+                          <List
+                              className="react-slct-menu-list"
+                              ref={this.list}
+                              width={rect.width}
+                              height={height}
+                              rowHeight={rowHeight}
+                              rowCount={options.length}
+                              rowRenderer={this.rowRenderer}
+                              scrollToRow={multi ? 0 : selectedIndex}
+                              noRowsRenderer={Empty}
+                          />
+                      )}
+                  </MenuContainer>,
                   document.body
               )
             : null;

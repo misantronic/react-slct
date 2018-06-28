@@ -4,6 +4,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { SelectLabel } from './label';
 import { toString, keys, isArray } from './utils';
+import { ValueComponentMulti } from './value-component-multi';
+import { ValueComponentSingle } from './value-component-single';
 const Button = styled.button `
     background: transparent;
     border: none;
@@ -78,55 +80,6 @@ const Search = styled.span `
         outline: none;
     }
 `;
-const TagLabel = styled.span `
-    display: table-cell;
-    padding: 0px 3px;
-    background-color: rgba(0, 126, 255, 0.08);
-    border-radius: 2px;
-    border: 1px solid rgba(0, 126, 255, 0.24);
-    color: #007eff;
-    font-size: 0.9em;
-    line-height: 1.4;
-    margin: 3px;
-    vertical-align: middle;
-`;
-const StyledTagRemove = styled.button `
-    cursor: pointer;
-    color: #007eff;
-    border: none;
-    background: none;
-    padding: 2px 4px;
-    margin: 0;
-    margin-right: 4px;
-    line-height: 1;
-    display: inline-block;
-    border-right: 1px solid rgba(0, 126, 255, 0.24);
-    margin-left: -2px;
-    font-size: 13px;
-
-    &:hover {
-        background-color: rgba(0, 113, 230, 0.08);
-    }
-
-    &:focus {
-        outline: none;
-    }
-`;
-class TagRemove extends React.PureComponent {
-    render() {
-        return (React.createElement(StyledTagRemove, { className: "remove", tabIndex: -1, onClick: this.onClick }, "\u00D7"));
-    }
-    onClick(e) {
-        e.stopPropagation();
-        this.props.onClick(this.props.value);
-    }
-}
-tslib_1.__decorate([
-    bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
-], TagRemove.prototype, "onClick", null);
 export class Value extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -168,17 +121,16 @@ export class Value extends React.PureComponent {
         return (React.createElement(Search, { className: "search", contentEditable: true, multi: multi, canSearch: canSearch, onInput: this.onSearch, onKeyDown: this.onKeyDown, onFocus: onSearchFocus, innerRef: this.search }));
     }
     renderValues(valueOptions) {
-        const { placeholder, search, labelComponent, multi } = this.props;
-        const Label = labelComponent || (multi ? TagLabel : SelectLabel);
+        const { placeholder, search, labelComponent, valueComponentSingle, valueComponentMulti, multi } = this.props;
         if (search && !multi) {
             return null;
         }
         if (valueOptions.length === 0) {
             return React.createElement(Placeholder, null, placeholder);
         }
-        return valueOptions.map(option => (React.createElement(Label, Object.assign({ className: "value", key: toString(option.value) }, option),
-            multi && (React.createElement(TagRemove, { value: option.value, onClick: this.props.onOptionRemove }, "\u00D7")),
-            option.label)));
+        const Single = valueComponentSingle || ValueComponentSingle;
+        const Multi = valueComponentMulti || ValueComponentMulti;
+        return valueOptions.map(option => multi ? (React.createElement(Multi, { key: toString(option.value), option: option, labelComponent: labelComponent, onRemove: this.props.onOptionRemove })) : (React.createElement(Single, { key: toString(option.value), option: option, labelComponent: labelComponent })));
     }
     onClick() {
         if (!this.props.disabled) {

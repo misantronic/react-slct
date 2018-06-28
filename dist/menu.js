@@ -21,7 +21,7 @@ function getContainerTop(props) {
             return `${props.rect.top + props.rect.height - 1}px`;
     }
 }
-export class Options extends React.PureComponent {
+export class Menu extends React.PureComponent {
     constructor(props) {
         super(props);
         this.list = React.createRef();
@@ -40,25 +40,26 @@ export class Options extends React.PureComponent {
         }
     }
     render() {
-        const { OptionsContainer, Empty } = Options;
+        const { MenuContainer, Empty } = Menu;
         const { open, rect, options, multi, selectedIndex } = this.props;
+        const MenuContent = this.props.menuComponent;
         const rowHeight = 32;
         const menuHeight = 185;
         const height = Math.min(Math.max(options.length * rowHeight, rowHeight), menuHeight);
         return open
-            ? createPortal(React.createElement(OptionsContainer, { className: "react-slct-options-container", rect: rect },
-                React.createElement(List, { className: "react-slct-options-list", ref: this.list, width: rect.width, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToRow: multi ? 0 : selectedIndex, noRowsRenderer: Empty })), document.body)
+            ? createPortal(React.createElement(MenuContainer, { className: "react-slct-menu", rect: rect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List, { className: "react-slct-menu-list", ref: this.list, width: rect.width, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToRow: multi ? 0 : selectedIndex, noRowsRenderer: Empty }))), document.body)
             : null;
     }
     rowRenderer({ key, index, style }) {
-        const { options, labelComponent, selectedIndex } = this.props;
+        const { options, labelComponent, selectedIndex, optionComponent } = this.props;
         const option = options[index];
         const currentValue = isArray(this.props.value)
             ? this.props.value.map(val => toString(val))
             : [toString(this.props.value)];
         const value = toString(option.value);
+        const Component = optionComponent || OptionComponent;
         return (React.createElement("div", { key: key, style: style },
-            React.createElement(OptionComponent, Object.assign({}, option, { labelComponent: labelComponent, active: currentValue.some(val => val === value), selected: selectedIndex === index, onSelect: this.onSelect }))));
+            React.createElement(Component, Object.assign({}, option, { labelComponent: labelComponent, active: currentValue.some(val => val === value), selected: selectedIndex === index, onSelect: this.onSelect }))));
     }
     onSelect(value) {
         this.props.onSelect(isArray(this.props.value)
@@ -67,11 +68,11 @@ export class Options extends React.PureComponent {
     }
 }
 // @ts-ignore
-Options.OptionsContainer = styled.div.attrs({
+Menu.MenuContainer = styled.div.attrs({
     style: (props) => ({
         top: getContainerTop(props),
         left: `${props.rect.left}px`,
-        width: `props.rect.width}px`,
+        width: `${props.rect.width}px`,
         boxShadow: menuPosition(props.rect) === 'bottom'
             ? '0 2px 5px rgba(0, 0, 0, 0.1)'
             : '0 -2px 5px rgba(0, 0, 0, 0.1)'
@@ -90,7 +91,7 @@ Options.OptionsContainer = styled.div.attrs({
             }
         }
     `;
-Options.Empty = () => (React.createElement(OptionComponent.OptionItem, null,
+Menu.Empty = () => (React.createElement(OptionComponent.OptionItem, null,
     React.createElement(SelectLabel, null,
         React.createElement("i", null, "No results"))));
 tslib_1.__decorate([
@@ -98,11 +99,11 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
-], Options.prototype, "rowRenderer", null);
+], Menu.prototype, "rowRenderer", null);
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
-], Options.prototype, "onSelect", null);
-//# sourceMappingURL=options.js.map
+], Menu.prototype, "onSelect", null);
+//# sourceMappingURL=menu.js.map

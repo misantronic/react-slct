@@ -2,11 +2,17 @@ import { bind } from 'lodash-decorators';
 import * as React from 'react';
 import styled from 'styled-components';
 import { Value } from './value';
-import { Options } from './options';
+import { Menu } from './menu';
 import { toString, isArray, keys, getWindow, getDocument } from './utils';
-import { SelectProps, SelectState, Option, Rect } from './typings';
+import {
+    SelectProps,
+    SelectState,
+    MenuComponentProps,
+    Option,
+    Rect
+} from './typings';
 
-export { SelectProps, Option };
+export { SelectProps, Menu, MenuComponentProps, Option };
 
 export class Select extends React.PureComponent<SelectProps, SelectState> {
     private static Container = styled.div`
@@ -126,6 +132,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
             placeholder,
             value,
             disabled,
+            menuComponent,
             labelComponent,
             optionComponent,
             valueComponentSingle,
@@ -165,7 +172,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                     onSearchFocus={this.onSearchFocus}
                     onOptionRemove={this.onOptionRemove}
                 />
-                <Options
+                <Menu
                     open={open}
                     options={this.options}
                     rect={rect}
@@ -173,6 +180,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                     multi={multi}
                     search={search}
                     selectedIndex={selectedIndex}
+                    menuComponent={menuComponent}
                     labelComponent={labelComponent}
                     optionComponent={optionComponent}
                     onSelect={this.onOptionSelect}
@@ -449,7 +457,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
             if (
                 e.target &&
                 e.target.classList &&
-                e.target.classList.contains('react-slct-options-list')
+                e.target.classList.contains('react-slct-menu-list')
             ) {
                 return false;
             }
