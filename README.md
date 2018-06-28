@@ -28,4 +28,6 @@ yarn add react-slct
 
 ## Examples 🃏
 
-Check [here](https://rawgit.com/misantronic/react-slct/master/examples/dist/index.html) for examples
+Check [here](https://rawgit.com/misantronic/react-slct/master/examples/dist/index.html) for examples.
+
+Run examples locally using `yarn examples` or `npm run examples`.
