@@ -1,4 +1,4 @@
-# react-slct 🐘
+# react-slct 🐘 [![npm version](https://badge.fury.io/js/react-slct.svg)](https://badge.fury.io/js/react-slct)
 
 Yet another Select-Box based on react, styled-components and react-virtualized.
 
