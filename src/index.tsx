@@ -101,16 +101,19 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
     public componentDidUpdate(_, prevState: SelectState): void {
         if (prevState.open && !this.state.open) {
             this.removeScrollListener();
+            this.removeResizeListener();
         }
 
         if (!prevState.open && this.state.open) {
             this.addScrollListener();
+            this.addResizeListener();
         }
     }
 
     public componentWillUnmount(): void {
         this.removeDocumentListener();
         this.removeScrollListener();
+        this.removeResizeListener();
     }
 
     public render(): React.ReactNode {
@@ -275,6 +278,18 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         }
     }
 
+    private addResizeListener(): void {
+        if (this.window) {
+            this.window.addEventListener('resize', this.onResize, true);
+        }
+    }
+
+    private removeResizeListener(): void {
+        if (this.window) {
+            this.window.removeEventListener('resize', this.onResize, true);
+        }
+    }
+
     @bind
     private onChangeNativeSelect(
         e: React.SyntheticEvent<HTMLSelectElement>
@@ -429,7 +444,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         }
     }
 
-    private allowScrolling(e): boolean {
+    private allowRectChange(e): boolean {
         if (this.state.open) {
             if (
                 e.target &&
@@ -447,7 +462,14 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
 
     @bind
     private onScroll(e): void {
-        if (this.allowScrolling(e)) {
+        if (this.allowRectChange(e)) {
+            this.setState({ rect: this.rect });
+        }
+    }
+
+    @bind
+    private onResize(e): void {
+        if (this.allowRectChange(e)) {
             this.setState({ rect: this.rect });
         }
     }
