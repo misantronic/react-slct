@@ -125,7 +125,7 @@ export class Value extends React.PureComponent {
         if (search && !multi) {
             return null;
         }
-        if (valueOptions.length === 0) {
+        if (valueOptions.length === 0 && !search) {
             return React.createElement(Placeholder, null, placeholder);
         }
         const Single = valueComponentSingle || ValueComponentSingle;
