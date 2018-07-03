@@ -238,7 +238,7 @@ export class Value extends React.PureComponent<ValueProps> {
             return null;
         }
 
-        if (valueOptions.length === 0) {
+        if (valueOptions.length === 0 && !search) {
             return <Placeholder>{placeholder}</Placeholder>;
         }
 
