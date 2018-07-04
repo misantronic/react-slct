@@ -12,6 +12,7 @@ export declare class Select extends React.PureComponent<SelectProps, SelectState
     private readonly window;
     private readonly document;
     private readonly rect;
+    private optionIsCreatable;
     componentDidUpdate(_: any, prevState: SelectState): void;
     componentWillUnmount(): void;
     render(): React.ReactNode;
@@ -19,6 +20,7 @@ export declare class Select extends React.PureComponent<SelectProps, SelectState
     private toggleMenu;
     private openMenu;
     private closeMenu;
+    private createOption;
     private addDocumentListener;
     private removeDocumentListener;
     private addScrollListener;

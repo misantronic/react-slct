@@ -27,7 +27,7 @@ export class Select extends React.PureComponent {
         }
         if (showCreate) {
             options = [
-                { label: `Create "${search}"`, value: 'CREATE' },
+                { label: `Create "${search}"`, value: search, creatable: true },
                 ...options
             ];
         }
@@ -51,6 +51,11 @@ export class Select extends React.PureComponent {
             };
         }
         return rect;
+    }
+    optionIsCreatable(option) {
+        return (this.props.creatable &&
+            option.creatable &&
+            Boolean(this.props.onCreate && this.state.search));
     }
     componentDidUpdate(_, prevState) {
         if (prevState.open && !this.state.open) {
@@ -113,6 +118,12 @@ export class Select extends React.PureComponent {
             selectedIndex: undefined
         }, callback);
     }
+    createOption(value) {
+        const { onCreate } = this.props;
+        if (onCreate) {
+            this.closeMenu(() => onCreate(value));
+        }
+    }
     addDocumentListener() {
         if (this.document) {
             document.addEventListener('click', this.onDocumentClick);
@@ -168,7 +179,21 @@ export class Select extends React.PureComponent {
     }
     onOptionSelect(value) {
         const { current } = this.nativeSelect;
-        const { onChange } = this.props;
+        const { onChange, creatable } = this.props;
+        if (creatable) {
+            const createValue = (val) => {
+                const option = this.options.find(option => this.optionIsCreatable(option) && option.value === val);
+                if (option) {
+                    this.createOption(option.value);
+                }
+            };
+            if (isArray(value)) {
+                value.map(createValue);
+            }
+            else {
+                createValue(value);
+            }
+        }
         if (current) {
             current.value = isArray(value)
                 ? value.map(val => toString(val))
@@ -212,7 +237,7 @@ export class Select extends React.PureComponent {
     }
     onKeyUp({ keyCode }) {
         const { search, open } = this.state;
-        const { creatable, multi, value, onCreate } = this.props;
+        const { multi, value } = this.props;
         let selectedIndex = this.state.selectedIndex;
         switch (keyCode) {
             case keys.ARROW_UP:
@@ -245,11 +270,9 @@ export class Select extends React.PureComponent {
                 }
                 break;
             case keys.ENTER:
-                const isCreatable = selectedIndex === 0 &&
-                    creatable &&
-                    this.options[0].value === 'CREATE';
-                if (isCreatable && onCreate && search) {
-                    this.closeMenu(() => onCreate(search));
+                if (this.state.selectedIndex === 0 &&
+                    this.optionIsCreatable(this.options[0])) {
+                    this.createOption(search);
                 }
                 else if (selectedIndex !== undefined) {
                     const newValue = this.options[selectedIndex].value;
