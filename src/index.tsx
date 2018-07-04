@@ -160,6 +160,10 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         const { open, search, rect, selectedIndex, focused } = this.state;
         const searchable = this.props.searchable || creatable;
 
+        if (this.props.children) {
+            return this.renderChildren();
+        }
+
         return (
             <Container
                 className={className ? `react-slct ${className}` : 'react-slct'}
@@ -244,6 +248,37 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                 })}
             </NativeSelect>
         );
+    }
+
+    private renderChildren(): React.ReactNode {
+        const { options, value, placeholder, children } = this.props;
+        const { open, search, rect } = this.state;
+
+        if (!children) {
+            return null;
+        }
+
+        const valueOptions = options.filter(option => {
+            if (isArray(value)) {
+                return value.some(
+                    val => toString(option.value) === toString(val)
+                );
+            } else {
+                return toString(option.value) === toString(value);
+            }
+        });
+
+        return children({
+            options: this.options,
+            open,
+            value:
+                valueOptions.length === 1
+                    ? valueOptions[0].value
+                    : valueOptions,
+            placeholder:
+                valueOptions.length === 0 && !search ? placeholder : undefined,
+            onToggle: () => this.toggleMenu()
+        });
     }
 
     @bind

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import styled, { injectGlobal } from 'styled-components';
+import { Headless } from './components/headless';
 import { Single } from './components/single';
 import { Multi } from './components/multi';
 import { Code } from './components/code';
@@ -21,7 +22,7 @@ injectGlobal`
 const App = styled.div`
     max-width: 100%;
     width: 480px;
-    margin: 0;
+    margin: 0 0 300px;
     padding: 5px 10px;
     box-sizing: border-box;
 `;
@@ -220,6 +221,15 @@ render(
                     `onChange={value => ...}`
                 )}
             </Code>
+        </Example>
+
+        <br />
+        <br />
+
+        <h2>🏎 Headless</h2>
+
+        <Example>
+            <Headless />
         </Example>
     </App>,
     document.getElementById('app')
