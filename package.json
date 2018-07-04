@@ -4,7 +4,7 @@
   "description": "Yet another Select-Box based on react and styled-components",
   "main": "dist/index.js",
   "scripts": {
-    "compile": "rm -rf dist && tsc -p .",
+    "compile": "rm -rf dist && tsc -p . && node fuse",
     "examples": "rm -rf .cache && parcel examples/src/index.html --out-dir examples/dist"
   },
   "repository": {
@@ -32,6 +32,7 @@
     "@types/react": "^16.4.2",
     "@types/react-dom": "^16.0.6",
     "@types/react-virtualized": "^9.18.3",
+    "fuse-box": "^3.3.0",
     "object-assign": "^4.1.1",
     "parcel-bundler": "^1.9.3",
     "typescript": "^2.9.2"
