@@ -75,6 +75,7 @@ const Search = styled.span `
     margin-left: ${(props) => (props.multi ? '4px' : '-1px')};
     height: 16px;
     opacity: ${(props) => (props.canSearch ? 1 : 0)};
+    user-select: text;
 
     &:focus {
         outline: none;
