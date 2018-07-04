@@ -26,6 +26,7 @@ yarn add react-slct
 * Full keyboard-support inkl. TAB-behavior
 * Auto-select options in non-searchable box via keyboard-typing
 * Makes use of React Portals to render menu
+* 100% typescript
 
 ## Examples 🃏
 
