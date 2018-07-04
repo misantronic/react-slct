@@ -13,6 +13,7 @@ export class Select extends React.PureComponent {
         this.container = React.createRef();
         this.state = {
             open: false,
+            blindText: '',
             rect: { left: 0, top: 0, width: 0, height: 0 }
         };
     }
@@ -66,6 +67,10 @@ export class Select extends React.PureComponent {
             this.addScrollListener();
             this.addResizeListener();
         }
+        if (this.state.blindText &&
+            prevState.blindText !== this.state.blindText) {
+            this.handleBlindTextUpdate();
+        }
     }
     componentWillUnmount() {
         this.removeDocumentListener();
@@ -75,11 +80,11 @@ export class Select extends React.PureComponent {
     render() {
         const { Container } = Select;
         const { className, options, creatable, clearable, placeholder, value, disabled, menuComponent, labelComponent, optionComponent, valueComponentSingle, valueComponentMulti, multi, native } = this.props;
-        const { open, search, rect, selectedIndex } = this.state;
+        const { open, search, rect, selectedIndex, focused } = this.state;
         const searchable = this.props.searchable || creatable;
         return (React.createElement(Container, { className: className ? `react-slct ${className}` : 'react-slct', disabled: disabled, innerRef: this.container, onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
             this.renderNativeSelect(),
-            React.createElement(Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, options: options, placeholder: placeholder, value: value, search: search, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onOptionRemove: this.onOptionRemove }),
+            React.createElement(Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: options, placeholder: placeholder, value: value, search: search, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onSearchBlur: this.onSearchBlur, onOptionRemove: this.onOptionRemove }),
             React.createElement(Menu, { open: open, options: this.options, rect: rect, value: value, multi: multi, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, onSelect: this.onOptionSelect })));
     }
     renderNativeSelect() {
@@ -139,6 +144,9 @@ export class Select extends React.PureComponent {
             this.window.addEventListener('scroll', this.onScroll, true);
         }
     }
+    cleanBlindText() {
+        this.blindTextTimeout = setTimeout(() => this.setState({ blindText: '' }), 700);
+    }
     removeScrollListener() {
         if (this.window) {
             this.window.removeEventListener('scroll', this.onScroll, true);
@@ -176,6 +184,10 @@ export class Select extends React.PureComponent {
         if (!this.state.open && !this.props.native) {
             this.openMenu();
         }
+        this.setState({ focused: true });
+    }
+    onSearchBlur() {
+        this.setState({ focused: false });
     }
     onOptionSelect(value) {
         const { current } = this.nativeSelect;
@@ -199,7 +211,7 @@ export class Select extends React.PureComponent {
                 ? value.map(val => toString(val))
                 : toString(value);
         }
-        this.closeMenu(() => onChange && onChange(value));
+        this.setState({ focused: true }, () => this.closeMenu(() => onChange && onChange(value)));
     }
     onOptionRemove(value) {
         if (isArray(this.props.value)) {
@@ -227,12 +239,16 @@ export class Select extends React.PureComponent {
         this.closeMenu();
     }
     onKeyDown({ keyCode }) {
+        const { searchable, creatable } = this.props;
         switch (keyCode) {
             case keys.TAB:
                 if (this.state.open) {
                     this.closeMenu();
                 }
                 break;
+        }
+        if (!searchable && !creatable) {
+            this.handleBlindText(keyCode);
         }
     }
     onKeyUp({ keyCode }) {
@@ -274,7 +290,8 @@ export class Select extends React.PureComponent {
                     this.optionIsCreatable(this.options[0])) {
                     this.createOption(search);
                 }
-                else if (selectedIndex !== undefined) {
+                else if (selectedIndex !== undefined &&
+                    this.options[selectedIndex]) {
                     const newValue = this.options[selectedIndex].value;
                     this.onOptionSelect(multi ? [...value, newValue] : newValue);
                 }
@@ -284,6 +301,52 @@ export class Select extends React.PureComponent {
                     this.closeMenu();
                 }
                 break;
+        }
+    }
+    handleBlindText(keyCode) {
+        const { blindText } = this.state;
+        if (keyCode === keys.BACKSPACE && blindText.length) {
+            clearTimeout(this.blindTextTimeout);
+            this.setState({
+                blindText: blindText.slice(0, blindText.length - 1)
+            }, this.cleanBlindText);
+        }
+        else if (keyCode === keys.SPACE) {
+            clearTimeout(this.blindTextTimeout);
+            this.setState({
+                blindText: blindText + ' '
+            }, this.cleanBlindText);
+        }
+        else {
+            const key = String.fromCodePoint(keyCode);
+            if (/\w/.test(key)) {
+                clearTimeout(this.blindTextTimeout);
+                this.setState({
+                    blindText: blindText + key
+                }, this.cleanBlindText);
+            }
+        }
+    }
+    handleBlindTextUpdate() {
+        const { open, blindText } = this.state;
+        if (open) {
+            const selectedIndex = this.options.findIndex(option => option.label.toLowerCase().startsWith(blindText.toLowerCase()));
+            if (selectedIndex >= 0) {
+                this.setState({ selectedIndex });
+            }
+        }
+        else {
+            if (blindText) {
+                const option = this.options.find(option => option.label
+                    .toLowerCase()
+                    .startsWith(blindText.toLowerCase()));
+                if (option) {
+                    this.onOptionSelect(option.value);
+                }
+            }
+            else {
+                this.onOptionSelect(this.props.multi ? [] : undefined);
+            }
         }
     }
     allowRectChange(e) {
@@ -337,6 +400,12 @@ tslib_1.__decorate([
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", void 0)
+], Select.prototype, "cleanBlindText", null);
+tslib_1.__decorate([
+    bind,
+    tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onChangeNativeSelect", null);
@@ -346,6 +415,12 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onSearchFocus", null);
+tslib_1.__decorate([
+    bind,
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", void 0)
+], Select.prototype, "onSearchBlur", null);
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),

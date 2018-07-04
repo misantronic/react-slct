@@ -9,4 +9,6 @@ export declare const keys: {
     ENTER: number;
     TAB: number;
     ESC: number;
+    BACKSPACE: number;
+    SPACE: number;
 };

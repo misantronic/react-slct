@@ -14,10 +14,12 @@ export interface ValueProps {
     disabled: SelectProps['disabled'];
     search?: string;
     open: boolean;
+    focused?: boolean;
     onClear(): void;
     onClick(): void;
     onSearch(search: string): void;
     onSearchFocus(): void;
+    onSearchBlur(): void;
     onOptionRemove(value: any): void;
 }
 export declare class Value extends React.PureComponent<ValueProps> {
@@ -27,6 +29,7 @@ export declare class Value extends React.PureComponent<ValueProps> {
     render(): React.ReactNode;
     private renderSearch;
     private renderValues;
+    private focus;
     private onClick;
     private onClear;
     private onSearch;

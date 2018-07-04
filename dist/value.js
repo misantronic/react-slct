@@ -42,6 +42,7 @@ const ValueContainer = styled.div `
     z-index: 0;
     box-sizing: border-box;
     max-width: 100%;
+    box-shadow: ${(props) => props.focused ? 'rgba(0, 0, 0, 0.15) 0 0 2px' : 'none'};
 `;
 const ValueLeft = styled.div `
     display: flex;
@@ -90,9 +91,12 @@ export class Value extends React.PureComponent {
         if (prevProps.search && !this.props.search && this.search.current) {
             this.search.current.innerText = '';
         }
+        if (prevProps.focused !== this.props.focused && this.props.focused) {
+            this.focus();
+        }
     }
     render() {
-        const { options, value, disabled, clearable, open, mobile, multi } = this.props;
+        const { options, value, disabled, clearable, open, mobile, multi, focused } = this.props;
         const valueOptions = options.filter(option => {
             if (isArray(value)) {
                 return value.some(val => toString(option.value) === toString(val));
@@ -104,7 +108,7 @@ export class Value extends React.PureComponent {
         const showClearer = Boolean(clearable && valueOptions.length && !mobile);
         const searchAtStart = !multi || valueOptions.length === 0;
         const searchAtEnd = multi && valueOptions.length > 0;
-        return (React.createElement(ValueContainer, { className: "value-container", disabled: disabled, mobile: mobile, onClick: this.onClick },
+        return (React.createElement(ValueContainer, { className: "value-container", disabled: disabled, mobile: mobile, focused: focused, onClick: this.onClick },
             React.createElement(ValueLeft, { className: "value-left", multi: multi, hasValue: !!valueOptions.length },
                 searchAtStart && this.renderSearch(),
                 this.renderValues(valueOptions),
@@ -114,12 +118,12 @@ export class Value extends React.PureComponent {
                 React.createElement(ArrowButton, { className: "arrow", tabIndex: -1 }, open ? '▲' : '▼'))));
     }
     renderSearch() {
-        const { open, disabled, searchable, multi, onSearchFocus } = this.props;
+        const { open, disabled, searchable, multi, onSearchFocus, onSearchBlur } = this.props;
         const canSearch = open && searchable;
         if (disabled) {
             return null;
         }
-        return (React.createElement(Search, { className: "search", contentEditable: true, multi: multi, canSearch: canSearch, onInput: this.onSearch, onKeyDown: this.onKeyDown, onFocus: onSearchFocus, innerRef: this.search }));
+        return (React.createElement(Search, { className: "search", contentEditable: true, multi: multi, canSearch: canSearch, onInput: this.onSearch, onKeyDown: this.onKeyDown, onFocus: onSearchFocus, onBlur: onSearchBlur, innerRef: this.search }));
     }
     renderValues(valueOptions) {
         const { placeholder, search, labelComponent, valueComponentSingle, valueComponentMulti, multi } = this.props;
@@ -133,11 +137,14 @@ export class Value extends React.PureComponent {
         const Multi = valueComponentMulti || ValueComponentMulti;
         return valueOptions.map(option => multi ? (React.createElement(Multi, { key: toString(option.value), option: option, labelComponent: labelComponent, onRemove: this.props.onOptionRemove })) : (React.createElement(Single, { key: toString(option.value), option: option, labelComponent: labelComponent })));
     }
+    focus() {
+        if (this.search.current) {
+            this.search.current.focus();
+        }
+    }
     onClick() {
         if (!this.props.disabled) {
-            if (this.search.current) {
-                this.search.current.focus();
-            }
+            this.focus();
             this.props.onClick();
         }
     }

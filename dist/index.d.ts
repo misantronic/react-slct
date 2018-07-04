@@ -7,6 +7,7 @@ export declare class Select extends React.PureComponent<SelectProps, SelectState
     private static NativeSelect;
     private nativeSelect;
     private container;
+    private blindTextTimeout;
     constructor(props: SelectProps);
     private readonly options;
     private readonly window;
@@ -24,11 +25,13 @@ export declare class Select extends React.PureComponent<SelectProps, SelectState
     private addDocumentListener;
     private removeDocumentListener;
     private addScrollListener;
+    private cleanBlindText;
     private removeScrollListener;
     private addResizeListener;
     private removeResizeListener;
     private onChangeNativeSelect;
     private onSearchFocus;
+    private onSearchBlur;
     private onOptionSelect;
     private onOptionRemove;
     private onClear;
@@ -36,6 +39,8 @@ export declare class Select extends React.PureComponent<SelectProps, SelectState
     private onDocumentClick;
     private onKeyDown;
     private onKeyUp;
+    private handleBlindText;
+    private handleBlindTextUpdate;
     private allowRectChange;
     private onScroll;
     private onResize;
