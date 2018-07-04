@@ -3,7 +3,14 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Value } from './value';
 import { Menu } from './menu';
-import { toString, isArray, keys, getWindow, getDocument } from './utils';
+import {
+    toString,
+    isArray,
+    keys,
+    getWindow,
+    getDocument,
+    getValueOptions
+} from './utils';
 import {
     SelectProps,
     SelectState,
@@ -252,21 +259,13 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
 
     private renderChildren(): React.ReactNode {
         const { options, value, placeholder, children } = this.props;
-        const { open, search, rect } = this.state;
+        const { open, search } = this.state;
+        const valueOptions = getValueOptions(options, value);
+        const showPlaceholder = valueOptions.length === 0 && !search;
 
         if (!children) {
             return null;
         }
-
-        const valueOptions = options.filter(option => {
-            if (isArray(value)) {
-                return value.some(
-                    val => toString(option.value) === toString(val)
-                );
-            } else {
-                return toString(option.value) === toString(value);
-            }
-        });
 
         return children({
             options: this.options,
@@ -275,8 +274,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                 valueOptions.length === 1
                     ? valueOptions[0].value
                     : valueOptions,
-            placeholder:
-                valueOptions.length === 0 && !search ? placeholder : undefined,
+            placeholder: showPlaceholder ? placeholder : undefined,
             onToggle: () => this.toggleMenu()
         });
     }

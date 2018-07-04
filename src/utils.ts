@@ -1,3 +1,5 @@
+import { Option } from '.';
+
 export function toString(value: any): string {
     if (typeof value === 'string') {
         return value;
@@ -10,6 +12,16 @@ export function toString(value: any): string {
     }
 
     return JSON.stringify(value);
+}
+
+export function getValueOptions(options: Option[], value: any) {
+    return options.filter(option => {
+        if (isArray(value)) {
+            return value.some(val => toString(option.value) === toString(val));
+        } else {
+            return toString(option.value) === toString(value);
+        }
+    });
 }
 
 export function isArray<T = any>(val: any): val is Array<T> {

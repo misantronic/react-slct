@@ -2,7 +2,7 @@ import { bind } from 'lodash-decorators';
 import * as React from 'react';
 import styled from 'styled-components';
 import { SelectLabel } from './label';
-import { toString, keys, isArray } from './utils';
+import { toString, keys, getValueOptions } from './utils';
 import { SelectProps, Option } from './typings';
 import { ValueComponentMulti } from './value-component-multi';
 import { ValueComponentSingle } from './value-component-single';
@@ -164,15 +164,7 @@ export class Value extends React.PureComponent<ValueProps> {
             multi,
             focused
         } = this.props;
-        const valueOptions = options.filter(option => {
-            if (isArray(value)) {
-                return value.some(
-                    val => toString(option.value) === toString(val)
-                );
-            } else {
-                return toString(option.value) === toString(value);
-            }
-        });
+        const valueOptions = getValueOptions(options, value);
         const showClearer = Boolean(
             clearable && valueOptions.length && !mobile
         );

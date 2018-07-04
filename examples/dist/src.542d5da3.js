@@ -34249,6 +34249,7 @@ Object.defineProperty(exports, "__esModule", {
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 exports.toString = toString;
+exports.getValueOptions = getValueOptions;
 exports.isArray = isArray;
 exports.getDocument = getDocument;
 exports.getWindow = getWindow;
@@ -34263,6 +34264,17 @@ function toString(value) {
         }
     }
     return JSON.stringify(value);
+}
+function getValueOptions(options, value) {
+    return options.filter(function (option) {
+        if (isArray(value)) {
+            return value.some(function (val) {
+                return toString(option.value) === toString(val);
+            });
+        } else {
+            return toString(option.value) === toString(value);
+        }
+    });
 }
 function isArray(val) {
     if (Array.isArray(val)) {
@@ -34537,15 +34549,7 @@ var Value = exports.Value = function (_React$PureComponent) {
                 multi = _props.multi,
                 focused = _props.focused;
 
-            var valueOptions = options.filter(function (option) {
-                if ((0, _utils.isArray)(value)) {
-                    return value.some(function (val) {
-                        return (0, _utils.toString)(option.value) === (0, _utils.toString)(val);
-                    });
-                } else {
-                    return (0, _utils.toString)(option.value) === (0, _utils.toString)(value);
-                }
-            });
+            var valueOptions = (0, _utils.getValueOptions)(options, value);
             var showClearer = Boolean(clearable && valueOptions.length && !mobile);
             var searchAtStart = !multi || valueOptions.length === 0;
             var searchAtEnd = multi && valueOptions.length > 0;
@@ -39934,26 +39938,18 @@ var Select = exports.Select = function (_React$PureComponent) {
                 children = _props3.children;
             var _state2 = this.state,
                 open = _state2.open,
-                search = _state2.search,
-                rect = _state2.rect;
+                search = _state2.search;
 
+            var valueOptions = (0, _utils.getValueOptions)(options, value);
+            var showPlaceholder = valueOptions.length === 0 && !search;
             if (!children) {
                 return null;
             }
-            var valueOptions = options.filter(function (option) {
-                if ((0, _utils.isArray)(value)) {
-                    return value.some(function (val) {
-                        return (0, _utils.toString)(option.value) === (0, _utils.toString)(val);
-                    });
-                } else {
-                    return (0, _utils.toString)(option.value) === (0, _utils.toString)(value);
-                }
-            });
             return children({
                 options: this.options,
                 open: open,
                 value: valueOptions.length === 1 ? valueOptions[0].value : valueOptions,
-                placeholder: valueOptions.length === 0 && !search ? placeholder : undefined,
+                placeholder: showPlaceholder ? placeholder : undefined,
                 onToggle: function onToggle() {
                     return _this2.toggleMenu();
                 }
