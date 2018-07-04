@@ -24,6 +24,7 @@ yarn add react-slct
 * Customizable components
 * Native support (e.g. on mobile devices)
 * Full keyboard-support inkl. TAB-behavior
+* Auto-select options in non-searchable box via keyboard-typing
 * Makes use of React Portals to render menu
 
 ## Examples 🃏
