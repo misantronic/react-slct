@@ -42,6 +42,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
 
     private nativeSelect: React.RefObject<HTMLSelectElement>;
     private container: React.RefObject<HTMLDivElement>;
+    private blindTextTimeout!: NodeJS.Timer;
 
     constructor(props: SelectProps) {
         super(props);
@@ -51,6 +52,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
 
         this.state = {
             open: false,
+            blindText: '',
             rect: { left: 0, top: 0, width: 0, height: 0 }
         };
     }
@@ -122,6 +124,13 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
             this.addScrollListener();
             this.addResizeListener();
         }
+
+        if (
+            this.state.blindText &&
+            prevState.blindText !== this.state.blindText
+        ) {
+            this.handleBlindTextUpdate();
+        }
     }
 
     public componentWillUnmount(): void {
@@ -148,7 +157,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
             multi,
             native
         } = this.props;
-        const { open, search, rect, selectedIndex } = this.state;
+        const { open, search, rect, selectedIndex, focused } = this.state;
         const searchable = this.props.searchable || creatable;
 
         return (
@@ -167,6 +176,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                     disabled={disabled}
                     multi={multi}
                     mobile={native}
+                    focused={focused}
                     options={options}
                     placeholder={placeholder}
                     value={value}
@@ -178,6 +188,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                     onClick={this.toggleMenu}
                     onSearch={this.onSearch}
                     onSearchFocus={this.onSearchFocus}
+                    onSearchBlur={this.onSearchBlur}
                     onOptionRemove={this.onOptionRemove}
                 />
                 <Menu
@@ -296,6 +307,14 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         }
     }
 
+    @bind
+    private cleanBlindText(): void {
+        this.blindTextTimeout = setTimeout(
+            () => this.setState({ blindText: '' }),
+            700
+        );
+    }
+
     private removeScrollListener(): void {
         if (this.window) {
             this.window.removeEventListener('scroll', this.onScroll, true);
@@ -343,6 +362,13 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         if (!this.state.open && !this.props.native) {
             this.openMenu();
         }
+
+        this.setState({ focused: true });
+    }
+
+    @bind
+    private onSearchBlur(): void {
+        this.setState({ focused: false });
     }
 
     @bind
@@ -375,7 +401,9 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                 : toString(value);
         }
 
-        this.closeMenu(() => onChange && onChange(value));
+        this.setState({ focused: true }, () =>
+            this.closeMenu(() => onChange && onChange(value))
+        );
     }
 
     @bind
@@ -416,12 +444,18 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
 
     @bind
     private onKeyDown({ keyCode }: React.KeyboardEvent): void {
+        const { searchable, creatable } = this.props;
+
         switch (keyCode) {
             case keys.TAB:
                 if (this.state.open) {
                     this.closeMenu();
                 }
                 break;
+        }
+
+        if (!searchable && !creatable) {
+            this.handleBlindText(keyCode);
         }
     }
 
@@ -469,7 +503,10 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                     this.optionIsCreatable(this.options[0])
                 ) {
                     this.createOption(search!);
-                } else if (selectedIndex !== undefined) {
+                } else if (
+                    selectedIndex !== undefined &&
+                    this.options[selectedIndex]
+                ) {
                     const newValue = this.options[selectedIndex].value;
 
                     this.onOptionSelect(
@@ -482,6 +519,71 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                     this.closeMenu();
                 }
                 break;
+        }
+    }
+
+    private handleBlindText(keyCode: number): void {
+        const { blindText } = this.state;
+
+        if (keyCode === keys.BACKSPACE && blindText.length) {
+            clearTimeout(this.blindTextTimeout);
+
+            this.setState(
+                {
+                    blindText: blindText.slice(0, blindText.length - 1)
+                },
+                this.cleanBlindText
+            );
+        } else if (keyCode === keys.SPACE) {
+            clearTimeout(this.blindTextTimeout);
+
+            this.setState(
+                {
+                    blindText: blindText + ' '
+                },
+                this.cleanBlindText
+            );
+        } else {
+            const key = String.fromCodePoint(keyCode);
+
+            if (/\w/.test(key)) {
+                clearTimeout(this.blindTextTimeout);
+
+                this.setState(
+                    {
+                        blindText: blindText + key
+                    },
+                    this.cleanBlindText
+                );
+            }
+        }
+    }
+
+    private handleBlindTextUpdate(): void {
+        const { open, blindText } = this.state;
+
+        if (open) {
+            const selectedIndex = this.options.findIndex(option =>
+                option.label.toLowerCase().startsWith(blindText.toLowerCase())
+            );
+
+            if (selectedIndex >= 0) {
+                this.setState({ selectedIndex });
+            }
+        } else {
+            if (blindText) {
+                const option = this.options.find(option =>
+                    option.label
+                        .toLowerCase()
+                        .startsWith(blindText.toLowerCase())
+                );
+
+                if (option) {
+                    this.onOptionSelect(option.value);
+                }
+            } else {
+                this.onOptionSelect(this.props.multi ? [] : undefined);
+            }
         }
     }
 

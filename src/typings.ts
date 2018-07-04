@@ -31,8 +31,14 @@ export interface SelectProps<T = any> {
 
 export interface SelectState {
     open: boolean;
+    /** current search-value */
     search?: string;
+    /** currently selected option-index */
     selectedIndex?: number;
+    /** blindText is set when typing in a non-searchable text */
+    blindText: string;
+    focused?: boolean;
+    /** position of the options-list */
     rect: Rect;
 }
 

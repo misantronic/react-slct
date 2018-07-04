@@ -56,5 +56,7 @@ export const keys = {
     ARROW_DOWN: 40,
     ENTER: 13,
     TAB: 9,
-    ESC: 27
+    ESC: 27,
+    BACKSPACE: 8,
+    SPACE: 32
 };

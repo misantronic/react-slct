@@ -44,7 +44,11 @@ export class Code extends React.PureComponent<CodeProps, CodeState> {
 
         return (
             <>
-                <Button title="Source" onClick={this.onToggleSource}>
+                <Button
+                    title="Source"
+                    tabIndex={-1}
+                    onClick={this.onToggleSource}
+                >
                     {'</>'}
                 </Button>
                 {show && <Container>{children}</Container>}

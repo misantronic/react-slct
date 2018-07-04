@@ -21,10 +21,12 @@ export interface ValueProps {
     disabled: SelectProps['disabled'];
     search?: string;
     open: boolean;
+    focused?: boolean;
     onClear(): void;
     onClick(): void;
     onSearch(search: string): void;
     onSearchFocus(): void;
+    onSearchBlur(): void;
     onOptionRemove(value: any): void;
 }
 
@@ -36,6 +38,7 @@ interface SearchProps {
 interface ValueContainerProps {
     mobile?: boolean;
     disabled?: boolean;
+    focused?: boolean;
 }
 
 interface ValueLeftProps {
@@ -83,6 +86,8 @@ const ValueContainer = styled.div`
     z-index: 0;
     box-sizing: border-box;
     max-width: 100%;
+    box-shadow: ${(props: ValueContainerProps) =>
+        props.focused ? 'rgba(0, 0, 0, 0.15) 0 0 2px' : 'none'};
 `;
 
 const ValueLeft = styled.div`
@@ -142,6 +147,10 @@ export class Value extends React.PureComponent<ValueProps> {
         if (prevProps.search && !this.props.search && this.search.current) {
             this.search.current.innerText = '';
         }
+
+        if (prevProps.focused !== this.props.focused && this.props.focused) {
+            this.focus();
+        }
     }
 
     public render(): React.ReactNode {
@@ -152,7 +161,8 @@ export class Value extends React.PureComponent<ValueProps> {
             clearable,
             open,
             mobile,
-            multi
+            multi,
+            focused
         } = this.props;
         const valueOptions = options.filter(option => {
             if (isArray(value)) {
@@ -174,6 +184,7 @@ export class Value extends React.PureComponent<ValueProps> {
                 className="value-container"
                 disabled={disabled}
                 mobile={mobile}
+                focused={focused}
                 onClick={this.onClick}
             >
                 <ValueLeft
@@ -204,7 +215,14 @@ export class Value extends React.PureComponent<ValueProps> {
     }
 
     private renderSearch(): React.ReactNode {
-        const { open, disabled, searchable, multi, onSearchFocus } = this.props;
+        const {
+            open,
+            disabled,
+            searchable,
+            multi,
+            onSearchFocus,
+            onSearchBlur
+        } = this.props;
         const canSearch = open && searchable;
 
         if (disabled) {
@@ -220,6 +238,7 @@ export class Value extends React.PureComponent<ValueProps> {
                 onInput={this.onSearch}
                 onKeyDown={this.onKeyDown}
                 onFocus={onSearchFocus}
+                onBlur={onSearchBlur}
                 innerRef={this.search}
             />
         );
@@ -265,13 +284,16 @@ export class Value extends React.PureComponent<ValueProps> {
         );
     }
 
+    private focus(): void {
+        if (this.search.current) {
+            this.search.current.focus();
+        }
+    }
+
     @bind
     private onClick(): void {
         if (!this.props.disabled) {
-            if (this.search.current) {
-                this.search.current.focus();
-            }
-
+            this.focus();
             this.props.onClick();
         }
     }
