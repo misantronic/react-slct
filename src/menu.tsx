@@ -5,7 +5,7 @@ import { List } from 'react-virtualized/dist/commonjs/List';
 import styled from 'styled-components';
 import { SelectLabel } from './label';
 import { toString, isArray, getWindowInnerHeight } from './utils';
-import { Rect, MenuComponentProps } from './typings';
+import { Rect, MenuComponentProps, Option } from './typings';
 import { OptionComponent } from './option';
 
 function menuPosition(rect: Rect): 'top' | 'bottom' {
@@ -137,7 +137,7 @@ export class Menu extends React.PureComponent<MenuComponentProps> {
         return (
             <div key={key} style={style}>
                 <Component
-                    {...option}
+                    option={option}
                     labelComponent={labelComponent}
                     active={currentValue.some(val => val === value)}
                     selected={selectedIndex === index}
@@ -148,11 +148,12 @@ export class Menu extends React.PureComponent<MenuComponentProps> {
     }
 
     @bind
-    private onSelect(value: any): void {
+    private onSelect(value: any, option: Option): void {
         this.props.onSelect(
             isArray(this.props.value)
                 ? Array.from(new Set([...this.props.value, value]))
-                : value
+                : value,
+            option
         );
     }
 }

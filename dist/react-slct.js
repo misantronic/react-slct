@@ -6,7 +6,7 @@ ___scope___.file("index.jsx", function(exports, require, module, __filename, __d
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
-var _a, _b, _c;
+var _a, _b, _c, _d;
 "use strict";
 const lodash_decorators_1 = require("lodash-decorators");
 const React = require("react");
@@ -145,11 +145,13 @@ class Select extends React.PureComponent {
         }
     }
     openMenu() {
+        console.warn('openMenu()');
         const rect = this.rect;
         const selectedIndex = this.options.findIndex(option => utils_1.toString(option.value) === utils_1.toString(this.props.value));
         this.setState({ open: true, search: undefined, selectedIndex, rect }, () => this.addDocumentListener());
     }
     closeMenu(callback = () => { }) {
+        console.warn('closeMenu()');
         this.removeDocumentListener();
         this.setState({
             open: false,
@@ -164,6 +166,7 @@ class Select extends React.PureComponent {
         }
     }
     addDocumentListener() {
+        this.removeDocumentListener();
         if (this.document) {
             document.addEventListener('click', this.onDocumentClick);
         }
@@ -223,7 +226,7 @@ class Select extends React.PureComponent {
     onSearchBlur() {
         this.setState({ focused: false });
     }
-    onOptionSelect(value) {
+    onOptionSelect(value, option) {
         const { current } = this.nativeSelect;
         const { onChange, creatable } = this.props;
         if (creatable) {
@@ -245,7 +248,7 @@ class Select extends React.PureComponent {
                 ? value.map(val => utils_1.toString(val))
                 : utils_1.toString(value);
         }
-        this.setState({ focused: true }, () => this.closeMenu(() => onChange && onChange(value)));
+        this.setState({ focused: true }, () => this.closeMenu(() => onChange && onChange(value, option)));
     }
     onOptionRemove(value) {
         if (utils_1.isArray(this.props.value)) {
@@ -459,7 +462,7 @@ tslib_1.__decorate([
 tslib_1.__decorate([
     lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:paramtypes", [Object, typeof (_b = typeof typings_1.Option !== "undefined" && typings_1.Option) === "function" && _b || Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onOptionSelect", null);
 tslib_1.__decorate([
@@ -489,13 +492,13 @@ tslib_1.__decorate([
 tslib_1.__decorate([
     lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [typeof (_b = (typeof React !== "undefined" && React).KeyboardEvent) === "function" && _b || Object]),
+    tslib_1.__metadata("design:paramtypes", [typeof (_c = (typeof React !== "undefined" && React).KeyboardEvent) === "function" && _c || Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onKeyDown", null);
 tslib_1.__decorate([
     lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [typeof (_c = (typeof React !== "undefined" && React).KeyboardEvent) === "function" && _c || Object]),
+    tslib_1.__metadata("design:paramtypes", [typeof (_d = (typeof React !== "undefined" && React).KeyboardEvent) === "function" && _d || Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onKeyUp", null);
 tslib_1.__decorate([
@@ -888,6 +891,8 @@ ___scope___.file("menu.jsx", function(exports, require, module, __filename, __di
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
+var _a;
+"use strict";
 const lodash_decorators_1 = require("lodash-decorators");
 const React = require("react");
 const react_dom_1 = require("react-dom");
@@ -895,6 +900,7 @@ const List_1 = require("react-virtualized/dist/commonjs/List");
 const styled_components_1 = require("styled-components");
 const label_1 = require("./label");
 const utils_1 = require("./utils");
+const typings_1 = require("./typings");
 const option_1 = require("./option");
 function menuPosition(rect) {
     if (rect.top + rect.height + 185 <= utils_1.getWindowInnerHeight()) {
@@ -948,12 +954,12 @@ class Menu extends React.PureComponent {
         const value = utils_1.toString(option.value);
         const Component = optionComponent || option_1.OptionComponent;
         return (React.createElement("div", { key: key, style: style },
-            React.createElement(Component, Object.assign({}, option, { labelComponent: labelComponent, active: currentValue.some(val => val === value), selected: selectedIndex === index, onSelect: this.onSelect }))));
+            React.createElement(Component, { option: option, labelComponent: labelComponent, active: currentValue.some(val => val === value), selected: selectedIndex === index, onSelect: this.onSelect })));
     }
-    onSelect(value) {
+    onSelect(value, option) {
         this.props.onSelect(utils_1.isArray(this.props.value)
             ? Array.from(new Set([...this.props.value, value]))
-            : value);
+            : value, option);
     }
 }
 // @ts-ignore
@@ -992,11 +998,17 @@ tslib_1.__decorate([
 tslib_1.__decorate([
     lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:paramtypes", [Object, typeof (_a = typeof typings_1.Option !== "undefined" && typings_1.Option) === "function" && _a || Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Menu.prototype, "onSelect", null);
 exports.Menu = Menu;
 //# sourceMappingURL=menu.js.map
+});
+___scope___.file("typings.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+//# sourceMappingURL=react-slct.js.map
 });
 ___scope___.file("option.jsx", function(exports, require, module, __filename, __dirname){
 
@@ -1010,13 +1022,13 @@ const label_1 = require("./label");
 class OptionComponent extends React.PureComponent {
     render() {
         const { OptionItem } = OptionComponent;
-        const { active, selected, label, labelComponent } = this.props;
+        const { active, selected, labelComponent, option } = this.props;
         const Label = labelComponent ? labelComponent : label_1.SelectLabel;
         return (React.createElement(OptionItem, { className: "option", selected: selected, active: active, onClick: this.onClick },
-            React.createElement(Label, Object.assign({}, this.props), label)));
+            React.createElement(Label, Object.assign({}, option), option.label)));
     }
     onClick() {
-        this.props.onSelect(this.props.value);
+        this.props.onSelect(this.props.option.value, this.props.option);
     }
 }
 OptionComponent.OptionItem = styled_components_1.default.div `
@@ -1043,12 +1055,6 @@ tslib_1.__decorate([
 ], OptionComponent.prototype, "onClick", null);
 exports.OptionComponent = OptionComponent;
 //# sourceMappingURL=option.js.map
-});
-___scope___.file("typings.js", function(exports, require, module, __filename, __dirname){
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-//# sourceMappingURL=react-slct.js.map
 });
 return ___scope___.entry = "index.jsx";
 });

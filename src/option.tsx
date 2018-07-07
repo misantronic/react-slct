@@ -31,7 +31,7 @@ export class OptionComponent extends React.PureComponent<OptionComponentProps> {
 
     public render(): React.ReactNode {
         const { OptionItem } = OptionComponent;
-        const { active, selected, label, labelComponent } = this.props;
+        const { active, selected, labelComponent, option } = this.props;
         const Label = labelComponent ? labelComponent : SelectLabel;
 
         return (
@@ -41,13 +41,13 @@ export class OptionComponent extends React.PureComponent<OptionComponentProps> {
                 active={active}
                 onClick={this.onClick}
             >
-                <Label {...this.props}>{label}</Label>
+                <Label {...option}>{option.label}</Label>
             </OptionItem>
         );
     }
 
     @bind
     private onClick(): void {
-        this.props.onSelect(this.props.value);
+        this.props.onSelect(this.props.option.value, this.props.option);
     }
 }

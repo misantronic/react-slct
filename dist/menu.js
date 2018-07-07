@@ -59,12 +59,12 @@ export class Menu extends React.PureComponent {
         const value = toString(option.value);
         const Component = optionComponent || OptionComponent;
         return (React.createElement("div", { key: key, style: style },
-            React.createElement(Component, Object.assign({}, option, { labelComponent: labelComponent, active: currentValue.some(val => val === value), selected: selectedIndex === index, onSelect: this.onSelect }))));
+            React.createElement(Component, { option: option, labelComponent: labelComponent, active: currentValue.some(val => val === value), selected: selectedIndex === index, onSelect: this.onSelect })));
     }
-    onSelect(value) {
+    onSelect(value, option) {
         this.props.onSelect(isArray(this.props.value)
             ? Array.from(new Set([...this.props.value, value]))
-            : value);
+            : value, option);
     }
 }
 // @ts-ignore
@@ -103,7 +103,7 @@ tslib_1.__decorate([
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Menu.prototype, "onSelect", null);
 //# sourceMappingURL=menu.js.map

@@ -59,8 +59,8 @@ const labelComponent = (props: Option) => (
 );
 
 const optionComponent = (props: OptionComponentProps) => (
-    <CustomOptionComponent onClick={() => props.onSelect(props.value)}>
-        {props.icon} {props.label}
+    <CustomOptionComponent onClick={() => props.onSelect(props.option.value)}>
+        {props.option.icon} {props.option.label}
     </CustomOptionComponent>
 );
 

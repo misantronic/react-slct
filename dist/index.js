@@ -132,11 +132,13 @@ export class Select extends React.PureComponent {
         }
     }
     openMenu() {
+        console.warn('openMenu()');
         const rect = this.rect;
         const selectedIndex = this.options.findIndex(option => toString(option.value) === toString(this.props.value));
         this.setState({ open: true, search: undefined, selectedIndex, rect }, () => this.addDocumentListener());
     }
     closeMenu(callback = () => { }) {
+        console.warn('closeMenu()');
         this.removeDocumentListener();
         this.setState({
             open: false,
@@ -151,6 +153,7 @@ export class Select extends React.PureComponent {
         }
     }
     addDocumentListener() {
+        this.removeDocumentListener();
         if (this.document) {
             document.addEventListener('click', this.onDocumentClick);
         }
@@ -210,7 +213,7 @@ export class Select extends React.PureComponent {
     onSearchBlur() {
         this.setState({ focused: false });
     }
-    onOptionSelect(value) {
+    onOptionSelect(value, option) {
         const { current } = this.nativeSelect;
         const { onChange, creatable } = this.props;
         if (creatable) {
@@ -232,7 +235,7 @@ export class Select extends React.PureComponent {
                 ? value.map(val => toString(val))
                 : toString(value);
         }
-        this.setState({ focused: true }, () => this.closeMenu(() => onChange && onChange(value)));
+        this.setState({ focused: true }, () => this.closeMenu(() => onChange && onChange(value, option)));
     }
     onOptionRemove(value) {
         if (isArray(this.props.value)) {
@@ -446,7 +449,7 @@ tslib_1.__decorate([
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onOptionSelect", null);
 tslib_1.__decorate([

@@ -31,7 +31,7 @@ export interface SelectProps<T = any> {
         open?: boolean;
         onToggle(): void;
     }): React.ReactNode;
-    onChange?(value: T | T[]): void;
+    onChange?(value: T | T[], option?: Option<T>): void;
     onCreate?(value: string): void;
     onSearch?(value: string): void;
 }
@@ -67,14 +67,15 @@ export interface MenuComponentProps<T = any> {
     open: boolean;
     rect: Rect;
     search?: string;
-    onSelect(value: T | T[]): void;
+    onSelect(value: T | T[], option?: T): void;
 }
 
-export interface OptionComponentProps<T = any> extends Option<T> {
+export interface OptionComponentProps<T = any> {
+    option: Option<T>;
     active?: boolean;
     selected?: boolean;
     labelComponent: SelectProps['labelComponent'];
-    onSelect(value: T): void;
+    onSelect(value: T, option?: Option<T>): void;
 }
 
 export interface ValueComponentSingleProps<T = any> {

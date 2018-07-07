@@ -6,13 +6,13 @@ import { SelectLabel } from './label';
 export class OptionComponent extends React.PureComponent {
     render() {
         const { OptionItem } = OptionComponent;
-        const { active, selected, label, labelComponent } = this.props;
+        const { active, selected, labelComponent, option } = this.props;
         const Label = labelComponent ? labelComponent : SelectLabel;
         return (React.createElement(OptionItem, { className: "option", selected: selected, active: active, onClick: this.onClick },
-            React.createElement(Label, Object.assign({}, this.props), label)));
+            React.createElement(Label, Object.assign({}, option), option.label)));
     }
     onClick() {
-        this.props.onSelect(this.props.value);
+        this.props.onSelect(this.props.option.value, this.props.option);
     }
 }
 OptionComponent.OptionItem = styled.div `

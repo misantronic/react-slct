@@ -291,6 +291,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
     }
 
     private openMenu(): void {
+        console.warn('openMenu()');
         const rect = this.rect;
         const selectedIndex = this.options.findIndex(
             option => toString(option.value) === toString(this.props.value)
@@ -303,6 +304,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
     }
 
     private closeMenu(callback = () => {}): void {
+        console.warn('closeMenu()');
         this.removeDocumentListener();
         this.setState(
             {
@@ -323,6 +325,8 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
     }
 
     private addDocumentListener(): void {
+        this.removeDocumentListener();
+
         if (this.document) {
             document.addEventListener('click', this.onDocumentClick);
         }
@@ -405,7 +409,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
     }
 
     @bind
-    private onOptionSelect(value: any | any[]): void {
+    private onOptionSelect(value: any | any[], option?: Option): void {
         const { current } = this.nativeSelect;
         const { onChange, creatable } = this.props;
 
@@ -435,7 +439,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         }
 
         this.setState({ focused: true }, () =>
-            this.closeMenu(() => onChange && onChange(value))
+            this.closeMenu(() => onChange && onChange(value, option))
         );
     }
 
