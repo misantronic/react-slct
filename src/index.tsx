@@ -604,7 +604,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
             if (selectedIndex >= 0) {
                 this.setState({ selectedIndex });
             }
-        } else {
+        } else if (!multi) {
             if (blindText) {
                 const option = this.options.find(option =>
                     option.label
@@ -613,10 +613,10 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                 );
 
                 if (option) {
-                    this.onOptionSelect(multi ? [option.value] : option.value);
+                    this.onOptionSelect(option.value);
                 }
             } else {
-                this.onOptionSelect(multi ? [] : undefined);
+                this.onOptionSelect(undefined);
             }
         }
     }
