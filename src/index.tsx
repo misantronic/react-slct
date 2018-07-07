@@ -66,11 +66,10 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
 
     private get options(): Option[] {
         const { search } = this.state;
-        const { creatable } = this.props;
+        const { creatable, onCreateText } = this.props;
         let options = this.props.options;
         const showCreate =
-            Boolean(creatable && search) &&
-            !options.some(option => option.value === search);
+            creatable && !options.some(option => option.value === search);
 
         if (search) {
             options = options.filter(option =>
@@ -78,9 +77,15 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
             );
         }
 
-        if (showCreate) {
+        if (showCreate && search) {
             options = [
-                { label: `Create "${search}"`, value: search, creatable: true },
+                {
+                    label: onCreateText
+                        ? onCreateText(search)
+                        : `Create "${search}"`,
+                    value: search,
+                    creatable: true
+                },
                 ...options
             ];
         }
