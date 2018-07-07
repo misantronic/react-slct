@@ -22,6 +22,7 @@ export interface SelectProps<T = any> {
         open?: boolean;
         onToggle(): void;
     }): React.ReactNode;
+    onCreateText?(value: string): string;
     onChange?(value: T | T[], option?: Option<T>): void;
     onCreate?(value: string): void;
     onSearch?(value: string): void;

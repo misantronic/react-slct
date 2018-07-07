@@ -19,16 +19,21 @@ export class Select extends React.PureComponent {
     }
     get options() {
         const { search } = this.state;
-        const { creatable } = this.props;
+        const { creatable, onCreateText } = this.props;
         let options = this.props.options;
-        const showCreate = Boolean(creatable && search) &&
-            !options.some(option => option.value === search);
+        const showCreate = creatable && !options.some(option => option.value === search);
         if (search) {
             options = options.filter(option => option.label.toLowerCase().startsWith(search.toLowerCase()));
         }
-        if (showCreate) {
+        if (showCreate && search) {
             options = [
-                { label: `Create "${search}"`, value: search, creatable: true },
+                {
+                    label: onCreateText
+                        ? onCreateText(search)
+                        : `Create "${search}"`,
+                    value: search,
+                    creatable: true
+                },
                 ...options
             ];
         }
@@ -132,13 +137,11 @@ export class Select extends React.PureComponent {
         }
     }
     openMenu() {
-        console.warn('openMenu()');
         const rect = this.rect;
         const selectedIndex = this.options.findIndex(option => toString(option.value) === toString(this.props.value));
         this.setState({ open: true, search: undefined, selectedIndex, rect }, () => this.addDocumentListener());
     }
     closeMenu(callback = () => { }) {
-        console.warn('closeMenu()');
         this.removeDocumentListener();
         this.setState({
             open: false,
