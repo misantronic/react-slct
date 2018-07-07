@@ -594,6 +594,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
 
     private handleBlindTextUpdate(): void {
         const { open, blindText } = this.state;
+        const { multi } = this.props;
 
         if (open) {
             const selectedIndex = this.options.findIndex(option =>
@@ -612,10 +613,10 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                 );
 
                 if (option) {
-                    this.onOptionSelect(option.value);
+                    this.onOptionSelect(multi ? [option.value] : option.value);
                 }
             } else {
-                this.onOptionSelect(this.props.multi ? [] : undefined);
+                this.onOptionSelect(multi ? [] : undefined);
             }
         }
     }
