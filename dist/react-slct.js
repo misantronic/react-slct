@@ -95,6 +95,9 @@ class Select extends React.PureComponent {
         const { className, options, creatable, clearable, placeholder, value, disabled, menuComponent, labelComponent, optionComponent, valueComponentSingle, valueComponentMulti, multi, native } = this.props;
         const { open, search, rect, selectedIndex, focused } = this.state;
         const searchable = this.props.searchable || creatable;
+        if (this.props.children) {
+            return this.renderChildren();
+        }
         return (React.createElement(Container, { className: className ? `react-slct ${className}` : 'react-slct', disabled: disabled, innerRef: this.container, onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
             this.renderNativeSelect(),
             React.createElement(value_1.Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: options, placeholder: placeholder, value: value, search: search, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onSearchBlur: this.onSearchBlur, onOptionRemove: this.onOptionRemove }),
@@ -113,6 +116,24 @@ class Select extends React.PureComponent {
                 const value = utils_1.toString(option.value);
                 return (React.createElement("option", { disabled: option.disabled, value: value, key: value }, option.label));
             })));
+    }
+    renderChildren() {
+        const { options, value, placeholder, children } = this.props;
+        const { open, search } = this.state;
+        const valueOptions = utils_1.getValueOptions(options, value);
+        const showPlaceholder = valueOptions.length === 0 && !search;
+        if (!children) {
+            return null;
+        }
+        return children({
+            options: this.options,
+            open,
+            value: valueOptions.length === 1
+                ? valueOptions[0].value
+                : valueOptions,
+            placeholder: showPlaceholder ? placeholder : undefined,
+            onToggle: () => this.toggleMenu()
+        });
     }
     toggleMenu() {
         const open = !this.state.open;
@@ -342,6 +363,7 @@ class Select extends React.PureComponent {
     }
     handleBlindTextUpdate() {
         const { open, blindText } = this.state;
+        const { multi } = this.props;
         if (open) {
             const selectedIndex = this.options.findIndex(option => option.label.toLowerCase().startsWith(blindText.toLowerCase()));
             if (selectedIndex >= 0) {
@@ -354,11 +376,11 @@ class Select extends React.PureComponent {
                     .toLowerCase()
                     .startsWith(blindText.toLowerCase()));
                 if (option) {
-                    this.onOptionSelect(option.value);
+                    this.onOptionSelect(multi ? [option.value] : option.value);
                 }
             }
             else {
-                this.onOptionSelect(this.props.multi ? [] : undefined);
+                this.onOptionSelect(multi ? [] : undefined);
             }
         }
     }
@@ -596,14 +618,7 @@ class Value extends React.PureComponent {
     }
     render() {
         const { options, value, disabled, clearable, open, mobile, multi, focused } = this.props;
-        const valueOptions = options.filter(option => {
-            if (utils_1.isArray(value)) {
-                return value.some(val => utils_1.toString(option.value) === utils_1.toString(val));
-            }
-            else {
-                return utils_1.toString(option.value) === utils_1.toString(value);
-            }
-        });
+        const valueOptions = utils_1.getValueOptions(options, value);
         const showClearer = Boolean(clearable && valueOptions.length && !mobile);
         const searchAtStart = !multi || valueOptions.length === 0;
         const searchAtEnd = multi && valueOptions.length > 0;
@@ -727,6 +742,17 @@ function toString(value) {
     return JSON.stringify(value);
 }
 exports.toString = toString;
+function getValueOptions(options, value) {
+    return options.filter(option => {
+        if (isArray(value)) {
+            return value.some(val => toString(option.value) === toString(val));
+        }
+        else {
+            return toString(option.value) === toString(value);
+        }
+    });
+}
+exports.getValueOptions = getValueOptions;
 function isArray(val) {
     if (Array.isArray(val)) {
         return true;

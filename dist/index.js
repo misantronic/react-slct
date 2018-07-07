@@ -4,7 +4,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Value } from './value';
 import { Menu } from './menu';
-import { toString, isArray, keys, getWindow, getDocument } from './utils';
+import { toString, isArray, keys, getWindow, getDocument, getValueOptions } from './utils';
 export { Menu };
 export class Select extends React.PureComponent {
     constructor(props) {
@@ -82,6 +82,9 @@ export class Select extends React.PureComponent {
         const { className, options, creatable, clearable, placeholder, value, disabled, menuComponent, labelComponent, optionComponent, valueComponentSingle, valueComponentMulti, multi, native } = this.props;
         const { open, search, rect, selectedIndex, focused } = this.state;
         const searchable = this.props.searchable || creatable;
+        if (this.props.children) {
+            return this.renderChildren();
+        }
         return (React.createElement(Container, { className: className ? `react-slct ${className}` : 'react-slct', disabled: disabled, innerRef: this.container, onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
             this.renderNativeSelect(),
             React.createElement(Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: options, placeholder: placeholder, value: value, search: search, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onSearchBlur: this.onSearchBlur, onOptionRemove: this.onOptionRemove }),
@@ -100,6 +103,24 @@ export class Select extends React.PureComponent {
                 const value = toString(option.value);
                 return (React.createElement("option", { disabled: option.disabled, value: value, key: value }, option.label));
             })));
+    }
+    renderChildren() {
+        const { options, value, placeholder, children } = this.props;
+        const { open, search } = this.state;
+        const valueOptions = getValueOptions(options, value);
+        const showPlaceholder = valueOptions.length === 0 && !search;
+        if (!children) {
+            return null;
+        }
+        return children({
+            options: this.options,
+            open,
+            value: valueOptions.length === 1
+                ? valueOptions[0].value
+                : valueOptions,
+            placeholder: showPlaceholder ? placeholder : undefined,
+            onToggle: () => this.toggleMenu()
+        });
     }
     toggleMenu() {
         const open = !this.state.open;
@@ -329,6 +350,7 @@ export class Select extends React.PureComponent {
     }
     handleBlindTextUpdate() {
         const { open, blindText } = this.state;
+        const { multi } = this.props;
         if (open) {
             const selectedIndex = this.options.findIndex(option => option.label.toLowerCase().startsWith(blindText.toLowerCase()));
             if (selectedIndex >= 0) {
@@ -341,11 +363,11 @@ export class Select extends React.PureComponent {
                     .toLowerCase()
                     .startsWith(blindText.toLowerCase()));
                 if (option) {
-                    this.onOptionSelect(option.value);
+                    this.onOptionSelect(multi ? [option.value] : option.value);
                 }
             }
             else {
-                this.onOptionSelect(this.props.multi ? [] : undefined);
+                this.onOptionSelect(multi ? [] : undefined);
             }
         }
     }

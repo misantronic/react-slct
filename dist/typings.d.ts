@@ -15,6 +15,13 @@ export interface SelectProps<T = any> {
     optionComponent?: React.ComponentClass<OptionComponentProps> | React.StatelessComponent<OptionComponentProps>;
     valueComponentSingle?: React.ComponentClass<ValueComponentSingleProps> | React.StatelessComponent<ValueComponentSingleProps>;
     valueComponentMulti?: React.ComponentClass<ValueComponentMultiProps> | React.StatelessComponent<ValueComponentMultiProps>;
+    children?(config: {
+        value?: T | T[];
+        options: Option[];
+        placeholder?: string;
+        open?: boolean;
+        onToggle(): void;
+    }): React.ReactNode;
     onChange?(value: T | T[]): void;
     onCreate?(value: string): void;
     onSearch?(value: string): void;

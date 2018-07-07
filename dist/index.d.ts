@@ -18,6 +18,7 @@ export declare class Select extends React.PureComponent<SelectProps, SelectState
     componentWillUnmount(): void;
     render(): React.ReactNode;
     private renderNativeSelect;
+    private renderChildren;
     private toggleMenu;
     private openMenu;
     private closeMenu;

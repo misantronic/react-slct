@@ -9,6 +9,16 @@ export function toString(value) {
     }
     return JSON.stringify(value);
 }
+export function getValueOptions(options, value) {
+    return options.filter(option => {
+        if (isArray(value)) {
+            return value.some(val => toString(option.value) === toString(val));
+        }
+        else {
+            return toString(option.value) === toString(value);
+        }
+    });
+}
 export function isArray(val) {
     if (Array.isArray(val)) {
         return true;
