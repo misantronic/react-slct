@@ -291,7 +291,6 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
     }
 
     private openMenu(): void {
-        console.warn('openMenu()');
         const rect = this.rect;
         const selectedIndex = this.options.findIndex(
             option => toString(option.value) === toString(this.props.value)
@@ -304,7 +303,6 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
     }
 
     private closeMenu(callback = () => {}): void {
-        console.warn('closeMenu()');
         this.removeDocumentListener();
         this.setState(
             {
