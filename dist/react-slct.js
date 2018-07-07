@@ -370,17 +370,17 @@ class Select extends React.PureComponent {
                 this.setState({ selectedIndex });
             }
         }
-        else {
+        else if (!multi) {
             if (blindText) {
                 const option = this.options.find(option => option.label
                     .toLowerCase()
                     .startsWith(blindText.toLowerCase()));
                 if (option) {
-                    this.onOptionSelect(multi ? [option.value] : option.value);
+                    this.onOptionSelect(option.value);
                 }
             }
             else {
-                this.onOptionSelect(multi ? [] : undefined);
+                this.onOptionSelect(undefined);
             }
         }
     }
