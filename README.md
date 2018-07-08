@@ -33,3 +33,7 @@ yarn add react-slct
 Check [here](https://rawgit.com/misantronic/react-slct/master/examples/dist/index.html) for examples.
 
 Run examples locally using `yarn examples` or `npm run examples`.
+
+## In progress
+
+* Headless mode, to gain full control about what's being rendered.
