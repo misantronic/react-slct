@@ -36,4 +36,4 @@ Run examples locally using `yarn examples` or `npm run examples`.
 
 ## In progress
 
-* Headless mode, to gain full control about what's being rendered.
+* [Headless](https://medium.com/merrickchristensen/headless-user-interface-components-565b0c0f2e18), to gain full control about what's being rendered.
