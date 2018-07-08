@@ -41,7 +41,7 @@ export class Menu extends React.PureComponent {
     }
     render() {
         const { MenuContainer, Empty } = Menu;
-        const { open, rect, options, multi, selectedIndex } = this.props;
+        const { open, rect, options = [], multi, selectedIndex } = this.props;
         const MenuContent = this.props.menuComponent;
         const rowHeight = 32;
         const menuHeight = 185;
@@ -51,7 +51,7 @@ export class Menu extends React.PureComponent {
             : null;
     }
     rowRenderer({ key, index, style }) {
-        const { options, labelComponent, selectedIndex, optionComponent } = this.props;
+        const { options = [], labelComponent, selectedIndex, optionComponent } = this.props;
         const option = options[index];
         const currentValue = isArray(this.props.value)
             ? this.props.value.map(val => toString(val))

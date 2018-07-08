@@ -96,7 +96,7 @@ export class Value extends React.PureComponent {
         }
     }
     render() {
-        const { options, value, disabled, clearable, open, mobile, multi, focused } = this.props;
+        const { options = [], value, disabled, clearable, open, mobile, multi, focused } = this.props;
         const valueOptions = getValueOptions(options, value);
         const showClearer = Boolean(clearable && valueOptions.length && !mobile);
         const searchAtStart = !multi || valueOptions.length === 0;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Menu } from './menu';
 import { SelectProps, SelectState, MenuComponentProps, Option } from './typings';
 export { SelectProps, Menu, MenuComponentProps, Option };
-export declare class Select extends React.PureComponent<SelectProps, SelectState> {
+export declare class Select<T = any> extends React.PureComponent<SelectProps<T>, SelectState> {
     private static Container;
     private static NativeSelect;
     private nativeSelect;

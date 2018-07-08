@@ -20,8 +20,9 @@ export class Select extends React.PureComponent {
     get options() {
         const { search } = this.state;
         const { creatable, onCreateText } = this.props;
-        let options = this.props.options;
-        const showCreate = creatable && !options.some(option => option.value === search);
+        let options = this.props.options || [];
+        const showCreate = creatable &&
+            !options.some(option => option.value === search);
         if (search) {
             options = options.filter(option => option.label.toLowerCase().startsWith(search.toLowerCase()));
         }
@@ -99,8 +100,8 @@ export class Select extends React.PureComponent {
         const { NativeSelect } = Select;
         const { native, placeholder, multi, disabled } = this.props;
         const clearable = this.props.clearable && native;
-        const value = multi
-            ? (this.props.value || []).map(val => toString(val))
+        const value = Array.isArray(this.props.value)
+            ? this.props.value.map(val => toString(val))
             : toString(this.props.value || '');
         return (React.createElement(NativeSelect, { innerRef: this.nativeSelect, multiple: multi, value: value, disabled: disabled, native: native, tabIndex: -1, onChange: this.onChangeNativeSelect },
             React.createElement("option", { value: "", disabled: !clearable }, placeholder),
@@ -110,19 +111,23 @@ export class Select extends React.PureComponent {
             })));
     }
     renderChildren() {
-        const { options, value, placeholder, children } = this.props;
+        const { options, placeholder, multi, children } = this.props;
         const { open, search } = this.state;
-        const valueOptions = getValueOptions(options, value);
-        const showPlaceholder = valueOptions.length === 0 && !search;
+        const valueOptions = getValueOptions(options || [], this.props.value);
+        const value = !multi
+            ? this.props.value
+            : valueOptions.map(option => option.value);
+        const showPlaceholder = !search &&
+            (Array.isArray(value)
+                ? value.length === 0
+                : value === undefined || value === null);
         if (!children) {
             return null;
         }
         return children({
             options: this.options,
             open,
-            value: valueOptions.length === 1
-                ? valueOptions[0].value
-                : valueOptions,
+            value,
             placeholder: showPlaceholder ? placeholder : undefined,
             onToggle: () => this.toggleMenu()
         });
@@ -262,8 +267,10 @@ export class Select extends React.PureComponent {
             }
         });
     }
-    onDocumentClick() {
-        this.closeMenu();
+    onDocumentClick(e) {
+        if (!e.target.closest('.react-slct-menu')) {
+            this.closeMenu();
+        }
     }
     onKeyDown({ keyCode }) {
         const { searchable, creatable } = this.props;
@@ -280,7 +287,7 @@ export class Select extends React.PureComponent {
     }
     onKeyUp({ keyCode }) {
         const { search, open } = this.state;
-        const { multi, value } = this.props;
+        const { value } = this.props;
         let selectedIndex = this.state.selectedIndex;
         switch (keyCode) {
             case keys.ARROW_UP:
@@ -320,7 +327,7 @@ export class Select extends React.PureComponent {
                 else if (selectedIndex !== undefined &&
                     this.options[selectedIndex]) {
                     const newValue = this.options[selectedIndex].value;
-                    this.onOptionSelect(multi ? [...value, newValue] : newValue);
+                    this.onOptionSelect(Array.isArray(value) ? [...value, newValue] : newValue);
                 }
                 break;
             case keys.ESC:
@@ -476,7 +483,7 @@ tslib_1.__decorate([
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onDocumentClick", null);
 tslib_1.__decorate([

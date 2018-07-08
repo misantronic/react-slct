@@ -1,7 +1,7 @@
 /// <reference types="react" />
 export interface SelectProps<T = any> {
     className?: string;
-    options: Option<T>[];
+    options?: Option<T>[];
     value?: T | T[];
     placeholder?: string;
     creatable?: boolean;
