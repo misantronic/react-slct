@@ -32,6 +32,9 @@ const Options = styled.div`
     flex-direction: column;
     border: 1px solid #ccc;
     margin-top: -1px;
+    box-sizing: border-box;
+    background: white;
+    z-index: 1;
 `;
 
 const Option = styled.div`
