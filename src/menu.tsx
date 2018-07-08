@@ -86,7 +86,7 @@ export class Menu extends React.PureComponent<MenuComponentProps> {
 
     public render(): React.ReactNode {
         const { MenuContainer, Empty } = Menu;
-        const { open, rect, options, multi, selectedIndex } = this.props;
+        const { open, rect, options = [], multi, selectedIndex } = this.props;
         const MenuContent = this.props.menuComponent;
         const rowHeight = 32;
         const menuHeight = 185;
@@ -122,7 +122,7 @@ export class Menu extends React.PureComponent<MenuComponentProps> {
     @bind
     private rowRenderer({ key, index, style }) {
         const {
-            options,
+            options = [],
             labelComponent,
             selectedIndex,
             optionComponent

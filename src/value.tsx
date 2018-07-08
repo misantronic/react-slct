@@ -155,7 +155,7 @@ export class Value extends React.PureComponent<ValueProps> {
 
     public render(): React.ReactNode {
         const {
-            options,
+            options = [],
             value,
             disabled,
             clearable,

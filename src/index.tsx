@@ -21,7 +21,10 @@ import {
 
 export { SelectProps, Menu, MenuComponentProps, Option };
 
-export class Select extends React.PureComponent<SelectProps, SelectState> {
+export class Select<T = any> extends React.PureComponent<
+    SelectProps<T>,
+    SelectState
+> {
     private static Container = styled.div`
         display: flex;
         position: relative;
@@ -64,12 +67,13 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         };
     }
 
-    private get options(): Option[] {
+    private get options(): Option<T>[] {
         const { search } = this.state;
         const { creatable, onCreateText } = this.props;
-        let options = this.props.options;
+        let options = this.props.options || [];
         const showCreate =
-            creatable && !options.some(option => option.value === search);
+            creatable &&
+            !options.some(option => option.value === (search as any));
 
         if (search) {
             options = options.filter(option =>
@@ -83,7 +87,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                     label: onCreateText
                         ? onCreateText(search)
                         : `Create "${search}"`,
-                    value: search,
+                    value: search as any,
                     creatable: true
                 },
                 ...options
@@ -118,7 +122,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         return rect;
     }
 
-    private optionIsCreatable(option: Option): boolean {
+    private optionIsCreatable(option: Option<T>): boolean {
         return (
             this.props.creatable &&
             option.creatable &&
@@ -228,8 +232,8 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         const { NativeSelect } = Select;
         const { native, placeholder, multi, disabled } = this.props;
         const clearable = this.props.clearable && native;
-        const value = multi
-            ? (this.props.value || []).map(val => toString(val))
+        const value = Array.isArray(this.props.value)
+            ? this.props.value.map(val => toString(val))
             : toString(this.props.value || '');
 
         return (
@@ -263,10 +267,19 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
     }
 
     private renderChildren(): React.ReactNode {
-        const { options, value, placeholder, children } = this.props;
+        const { options, placeholder, multi, children } = this.props;
         const { open, search } = this.state;
-        const valueOptions = getValueOptions(options, value);
-        const showPlaceholder = valueOptions.length === 0 && !search;
+        const valueOptions = getValueOptions(options || [], this.props.value);
+        const value: T | T[] | undefined = !multi
+            ? this.props.value
+            : valueOptions.length === 1
+                ? valueOptions[0].value
+                : valueOptions;
+        const showPlaceholder =
+            !search &&
+            (Array.isArray(value)
+                ? value.length === 0
+                : value === undefined || value === null);
 
         if (!children) {
             return null;
@@ -275,10 +288,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         return children({
             options: this.options,
             open,
-            value:
-                valueOptions.length === 1
-                    ? valueOptions[0].value
-                    : valueOptions,
+            value,
             placeholder: showPlaceholder ? placeholder : undefined,
             onToggle: () => this.toggleMenu()
         });
@@ -412,7 +422,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
     }
 
     @bind
-    private onOptionSelect(value: any | any[], option?: Option): void {
+    private onOptionSelect(value: any | any[], option?: Option<T>): void {
         const { current } = this.nativeSelect;
         const { onChange, creatable } = this.props;
 
@@ -424,7 +434,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                 );
 
                 if (option) {
-                    this.createOption(option.value);
+                    this.createOption(option.value as any);
                 }
             };
 
@@ -502,7 +512,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
     @bind
     private onKeyUp({ keyCode }: React.KeyboardEvent): void {
         const { search, open } = this.state;
-        const { multi, value } = this.props;
+        const { value } = this.props;
         let selectedIndex = this.state.selectedIndex;
 
         switch (keyCode) {
@@ -550,7 +560,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
                     const newValue = this.options[selectedIndex].value;
 
                     this.onOptionSelect(
-                        multi ? [...value, newValue] : newValue
+                        Array.isArray(value) ? [...value, newValue] : newValue
                     );
                 }
                 break;
