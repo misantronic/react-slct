@@ -272,9 +272,7 @@ export class Select<T = any> extends React.PureComponent<
         const valueOptions = getValueOptions(options || [], this.props.value);
         const value: T | T[] | undefined = !multi
             ? this.props.value
-            : valueOptions.length === 1
-                ? valueOptions[0].value
-                : valueOptions;
+            : valueOptions.map(option => option.value);
         const showPlaceholder =
             !search &&
             (Array.isArray(value)
@@ -488,8 +486,10 @@ export class Select<T = any> extends React.PureComponent<
     }
 
     @bind
-    private onDocumentClick(): void {
-        this.closeMenu();
+    private onDocumentClick(e): void {
+        if (!e.target.closest('.react-slct-menu')) {
+            this.closeMenu();
+        }
     }
 
     @bind
