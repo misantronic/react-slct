@@ -15,6 +15,7 @@ const value_1 = require("./value");
 const menu_1 = require("./menu");
 exports.Menu = menu_1.Menu;
 const utils_1 = require("./utils");
+exports.keys = utils_1.keys;
 const typings_1 = require("./typings");
 exports.SelectProps = typings_1.SelectProps;
 exports.MenuComponentProps = typings_1.MenuComponentProps;
@@ -902,7 +903,6 @@ class Menu extends React.PureComponent {
         this.setState({ rect });
     }
 }
-// @ts-ignore
 Menu.MenuContainer = styled_components_1.default.div.attrs({
     style: (props) => ({
         top: getContainerTop(props),

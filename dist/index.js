@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Value } from './value';
 import { Menu, MenuContainer } from './menu';
 import { toString, isArray, keys, getDocument, getValueOptions } from './utils';
-export { Menu };
+export { Menu, keys };
 export class Select extends React.PureComponent {
     constructor(props) {
         super(props);

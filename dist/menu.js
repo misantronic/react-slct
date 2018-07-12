@@ -76,7 +76,6 @@ export class Menu extends React.PureComponent {
         this.setState({ rect });
     }
 }
-// @ts-ignore
 Menu.MenuContainer = styled.div.attrs({
     style: (props) => ({
         top: getContainerTop(props),
