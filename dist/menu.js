@@ -163,7 +163,7 @@ export class MenuContainer extends React.PureComponent {
                 top: 0,
                 pointerEvents: 'none'
             } }, this.document
-            ? createPortal(React.createElement(Menu.MenuContainer, { className: "react-slct-menu", rect: this.state.rect, menuHeight: this.props.menuHeight }, this.props.children), this.document.body)
+            ? createPortal(React.createElement(Menu.MenuContainer, { "data-role": "menu", className: "react-slct-menu", rect: this.state.rect, menuHeight: this.props.menuHeight }, this.props.children), this.document.body)
             : null));
     }
     addListener() {

@@ -101,7 +101,7 @@ export class Value extends React.PureComponent {
         const showClearer = Boolean(clearable && valueOptions.length && !mobile);
         const searchAtStart = !multi || valueOptions.length === 0;
         const searchAtEnd = multi && valueOptions.length > 0;
-        return (React.createElement(ValueContainer, { className: "react-slct-value", disabled: disabled, mobile: mobile, focused: focused, onClick: this.onClick },
+        return (React.createElement(ValueContainer, { "data-role": "value", className: "react-slct-value", disabled: disabled, mobile: mobile, focused: focused, onClick: this.onClick },
             React.createElement(ValueLeft, { className: "value-left", multi: multi, hasValue: !!valueOptions.length },
                 searchAtStart && this.renderSearch(),
                 this.renderValues(valueOptions),
