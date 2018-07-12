@@ -11,7 +11,7 @@ import {
     Option
 } from './typings';
 
-export { SelectProps, Menu, MenuComponentProps, Option };
+export { SelectProps, Menu, MenuComponentProps, Option, keys };
 
 export class Select<T = any> extends React.PureComponent<
     SelectProps<T>,
