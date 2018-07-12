@@ -2,21 +2,13 @@ import { bind } from 'lodash-decorators';
 import * as React from 'react';
 import styled from 'styled-components';
 import { Value } from './value';
-import { Menu } from './menu';
-import {
-    toString,
-    isArray,
-    keys,
-    getWindow,
-    getDocument,
-    getValueOptions
-} from './utils';
+import { Menu, MenuContainer } from './menu';
+import { toString, isArray, keys, getDocument, getValueOptions } from './utils';
 import {
     SelectProps,
     SelectState,
     MenuComponentProps,
-    Option,
-    Rect
+    Option
 } from './typings';
 
 export { SelectProps, Menu, MenuComponentProps, Option };
@@ -62,8 +54,7 @@ export class Select<T = any> extends React.PureComponent<
 
         this.state = {
             open: false,
-            blindText: '',
-            rect: { left: 0, top: 0, width: 0, height: 0 }
+            blindText: ''
         };
     }
 
@@ -97,29 +88,8 @@ export class Select<T = any> extends React.PureComponent<
         return options;
     }
 
-    private get window() {
-        return getWindow();
-    }
-
     private get document() {
         return getDocument();
-    }
-
-    private get rect(): Rect {
-        let rect = this.state.rect;
-
-        if (this.container.current) {
-            const clientRect = this.container.current.getBoundingClientRect();
-
-            rect = {
-                left: Math.round(clientRect.left),
-                top: Math.round(clientRect.top),
-                width: Math.round(clientRect.width),
-                height: Math.round(clientRect.height)
-            };
-        }
-
-        return rect;
     }
 
     private optionIsCreatable(option: Option<T>): boolean {
@@ -131,16 +101,6 @@ export class Select<T = any> extends React.PureComponent<
     }
 
     public componentDidUpdate(_, prevState: SelectState): void {
-        if (prevState.open && !this.state.open) {
-            this.removeScrollListener();
-            this.removeResizeListener();
-        }
-
-        if (!prevState.open && this.state.open) {
-            this.addScrollListener();
-            this.addResizeListener();
-        }
-
         if (
             this.state.blindText &&
             prevState.blindText !== this.state.blindText
@@ -151,8 +111,6 @@ export class Select<T = any> extends React.PureComponent<
 
     public componentWillUnmount(): void {
         this.removeDocumentListener();
-        this.removeScrollListener();
-        this.removeResizeListener();
     }
 
     public render(): React.ReactNode {
@@ -173,7 +131,7 @@ export class Select<T = any> extends React.PureComponent<
             multi,
             native
         } = this.props;
-        const { open, search, rect, selectedIndex, focused } = this.state;
+        const { open, search, selectedIndex, focused } = this.state;
         const searchable = this.props.searchable || creatable;
 
         if (this.props.children) {
@@ -214,7 +172,6 @@ export class Select<T = any> extends React.PureComponent<
                 <Menu
                     open={open}
                     options={this.options}
-                    rect={rect}
                     value={value}
                     multi={multi}
                     search={search}
@@ -287,6 +244,7 @@ export class Select<T = any> extends React.PureComponent<
             options: this.options,
             open,
             value,
+            MenuContainer,
             placeholder: showPlaceholder ? placeholder : undefined,
             onToggle: () => this.toggleMenu()
         });
@@ -304,14 +262,12 @@ export class Select<T = any> extends React.PureComponent<
     }
 
     private openMenu(): void {
-        const rect = this.rect;
         const selectedIndex = this.options.findIndex(
             option => toString(option.value) === toString(this.props.value)
         );
 
-        this.setState(
-            { open: true, search: undefined, selectedIndex, rect },
-            () => this.addDocumentListener()
+        this.setState({ open: true, search: undefined, selectedIndex }, () =>
+            this.addDocumentListener()
         );
     }
 
@@ -349,36 +305,12 @@ export class Select<T = any> extends React.PureComponent<
         }
     }
 
-    private addScrollListener(): void {
-        if (this.window) {
-            this.window.addEventListener('scroll', this.onScroll, true);
-        }
-    }
-
     @bind
     private cleanBlindText(): void {
         this.blindTextTimeout = setTimeout(
             () => this.setState({ blindText: '' }),
             700
         );
-    }
-
-    private removeScrollListener(): void {
-        if (this.window) {
-            this.window.removeEventListener('scroll', this.onScroll, true);
-        }
-    }
-
-    private addResizeListener(): void {
-        if (this.window) {
-            this.window.addEventListener('resize', this.onResize, true);
-        }
-    }
-
-    private removeResizeListener(): void {
-        if (this.window) {
-            this.window.removeEventListener('resize', this.onResize, true);
-        }
     }
 
     @bind
@@ -487,7 +419,10 @@ export class Select<T = any> extends React.PureComponent<
 
     @bind
     private onDocumentClick(e): void {
-        if (!e.target.closest('.react-slct-menu')) {
+        if (
+            !e.target.closest('.react-slct-menu') &&
+            !e.target.closest('.react-slct-value')
+        ) {
             this.closeMenu();
         }
     }
@@ -635,36 +570,6 @@ export class Select<T = any> extends React.PureComponent<
             } else {
                 this.onOptionSelect(undefined);
             }
-        }
-    }
-
-    private allowRectChange(e): boolean {
-        if (this.state.open) {
-            if (
-                e.target &&
-                e.target.classList &&
-                e.target.classList.contains('react-slct-menu-list')
-            ) {
-                return false;
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
-    @bind
-    private onScroll(e): void {
-        if (this.allowRectChange(e)) {
-            this.setState({ rect: this.rect });
-        }
-    }
-
-    @bind
-    private onResize(e): void {
-        if (this.allowRectChange(e)) {
-            this.setState({ rect: this.rect });
         }
     }
 }

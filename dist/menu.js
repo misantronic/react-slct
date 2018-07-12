@@ -5,25 +5,32 @@ import { createPortal } from 'react-dom';
 import { List } from 'react-virtualized/dist/commonjs/List';
 import styled from 'styled-components';
 import { SelectLabel } from './label';
-import { toString, isArray, getWindowInnerHeight } from './utils';
+import { toString, isArray, getWindowInnerHeight, getWindow, getDocument } from './utils';
 import { OptionComponent } from './option';
-function menuPosition(rect) {
-    if (rect.top + rect.height + 185 <= getWindowInnerHeight()) {
+function menuPosition(props) {
+    if (!props.rect ||
+        props.rect.top + props.rect.height + (props.menuHeight || 185) <=
+            getWindowInnerHeight()) {
         return 'bottom';
     }
     return 'top';
 }
 function getContainerTop(props) {
-    switch (menuPosition(props.rect)) {
+    if (!props.rect) {
+        return '0px';
+    }
+    switch (menuPosition(props)) {
         case 'top':
-            return `${props.rect.top - 185 + 1}px`;
+            return `${props.rect.top - (props.menuHeight || 186)}px`;
         case 'bottom':
             return `${props.rect.top + props.rect.height - 1}px`;
     }
 }
+``;
 export class Menu extends React.PureComponent {
     constructor(props) {
         super(props);
+        this.state = {};
         this.list = React.createRef();
     }
     componentDidUpdate(prevProps) {
@@ -40,15 +47,14 @@ export class Menu extends React.PureComponent {
         }
     }
     render() {
-        const { MenuContainer, Empty } = Menu;
-        const { open, rect, options = [], multi, selectedIndex } = this.props;
+        const { Empty } = Menu;
+        const { open, options = [], multi, selectedIndex } = this.props;
+        const { rect } = this.state;
         const MenuContent = this.props.menuComponent;
         const rowHeight = 32;
         const menuHeight = 185;
         const height = Math.min(Math.max(options.length * rowHeight, rowHeight), menuHeight);
-        return open
-            ? createPortal(React.createElement(MenuContainer, { className: "react-slct-menu", rect: rect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List, { className: "react-slct-menu-list", ref: this.list, width: rect.width, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToRow: multi ? 0 : selectedIndex, noRowsRenderer: Empty }))), document.body)
-            : null;
+        return open ? (React.createElement(MenuContainer, { menuHeight: height, onRect: this.onRect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List, { className: "react-slct-menu-list", ref: this.list, width: rect ? rect.width : 0, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToRow: multi ? 0 : selectedIndex, noRowsRenderer: Empty })))) : null;
     }
     rowRenderer({ key, index, style }) {
         const { options = [], labelComponent, selectedIndex, optionComponent } = this.props;
@@ -66,14 +72,17 @@ export class Menu extends React.PureComponent {
             ? Array.from(new Set([...this.props.value, value]))
             : value, option);
     }
+    onRect(rect) {
+        this.setState({ rect });
+    }
 }
 // @ts-ignore
 Menu.MenuContainer = styled.div.attrs({
     style: (props) => ({
         top: getContainerTop(props),
-        left: `${props.rect.left}px`,
-        width: `${props.rect.width}px`,
-        boxShadow: menuPosition(props.rect) === 'bottom'
+        left: `${props.rect ? props.rect.left : 0}px`,
+        width: `${props.rect ? props.rect.width : 0}px`,
+        boxShadow: menuPosition(props) === 'bottom'
             ? '0 2px 5px rgba(0, 0, 0, 0.1)'
             : '0 -2px 5px rgba(0, 0, 0, 0.1)'
     })
@@ -106,4 +115,98 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Menu.prototype, "onSelect", null);
+tslib_1.__decorate([
+    bind,
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:returntype", void 0)
+], Menu.prototype, "onRect", null);
+export class MenuContainer extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+    get rect() {
+        if (this.el) {
+            const clientRect = this.el.getBoundingClientRect();
+            return {
+                left: Math.round(clientRect.left),
+                top: Math.round(clientRect.top),
+                width: Math.round(clientRect.width),
+                height: Math.round(clientRect.height)
+            };
+        }
+        return undefined;
+    }
+    get window() {
+        return getWindow();
+    }
+    get document() {
+        return getDocument();
+    }
+    componentDidMount() {
+        this.addListener();
+    }
+    componentDidUpdate(_, prevState) {
+        if (prevState.rect !== this.state.rect && this.props.onRect) {
+            this.props.onRect(this.state.rect);
+        }
+    }
+    componentWillUnmount() {
+        this.removeListener();
+    }
+    render() {
+        return (React.createElement("div", { ref: this.onEl, style: {
+                width: '100%',
+                height: '100%',
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                pointerEvents: 'none'
+            } }, this.document
+            ? createPortal(React.createElement(Menu.MenuContainer, { className: "react-slct-menu", rect: this.state.rect, menuHeight: this.props.menuHeight }, this.props.children), this.document.body)
+            : null));
+    }
+    addListener() {
+        if (this.window) {
+            this.window.addEventListener('scroll', this.onViewportChange, true);
+            this.window.addEventListener('resize', this.onViewportChange, true);
+        }
+    }
+    removeListener() {
+        if (this.window) {
+            this.window.removeEventListener('resize', this.onViewportChange, true);
+            this.window.removeEventListener('scroll', this.onViewportChange, true);
+        }
+    }
+    allowRectChange(e) {
+        if (e.target.closest && !e.target.closest('.react-slct-menu')) {
+            return false;
+        }
+        return true;
+    }
+    onViewportChange(e) {
+        if (this.allowRectChange(e)) {
+            this.setState({ rect: this.rect });
+        }
+    }
+    onEl(el) {
+        this.el = el;
+        this.setState({
+            rect: this.rect
+        });
+    }
+}
+tslib_1.__decorate([
+    bind,
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:returntype", void 0)
+], MenuContainer.prototype, "onViewportChange", null);
+tslib_1.__decorate([
+    bind,
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:returntype", void 0)
+], MenuContainer.prototype, "onEl", null);
 //# sourceMappingURL=menu.js.map

@@ -3,8 +3,8 @@ import { bind } from 'lodash-decorators';
 import * as React from 'react';
 import styled from 'styled-components';
 import { Value } from './value';
-import { Menu } from './menu';
-import { toString, isArray, keys, getWindow, getDocument, getValueOptions } from './utils';
+import { Menu, MenuContainer } from './menu';
+import { toString, isArray, keys, getDocument, getValueOptions } from './utils';
 export { Menu };
 export class Select extends React.PureComponent {
     constructor(props) {
@@ -13,8 +13,7 @@ export class Select extends React.PureComponent {
         this.container = React.createRef();
         this.state = {
             open: false,
-            blindText: '',
-            rect: { left: 0, top: 0, width: 0, height: 0 }
+            blindText: ''
         };
     }
     get options() {
@@ -40,24 +39,8 @@ export class Select extends React.PureComponent {
         }
         return options;
     }
-    get window() {
-        return getWindow();
-    }
     get document() {
         return getDocument();
-    }
-    get rect() {
-        let rect = this.state.rect;
-        if (this.container.current) {
-            const clientRect = this.container.current.getBoundingClientRect();
-            rect = {
-                left: Math.round(clientRect.left),
-                top: Math.round(clientRect.top),
-                width: Math.round(clientRect.width),
-                height: Math.round(clientRect.height)
-            };
-        }
-        return rect;
     }
     optionIsCreatable(option) {
         return (this.props.creatable &&
@@ -65,14 +48,6 @@ export class Select extends React.PureComponent {
             Boolean(this.props.onCreate && this.state.search));
     }
     componentDidUpdate(_, prevState) {
-        if (prevState.open && !this.state.open) {
-            this.removeScrollListener();
-            this.removeResizeListener();
-        }
-        if (!prevState.open && this.state.open) {
-            this.addScrollListener();
-            this.addResizeListener();
-        }
         if (this.state.blindText &&
             prevState.blindText !== this.state.blindText) {
             this.handleBlindTextUpdate();
@@ -80,13 +55,11 @@ export class Select extends React.PureComponent {
     }
     componentWillUnmount() {
         this.removeDocumentListener();
-        this.removeScrollListener();
-        this.removeResizeListener();
     }
     render() {
         const { Container } = Select;
         const { className, options, creatable, clearable, placeholder, value, disabled, menuComponent, labelComponent, optionComponent, valueComponentSingle, valueComponentMulti, multi, native } = this.props;
-        const { open, search, rect, selectedIndex, focused } = this.state;
+        const { open, search, selectedIndex, focused } = this.state;
         const searchable = this.props.searchable || creatable;
         if (this.props.children) {
             return this.renderChildren();
@@ -94,7 +67,7 @@ export class Select extends React.PureComponent {
         return (React.createElement(Container, { className: className ? `react-slct ${className}` : 'react-slct', disabled: disabled, innerRef: this.container, onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
             this.renderNativeSelect(),
             React.createElement(Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: options, placeholder: placeholder, value: value, search: search, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onSearchBlur: this.onSearchBlur, onOptionRemove: this.onOptionRemove }),
-            React.createElement(Menu, { open: open, options: this.options, rect: rect, value: value, multi: multi, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, onSelect: this.onOptionSelect })));
+            React.createElement(Menu, { open: open, options: this.options, value: value, multi: multi, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, onSelect: this.onOptionSelect })));
     }
     renderNativeSelect() {
         const { NativeSelect } = Select;
@@ -128,6 +101,7 @@ export class Select extends React.PureComponent {
             options: this.options,
             open,
             value,
+            MenuContainer,
             placeholder: showPlaceholder ? placeholder : undefined,
             onToggle: () => this.toggleMenu()
         });
@@ -142,9 +116,8 @@ export class Select extends React.PureComponent {
         }
     }
     openMenu() {
-        const rect = this.rect;
         const selectedIndex = this.options.findIndex(option => toString(option.value) === toString(this.props.value));
-        this.setState({ open: true, search: undefined, selectedIndex, rect }, () => this.addDocumentListener());
+        this.setState({ open: true, search: undefined, selectedIndex }, () => this.addDocumentListener());
     }
     closeMenu(callback = () => { }) {
         this.removeDocumentListener();
@@ -171,28 +144,8 @@ export class Select extends React.PureComponent {
             document.removeEventListener('click', this.onDocumentClick);
         }
     }
-    addScrollListener() {
-        if (this.window) {
-            this.window.addEventListener('scroll', this.onScroll, true);
-        }
-    }
     cleanBlindText() {
         this.blindTextTimeout = setTimeout(() => this.setState({ blindText: '' }), 700);
-    }
-    removeScrollListener() {
-        if (this.window) {
-            this.window.removeEventListener('scroll', this.onScroll, true);
-        }
-    }
-    addResizeListener() {
-        if (this.window) {
-            this.window.addEventListener('resize', this.onResize, true);
-        }
-    }
-    removeResizeListener() {
-        if (this.window) {
-            this.window.removeEventListener('resize', this.onResize, true);
-        }
     }
     onChangeNativeSelect(e) {
         const { onChange, multi } = this.props;
@@ -268,7 +221,8 @@ export class Select extends React.PureComponent {
         });
     }
     onDocumentClick(e) {
-        if (!e.target.closest('.react-slct-menu')) {
+        if (!e.target.closest('.react-slct-menu') &&
+            !e.target.closest('.react-slct-value')) {
             this.closeMenu();
         }
     }
@@ -384,27 +338,6 @@ export class Select extends React.PureComponent {
             }
         }
     }
-    allowRectChange(e) {
-        if (this.state.open) {
-            if (e.target &&
-                e.target.classList &&
-                e.target.classList.contains('react-slct-menu-list')) {
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
-    onScroll(e) {
-        if (this.allowRectChange(e)) {
-            this.setState({ rect: this.rect });
-        }
-    }
-    onResize(e) {
-        if (this.allowRectChange(e)) {
-            this.setState({ rect: this.rect });
-        }
-    }
 }
 Select.Container = styled.div `
         display: flex;
@@ -498,16 +431,4 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onKeyUp", null);
-tslib_1.__decorate([
-    bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
-], Select.prototype, "onScroll", null);
-tslib_1.__decorate([
-    bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
-], Select.prototype, "onResize", null);
 //# sourceMappingURL=index.js.map

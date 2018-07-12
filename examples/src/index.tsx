@@ -5,7 +5,6 @@ import { Headless } from './components/headless';
 import { Single } from './components/single';
 import { Multi } from './components/multi';
 import { Code } from './components/code';
-import { Datepicker } from './components/datepicker';
 import { options } from './utils/options';
 import {
     OptionComponentProps,
@@ -231,12 +230,6 @@ render(
 
         <Example>
             <Headless />
-        </Example>
-        <Example>
-            <Datepicker placeholder="Select date..." />
-        </Example>
-        <Example>
-            <Datepicker showTime placeholder="Select date & time..." />
         </Example>
     </App>,
     document.getElementById('app')

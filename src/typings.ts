@@ -29,6 +29,7 @@ export interface SelectProps<T = any> {
         options: Option[];
         placeholder?: string;
         open?: boolean;
+        MenuContainer: React.ComponentClass<MenuContainerProps>;
         onToggle(): void;
     }): React.ReactNode;
     onCreateText?(value: string): string;
@@ -46,8 +47,6 @@ export interface SelectState {
     /** blindText is set when typing in a non-searchable text */
     blindText: string;
     focused?: boolean;
-    /** position of the options-list */
-    rect: Rect;
 }
 
 export interface Option<T = any> {
@@ -66,9 +65,15 @@ export interface MenuComponentProps<T = any> {
     multi: SelectProps['multi'];
     selectedIndex?: number;
     open: boolean;
-    rect: Rect;
     search?: string;
     onSelect(value: T | T[], option?: T): void;
+}
+
+export interface MenuContainerProps {
+    className?: string;
+    menuHeight?: number;
+    rect?: Rect;
+    onRect?(rect?: Rect): void;
 }
 
 export interface OptionComponentProps<T = any> {

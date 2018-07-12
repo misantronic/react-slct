@@ -173,7 +173,7 @@ export class Value extends React.PureComponent<ValueProps> {
 
         return (
             <ValueContainer
-                className="value-container"
+                className="react-slct-value"
                 disabled={disabled}
                 mobile={mobile}
                 focused={focused}

@@ -26,8 +26,7 @@ class Select extends React.PureComponent {
         this.container = React.createRef();
         this.state = {
             open: false,
-            blindText: '',
-            rect: { left: 0, top: 0, width: 0, height: 0 }
+            blindText: ''
         };
     }
     get options() {
@@ -53,24 +52,8 @@ class Select extends React.PureComponent {
         }
         return options;
     }
-    get window() {
-        return utils_1.getWindow();
-    }
     get document() {
         return utils_1.getDocument();
-    }
-    get rect() {
-        let rect = this.state.rect;
-        if (this.container.current) {
-            const clientRect = this.container.current.getBoundingClientRect();
-            rect = {
-                left: Math.round(clientRect.left),
-                top: Math.round(clientRect.top),
-                width: Math.round(clientRect.width),
-                height: Math.round(clientRect.height)
-            };
-        }
-        return rect;
     }
     optionIsCreatable(option) {
         return (this.props.creatable &&
@@ -78,14 +61,6 @@ class Select extends React.PureComponent {
             Boolean(this.props.onCreate && this.state.search));
     }
     componentDidUpdate(_, prevState) {
-        if (prevState.open && !this.state.open) {
-            this.removeScrollListener();
-            this.removeResizeListener();
-        }
-        if (!prevState.open && this.state.open) {
-            this.addScrollListener();
-            this.addResizeListener();
-        }
         if (this.state.blindText &&
             prevState.blindText !== this.state.blindText) {
             this.handleBlindTextUpdate();
@@ -93,13 +68,11 @@ class Select extends React.PureComponent {
     }
     componentWillUnmount() {
         this.removeDocumentListener();
-        this.removeScrollListener();
-        this.removeResizeListener();
     }
     render() {
         const { Container } = Select;
         const { className, options, creatable, clearable, placeholder, value, disabled, menuComponent, labelComponent, optionComponent, valueComponentSingle, valueComponentMulti, multi, native } = this.props;
-        const { open, search, rect, selectedIndex, focused } = this.state;
+        const { open, search, selectedIndex, focused } = this.state;
         const searchable = this.props.searchable || creatable;
         if (this.props.children) {
             return this.renderChildren();
@@ -107,7 +80,7 @@ class Select extends React.PureComponent {
         return (React.createElement(Container, { className: className ? `react-slct ${className}` : 'react-slct', disabled: disabled, innerRef: this.container, onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
             this.renderNativeSelect(),
             React.createElement(value_1.Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: options, placeholder: placeholder, value: value, search: search, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onSearchBlur: this.onSearchBlur, onOptionRemove: this.onOptionRemove }),
-            React.createElement(menu_1.Menu, { open: open, options: this.options, rect: rect, value: value, multi: multi, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, onSelect: this.onOptionSelect })));
+            React.createElement(menu_1.Menu, { open: open, options: this.options, value: value, multi: multi, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, onSelect: this.onOptionSelect })));
     }
     renderNativeSelect() {
         const { NativeSelect } = Select;
@@ -141,6 +114,7 @@ class Select extends React.PureComponent {
             options: this.options,
             open,
             value,
+            MenuContainer: menu_1.MenuContainer,
             placeholder: showPlaceholder ? placeholder : undefined,
             onToggle: () => this.toggleMenu()
         });
@@ -155,9 +129,8 @@ class Select extends React.PureComponent {
         }
     }
     openMenu() {
-        const rect = this.rect;
         const selectedIndex = this.options.findIndex(option => utils_1.toString(option.value) === utils_1.toString(this.props.value));
-        this.setState({ open: true, search: undefined, selectedIndex, rect }, () => this.addDocumentListener());
+        this.setState({ open: true, search: undefined, selectedIndex }, () => this.addDocumentListener());
     }
     closeMenu(callback = () => { }) {
         this.removeDocumentListener();
@@ -184,28 +157,8 @@ class Select extends React.PureComponent {
             document.removeEventListener('click', this.onDocumentClick);
         }
     }
-    addScrollListener() {
-        if (this.window) {
-            this.window.addEventListener('scroll', this.onScroll, true);
-        }
-    }
     cleanBlindText() {
         this.blindTextTimeout = setTimeout(() => this.setState({ blindText: '' }), 700);
-    }
-    removeScrollListener() {
-        if (this.window) {
-            this.window.removeEventListener('scroll', this.onScroll, true);
-        }
-    }
-    addResizeListener() {
-        if (this.window) {
-            this.window.addEventListener('resize', this.onResize, true);
-        }
-    }
-    removeResizeListener() {
-        if (this.window) {
-            this.window.removeEventListener('resize', this.onResize, true);
-        }
     }
     onChangeNativeSelect(e) {
         const { onChange, multi } = this.props;
@@ -281,7 +234,8 @@ class Select extends React.PureComponent {
         });
     }
     onDocumentClick(e) {
-        if (!e.target.closest('.react-slct-menu')) {
+        if (!e.target.closest('.react-slct-menu') &&
+            !e.target.closest('.react-slct-value')) {
             this.closeMenu();
         }
     }
@@ -397,27 +351,6 @@ class Select extends React.PureComponent {
             }
         }
     }
-    allowRectChange(e) {
-        if (this.state.open) {
-            if (e.target &&
-                e.target.classList &&
-                e.target.classList.contains('react-slct-menu-list')) {
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
-    onScroll(e) {
-        if (this.allowRectChange(e)) {
-            this.setState({ rect: this.rect });
-        }
-    }
-    onResize(e) {
-        if (this.allowRectChange(e)) {
-            this.setState({ rect: this.rect });
-        }
-    }
 }
 Select.Container = styled_components_1.default.div `
         display: flex;
@@ -511,18 +444,6 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [typeof (_d = (typeof React !== "undefined" && React).KeyboardEvent) === "function" && _d || Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onKeyUp", null);
-tslib_1.__decorate([
-    lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
-], Select.prototype, "onScroll", null);
-tslib_1.__decorate([
-    lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
-], Select.prototype, "onResize", null);
 exports.Select = Select;
 //# sourceMappingURL=index.js.map
 });
@@ -635,7 +556,7 @@ class Value extends React.PureComponent {
         const showClearer = Boolean(clearable && valueOptions.length && !mobile);
         const searchAtStart = !multi || valueOptions.length === 0;
         const searchAtEnd = multi && valueOptions.length > 0;
-        return (React.createElement(ValueContainer, { className: "value-container", disabled: disabled, mobile: mobile, focused: focused, onClick: this.onClick },
+        return (React.createElement(ValueContainer, { className: "react-slct-value", disabled: disabled, mobile: mobile, focused: focused, onClick: this.onClick },
             React.createElement(ValueLeft, { className: "value-left", multi: multi, hasValue: !!valueOptions.length },
                 searchAtStart && this.renderSearch(),
                 this.renderValues(valueOptions),
@@ -901,7 +822,7 @@ ___scope___.file("menu.jsx", function(exports, require, module, __filename, __di
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
-var _a;
+var _a, _b, _c;
 "use strict";
 const lodash_decorators_1 = require("lodash-decorators");
 const React = require("react");
@@ -912,23 +833,30 @@ const label_1 = require("./label");
 const utils_1 = require("./utils");
 const typings_1 = require("./typings");
 const option_1 = require("./option");
-function menuPosition(rect) {
-    if (rect.top + rect.height + 185 <= utils_1.getWindowInnerHeight()) {
+function menuPosition(props) {
+    if (!props.rect ||
+        props.rect.top + props.rect.height + (props.menuHeight || 185) <=
+            utils_1.getWindowInnerHeight()) {
         return 'bottom';
     }
     return 'top';
 }
 function getContainerTop(props) {
-    switch (menuPosition(props.rect)) {
+    if (!props.rect) {
+        return '0px';
+    }
+    switch (menuPosition(props)) {
         case 'top':
-            return `${props.rect.top - 185 + 1}px`;
+            return `${props.rect.top - (props.menuHeight || 186)}px`;
         case 'bottom':
             return `${props.rect.top + props.rect.height - 1}px`;
     }
 }
+``;
 class Menu extends React.PureComponent {
     constructor(props) {
         super(props);
+        this.state = {};
         this.list = React.createRef();
     }
     componentDidUpdate(prevProps) {
@@ -945,15 +873,14 @@ class Menu extends React.PureComponent {
         }
     }
     render() {
-        const { MenuContainer, Empty } = Menu;
-        const { open, rect, options = [], multi, selectedIndex } = this.props;
+        const { Empty } = Menu;
+        const { open, options = [], multi, selectedIndex } = this.props;
+        const { rect } = this.state;
         const MenuContent = this.props.menuComponent;
         const rowHeight = 32;
         const menuHeight = 185;
         const height = Math.min(Math.max(options.length * rowHeight, rowHeight), menuHeight);
-        return open
-            ? react_dom_1.createPortal(React.createElement(MenuContainer, { className: "react-slct-menu", rect: rect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List_1.List, { className: "react-slct-menu-list", ref: this.list, width: rect.width, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToRow: multi ? 0 : selectedIndex, noRowsRenderer: Empty }))), document.body)
-            : null;
+        return open ? (React.createElement(MenuContainer, { menuHeight: height, onRect: this.onRect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List_1.List, { className: "react-slct-menu-list", ref: this.list, width: rect ? rect.width : 0, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToRow: multi ? 0 : selectedIndex, noRowsRenderer: Empty })))) : null;
     }
     rowRenderer({ key, index, style }) {
         const { options = [], labelComponent, selectedIndex, optionComponent } = this.props;
@@ -971,14 +898,17 @@ class Menu extends React.PureComponent {
             ? Array.from(new Set([...this.props.value, value]))
             : value, option);
     }
+    onRect(rect) {
+        this.setState({ rect });
+    }
 }
 // @ts-ignore
 Menu.MenuContainer = styled_components_1.default.div.attrs({
     style: (props) => ({
         top: getContainerTop(props),
-        left: `${props.rect.left}px`,
-        width: `${props.rect.width}px`,
-        boxShadow: menuPosition(props.rect) === 'bottom'
+        left: `${props.rect ? props.rect.left : 0}px`,
+        width: `${props.rect ? props.rect.width : 0}px`,
+        boxShadow: menuPosition(props) === 'bottom'
             ? '0 2px 5px rgba(0, 0, 0, 0.1)'
             : '0 -2px 5px rgba(0, 0, 0, 0.1)'
     })
@@ -1011,7 +941,102 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [Object, typeof (_a = typeof typings_1.Option !== "undefined" && typings_1.Option) === "function" && _a || Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Menu.prototype, "onSelect", null);
+tslib_1.__decorate([
+    lodash_decorators_1.bind,
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [typeof (_b = typeof typings_1.Rect !== "undefined" && typings_1.Rect) === "function" && _b || Object]),
+    tslib_1.__metadata("design:returntype", void 0)
+], Menu.prototype, "onRect", null);
 exports.Menu = Menu;
+class MenuContainer extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+    get rect() {
+        if (this.el) {
+            const clientRect = this.el.getBoundingClientRect();
+            return {
+                left: Math.round(clientRect.left),
+                top: Math.round(clientRect.top),
+                width: Math.round(clientRect.width),
+                height: Math.round(clientRect.height)
+            };
+        }
+        return undefined;
+    }
+    get window() {
+        return utils_1.getWindow();
+    }
+    get document() {
+        return utils_1.getDocument();
+    }
+    componentDidMount() {
+        this.addListener();
+    }
+    componentDidUpdate(_, prevState) {
+        if (prevState.rect !== this.state.rect && this.props.onRect) {
+            this.props.onRect(this.state.rect);
+        }
+    }
+    componentWillUnmount() {
+        this.removeListener();
+    }
+    render() {
+        return (React.createElement("div", { ref: this.onEl, style: {
+                width: '100%',
+                height: '100%',
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                pointerEvents: 'none'
+            } }, this.document
+            ? react_dom_1.createPortal(React.createElement(Menu.MenuContainer, { className: "react-slct-menu", rect: this.state.rect, menuHeight: this.props.menuHeight }, this.props.children), this.document.body)
+            : null));
+    }
+    addListener() {
+        if (this.window) {
+            this.window.addEventListener('scroll', this.onViewportChange, true);
+            this.window.addEventListener('resize', this.onViewportChange, true);
+        }
+    }
+    removeListener() {
+        if (this.window) {
+            this.window.removeEventListener('resize', this.onViewportChange, true);
+            this.window.removeEventListener('scroll', this.onViewportChange, true);
+        }
+    }
+    allowRectChange(e) {
+        if (e.target.closest && !e.target.closest('.react-slct-menu')) {
+            return false;
+        }
+        return true;
+    }
+    onViewportChange(e) {
+        if (this.allowRectChange(e)) {
+            this.setState({ rect: this.rect });
+        }
+    }
+    onEl(el) {
+        this.el = el;
+        this.setState({
+            rect: this.rect
+        });
+    }
+}
+tslib_1.__decorate([
+    lodash_decorators_1.bind,
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:returntype", void 0)
+], MenuContainer.prototype, "onViewportChange", null);
+tslib_1.__decorate([
+    lodash_decorators_1.bind,
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:returntype", void 0)
+], MenuContainer.prototype, "onEl", null);
+exports.MenuContainer = MenuContainer;
 //# sourceMappingURL=menu.js.map
 });
 ___scope___.file("typings.js", function(exports, require, module, __filename, __dirname){

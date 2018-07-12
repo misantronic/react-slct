@@ -10,9 +10,7 @@ export declare class Select<T = any> extends React.PureComponent<SelectProps<T>,
     private blindTextTimeout;
     constructor(props: SelectProps);
     private readonly options;
-    private readonly window;
     private readonly document;
-    private readonly rect;
     private optionIsCreatable;
     componentDidUpdate(_: any, prevState: SelectState): void;
     componentWillUnmount(): void;
@@ -25,11 +23,7 @@ export declare class Select<T = any> extends React.PureComponent<SelectProps<T>,
     private createOption;
     private addDocumentListener;
     private removeDocumentListener;
-    private addScrollListener;
     private cleanBlindText;
-    private removeScrollListener;
-    private addResizeListener;
-    private removeResizeListener;
     private onChangeNativeSelect;
     private onSearchFocus;
     private onSearchBlur;
@@ -42,7 +36,4 @@ export declare class Select<T = any> extends React.PureComponent<SelectProps<T>,
     private onKeyUp;
     private handleBlindText;
     private handleBlindTextUpdate;
-    private allowRectChange;
-    private onScroll;
-    private onResize;
 }
