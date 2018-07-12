@@ -173,6 +173,7 @@ export class Value extends React.PureComponent<ValueProps> {
 
         return (
             <ValueContainer
+                data-role="value"
                 className="react-slct-value"
                 disabled={disabled}
                 mobile={mobile}

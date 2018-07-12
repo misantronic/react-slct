@@ -257,6 +257,7 @@ export class MenuContainer extends React.PureComponent<
                 {this.document
                     ? createPortal(
                           <Menu.MenuContainer
+                              data-role="menu"
                               className="react-slct-menu"
                               rect={this.state.rect}
                               menuHeight={this.props.menuHeight}
