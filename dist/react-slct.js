@@ -907,7 +907,7 @@ Menu.MenuContainer = styled_components_1.default.div.attrs({
     style: (props) => ({
         top: getContainerTop(props),
         left: `${props.rect ? props.rect.left : 0}px`,
-        width: `${props.rect ? props.rect.width : 0}px`,
+        width: `${props.rect ? props.menuWidth || props.rect.width : 0}px`,
         boxShadow: menuPosition(props) === 'bottom'
             ? '0 2px 5px rgba(0, 0, 0, 0.1)'
             : '0 -2px 5px rgba(0, 0, 0, 0.1)'
@@ -983,6 +983,7 @@ class MenuContainer extends React.PureComponent {
         this.removeListener();
     }
     render() {
+        const { menuWidth, menuHeight, children } = this.props;
         return (React.createElement("div", { ref: this.onEl, style: {
                 width: '100%',
                 height: '100%',
@@ -991,7 +992,7 @@ class MenuContainer extends React.PureComponent {
                 top: 0,
                 pointerEvents: 'none'
             } }, this.document
-            ? react_dom_1.createPortal(React.createElement(Menu.MenuContainer, { "data-role": "menu", className: "react-slct-menu", rect: this.state.rect, menuHeight: this.props.menuHeight }, this.props.children), this.document.body)
+            ? react_dom_1.createPortal(React.createElement(Menu.MenuContainer, { "data-role": "menu", className: "react-slct-menu", rect: this.state.rect, menuWidth: menuWidth, menuHeight: menuHeight }, children), this.document.body)
             : null));
     }
     addListener() {
