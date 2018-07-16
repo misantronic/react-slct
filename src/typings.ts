@@ -71,6 +71,7 @@ export interface MenuComponentProps<T = any> {
 
 export interface MenuContainerProps {
     className?: string;
+    menuWidth?: number;
     menuHeight?: number;
     rect?: Rect;
     onRect?(rect?: Rect): void;

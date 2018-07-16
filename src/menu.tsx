@@ -57,7 +57,7 @@ export class Menu extends React.PureComponent<
         style: (props: MenuContainerProps) => ({
             top: getContainerTop(props),
             left: `${props.rect ? props.rect.left : 0}px`,
-            width: `${props.rect ? props.rect.width : 0}px`,
+            width: `${props.rect ? props.menuWidth || props.rect.width : 0}px`,
             boxShadow:
                 menuPosition(props) === 'bottom'
                     ? '0 2px 5px rgba(0, 0, 0, 0.1)'
@@ -242,6 +242,8 @@ export class MenuContainer extends React.PureComponent<
     }
 
     public render(): React.ReactNode {
+        const { menuWidth, menuHeight, children } = this.props;
+
         return (
             <div
                 ref={this.onEl}
@@ -260,9 +262,10 @@ export class MenuContainer extends React.PureComponent<
                               data-role="menu"
                               className="react-slct-menu"
                               rect={this.state.rect}
-                              menuHeight={this.props.menuHeight}
+                              menuWidth={menuWidth}
+                              menuHeight={menuHeight}
                           >
-                              {this.props.children}
+                              {children}
                           </Menu.MenuContainer>,
                           this.document.body
                       )
