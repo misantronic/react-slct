@@ -43,14 +43,13 @@ export class Select<T = any> extends React.PureComponent<
     `;
 
     private nativeSelect: React.RefObject<HTMLSelectElement>;
-    private container: React.RefObject<HTMLDivElement>;
+    private container?: HTMLDivElement;
     private blindTextTimeout!: NodeJS.Timer;
 
     constructor(props: SelectProps) {
         super(props);
 
         this.nativeSelect = React.createRef();
-        this.container = React.createRef();
 
         this.state = {
             open: false,
@@ -142,7 +141,7 @@ export class Select<T = any> extends React.PureComponent<
             <Container
                 className={className ? `react-slct ${className}` : 'react-slct'}
                 disabled={disabled}
-                innerRef={this.container}
+                innerRef={this.onContainerRef}
                 onKeyUp={this.onKeyUp}
                 onKeyDown={this.onKeyDown}
             >
@@ -246,7 +245,8 @@ export class Select<T = any> extends React.PureComponent<
             value,
             MenuContainer,
             placeholder: showPlaceholder ? placeholder : undefined,
-            onToggle: () => this.toggleMenu()
+            onToggle: () => this.toggleMenu(),
+            onRef: ref => (this.container = ref)
         });
     }
 
@@ -419,10 +419,7 @@ export class Select<T = any> extends React.PureComponent<
 
     @bind
     private onDocumentClick(e): void {
-        if (
-            !e.target.closest('.react-slct-menu') &&
-            !e.target.closest('.react-slct-value')
-        ) {
+        if (this.container && !this.container.contains(e.target)) {
             this.closeMenu();
         }
     }
@@ -542,6 +539,11 @@ export class Select<T = any> extends React.PureComponent<
                 );
             }
         }
+    }
+
+    @bind
+    private onContainerRef(el?: HTMLDivElement): void {
+        this.container = el;
     }
 
     private handleBlindTextUpdate(): void {

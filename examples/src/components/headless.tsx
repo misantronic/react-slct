@@ -71,8 +71,8 @@ export class Headless extends React.Component<{}, HeadlessState> {
                 options={options}
                 placeholder="Headless component..."
             >
-                {({ value, options, placeholder, open, onToggle }) => (
-                    <Container>
+                {({ value, options, placeholder, open, onToggle, onRef }) => (
+                    <Container innerRef={onRef}>
                         <Value onClick={onToggle}>
                             {placeholder && (
                                 <Placeholder>{placeholder}</Placeholder>
