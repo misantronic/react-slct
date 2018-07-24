@@ -222,7 +222,7 @@ export class Select extends React.PureComponent {
     }
     onDocumentClick(e) {
         const { target } = e;
-        if (target.closest('.target.closest')) {
+        if (target.closest('.react-slct-menu')) {
             return;
         }
         if (this.container && !this.container.contains(target)) {
