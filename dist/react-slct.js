@@ -6,7 +6,7 @@ ___scope___.file("index.jsx", function(exports, require, module, __filename, __d
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
-var _a, _b, _c, _d;
+var _a, _b, _c, _d, _e;
 "use strict";
 const lodash_decorators_1 = require("lodash-decorators");
 const React = require("react");
@@ -24,7 +24,6 @@ class Select extends React.PureComponent {
     constructor(props) {
         super(props);
         this.nativeSelect = React.createRef();
-        this.container = React.createRef();
         this.state = {
             open: false,
             blindText: ''
@@ -78,7 +77,7 @@ class Select extends React.PureComponent {
         if (this.props.children) {
             return this.renderChildren();
         }
-        return (React.createElement(Container, { className: className ? `react-slct ${className}` : 'react-slct', disabled: disabled, innerRef: this.container, onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
+        return (React.createElement(Container, { className: className ? `react-slct ${className}` : 'react-slct', disabled: disabled, innerRef: this.onContainerRef, onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
             this.renderNativeSelect(),
             React.createElement(value_1.Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: options, placeholder: placeholder, value: value, search: search, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onSearchBlur: this.onSearchBlur, onOptionRemove: this.onOptionRemove }),
             React.createElement(menu_1.Menu, { open: open, options: this.options, value: value, multi: multi, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, onSelect: this.onOptionSelect })));
@@ -117,7 +116,8 @@ class Select extends React.PureComponent {
             value,
             MenuContainer: menu_1.MenuContainer,
             placeholder: showPlaceholder ? placeholder : undefined,
-            onToggle: () => this.toggleMenu()
+            onToggle: () => this.toggleMenu(),
+            onRef: ref => (this.container = ref)
         });
     }
     toggleMenu() {
@@ -235,8 +235,7 @@ class Select extends React.PureComponent {
         });
     }
     onDocumentClick(e) {
-        if (!e.target.closest('.react-slct-menu') &&
-            !e.target.closest('.react-slct-value')) {
+        if (this.container && !this.container.contains(e.target)) {
             this.closeMenu();
         }
     }
@@ -328,6 +327,9 @@ class Select extends React.PureComponent {
                 }, this.cleanBlindText);
             }
         }
+    }
+    onContainerRef(el) {
+        this.container = el;
     }
     handleBlindTextUpdate() {
         const { open, blindText } = this.state;
@@ -445,6 +447,12 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [typeof (_d = (typeof React !== "undefined" && React).KeyboardEvent) === "function" && _d || Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onKeyUp", null);
+tslib_1.__decorate([
+    lodash_decorators_1.bind,
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [typeof (_e = typeof HTMLDivElement !== "undefined" && HTMLDivElement) === "function" && _e || Object]),
+    tslib_1.__metadata("design:returntype", void 0)
+], Select.prototype, "onContainerRef", null);
 exports.Select = Select;
 //# sourceMappingURL=index.js.map
 });

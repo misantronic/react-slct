@@ -10,7 +10,6 @@ export class Select extends React.PureComponent {
     constructor(props) {
         super(props);
         this.nativeSelect = React.createRef();
-        this.container = React.createRef();
         this.state = {
             open: false,
             blindText: ''
@@ -64,7 +63,7 @@ export class Select extends React.PureComponent {
         if (this.props.children) {
             return this.renderChildren();
         }
-        return (React.createElement(Container, { className: className ? `react-slct ${className}` : 'react-slct', disabled: disabled, innerRef: this.container, onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
+        return (React.createElement(Container, { className: className ? `react-slct ${className}` : 'react-slct', disabled: disabled, innerRef: this.onContainerRef, onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
             this.renderNativeSelect(),
             React.createElement(Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: options, placeholder: placeholder, value: value, search: search, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onSearchBlur: this.onSearchBlur, onOptionRemove: this.onOptionRemove }),
             React.createElement(Menu, { open: open, options: this.options, value: value, multi: multi, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, onSelect: this.onOptionSelect })));
@@ -103,7 +102,8 @@ export class Select extends React.PureComponent {
             value,
             MenuContainer,
             placeholder: showPlaceholder ? placeholder : undefined,
-            onToggle: () => this.toggleMenu()
+            onToggle: () => this.toggleMenu(),
+            onRef: ref => (this.container = ref)
         });
     }
     toggleMenu() {
@@ -221,8 +221,7 @@ export class Select extends React.PureComponent {
         });
     }
     onDocumentClick(e) {
-        if (!e.target.closest('.react-slct-menu') &&
-            !e.target.closest('.react-slct-value')) {
+        if (this.container && !this.container.contains(e.target)) {
             this.closeMenu();
         }
     }
@@ -314,6 +313,9 @@ export class Select extends React.PureComponent {
                 }, this.cleanBlindText);
             }
         }
+    }
+    onContainerRef(el) {
+        this.container = el;
     }
     handleBlindTextUpdate() {
         const { open, blindText } = this.state;
@@ -431,4 +433,10 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onKeyUp", null);
+tslib_1.__decorate([
+    bind,
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [HTMLDivElement]),
+    tslib_1.__metadata("design:returntype", void 0)
+], Select.prototype, "onContainerRef", null);
 //# sourceMappingURL=index.js.map

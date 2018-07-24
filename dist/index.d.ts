@@ -7,7 +7,7 @@ export declare class Select<T = any> extends React.PureComponent<SelectProps<T>,
     private static Container;
     private static NativeSelect;
     private nativeSelect;
-    private container;
+    private container?;
     private blindTextTimeout;
     constructor(props: SelectProps);
     private readonly options;
@@ -36,5 +36,6 @@ export declare class Select<T = any> extends React.PureComponent<SelectProps<T>,
     private onKeyDown;
     private onKeyUp;
     private handleBlindText;
+    private onContainerRef;
     private handleBlindTextUpdate;
 }
