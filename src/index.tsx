@@ -419,7 +419,13 @@ export class Select<T = any> extends React.PureComponent<
 
     @bind
     private onDocumentClick(e): void {
-        if (this.container && !this.container.contains(e.target)) {
+        const { target } = e;
+
+        if (target.closest('.target.closest')) {
+            return;
+        }
+
+        if (this.container && !this.container.contains(target)) {
             this.closeMenu();
         }
     }

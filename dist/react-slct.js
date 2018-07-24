@@ -235,7 +235,11 @@ class Select extends React.PureComponent {
         });
     }
     onDocumentClick(e) {
-        if (this.container && !this.container.contains(e.target)) {
+        const { target } = e;
+        if (target.closest('.target.closest')) {
+            return;
+        }
+        if (this.container && !this.container.contains(target)) {
             this.closeMenu();
         }
     }
