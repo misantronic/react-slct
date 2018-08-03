@@ -47,14 +47,13 @@ export class Menu extends React.PureComponent {
         }
     }
     render() {
-        const { Empty } = Menu;
         const { open, options = [], multi, selectedIndex } = this.props;
         const { rect } = this.state;
         const MenuContent = this.props.menuComponent;
         const rowHeight = 32;
         const menuHeight = 185;
         const height = Math.min(Math.max(options.length * rowHeight, rowHeight), menuHeight);
-        return open ? (React.createElement(MenuContainer, { menuHeight: height, onRect: this.onRect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List, { className: "react-slct-menu-list", ref: this.list, width: rect ? rect.width : 0, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToRow: multi ? 0 : selectedIndex, noRowsRenderer: Empty })))) : null;
+        return open ? (React.createElement(MenuContainer, { menuHeight: height, onRect: this.onRect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List, { className: "react-slct-menu-list", ref: this.list, width: rect ? rect.width : 0, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToRow: multi ? 0 : selectedIndex, noRowsRenderer: this.emptyRenderer })))) : null;
     }
     rowRenderer({ key, index, style }) {
         const { options = [], labelComponent, selectedIndex, optionComponent } = this.props;
@@ -66,6 +65,10 @@ export class Menu extends React.PureComponent {
         const Component = optionComponent || OptionComponent;
         return (React.createElement("div", { key: key, style: style },
             React.createElement(Component, { option: option, labelComponent: labelComponent, active: currentValue.some(val => val === value), selected: selectedIndex === index, onSelect: this.onSelect })));
+    }
+    emptyRenderer() {
+        const { Empty } = Menu;
+        return React.createElement(Empty, { emptyText: this.props.emptyText });
     }
     onSelect(value, option) {
         this.props.onSelect(isArray(this.props.value)
@@ -99,15 +102,21 @@ Menu.MenuContainer = styled.div.attrs({
             }
         }
     `;
-Menu.Empty = () => (React.createElement(OptionComponent.OptionItem, null,
+Menu.Empty = (props) => (React.createElement(OptionComponent.OptionItem, null,
     React.createElement(SelectLabel, null,
-        React.createElement("i", null, "No results"))));
+        React.createElement("i", null, props.emptyText || 'No results'))));
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Menu.prototype, "rowRenderer", null);
+tslib_1.__decorate([
+    bind,
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", void 0)
+], Menu.prototype, "emptyRenderer", null);
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),

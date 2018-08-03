@@ -3,6 +3,7 @@ export interface SelectProps<T = any> {
     options?: Option<T>[];
     value?: T | T[];
     placeholder?: string;
+    emptyText?: string;
     creatable?: boolean;
     clearable?: boolean;
     searchable?: boolean;
@@ -63,6 +64,7 @@ export interface MenuComponentProps<T = any> {
     menuComponent: SelectProps['menuComponent'];
     labelComponent: SelectProps['labelComponent'];
     optionComponent: SelectProps['optionComponent'];
+    emptyText: SelectProps['emptyText'];
     multi: SelectProps['multi'];
     selectedIndex?: number;
     open: boolean;

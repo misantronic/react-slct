@@ -128,7 +128,8 @@ export class Select<T = any> extends React.PureComponent<
             valueComponentSingle,
             valueComponentMulti,
             multi,
-            native
+            native,
+            emptyText
         } = this.props;
         const { open, search, selectedIndex, focused } = this.state;
         const searchable = this.props.searchable || creatable;
@@ -178,6 +179,7 @@ export class Select<T = any> extends React.PureComponent<
                     menuComponent={menuComponent}
                     labelComponent={labelComponent}
                     optionComponent={optionComponent}
+                    emptyText={emptyText}
                     onSelect={this.onOptionSelect}
                 />
             </Container>

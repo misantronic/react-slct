@@ -78,10 +78,10 @@ export class Menu extends React.PureComponent<
         }
     `;
 
-    private static Empty = () => (
+    private static Empty = (props: { emptyText?: string }) => (
         <OptionComponent.OptionItem>
             <SelectLabel>
-                <i>No results</i>
+                <i>{props.emptyText || 'No results'}</i>
             </SelectLabel>
         </OptionComponent.OptionItem>
     );
@@ -112,7 +112,6 @@ export class Menu extends React.PureComponent<
     }
 
     public render(): React.ReactNode {
-        const { Empty } = Menu;
         const { open, options = [], multi, selectedIndex } = this.props;
         const { rect } = this.state;
         const MenuContent = this.props.menuComponent;
@@ -137,7 +136,7 @@ export class Menu extends React.PureComponent<
                         rowCount={options.length}
                         rowRenderer={this.rowRenderer}
                         scrollToRow={multi ? 0 : selectedIndex}
-                        noRowsRenderer={Empty}
+                        noRowsRenderer={this.emptyRenderer}
                     />
                 )}
             </MenuContainer>
@@ -170,6 +169,13 @@ export class Menu extends React.PureComponent<
                 />
             </div>
         );
+    }
+
+    @bind
+    private emptyRenderer() {
+        const { Empty } = Menu;
+
+        return <Empty emptyText={this.props.emptyText} />;
     }
 
     @bind

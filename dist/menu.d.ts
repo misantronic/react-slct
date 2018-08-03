@@ -11,6 +11,7 @@ export declare class Menu extends React.PureComponent<MenuComponentProps, MenuCo
     componentDidUpdate(prevProps: MenuComponentProps): void;
     render(): React.ReactNode;
     private rowRenderer;
+    private emptyRenderer;
     private onSelect;
     private onRect;
 }
