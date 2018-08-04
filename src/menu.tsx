@@ -96,17 +96,21 @@ export class Menu extends React.PureComponent<
     }
 
     public componentDidUpdate(prevProps: MenuComponentProps): void {
-        const { selectedIndex, search } = this.props;
-        const { current } = this.list;
+        const { selectedIndex, search, emptyText, options } = this.props;
+        const { current: list } = this.list;
 
-        if (current) {
+        if (list) {
             if (selectedIndex !== -1 && selectedIndex !== undefined) {
-                current.forceUpdateGrid();
-                current.scrollToRow(selectedIndex);
+                list.forceUpdateGrid();
+                list.scrollToRow(selectedIndex);
             }
 
-            if (search !== prevProps.search) {
-                current.forceUpdateGrid();
+            if (
+                search !== prevProps.search ||
+                emptyText !== prevProps.emptyText ||
+                options !== prevProps.options
+            ) {
+                list.forceUpdateGrid();
             }
         }
     }

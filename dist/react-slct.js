@@ -873,15 +873,17 @@ class Menu extends React.PureComponent {
         this.list = React.createRef();
     }
     componentDidUpdate(prevProps) {
-        const { selectedIndex, search } = this.props;
-        const { current } = this.list;
-        if (current) {
+        const { selectedIndex, search, emptyText, options } = this.props;
+        const { current: list } = this.list;
+        if (list) {
             if (selectedIndex !== -1 && selectedIndex !== undefined) {
-                current.forceUpdateGrid();
-                current.scrollToRow(selectedIndex);
+                list.forceUpdateGrid();
+                list.scrollToRow(selectedIndex);
             }
-            if (search !== prevProps.search) {
-                current.forceUpdateGrid();
+            if (search !== prevProps.search ||
+                emptyText !== prevProps.emptyText ||
+                options !== prevProps.options) {
+                list.forceUpdateGrid();
             }
         }
     }
