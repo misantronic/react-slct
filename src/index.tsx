@@ -67,7 +67,7 @@ export class Select<T = any> extends React.PureComponent<
 
         if (search) {
             options = options.filter(option =>
-                option.label.toLowerCase().startsWith(search.toLowerCase())
+                option.label.toLowerCase().includes(search.toLowerCase())
             );
         }
 
