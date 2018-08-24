@@ -96,7 +96,7 @@ export class Menu extends React.PureComponent<
     }
 
     public componentDidUpdate(prevProps: MenuComponentProps): void {
-        const { selectedIndex, search, emptyText, options } = this.props;
+        const { search, emptyText, options } = this.props;
         const { current: list } = this.list;
 
         if (list) {
