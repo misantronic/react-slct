@@ -37,10 +37,6 @@ export class Menu extends React.PureComponent {
         const { selectedIndex, search, emptyText, options } = this.props;
         const { current: list } = this.list;
         if (list) {
-            if (selectedIndex !== -1 && selectedIndex !== undefined) {
-                list.forceUpdateGrid();
-                list.scrollToRow(selectedIndex);
-            }
             if (search !== prevProps.search ||
                 emptyText !== prevProps.emptyText ||
                 options !== prevProps.options) {
@@ -55,7 +51,7 @@ export class Menu extends React.PureComponent {
         const rowHeight = 32;
         const menuHeight = 185;
         const height = Math.min(Math.max(options.length * rowHeight, rowHeight), menuHeight);
-        return open ? (React.createElement(MenuContainer, { menuHeight: height, onRect: this.onRect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List, { className: "react-slct-menu-list", ref: this.list, width: rect ? rect.width : 0, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToRow: multi ? 0 : selectedIndex, noRowsRenderer: this.emptyRenderer })))) : null;
+        return open ? (React.createElement(MenuContainer, { menuHeight: height, onRect: this.onRect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List, { className: "react-slct-menu-list", ref: this.list, width: rect ? rect.width : 0, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToIndex: multi ? 0 : selectedIndex, noRowsRenderer: this.emptyRenderer })))) : null;
     }
     rowRenderer({ key, index, style }) {
         const { options = [], labelComponent, selectedIndex, optionComponent } = this.props;
