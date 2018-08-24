@@ -100,11 +100,6 @@ export class Menu extends React.PureComponent<
         const { current: list } = this.list;
 
         if (list) {
-            if (selectedIndex !== -1 && selectedIndex !== undefined) {
-                list.forceUpdateGrid();
-                list.scrollToRow(selectedIndex);
-            }
-
             if (
                 search !== prevProps.search ||
                 emptyText !== prevProps.emptyText ||
@@ -139,7 +134,7 @@ export class Menu extends React.PureComponent<
                         rowHeight={rowHeight}
                         rowCount={options.length}
                         rowRenderer={this.rowRenderer}
-                        scrollToRow={multi ? 0 : selectedIndex}
+                        scrollToIndex={multi ? 0 : selectedIndex}
                         noRowsRenderer={this.emptyRenderer}
                     />
                 )}
