@@ -155,6 +155,9 @@ export class Value extends React.PureComponent {
     }
     onKeyDown(e) {
         const { searchable } = this.props;
+        if (e.metaKey) {
+            return;
+        }
         if ((!searchable && e.keyCode !== keys.TAB) ||
             e.keyCode === keys.ENTER ||
             e.keyCode === keys.ARROW_UP ||

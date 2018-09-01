@@ -34,7 +34,7 @@ export class Menu extends React.PureComponent {
         this.list = React.createRef();
     }
     componentDidUpdate(prevProps) {
-        const { selectedIndex, search, emptyText, options } = this.props;
+        const { search, emptyText, options } = this.props;
         const { current: list } = this.list;
         if (list) {
             if (search !== prevProps.search ||

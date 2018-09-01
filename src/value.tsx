@@ -299,7 +299,7 @@ export class Value extends React.PureComponent<ValueProps> {
     }
 
     @bind
-    private onSearch(e: React.SyntheticEvent<HTMLSpanElement>) {
+    private onSearch(e: React.KeyboardEvent<HTMLSpanElement>) {
         if (this.props.searchable) {
             this.props.onSearch(e.currentTarget.innerText.trim());
         } else {
@@ -310,6 +310,10 @@ export class Value extends React.PureComponent<ValueProps> {
     @bind
     private onKeyDown(e: React.KeyboardEvent<HTMLSpanElement>) {
         const { searchable } = this.props;
+
+        if (e.metaKey) {
+            return;
+        }
 
         if (
             (!searchable && e.keyCode !== keys.TAB) ||
