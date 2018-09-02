@@ -75,8 +75,7 @@ const ValueContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     flex: 1;
-    min-height: ${(props: ValueContainerProps) =>
-        props.mobile ? '42px' : '32px'};
+    min-height: 32px;
     pointer-events: ${(props: ValueContainerProps) =>
         props.mobile || props.disabled ? 'none' : 'auto'};
     padding: 5px 10px;
