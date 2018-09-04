@@ -6,7 +6,7 @@ import { SelectLabel } from './label';
 class Remove extends React.PureComponent {
     render() {
         const { StyledRemove } = Remove;
-        return (React.createElement(StyledRemove, { className: "remove", tabIndex: -1, onClick: this.onClick }, "\u00D7"));
+        return (React.createElement(StyledRemove, { className: "remove", type: "button", tabIndex: -1, onClick: this.onClick }, "\u00D7"));
     }
     onClick(e) {
         e.stopPropagation();

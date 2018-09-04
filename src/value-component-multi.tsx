@@ -39,6 +39,7 @@ class Remove extends React.PureComponent<RemoveProps> {
         return (
             <StyledRemove
                 className="remove"
+                type="button"
                 tabIndex={-1}
                 onClick={this.onClick}
             >

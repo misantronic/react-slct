@@ -107,8 +107,8 @@ export class Value extends React.PureComponent {
                 this.renderValues(valueOptions),
                 searchAtEnd && this.renderSearch()),
             React.createElement(ValueRight, { className: "value-right" },
-                showClearer && (React.createElement(Clearer, { tabIndex: -1, className: "clearer", onClick: this.onClear }, "\u00D7")),
-                React.createElement(ArrowButton, { className: "arrow", tabIndex: -1 }, open ? '▲' : '▼'))));
+                showClearer && (React.createElement(Clearer, { type: "button", tabIndex: -1, className: "clearer", onClick: this.onClear }, "\u00D7")),
+                React.createElement(ArrowButton, { type: "button", className: "arrow", tabIndex: -1 }, open ? '▲' : '▼'))));
     }
     renderSearch() {
         const { open, disabled, searchable, multi, onSearchFocus, onSearchBlur } = this.props;

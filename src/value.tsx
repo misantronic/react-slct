@@ -191,6 +191,7 @@ export class Value extends React.PureComponent<ValueProps> {
                 <ValueRight className="value-right">
                     {showClearer && (
                         <Clearer
+                            type="button"
                             tabIndex={-1}
                             className="clearer"
                             onClick={this.onClear}
@@ -198,7 +199,7 @@ export class Value extends React.PureComponent<ValueProps> {
                             ×
                         </Clearer>
                     )}
-                    <ArrowButton className="arrow" tabIndex={-1}>
+                    <ArrowButton type="button" className="arrow" tabIndex={-1}>
                         {open ? '▲' : '▼'}
                     </ArrowButton>
                 </ValueRight>

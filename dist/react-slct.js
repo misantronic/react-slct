@@ -575,8 +575,8 @@ class Value extends React.PureComponent {
                 this.renderValues(valueOptions),
                 searchAtEnd && this.renderSearch()),
             React.createElement(ValueRight, { className: "value-right" },
-                showClearer && (React.createElement(Clearer, { tabIndex: -1, className: "clearer", onClick: this.onClear }, "\u00D7")),
-                React.createElement(ArrowButton, { className: "arrow", tabIndex: -1 }, open ? '▲' : '▼'))));
+                showClearer && (React.createElement(Clearer, { type: "button", tabIndex: -1, className: "clearer", onClick: this.onClear }, "\u00D7")),
+                React.createElement(ArrowButton, { type: "button", className: "arrow", tabIndex: -1 }, open ? '▲' : '▼'))));
     }
     renderSearch() {
         const { open, disabled, searchable, multi, onSearchFocus, onSearchBlur } = this.props;
@@ -761,7 +761,7 @@ const label_1 = require("./label");
 class Remove extends React.PureComponent {
     render() {
         const { StyledRemove } = Remove;
-        return (React.createElement(StyledRemove, { className: "remove", tabIndex: -1, onClick: this.onClick }, "\u00D7"));
+        return (React.createElement(StyledRemove, { className: "remove", type: "button", tabIndex: -1, onClick: this.onClick }, "\u00D7"));
     }
     onClick(e) {
         e.stopPropagation();
