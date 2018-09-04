@@ -1,6 +1,6 @@
 {
   "name": "react-slct",
-  "version": "1.6.16",
+  "version": "1.6.17",
   "description": "Yet another Select-Box based on react and styled-components",
   "main": "dist/index.js",
   "scripts": {
@@ -21,6 +21,13 @@
     "url": "https://github.com/misantronic/select/issues"
   },
   "homepage": "https://github.com/misantronic/select#readme",
+  "peerDependencies": {
+    "lodash-decorators": "^6.x",
+    "react": "^16.x",
+    "react-dom": "^16.x",
+    "react-virtualized": "^9.x",
+    "styled-components": "^3.x"
+  },
   "dependencies": {
     "lodash-decorators": "^6.0.0",
     "react": "^16.4.1",
