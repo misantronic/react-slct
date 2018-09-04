@@ -33,10 +33,15 @@ export class OptionComponent extends React.PureComponent<OptionComponentProps> {
         const { OptionItem } = OptionComponent;
         const { active, selected, labelComponent, option } = this.props;
         const Label = labelComponent ? labelComponent : SelectLabel;
+        const className = [
+            'option',
+            selected ? 'selected' : null,
+            active ? 'active' : null
+        ].filter(v => Boolean(v));
 
         return (
             <OptionItem
-                className="option"
+                className={className.join(' ')}
                 selected={selected}
                 active={active}
                 onClick={this.onClick}

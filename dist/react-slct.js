@@ -1082,7 +1082,12 @@ class OptionComponent extends React.PureComponent {
         const { OptionItem } = OptionComponent;
         const { active, selected, labelComponent, option } = this.props;
         const Label = labelComponent ? labelComponent : label_1.SelectLabel;
-        return (React.createElement(OptionItem, { className: "option", selected: selected, active: active, onClick: this.onClick },
+        const className = [
+            'option',
+            selected ? 'selected' : null,
+            active ? 'active' : null
+        ].filter(v => Boolean(v));
+        return (React.createElement(OptionItem, { className: className.join(' '), selected: selected, active: active, onClick: this.onClick },
             React.createElement(Label, Object.assign({}, option), option.label)));
     }
     onClick() {
