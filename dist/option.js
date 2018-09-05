@@ -6,14 +6,14 @@ import { SelectLabel } from './label';
 export class OptionComponent extends React.PureComponent {
     render() {
         const { OptionItem } = OptionComponent;
-        const { active, selected, labelComponent, option } = this.props;
+        const { active, selected, labelComponent, option, height } = this.props;
         const Label = labelComponent ? labelComponent : SelectLabel;
         const className = [
             'option',
             selected ? 'selected' : null,
             active ? 'active' : null
         ].filter(v => Boolean(v));
-        return (React.createElement(OptionItem, { className: className.join(' '), selected: selected, active: active, onClick: this.onClick },
+        return (React.createElement(OptionItem, { className: className.join(' '), selected: selected, active: active, height: height, onClick: this.onClick },
             React.createElement(Label, Object.assign({}, option), option.label)));
     }
     onClick() {
@@ -25,7 +25,7 @@ OptionComponent.OptionItem = styled.div `
         align-items: center;
         justify-content: space-between;
         flex: 1;
-        height: 32px;
+        height: ${(props) => props.height || 32}px;
         padding: 0 10px;
         min-width: 0;
         cursor: pointer;

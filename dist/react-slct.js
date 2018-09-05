@@ -896,7 +896,7 @@ class Menu extends React.PureComponent {
         return open ? (React.createElement(MenuContainer, { menuHeight: height, onRect: this.onRect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List_1.List, { className: "react-slct-menu-list", ref: this.list, width: rect ? rect.width : 0, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToIndex: multi ? 0 : selectedIndex, noRowsRenderer: this.emptyRenderer })))) : null;
     }
     rowRenderer({ key, index, style }) {
-        const { options = [], labelComponent, selectedIndex, optionComponent } = this.props;
+        const { options = [], labelComponent, selectedIndex, optionComponent, rowHeight } = this.props;
         const option = options[index];
         const currentValue = utils_1.isArray(this.props.value)
             ? this.props.value.map(val => utils_1.toString(val))
@@ -904,7 +904,7 @@ class Menu extends React.PureComponent {
         const value = utils_1.toString(option.value);
         const Component = optionComponent || option_1.OptionComponent;
         return (React.createElement("div", { key: key, style: style },
-            React.createElement(Component, { option: option, labelComponent: labelComponent, active: currentValue.some(val => val === value), selected: selectedIndex === index, onSelect: this.onSelect })));
+            React.createElement(Component, { option: option, labelComponent: labelComponent, height: rowHeight, active: currentValue.some(val => val === value), selected: selectedIndex === index, onSelect: this.onSelect })));
     }
     emptyRenderer() {
         const { Empty } = Menu;
@@ -1080,14 +1080,14 @@ const label_1 = require("./label");
 class OptionComponent extends React.PureComponent {
     render() {
         const { OptionItem } = OptionComponent;
-        const { active, selected, labelComponent, option } = this.props;
+        const { active, selected, labelComponent, option, height } = this.props;
         const Label = labelComponent ? labelComponent : label_1.SelectLabel;
         const className = [
             'option',
             selected ? 'selected' : null,
             active ? 'active' : null
         ].filter(v => Boolean(v));
-        return (React.createElement(OptionItem, { className: className.join(' '), selected: selected, active: active, onClick: this.onClick },
+        return (React.createElement(OptionItem, { className: className.join(' '), selected: selected, active: active, height: height, onClick: this.onClick },
             React.createElement(Label, Object.assign({}, option), option.label)));
     }
     onClick() {
@@ -1099,7 +1099,7 @@ OptionComponent.OptionItem = styled_components_1.default.div `
         align-items: center;
         justify-content: space-between;
         flex: 1;
-        height: 32px;
+        height: ${(props) => props.height || 32}px;
         padding: 0 10px;
         min-width: 0;
         cursor: pointer;

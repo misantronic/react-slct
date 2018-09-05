@@ -54,7 +54,7 @@ export class Menu extends React.PureComponent {
         return open ? (React.createElement(MenuContainer, { menuHeight: height, onRect: this.onRect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List, { className: "react-slct-menu-list", ref: this.list, width: rect ? rect.width : 0, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToIndex: multi ? 0 : selectedIndex, noRowsRenderer: this.emptyRenderer })))) : null;
     }
     rowRenderer({ key, index, style }) {
-        const { options = [], labelComponent, selectedIndex, optionComponent } = this.props;
+        const { options = [], labelComponent, selectedIndex, optionComponent, rowHeight } = this.props;
         const option = options[index];
         const currentValue = isArray(this.props.value)
             ? this.props.value.map(val => toString(val))
@@ -62,7 +62,7 @@ export class Menu extends React.PureComponent {
         const value = toString(option.value);
         const Component = optionComponent || OptionComponent;
         return (React.createElement("div", { key: key, style: style },
-            React.createElement(Component, { option: option, labelComponent: labelComponent, active: currentValue.some(val => val === value), selected: selectedIndex === index, onSelect: this.onSelect })));
+            React.createElement(Component, { option: option, labelComponent: labelComponent, height: rowHeight, active: currentValue.some(val => val === value), selected: selectedIndex === index, onSelect: this.onSelect })));
     }
     emptyRenderer() {
         const { Empty } = Menu;

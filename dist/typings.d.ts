@@ -72,6 +72,7 @@ export interface OptionComponentProps<T = any> {
     option: Option<T>;
     active?: boolean;
     selected?: boolean;
+    height?: number;
     labelComponent: SelectProps['labelComponent'];
     onSelect(value: T, option?: Option<T>): void;
 }

@@ -7,6 +7,7 @@ import { OptionComponentProps } from './typings';
 interface OptionItemProps {
     active?: OptionComponentProps['active'];
     selected?: OptionComponentProps['selected'];
+    height?: OptionComponentProps['height'];
 }
 
 export class OptionComponent extends React.PureComponent<OptionComponentProps> {
@@ -15,7 +16,7 @@ export class OptionComponent extends React.PureComponent<OptionComponentProps> {
         align-items: center;
         justify-content: space-between;
         flex: 1;
-        height: 32px;
+        height: ${(props: OptionItemProps) => props.height || 32}px;
         padding: 0 10px;
         min-width: 0;
         cursor: pointer;
@@ -31,7 +32,7 @@ export class OptionComponent extends React.PureComponent<OptionComponentProps> {
 
     public render(): React.ReactNode {
         const { OptionItem } = OptionComponent;
-        const { active, selected, labelComponent, option } = this.props;
+        const { active, selected, labelComponent, option, height } = this.props;
         const Label = labelComponent ? labelComponent : SelectLabel;
         const className = [
             'option',
@@ -44,6 +45,7 @@ export class OptionComponent extends React.PureComponent<OptionComponentProps> {
                 className={className.join(' ')}
                 selected={selected}
                 active={active}
+                height={height}
                 onClick={this.onClick}
             >
                 <Label {...option}>{option.label}</Label>
