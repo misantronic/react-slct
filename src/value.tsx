@@ -16,6 +16,7 @@ export interface ValueProps {
     labelComponent: SelectProps['labelComponent'];
     valueComponentSingle: SelectProps['valueComponentSingle'];
     valueComponentMulti: SelectProps['valueComponentMulti'];
+    arrowComponent: SelectProps['arrowComponent'];
     multi: SelectProps['multi'];
     mobile: SelectProps['native'];
     disabled: SelectProps['disabled'];
@@ -163,6 +164,7 @@ export class Value extends React.PureComponent<ValueProps> {
             multi,
             focused
         } = this.props;
+        const ArrowComponent = this.props.arrowComponent;
         const valueOptions = getValueOptions(options, value);
         const showClearer = Boolean(
             clearable && valueOptions.length && !mobile
@@ -200,7 +202,13 @@ export class Value extends React.PureComponent<ValueProps> {
                         </Clearer>
                     )}
                     <ArrowButton type="button" className="arrow" tabIndex={-1}>
-                        {open ? '▲' : '▼'}
+                        {ArrowComponent ? (
+                            <ArrowComponent open={open} />
+                        ) : open ? (
+                            '▲'
+                        ) : (
+                            '▼'
+                        )}
                     </ArrowButton>
                 </ValueRight>
             </ValueContainer>

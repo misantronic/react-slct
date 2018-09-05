@@ -97,6 +97,7 @@ export class Value extends React.PureComponent {
     }
     render() {
         const { options = [], value, disabled, clearable, open, mobile, multi, focused } = this.props;
+        const ArrowComponent = this.props.arrowComponent;
         const valueOptions = getValueOptions(options, value);
         const showClearer = Boolean(clearable && valueOptions.length && !mobile);
         const searchAtStart = !multi || valueOptions.length === 0;
@@ -108,7 +109,7 @@ export class Value extends React.PureComponent {
                 searchAtEnd && this.renderSearch()),
             React.createElement(ValueRight, { className: "value-right" },
                 showClearer && (React.createElement(Clearer, { type: "button", tabIndex: -1, className: "clearer", onClick: this.onClear }, "\u00D7")),
-                React.createElement(ArrowButton, { type: "button", className: "arrow", tabIndex: -1 }, open ? '▲' : '▼'))));
+                React.createElement(ArrowButton, { type: "button", className: "arrow", tabIndex: -1 }, ArrowComponent ? (React.createElement(ArrowComponent, { open: open })) : open ? ('▲') : ('▼')))));
     }
     renderSearch() {
         const { open, disabled, searchable, multi, onSearchFocus, onSearchBlur } = this.props;

@@ -127,6 +127,7 @@ export class Select<T = any> extends React.PureComponent<
             optionComponent,
             valueComponentSingle,
             valueComponentMulti,
+            arrowComponent,
             multi,
             native,
             emptyText,
@@ -163,6 +164,7 @@ export class Select<T = any> extends React.PureComponent<
                     labelComponent={labelComponent}
                     valueComponentSingle={valueComponentSingle}
                     valueComponentMulti={valueComponentMulti}
+                    arrowComponent={arrowComponent}
                     onClear={this.onClear}
                     onClick={this.toggleMenu}
                     onSearch={this.onSearch}

@@ -71,7 +71,7 @@ class Select extends React.PureComponent {
     }
     render() {
         const { Container } = Select;
-        const { className, options, creatable, clearable, placeholder, value, disabled, menuComponent, labelComponent, optionComponent, valueComponentSingle, valueComponentMulti, multi, native, emptyText, rowHeight } = this.props;
+        const { className, options, creatable, clearable, placeholder, value, disabled, menuComponent, labelComponent, optionComponent, valueComponentSingle, valueComponentMulti, arrowComponent, multi, native, emptyText, rowHeight } = this.props;
         const { open, search, selectedIndex, focused } = this.state;
         const searchable = this.props.searchable || creatable;
         if (this.props.children) {
@@ -79,7 +79,7 @@ class Select extends React.PureComponent {
         }
         return (React.createElement(Container, { className: className ? `react-slct ${className}` : 'react-slct', disabled: disabled, innerRef: this.onContainerRef, onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
             this.renderNativeSelect(),
-            React.createElement(value_1.Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: options, placeholder: placeholder, value: value, search: search, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onSearchBlur: this.onSearchBlur, onOptionRemove: this.onOptionRemove }),
+            React.createElement(value_1.Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: options, placeholder: placeholder, value: value, search: search, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, arrowComponent: arrowComponent, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onSearchBlur: this.onSearchBlur, onOptionRemove: this.onOptionRemove }),
             React.createElement(menu_1.Menu, { open: open, options: this.options, value: value, multi: multi, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, emptyText: emptyText, rowHeight: rowHeight, onSelect: this.onOptionSelect })));
     }
     renderNativeSelect() {
@@ -565,6 +565,7 @@ class Value extends React.PureComponent {
     }
     render() {
         const { options = [], value, disabled, clearable, open, mobile, multi, focused } = this.props;
+        const ArrowComponent = this.props.arrowComponent;
         const valueOptions = utils_1.getValueOptions(options, value);
         const showClearer = Boolean(clearable && valueOptions.length && !mobile);
         const searchAtStart = !multi || valueOptions.length === 0;
@@ -576,7 +577,7 @@ class Value extends React.PureComponent {
                 searchAtEnd && this.renderSearch()),
             React.createElement(ValueRight, { className: "value-right" },
                 showClearer && (React.createElement(Clearer, { type: "button", tabIndex: -1, className: "clearer", onClick: this.onClear }, "\u00D7")),
-                React.createElement(ArrowButton, { type: "button", className: "arrow", tabIndex: -1 }, open ? '▲' : '▼'))));
+                React.createElement(ArrowButton, { type: "button", className: "arrow", tabIndex: -1 }, ArrowComponent ? (React.createElement(ArrowComponent, { open: open })) : open ? ('▲') : ('▼')))));
     }
     renderSearch() {
         const { open, disabled, searchable, multi, onSearchFocus, onSearchBlur } = this.props;

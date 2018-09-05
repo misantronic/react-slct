@@ -11,6 +11,9 @@ export interface SelectProps<T = any> {
     multi?: boolean;
     native?: boolean;
     rowHeight?: number;
+    arrowComponent?:
+        | React.ComponentClass<{ open: boolean }>
+        | React.StatelessComponent<{ open: boolean }>;
     menuComponent?:
         | React.ComponentClass<MenuComponentProps>
         | React.StatelessComponent<MenuComponentProps>;
