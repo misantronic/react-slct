@@ -11,6 +11,7 @@ export interface SelectProps<T = any> {
     disabled?: boolean;
     multi?: boolean;
     native?: boolean;
+    rowHeight?: number;
     menuComponent?: React.ComponentClass<MenuComponentProps> | React.StatelessComponent<MenuComponentProps>;
     labelComponent?: React.ComponentClass<Option<T>> | React.StatelessComponent<Option<T>>;
     optionComponent?: React.ComponentClass<OptionComponentProps> | React.StatelessComponent<OptionComponentProps>;
@@ -54,6 +55,7 @@ export interface MenuComponentProps<T = any> {
     optionComponent: SelectProps['optionComponent'];
     emptyText: SelectProps['emptyText'];
     multi: SelectProps['multi'];
+    rowHeight: SelectProps['rowHeight'];
     selectedIndex?: number;
     open: boolean;
     search?: string;

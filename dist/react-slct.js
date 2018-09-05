@@ -71,7 +71,7 @@ class Select extends React.PureComponent {
     }
     render() {
         const { Container } = Select;
-        const { className, options, creatable, clearable, placeholder, value, disabled, menuComponent, labelComponent, optionComponent, valueComponentSingle, valueComponentMulti, multi, native, emptyText } = this.props;
+        const { className, options, creatable, clearable, placeholder, value, disabled, menuComponent, labelComponent, optionComponent, valueComponentSingle, valueComponentMulti, multi, native, emptyText, rowHeight } = this.props;
         const { open, search, selectedIndex, focused } = this.state;
         const searchable = this.props.searchable || creatable;
         if (this.props.children) {
@@ -80,7 +80,7 @@ class Select extends React.PureComponent {
         return (React.createElement(Container, { className: className ? `react-slct ${className}` : 'react-slct', disabled: disabled, innerRef: this.onContainerRef, onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
             this.renderNativeSelect(),
             React.createElement(value_1.Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: options, placeholder: placeholder, value: value, search: search, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onSearchBlur: this.onSearchBlur, onOptionRemove: this.onOptionRemove }),
-            React.createElement(menu_1.Menu, { open: open, options: this.options, value: value, multi: multi, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, emptyText: emptyText, onSelect: this.onOptionSelect })));
+            React.createElement(menu_1.Menu, { open: open, options: this.options, value: value, multi: multi, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, emptyText: emptyText, rowHeight: rowHeight, onSelect: this.onOptionSelect })));
     }
     renderNativeSelect() {
         const { NativeSelect } = Select;
@@ -890,7 +890,7 @@ class Menu extends React.PureComponent {
         const { open, options = [], multi, selectedIndex } = this.props;
         const { rect } = this.state;
         const MenuContent = this.props.menuComponent;
-        const rowHeight = 32;
+        const rowHeight = this.props.rowHeight || 32;
         const menuHeight = 185;
         const height = Math.min(Math.max(options.length * rowHeight, rowHeight), menuHeight);
         return open ? (React.createElement(MenuContainer, { menuHeight: height, onRect: this.onRect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List_1.List, { className: "react-slct-menu-list", ref: this.list, width: rect ? rect.width : 0, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToIndex: multi ? 0 : selectedIndex, noRowsRenderer: this.emptyRenderer })))) : null;

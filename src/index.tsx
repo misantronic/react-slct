@@ -129,7 +129,8 @@ export class Select<T = any> extends React.PureComponent<
             valueComponentMulti,
             multi,
             native,
-            emptyText
+            emptyText,
+            rowHeight
         } = this.props;
         const { open, search, selectedIndex, focused } = this.state;
         const searchable = this.props.searchable || creatable;
@@ -180,6 +181,7 @@ export class Select<T = any> extends React.PureComponent<
                     labelComponent={labelComponent}
                     optionComponent={optionComponent}
                     emptyText={emptyText}
+                    rowHeight={rowHeight}
                     onSelect={this.onOptionSelect}
                 />
             </Container>
