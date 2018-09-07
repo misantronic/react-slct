@@ -69,9 +69,20 @@ export class Menu extends React.PureComponent {
         return React.createElement(Empty, { emptyText: this.props.emptyText });
     }
     onSelect(value, option) {
-        this.props.onSelect(isArray(this.props.value)
-            ? Array.from(new Set([...this.props.value, value]))
-            : value, option);
+        if (isArray(this.props.value)) {
+            const found = this.props.value.some(item => item === value);
+            let values;
+            if (found) {
+                values = this.props.value.filter(item => item !== value);
+            }
+            else {
+                values = Array.from(new Set([...this.props.value, value]));
+            }
+            this.props.onSelect(values, option);
+        }
+        else {
+            this.props.onSelect(value, option);
+        }
     }
     onRect(rect) {
         this.setState({ rect });
