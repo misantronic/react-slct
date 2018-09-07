@@ -937,6 +937,7 @@ Menu.MenuContainer = styled_components_1.default.div.attrs({
 
         .ReactVirtualized__List {
             border: 1px solid #ccc;
+            background-color: #fff;
 
             &:focus {
                 outline: none;

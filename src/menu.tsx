@@ -71,6 +71,7 @@ export class Menu extends React.PureComponent<
 
         .ReactVirtualized__List {
             border: 1px solid #ccc;
+            background-color: #fff;
 
             &:focus {
                 outline: none;
