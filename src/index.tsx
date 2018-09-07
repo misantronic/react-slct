@@ -194,7 +194,7 @@ export class Select<T = any> extends React.PureComponent<
         const { NativeSelect } = Select;
         const { native, placeholder, multi, disabled } = this.props;
         const clearable = this.props.clearable && native;
-        const value = Array.isArray(this.props.value)
+        const value = isArray(this.props.value)
             ? this.props.value.map(val => toString(val))
             : toString(this.props.value || '');
 
@@ -237,7 +237,7 @@ export class Select<T = any> extends React.PureComponent<
             : valueOptions.map(option => option.value);
         const showPlaceholder =
             !search &&
-            (Array.isArray(value)
+            (isArray(value)
                 ? value.length === 0
                 : value === undefined || value === null);
 
@@ -504,7 +504,7 @@ export class Select<T = any> extends React.PureComponent<
                     const newValue = this.options[selectedIndex].value;
 
                     this.onOptionSelect(
-                        Array.isArray(value) ? [...value, newValue] : newValue
+                        isArray(value) ? [...value, newValue] : newValue
                     );
                 }
                 break;

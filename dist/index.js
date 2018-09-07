@@ -72,7 +72,7 @@ export class Select extends React.PureComponent {
         const { NativeSelect } = Select;
         const { native, placeholder, multi, disabled } = this.props;
         const clearable = this.props.clearable && native;
-        const value = Array.isArray(this.props.value)
+        const value = isArray(this.props.value)
             ? this.props.value.map(val => toString(val))
             : toString(this.props.value || '');
         return (React.createElement(NativeSelect, { innerRef: this.nativeSelect, multiple: multi, value: value, disabled: disabled, native: native, tabIndex: -1, onChange: this.onChangeNativeSelect },
@@ -90,7 +90,7 @@ export class Select extends React.PureComponent {
             ? this.props.value
             : valueOptions.map(option => option.value);
         const showPlaceholder = !search &&
-            (Array.isArray(value)
+            (isArray(value)
                 ? value.length === 0
                 : value === undefined || value === null);
         if (!children) {
@@ -284,7 +284,7 @@ export class Select extends React.PureComponent {
                 else if (selectedIndex !== undefined &&
                     this.options[selectedIndex]) {
                     const newValue = this.options[selectedIndex].value;
-                    this.onOptionSelect(Array.isArray(value) ? [...value, newValue] : newValue);
+                    this.onOptionSelect(isArray(value) ? [...value, newValue] : newValue);
                 }
                 break;
             case keys.ESC:
