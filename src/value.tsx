@@ -33,8 +33,6 @@ export interface ValueProps {
 
 interface SearchProps {
     canSearch?: boolean;
-    multi?: boolean;
-    open?: boolean;
 }
 
 interface ValueContainerProps {
@@ -130,7 +128,8 @@ const Search = styled.span`
     height: 16px;
     opacity: ${(props: SearchProps) => (props.canSearch ? 1 : 0)};
     user-select: text;
-    position: ${(props: SearchProps) => (props.open ? 'static' : 'absolute')};
+    position: ${(props: SearchProps) =>
+        props.canSearch ? 'static' : 'absolute'};
 
     &:focus {
         outline: none;
@@ -223,7 +222,6 @@ export class Value extends React.PureComponent<ValueProps> {
             open,
             disabled,
             searchable,
-            multi,
             onSearchFocus,
             onSearchBlur
         } = this.props;
@@ -237,9 +235,7 @@ export class Value extends React.PureComponent<ValueProps> {
             <Search
                 className="search"
                 contentEditable
-                multi={multi}
                 canSearch={canSearch}
-                open={open}
                 onInput={this.onSearch}
                 onKeyDown={this.onKeyDown}
                 onFocus={onSearchFocus}
