@@ -545,7 +545,7 @@ const Search = styled_components_1.default.span `
     height: 16px;
     opacity: ${(props) => (props.canSearch ? 1 : 0)};
     user-select: text;
-    position: ${(props) => (props.open ? 'static' : 'absolute')};
+    position: ${(props) => props.canSearch ? 'static' : 'absolute'};
 
     &:focus {
         outline: none;
@@ -581,12 +581,12 @@ class Value extends React.PureComponent {
                 React.createElement(ArrowButton, { type: "button", className: "arrow", tabIndex: -1 }, ArrowComponent ? (React.createElement(ArrowComponent, { open: open })) : open ? ('▲') : ('▼')))));
     }
     renderSearch() {
-        const { open, disabled, searchable, multi, onSearchFocus, onSearchBlur } = this.props;
+        const { open, disabled, searchable, onSearchFocus, onSearchBlur } = this.props;
         const canSearch = open && searchable;
         if (disabled) {
             return null;
         }
-        return (React.createElement(Search, { className: "search", contentEditable: true, multi: multi, canSearch: canSearch, open: open, onInput: this.onSearch, onKeyDown: this.onKeyDown, onFocus: onSearchFocus, onBlur: onSearchBlur, innerRef: this.search }));
+        return (React.createElement(Search, { className: "search", contentEditable: true, canSearch: canSearch, onInput: this.onSearch, onKeyDown: this.onKeyDown, onFocus: onSearchFocus, onBlur: onSearchBlur, innerRef: this.search }));
     }
     renderValues(valueOptions) {
         const { placeholder, search, labelComponent, valueComponentSingle, valueComponentMulti, multi } = this.props;
