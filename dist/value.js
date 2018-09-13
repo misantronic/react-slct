@@ -52,7 +52,7 @@ const ValueLeft = styled.div `
     user-select: none;
     min-width: 0;
     box-sizing: border-box;
-    margin: ${(props) => (props.multi ? '-2px -5px' : 0)};
+    margin: ${(props) => props.multi && props.hasValue ? '-2px -5px' : 0};
 `;
 const ValueRight = styled.div `
     display: flex;
@@ -73,10 +73,11 @@ const Clearer = styled(Button) `
 `;
 const Search = styled.span `
     min-width: 1px;
-    margin-left: ${(props) => (props.multi ? '4px' : '-1px')};
+    margin-left: -1px;
     height: 16px;
     opacity: ${(props) => (props.canSearch ? 1 : 0)};
     user-select: text;
+    position: ${(props) => (props.open ? 'static' : 'absolute')};
 
     &:focus {
         outline: none;
@@ -117,7 +118,7 @@ export class Value extends React.PureComponent {
         if (disabled) {
             return null;
         }
-        return (React.createElement(Search, { className: "search", contentEditable: true, multi: multi, canSearch: canSearch, onInput: this.onSearch, onKeyDown: this.onKeyDown, onFocus: onSearchFocus, onBlur: onSearchBlur, innerRef: this.search }));
+        return (React.createElement(Search, { className: "search", contentEditable: true, multi: multi, canSearch: canSearch, open: open, onInput: this.onSearch, onKeyDown: this.onKeyDown, onFocus: onSearchFocus, onBlur: onSearchBlur, innerRef: this.search }));
     }
     renderValues(valueOptions) {
         const { placeholder, search, labelComponent, valueComponentSingle, valueComponentMulti, multi } = this.props;

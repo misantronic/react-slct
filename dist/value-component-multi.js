@@ -62,5 +62,9 @@ ValueComponentMulti.TagContainer = styled.div `
         line-height: 1.4;
         margin: 2px 3px;
         align-items: center;
+
+        &:last-of-type {
+            margin-right: 5px;
+        }
     `;
 //# sourceMappingURL=value-component-multi.js.map
