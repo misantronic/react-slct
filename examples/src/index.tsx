@@ -123,6 +123,13 @@ render(
             <Code>{code(`multi`, `onChange={values => ...}`)}</Code>
         </Example>
 
+        <Example>
+            <Multi searchable placeholder="Simple searchable multi select..." />
+            <Code>
+                {code(`multi`, `searchable`, `onChange={values => ...}`)}
+            </Code>
+        </Example>
+
         <br />
         <br />
 
