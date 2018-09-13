@@ -70,6 +70,10 @@ export class ValueComponentMulti<T = any> extends React.PureComponent<
         line-height: 1.4;
         margin: 2px 3px;
         align-items: center;
+
+        &:last-of-type {
+            margin-right: 5px;
+        }
     `;
 
     public render(): React.ReactNode {
