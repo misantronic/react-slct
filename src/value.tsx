@@ -34,6 +34,7 @@ export interface ValueProps {
 interface SearchProps {
     canSearch?: boolean;
     multi?: boolean;
+    open?: boolean;
 }
 
 interface ValueContainerProps {
@@ -99,7 +100,8 @@ const ValueLeft = styled.div`
     user-select: none;
     min-width: 0;
     box-sizing: border-box;
-    margin: ${(props: ValueLeftProps) => (props.multi ? '-2px -5px' : 0)};
+    margin: ${(props: ValueLeftProps) =>
+        props.multi && props.hasValue ? '-2px -5px' : 0};
 `;
 
 const ValueRight = styled.div`
@@ -124,10 +126,11 @@ const Clearer = styled(Button)`
 
 const Search = styled.span`
     min-width: 1px;
-    margin-left: ${(props: SearchProps) => (props.multi ? '4px' : '-1px')};
+    margin-left: -1px;
     height: 16px;
     opacity: ${(props: SearchProps) => (props.canSearch ? 1 : 0)};
     user-select: text;
+    position: ${(props: SearchProps) => (props.open ? 'static' : 'absolute')};
 
     &:focus {
         outline: none;
@@ -236,6 +239,7 @@ export class Value extends React.PureComponent<ValueProps> {
                 contentEditable
                 multi={multi}
                 canSearch={canSearch}
+                open={open}
                 onInput={this.onSearch}
                 onKeyDown={this.onKeyDown}
                 onFocus={onSearchFocus}
