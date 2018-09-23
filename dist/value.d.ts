@@ -31,6 +31,7 @@ export declare class Value extends React.PureComponent<ValueProps> {
     private renderSearch;
     private renderValues;
     private focus;
+    private blur;
     private onClick;
     private onClear;
     private onSearch;

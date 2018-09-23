@@ -2,7 +2,7 @@ import { bind } from 'lodash-decorators';
 import * as React from 'react';
 import styled from 'styled-components';
 import { SelectLabel } from './label';
-import { toString, keys, getValueOptions } from './utils';
+import { toString, keys, getValueOptions, getWindow } from './utils';
 import { SelectProps, Option } from './typings';
 import { ValueComponentMulti } from './value-component-multi';
 import { ValueComponentSingle } from './value-component-single';
@@ -143,6 +143,12 @@ export class Value extends React.PureComponent<ValueProps> {
         super(props);
 
         this.search = React.createRef();
+
+        const window = getWindow();
+
+        if (window) {
+            window.addEventListener('blur', this.blur);
+        }
     }
 
     public componentDidUpdate(prevProps: ValueProps): void {
@@ -288,6 +294,13 @@ export class Value extends React.PureComponent<ValueProps> {
     private focus(): void {
         if (this.search.current) {
             this.search.current.focus();
+        }
+    }
+
+    @bind
+    private blur(): void {
+        if (this.search.current) {
+            this.search.current.blur();
         }
     }
 

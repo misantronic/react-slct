@@ -555,6 +555,10 @@ class Value extends React.PureComponent {
     constructor(props) {
         super(props);
         this.search = React.createRef();
+        const window = utils_1.getWindow();
+        if (window) {
+            window.addEventListener('blur', this.blur);
+        }
     }
     componentDidUpdate(prevProps) {
         if (prevProps.search && !this.props.search && this.search.current) {
@@ -605,6 +609,11 @@ class Value extends React.PureComponent {
             this.search.current.focus();
         }
     }
+    blur() {
+        if (this.search.current) {
+            this.search.current.blur();
+        }
+    }
     onClick() {
         if (!this.props.disabled) {
             this.focus();
@@ -636,6 +645,12 @@ class Value extends React.PureComponent {
         }
     }
 }
+tslib_1.__decorate([
+    lodash_decorators_1.bind,
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", void 0)
+], Value.prototype, "blur", null);
 tslib_1.__decorate([
     lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),

@@ -3,7 +3,7 @@ import { bind } from 'lodash-decorators';
 import * as React from 'react';
 import styled from 'styled-components';
 import { SelectLabel } from './label';
-import { toString, keys, getValueOptions } from './utils';
+import { toString, keys, getValueOptions, getWindow } from './utils';
 import { ValueComponentMulti } from './value-component-multi';
 import { ValueComponentSingle } from './value-component-single';
 const Button = styled.button `
@@ -87,6 +87,10 @@ export class Value extends React.PureComponent {
     constructor(props) {
         super(props);
         this.search = React.createRef();
+        const window = getWindow();
+        if (window) {
+            window.addEventListener('blur', this.blur);
+        }
     }
     componentDidUpdate(prevProps) {
         if (prevProps.search && !this.props.search && this.search.current) {
@@ -137,6 +141,11 @@ export class Value extends React.PureComponent {
             this.search.current.focus();
         }
     }
+    blur() {
+        if (this.search.current) {
+            this.search.current.blur();
+        }
+    }
     onClick() {
         if (!this.props.disabled) {
             this.focus();
@@ -168,6 +177,12 @@ export class Value extends React.PureComponent {
         }
     }
 }
+tslib_1.__decorate([
+    bind,
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", void 0)
+], Value.prototype, "blur", null);
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
