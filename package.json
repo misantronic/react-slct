@@ -1,47 +1,47 @@
 {
-  "name": "react-slct",
-  "version": "1.8.2",
-  "description": "Yet another Select-Box based on react and styled-components",
-  "main": "dist/index.js",
-  "scripts": {
-    "compile": "rm -rf dist && tsc -p . && node fuse",
-    "examples": "rm -rf .cache && parcel examples/src/index.html --out-dir examples/dist"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/misantronic/select.git"
-  },
-  "keywords": [
-    "react",
-    "select"
-  ],
-  "author": "David Schkalee <david.schkalee@magicline.de>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/misantronic/select/issues"
-  },
-  "homepage": "https://github.com/misantronic/select#readme",
-  "peerDependencies": {
-    "lodash-decorators": "^6.x",
-    "react": "^16.x",
-    "react-dom": "^16.x",
-    "react-virtualized": "^9.x",
-    "styled-components": "^3.x"
-  },
-  "dependencies": {
-    "lodash-decorators": "^6.0.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-virtualized": "^9.20.0",
-    "styled-components": "^3.4.5"
-  },
-  "devDependencies": {
-    "@types/react": "^16.4.2",
-    "@types/react-dom": "^16.0.6",
-    "@types/react-virtualized": "^9.18.3",
-    "fuse-box": "^3.3.0",
-    "object-assign": "^4.1.1",
-    "parcel-bundler": "^1.9.3",
-    "typescript": "^2.9.2"
-  }
+    "name": "react-slct",
+    "version": "1.8.3",
+    "description": "Yet another Select-Box based on react and styled-components",
+    "main": "dist/index.js",
+    "scripts": {
+        "compile": "rm -rf dist && tsc -p . && node fuse",
+        "examples": "rm -rf .cache && parcel examples/src/index.html --out-dir examples/dist"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/misantronic/select.git"
+    },
+    "keywords": [
+        "react",
+        "select"
+    ],
+    "author": "David Schkalee <david.schkalee@magicline.de>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/misantronic/select/issues"
+    },
+    "homepage": "https://github.com/misantronic/select#readme",
+    "peerDependencies": {
+        "lodash-decorators": "^6.x",
+        "react": "^16.x",
+        "react-dom": "^16.x",
+        "react-virtualized": "^9.x",
+        "styled-components": "^3.x"
+    },
+    "dependencies": {
+        "lodash-decorators": "^6.x",
+        "react": "^16.x",
+        "react-dom": "^16.x",
+        "react-virtualized": "^9.x",
+        "styled-components": "^3.x"
+    },
+    "devDependencies": {
+        "@types/react": "^16.4.16",
+        "@types/react-dom": "^16.0.9",
+        "@types/react-virtualized": "^9.18.3",
+        "fuse-box": "^3.5.0",
+        "object-assign": "^4.1.1",
+        "parcel-bundler": "^1.9.3",
+        "typescript": "^3.1.2"
+    }
 }
