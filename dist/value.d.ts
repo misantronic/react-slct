@@ -13,6 +13,7 @@ export interface ValueProps {
     multi: SelectProps['multi'];
     mobile: SelectProps['native'];
     disabled: SelectProps['disabled'];
+    error: SelectProps['error'];
     search?: string;
     open: boolean;
     focused?: boolean;

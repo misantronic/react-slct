@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Menu } from './menu';
 import { keys } from './utils';
 import { SelectProps, SelectState, MenuComponentProps, Option } from './typings';
+import './global-stylings';
 export { SelectProps, Menu, MenuComponentProps, Option, keys };
 export declare class Select<T = any> extends React.PureComponent<SelectProps<T>, SelectState> {
     private static Container;

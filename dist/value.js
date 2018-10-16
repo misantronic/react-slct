@@ -38,7 +38,9 @@ const ValueContainer = styled.div `
     padding: 5px 10px;
     background: #fff;
     cursor: default;
-    border: 1px solid #ccc;
+    border-width: 1px;
+    border-style: solid;
+    border-color: ${(props) => props.error ? 'var(--react-slct-error-color)' : '#ccc'};
     z-index: 0;
     box-sizing: border-box;
     max-width: 100%;
@@ -101,13 +103,13 @@ export class Value extends React.PureComponent {
         }
     }
     render() {
-        const { options = [], value, disabled, clearable, open, mobile, multi, focused } = this.props;
+        const { options = [], value, disabled, clearable, open, mobile, multi, focused, error } = this.props;
         const ArrowComponent = this.props.arrowComponent;
         const valueOptions = getValueOptions(options, value);
         const showClearer = Boolean(clearable && valueOptions.length && !mobile);
         const searchAtStart = !multi || valueOptions.length === 0;
         const searchAtEnd = multi && valueOptions.length > 0;
-        return (React.createElement(ValueContainer, { "data-role": "value", className: "react-slct-value", disabled: disabled, mobile: mobile, focused: focused, onClick: this.onClick },
+        return (React.createElement(ValueContainer, { "data-role": "value", className: "react-slct-value", disabled: disabled, mobile: mobile, focused: focused, error: error, onClick: this.onClick },
             React.createElement(ValueLeft, { className: "value-left", multi: multi, hasValue: !!valueOptions.length },
                 searchAtStart && this.renderSearch(),
                 this.renderValues(valueOptions),
@@ -122,7 +124,7 @@ export class Value extends React.PureComponent {
         if (disabled) {
             return null;
         }
-        return (React.createElement(Search, { className: "search", contentEditable: true, canSearch: canSearch, onInput: this.onSearch, onKeyDown: this.onKeyDown, onFocus: onSearchFocus, onBlur: onSearchBlur, innerRef: this.search }));
+        return (React.createElement(Search, { className: "search", contentEditable: true, canSearch: canSearch, onInput: this.onSearch, onKeyDown: this.onKeyDown, onFocus: onSearchFocus, onBlur: onSearchBlur, ref: this.search }));
     }
     renderValues(valueOptions) {
         const { placeholder, search, labelComponent, valueComponentSingle, valueComponentMulti, multi } = this.props;
