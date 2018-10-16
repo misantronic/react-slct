@@ -10,6 +10,7 @@ export interface SelectProps<T = any> {
     disabled?: boolean;
     multi?: boolean;
     native?: boolean;
+    error?: boolean;
     rowHeight?: number;
     arrowComponent?:
         | React.ComponentClass<{ open: boolean }>
@@ -71,6 +72,7 @@ export interface MenuComponentProps<T = any> {
     emptyText: SelectProps['emptyText'];
     multi: SelectProps['multi'];
     rowHeight: SelectProps['rowHeight'];
+    error: SelectProps['error'];
     selectedIndex?: number;
     open: boolean;
     search?: string;
@@ -81,6 +83,7 @@ export interface MenuContainerProps {
     className?: string;
     menuWidth?: number;
     menuHeight?: number;
+    error?: boolean;
     rect?: Rect;
     onRect?(rect?: Rect): void;
 }

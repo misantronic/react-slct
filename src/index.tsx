@@ -10,6 +10,7 @@ import {
     MenuComponentProps,
     Option
 } from './typings';
+import './global-stylings';
 
 export { SelectProps, Menu, MenuComponentProps, Option, keys };
 
@@ -122,6 +123,7 @@ export class Select<T = any> extends React.PureComponent<
             placeholder,
             value,
             disabled,
+            error,
             menuComponent,
             labelComponent,
             optionComponent,
@@ -140,11 +142,17 @@ export class Select<T = any> extends React.PureComponent<
             return this.renderChildren();
         }
 
+        const classNames = [
+            'react-slct',
+            className,
+            error && 'has-error'
+        ].filter(c => Boolean(c));
+
         return (
             <Container
-                className={className ? `react-slct ${className}` : 'react-slct'}
+                className={classNames.join(' ')}
                 disabled={disabled}
-                innerRef={this.onContainerRef}
+                ref={this.onContainerRef as any}
                 onKeyUp={this.onKeyUp}
                 onKeyDown={this.onKeyDown}
             >
@@ -159,6 +167,7 @@ export class Select<T = any> extends React.PureComponent<
                     focused={focused}
                     options={options}
                     placeholder={placeholder}
+                    error={error}
                     value={value}
                     search={search}
                     labelComponent={labelComponent}
@@ -177,6 +186,7 @@ export class Select<T = any> extends React.PureComponent<
                     options={this.options}
                     value={value}
                     multi={multi}
+                    error={error}
                     search={search}
                     selectedIndex={selectedIndex}
                     menuComponent={menuComponent}
@@ -200,7 +210,7 @@ export class Select<T = any> extends React.PureComponent<
 
         return (
             <NativeSelect
-                innerRef={this.nativeSelect}
+                ref={this.nativeSelect as any}
                 multiple={multi}
                 value={value}
                 disabled={disabled}

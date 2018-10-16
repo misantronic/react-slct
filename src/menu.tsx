@@ -70,7 +70,10 @@ export class Menu extends React.PureComponent<
         box-sizing: border-box;
 
         .ReactVirtualized__List {
-            border: 1px solid #ccc;
+            border-width: 1px;
+            border-style: solid;
+            border-color: ${(props: MenuContainerProps) =>
+                props.error ? 'var(--react-slct-error-color)' : '#ccc'};
             background-color: #fff;
 
             &:focus {
@@ -112,7 +115,7 @@ export class Menu extends React.PureComponent<
     }
 
     public render(): React.ReactNode {
-        const { open, options = [], multi, selectedIndex } = this.props;
+        const { open, options = [], multi, selectedIndex, error } = this.props;
         const { rect } = this.state;
         const MenuContent = this.props.menuComponent;
         const rowHeight = this.props.rowHeight || 32;
@@ -123,7 +126,11 @@ export class Menu extends React.PureComponent<
         );
 
         return open ? (
-            <MenuContainer menuHeight={height} onRect={this.onRect}>
+            <MenuContainer
+                error={error}
+                menuHeight={height}
+                onRect={this.onRect}
+            >
                 {MenuContent ? (
                     <MenuContent {...this.props} />
                 ) : (
@@ -259,7 +266,7 @@ export class MenuContainer extends React.PureComponent<
     }
 
     public render(): React.ReactNode {
-        const { menuWidth, menuHeight, children } = this.props;
+        const { menuWidth, menuHeight, error, children } = this.props;
 
         return (
             <div
@@ -278,6 +285,7 @@ export class MenuContainer extends React.PureComponent<
                           <Menu.MenuContainer
                               data-role="menu"
                               className="react-slct-menu"
+                              error={error}
                               rect={this.state.rect}
                               menuWidth={menuWidth}
                               menuHeight={menuHeight}

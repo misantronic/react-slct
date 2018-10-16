@@ -1,6 +1,6 @@
 {
     "name": "react-slct",
-    "version": "1.8.3",
+    "version": "2.0.0",
     "description": "Yet another Select-Box based on react and styled-components",
     "main": "dist/index.js",
     "scripts": {
@@ -25,20 +25,20 @@
         "lodash-decorators": "^6.x",
         "react": "^16.x",
         "react-dom": "^16.x",
-        "react-virtualized": "^9.x",
-        "styled-components": "^3.x"
+        "styled-components": "^4.x"
     },
     "dependencies": {
         "lodash-decorators": "^6.x",
         "react": "^16.x",
         "react-dom": "^16.x",
         "react-virtualized": "^9.x",
-        "styled-components": "^3.x"
+        "styled-components": "^4.x"
     },
     "devDependencies": {
         "@types/react": "^16.4.16",
         "@types/react-dom": "^16.0.9",
         "@types/react-virtualized": "^9.18.3",
+        "@types/styled-components": "^4.0.1",
         "fuse-box": "^3.5.0",
         "object-assign": "^4.1.1",
         "parcel-bundler": "^1.9.3",

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import styled, { injectGlobal } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import { Headless } from './components/headless';
 import { Single } from './components/single';
 import { Multi } from './components/multi';
@@ -12,7 +12,7 @@ import {
     Option
 } from '../../src/typings';
 
-injectGlobal`
+const GlobalStyle = createGlobalStyle`
     body {  
         font-family: sans-serif;
         font-size: 13px;
@@ -90,6 +90,7 @@ const code = (...props) => `<Select placeholder="Please select..."
 
 render(
     <App className="app">
+        <GlobalStyle />
         <h1>🐘 react-slct examples</h1>
 
         <br />
@@ -111,6 +112,10 @@ render(
         <Example>
             <Single placeholder="Disabled select..." disabled />
             <Code>{code(`disabled`, `onChange={value => ...}`)}</Code>
+        </Example>
+        <Example>
+            <Single placeholder="Errored select..." error />
+            <Code>{code(`error`)}</Code>
         </Example>
 
         <br />

@@ -20,6 +20,7 @@ export interface ValueProps {
     multi: SelectProps['multi'];
     mobile: SelectProps['native'];
     disabled: SelectProps['disabled'];
+    error: SelectProps['error'];
     search?: string;
     open: boolean;
     focused?: boolean;
@@ -39,6 +40,7 @@ interface ValueContainerProps {
     mobile?: boolean;
     disabled?: boolean;
     focused?: boolean;
+    error?: boolean;
 }
 
 interface ValueLeftProps {
@@ -81,7 +83,10 @@ const ValueContainer = styled.div`
     padding: 5px 10px;
     background: #fff;
     cursor: default;
-    border: 1px solid #ccc;
+    border-width: 1px;
+    border-style: solid;
+    border-color: ${(props: ValueContainerProps) =>
+        props.error ? 'var(--react-slct-error-color)' : '#ccc'};
     z-index: 0;
     box-sizing: border-box;
     max-width: 100%;
@@ -170,7 +175,8 @@ export class Value extends React.PureComponent<ValueProps> {
             open,
             mobile,
             multi,
-            focused
+            focused,
+            error
         } = this.props;
         const ArrowComponent = this.props.arrowComponent;
         const valueOptions = getValueOptions(options, value);
@@ -187,6 +193,7 @@ export class Value extends React.PureComponent<ValueProps> {
                 disabled={disabled}
                 mobile={mobile}
                 focused={focused}
+                error={error}
                 onClick={this.onClick}
             >
                 <ValueLeft
@@ -246,7 +253,7 @@ export class Value extends React.PureComponent<ValueProps> {
                 onKeyDown={this.onKeyDown}
                 onFocus={onSearchFocus}
                 onBlur={onSearchBlur}
-                innerRef={this.search}
+                ref={this.search as any}
             />
         );
     }
