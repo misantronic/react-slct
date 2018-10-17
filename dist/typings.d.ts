@@ -89,6 +89,7 @@ export interface ValueComponentSingleProps<T = any> {
     labelComponent: SelectProps['labelComponent'];
 }
 export interface ValueComponentMultiProps<T = any> extends ValueComponentSingleProps<T> {
+    options: Option<T>[];
     onRemove(value: T): void;
 }
 export interface Rect {

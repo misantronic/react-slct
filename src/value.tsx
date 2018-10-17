@@ -286,6 +286,7 @@ export class Value extends React.PureComponent<ValueProps> {
                         key={toString(option.value)}
                         option={option}
                         labelComponent={labelComponent}
+                        options={valueOptions}
                         onRemove={this.props.onOptionRemove}
                     />
                 ) : (

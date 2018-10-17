@@ -104,6 +104,7 @@ export interface ValueComponentSingleProps<T = any> {
 
 export interface ValueComponentMultiProps<T = any>
     extends ValueComponentSingleProps<T> {
+    options: Option<T>[];
     onRemove(value: T): void;
 }
 
