@@ -45,13 +45,13 @@ export class Menu extends React.PureComponent {
         }
     }
     render() {
-        const { open, options = [], multi, selectedIndex, error } = this.props;
+        const { open, options = [], selectedIndex, error } = this.props;
         const { rect } = this.state;
         const MenuContent = this.props.menuComponent;
         const rowHeight = this.props.rowHeight || 32;
         const menuHeight = 185;
         const height = Math.min(Math.max(options.length * rowHeight, rowHeight), menuHeight);
-        return open ? (React.createElement(MenuContainer, { error: error, menuHeight: height, onRect: this.onRect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List, { className: "react-slct-menu-list", ref: this.list, width: rect ? rect.width : 0, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToIndex: multi ? 0 : selectedIndex, noRowsRenderer: this.emptyRenderer })))) : null;
+        return open ? (React.createElement(MenuContainer, { error: error, menuHeight: height, onRect: this.onRect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List, { className: "react-slct-menu-list", ref: this.list, width: rect ? rect.width : 0, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToIndex: selectedIndex, noRowsRenderer: this.emptyRenderer })))) : null;
     }
     rowRenderer({ key, index, style }) {
         const { options = [], labelComponent, selectedIndex, optionComponent, rowHeight } = this.props;

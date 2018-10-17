@@ -115,7 +115,7 @@ export class Menu extends React.PureComponent<
     }
 
     public render(): React.ReactNode {
-        const { open, options = [], multi, selectedIndex, error } = this.props;
+        const { open, options = [], selectedIndex, error } = this.props;
         const { rect } = this.state;
         const MenuContent = this.props.menuComponent;
         const rowHeight = this.props.rowHeight || 32;
@@ -142,7 +142,7 @@ export class Menu extends React.PureComponent<
                         rowHeight={rowHeight}
                         rowCount={options.length}
                         rowRenderer={this.rowRenderer}
-                        scrollToIndex={multi ? 0 : selectedIndex}
+                        scrollToIndex={selectedIndex}
                         noRowsRenderer={this.emptyRenderer}
                     />
                 )}
