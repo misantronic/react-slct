@@ -36,6 +36,8 @@ export interface SelectProps<T = any> {
     onChange?(value: T | T[], option?: Option<T>): void;
     onCreate?(value: string): void;
     onSearch?(value: string): void;
+    onOpen?(): void;
+    onClose?(): void;
 }
 export interface SelectState {
     open: boolean;

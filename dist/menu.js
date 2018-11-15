@@ -88,16 +88,16 @@ export class Menu extends React.PureComponent {
         this.setState({ rect });
     }
 }
-Menu.MenuContainer = styled.div.attrs({
-    style: (props) => ({
+Menu.MenuContainer = styled.div.attrs((props) => ({
+    style: {
         top: getContainerTop(props),
         left: `${props.rect ? props.rect.left : 0}px`,
         width: `${props.rect ? props.menuWidth || props.rect.width : 0}px`,
         boxShadow: menuPosition(props) === 'bottom'
             ? '0 2px 5px rgba(0, 0, 0, 0.1)'
             : '0 -2px 5px rgba(0, 0, 0, 0.1)'
-    })
-}) `
+    }
+})) `
         position: fixed;
         z-index: 9999;
         background: #fff;

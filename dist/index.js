@@ -123,7 +123,12 @@ export class Select extends React.PureComponent {
     }
     openMenu() {
         const selectedIndex = this.options.findIndex(option => toString(option.value) === toString(this.props.value));
-        this.setState({ open: true, search: undefined, selectedIndex }, () => this.addDocumentListener());
+        this.setState({ open: true, search: undefined, selectedIndex }, () => {
+            if (this.props.onOpen) {
+                this.props.onOpen();
+            }
+            this.addDocumentListener();
+        });
     }
     closeMenu(callback = () => { }) {
         this.removeDocumentListener();
@@ -131,7 +136,12 @@ export class Select extends React.PureComponent {
             open: false,
             search: undefined,
             selectedIndex: undefined
-        }, callback);
+        }, () => {
+            if (this.props.onClose) {
+                this.props.onClose();
+            }
+            callback();
+        });
     }
     createOption(value) {
         const { onCreate } = this.props;
