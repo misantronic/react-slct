@@ -1,5 +1,5 @@
 import * as tslib_1 from "tslib";
-import { bind } from 'lodash-decorators';
+import { bind, debounce } from 'lodash-decorators';
 import * as React from 'react';
 import styled from 'styled-components';
 import { Value } from './value';
@@ -387,6 +387,18 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "toggleMenu", null);
+tslib_1.__decorate([
+    debounce(0),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", void 0)
+], Select.prototype, "openMenu", null);
+tslib_1.__decorate([
+    debounce(0),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:returntype", void 0)
+], Select.prototype, "closeMenu", null);
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
