@@ -1,4 +1,4 @@
-import { bind } from 'lodash-decorators';
+import { bind, debounce } from 'lodash-decorators';
 import * as React from 'react';
 import styled from 'styled-components';
 import { Value } from './value';
@@ -277,6 +277,7 @@ export class Select<T = any> extends React.PureComponent<
         }
     }
 
+    @debounce(0)
     private openMenu(): void {
         const selectedIndex = this.options.findIndex(
             option => toString(option.value) === toString(this.props.value)
@@ -291,6 +292,7 @@ export class Select<T = any> extends React.PureComponent<
         });
     }
 
+    @debounce(0)
     private closeMenu(callback = () => {}): void {
         this.removeDocumentListener();
         this.setState(
