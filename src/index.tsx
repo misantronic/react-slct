@@ -282,9 +282,13 @@ export class Select<T = any> extends React.PureComponent<
             option => toString(option.value) === toString(this.props.value)
         );
 
-        this.setState({ open: true, search: undefined, selectedIndex }, () =>
-            this.addDocumentListener()
-        );
+        this.setState({ open: true, search: undefined, selectedIndex }, () => {
+            if (this.props.onOpen) {
+                this.props.onOpen();
+            }
+
+            this.addDocumentListener();
+        });
     }
 
     private closeMenu(callback = () => {}): void {
@@ -295,7 +299,13 @@ export class Select<T = any> extends React.PureComponent<
                 search: undefined,
                 selectedIndex: undefined
             },
-            callback
+            () => {
+                if (this.props.onClose) {
+                    this.props.onClose();
+                }
+
+                callback();
+            }
         );
     }
 
