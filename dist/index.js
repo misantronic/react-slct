@@ -143,10 +143,15 @@ export class Select extends React.PureComponent {
             callback();
         });
     }
-    createOption(value) {
+    createOption(value, cb) {
         const { onCreate } = this.props;
         if (onCreate) {
-            this.closeMenu(() => onCreate(value));
+            this.closeMenu(() => {
+                onCreate(value);
+                if (cb) {
+                    cb();
+                }
+            });
         }
     }
     addDocumentListener() {
@@ -193,11 +198,21 @@ export class Select extends React.PureComponent {
     onOptionSelect(value, option) {
         const { current } = this.nativeSelect;
         const { onChange, creatable } = this.props;
+        let optionWasCreated = false;
+        const selectOnNative = () => {
+            if (current) {
+                current.value = isArray(value)
+                    ? value.map(val => toString(val))
+                    : toString(value);
+            }
+            this.setState({ focused: true }, () => this.closeMenu(() => onChange && onChange(value, option)));
+        };
         if (creatable) {
             const createValue = (val) => {
                 const option = this.options.find(option => this.optionIsCreatable(option) && option.value === val);
                 if (option) {
-                    this.createOption(option.value);
+                    optionWasCreated = true;
+                    this.createOption(option.value, selectOnNative);
                 }
             };
             if (isArray(value)) {
@@ -207,12 +222,9 @@ export class Select extends React.PureComponent {
                 createValue(value);
             }
         }
-        if (current) {
-            current.value = isArray(value)
-                ? value.map(val => toString(val))
-                : toString(value);
+        if (!optionWasCreated) {
+            selectOnNative();
         }
-        this.setState({ focused: true }, () => this.closeMenu(() => onChange && onChange(value, option)));
     }
     onOptionRemove(value) {
         if (isArray(this.props.value)) {
