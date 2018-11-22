@@ -311,11 +311,17 @@ export class Select<T = any> extends React.PureComponent<
         );
     }
 
-    private createOption(value: string): void {
+    private createOption(value: string, cb?: () => void): void {
         const { onCreate } = this.props;
 
         if (onCreate) {
-            this.closeMenu(() => onCreate(value));
+            this.closeMenu(() => {
+                onCreate(value);
+
+                if (cb) {
+                    cb();
+                }
+            });
         }
     }
 
@@ -383,6 +389,19 @@ export class Select<T = any> extends React.PureComponent<
     private onOptionSelect(value: any | any[], option?: Option<T>): void {
         const { current } = this.nativeSelect;
         const { onChange, creatable } = this.props;
+        let optionWasCreated = false;
+
+        const selectOnNative = () => {
+            if (current) {
+                current.value = isArray(value)
+                    ? (value.map(val => toString(val)) as any)
+                    : toString(value);
+            }
+
+            this.setState({ focused: true }, () =>
+                this.closeMenu(() => onChange && onChange(value, option))
+            );
+        };
 
         if (creatable) {
             const createValue = (val: any) => {
@@ -392,7 +411,8 @@ export class Select<T = any> extends React.PureComponent<
                 );
 
                 if (option) {
-                    this.createOption(option.value as any);
+                    optionWasCreated = true;
+                    this.createOption(option.value as any, selectOnNative);
                 }
             };
 
@@ -403,15 +423,9 @@ export class Select<T = any> extends React.PureComponent<
             }
         }
 
-        if (current) {
-            current.value = isArray(value)
-                ? (value.map(val => toString(val)) as any)
-                : toString(value);
+        if (!optionWasCreated) {
+            selectOnNative();
         }
-
-        this.setState({ focused: true }, () =>
-            this.closeMenu(() => onChange && onChange(value, option))
-        );
     }
 
     @bind
