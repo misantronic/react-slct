@@ -277,25 +277,24 @@ export class Value extends React.PureComponent<ValueProps> {
         }
 
         const Single = valueComponentSingle || ValueComponentSingle;
-        const Multi = valueComponentMulti || ValueComponentMulti;
+        const Multi = (valueComponentMulti || ValueComponentMulti) as any;
 
-        return valueOptions.map(
-            option =>
-                multi ? (
-                    <Multi
-                        key={toString(option.value)}
-                        option={option}
-                        labelComponent={labelComponent}
-                        options={valueOptions}
-                        onRemove={this.props.onOptionRemove}
-                    />
-                ) : (
-                    <Single
-                        key={toString(option.value)}
-                        option={option}
-                        labelComponent={labelComponent}
-                    />
-                )
+        return valueOptions.map(option =>
+            multi ? (
+                <Multi
+                    key={toString(option.value)}
+                    option={option}
+                    labelComponent={labelComponent}
+                    options={valueOptions}
+                    onRemove={this.props.onOptionRemove}
+                />
+            ) : (
+                <Single
+                    key={toString(option.value)}
+                    option={option}
+                    labelComponent={labelComponent}
+                />
+            )
         );
     }
 

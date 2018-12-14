@@ -79,7 +79,7 @@ export class ValueComponentMulti<T = any> extends React.PureComponent<
     public render(): React.ReactNode {
         const { TagContainer } = ValueComponentMulti;
         const { option, labelComponent, onRemove } = this.props;
-        const Label = labelComponent || SelectLabel;
+        const Label = (labelComponent || SelectLabel) as any;
 
         return (
             <TagContainer className="value-multi" {...option}>
