@@ -373,7 +373,9 @@ export class Select<T = any> extends React.PureComponent<
 
     @bind
     private onSearchFocus(): void {
-        if (!this.state.open && !this.props.native) {
+        const { open, focused } = this.state;
+
+        if (!open && !focused && !this.props.native) {
             this.openMenu();
         }
 
