@@ -135,7 +135,7 @@ export class Value extends React.PureComponent {
             return React.createElement(Placeholder, null, placeholder);
         }
         const Single = valueComponentSingle || ValueComponentSingle;
-        const Multi = valueComponentMulti || ValueComponentMulti;
+        const Multi = (valueComponentMulti || ValueComponentMulti);
         return valueOptions.map(option => multi ? (React.createElement(Multi, { key: toString(option.value), option: option, labelComponent: labelComponent, options: valueOptions, onRemove: this.props.onOptionRemove })) : (React.createElement(Single, { key: toString(option.value), option: option, labelComponent: labelComponent })));
     }
     focus() {

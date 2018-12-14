@@ -7,7 +7,7 @@ export class OptionComponent extends React.PureComponent {
     render() {
         const { OptionItem } = OptionComponent;
         const { active, selected, labelComponent, option, height } = this.props;
-        const Label = labelComponent ? labelComponent : SelectLabel;
+        const Label = (labelComponent ? labelComponent : SelectLabel);
         const className = [
             'option',
             selected ? 'selected' : null,

@@ -45,7 +45,7 @@ export class ValueComponentMulti extends React.PureComponent {
     render() {
         const { TagContainer } = ValueComponentMulti;
         const { option, labelComponent, onRemove } = this.props;
-        const Label = labelComponent || SelectLabel;
+        const Label = (labelComponent || SelectLabel);
         return (React.createElement(TagContainer, Object.assign({ className: "value-multi" }, option),
             React.createElement(Remove, { value: option.value, onClick: onRemove }, "\u00D7"),
             React.createElement(Label, Object.assign({}, option), option.label)));
