@@ -3,7 +3,7 @@ import { SelectLabel } from './label';
 import { ValueComponentSingleProps } from './typings';
 
 export const ValueComponentSingle = (props: ValueComponentSingleProps) => {
-    const Label = props.labelComponent || SelectLabel;
+    const Label = props.labelComponent || (SelectLabel as any);
 
     return (
         <Label className="value-single" {...props.option}>
