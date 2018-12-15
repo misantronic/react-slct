@@ -2,7 +2,7 @@ import { bind } from 'lodash-decorators';
 import * as React from 'react';
 import styled from 'styled-components';
 import { SelectLabel } from './label';
-import { toString, keys, getValueOptions, getWindow } from './utils';
+import { keys, getValueOptions, getWindow, toKey } from './utils';
 import { SelectProps, Option } from './typings';
 import { ValueComponentMulti } from './value-component-multi';
 import { ValueComponentSingle } from './value-component-single';
@@ -282,7 +282,7 @@ export class Value extends React.PureComponent<ValueProps> {
         return valueOptions.map(option =>
             multi ? (
                 <Multi
-                    key={toString(option.value)}
+                    key={toKey(option.value)}
                     option={option}
                     labelComponent={labelComponent}
                     options={valueOptions}
@@ -290,7 +290,7 @@ export class Value extends React.PureComponent<ValueProps> {
                 />
             ) : (
                 <Single
-                    key={toString(option.value)}
+                    key={toKey(option.value)}
                     option={option}
                     labelComponent={labelComponent}
                 />

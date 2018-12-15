@@ -5,11 +5,11 @@ import { List } from 'react-virtualized/dist/commonjs/List';
 import styled from 'styled-components';
 import { SelectLabel } from './label';
 import {
-    toString,
     isArray,
     getWindowInnerHeight,
     getWindow,
-    getDocument
+    getDocument,
+    equal
 } from './utils';
 import {
     Rect,
@@ -165,9 +165,8 @@ export class Menu extends React.PureComponent<
         } = this.props;
         const option = options[index];
         const currentValue = isArray(this.props.value)
-            ? this.props.value.map(val => toString(val))
-            : [toString(this.props.value)];
-        const value = toString(option.value);
+            ? this.props.value
+            : [this.props.value];
         const Component = optionComponent || OptionComponent;
 
         return (
@@ -176,7 +175,7 @@ export class Menu extends React.PureComponent<
                     option={option}
                     labelComponent={labelComponent}
                     height={rowHeight}
-                    active={currentValue.some(val => val === value)}
+                    active={currentValue.some(val => equal(val, option.value))}
                     selected={selectedIndex === index}
                     onSelect={this.onSelect}
                 />

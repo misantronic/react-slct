@@ -1,25 +1,53 @@
 import { Option } from '.';
 
-export function toString(value: any): string {
+export function toKey(value: any): string {
     if (typeof value === 'string') {
         return value;
     }
 
-    if (value && typeof value === 'object') {
+    if (typeof value === 'object') {
+        if (value.id) {
+            return value.id;
+        }
+
         if (value.toJSON) {
-            value = value.toJSON();
+            return value.toJSON();
         }
     }
 
     return JSON.stringify(value);
 }
 
+export function equal(valueA: any, valueB: any) {
+    if (valueA === valueB) {
+        return true;
+    }
+
+    if (!valueA || !valueB) {
+        return false;
+    }
+
+    if (typeof valueA === 'object' && typeof valueB === 'object') {
+        if (valueA.id === valueB.id) {
+            return true;
+        }
+
+        if (valueA.toJSON && valueB.toJSON) {
+            return valueA.toJSON() === valueB.toJSON();
+        }
+
+        return JSON.stringify(valueA) === JSON.stringify(valueB);
+    }
+
+    return false;
+}
+
 export function getValueOptions(options: Option[], value: any) {
     return options.filter(option => {
         if (isArray(value)) {
-            return value.some(val => toString(option.value) === toString(val));
+            return value.some(val => equal(option.value, val));
         } else {
-            return toString(option.value) === toString(value);
+            return equal(option.value, value);
         }
     });
 }

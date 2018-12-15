@@ -3,7 +3,14 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Value } from './value';
 import { Menu, MenuContainer } from './menu';
-import { toString, isArray, keys, getDocument, getValueOptions } from './utils';
+import {
+    isArray,
+    keys,
+    getDocument,
+    getValueOptions,
+    equal,
+    toKey
+} from './utils';
 import {
     SelectProps,
     SelectState,
@@ -205,8 +212,8 @@ export class Select<T = any> extends React.PureComponent<
         const { native, placeholder, multi, disabled } = this.props;
         const clearable = this.props.clearable && native;
         const value = isArray(this.props.value)
-            ? this.props.value.map(val => toString(val))
-            : toString(this.props.value || '');
+            ? this.props.value.map(this.findOptionIndex)
+            : this.findOptionIndex(this.props.value || '');
 
         return (
             <NativeSelect
@@ -221,19 +228,15 @@ export class Select<T = any> extends React.PureComponent<
                 <option value="" disabled={!clearable}>
                     {placeholder}
                 </option>
-                {this.options.map(option => {
-                    const value = toString(option.value);
-
-                    return (
-                        <option
-                            disabled={option.disabled}
-                            value={value}
-                            key={value}
-                        >
-                            {option.label}
-                        </option>
-                    );
-                })}
+                {this.options.map((option, i) => (
+                    <option
+                        key={toKey(option.value)}
+                        value={`${i}`}
+                        disabled={option.disabled}
+                    >
+                        {option.label}
+                    </option>
+                ))}
             </NativeSelect>
         );
     }
@@ -279,8 +282,8 @@ export class Select<T = any> extends React.PureComponent<
 
     @debounce(0)
     private openMenu(): void {
-        const selectedIndex = this.options.findIndex(
-            option => toString(option.value) === toString(this.props.value)
+        const selectedIndex = this.options.findIndex(option =>
+            equal(option.value, this.props.value)
         );
 
         this.setState({ open: true, search: undefined, selectedIndex }, () => {
@@ -348,6 +351,17 @@ export class Select<T = any> extends React.PureComponent<
     }
 
     @bind
+    private findOptionIndex(val: any) {
+        const index = this.options.findIndex(option => option.value === val);
+
+        if (index === -1) {
+            return '';
+        }
+
+        return String(index);
+    }
+
+    @bind
     private onChangeNativeSelect(
         e: React.SyntheticEvent<HTMLSelectElement>
     ): void {
@@ -396,8 +410,8 @@ export class Select<T = any> extends React.PureComponent<
         const selectOnNative = () => {
             if (current) {
                 current.value = isArray(value)
-                    ? (value.map(val => toString(val)) as any)
-                    : toString(value);
+                    ? (value.map(this.findOptionIndex) as any)
+                    : this.findOptionIndex(value);
             }
 
             this.setState({ focused: true }, () =>
@@ -433,9 +447,7 @@ export class Select<T = any> extends React.PureComponent<
     @bind
     private onOptionRemove(value: any): void {
         if (isArray(this.props.value)) {
-            const values = this.props.value.filter(
-                val => toString(val) !== toString(value)
-            );
+            const values = this.props.value.filter(val => !equal(val, value));
 
             this.onOptionSelect(values);
         }
