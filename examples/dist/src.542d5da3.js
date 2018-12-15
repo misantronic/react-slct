@@ -36102,25 +36102,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-exports.toString = toString;
 exports.toKey = toKey;
-exports.compare = compare;
+exports.equal = equal;
 exports.getValueOptions = getValueOptions;
 exports.isArray = isArray;
 exports.getDocument = getDocument;
 exports.getWindow = getWindow;
 exports.getWindowInnerHeight = getWindowInnerHeight;
-function toString(value) {
-    if (typeof value === 'string') {
-        return value;
-    }
-    if (value && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object') {
-        if (value.toJSON) {
-            value = value.toJSON();
-        }
-    }
-    return JSON.stringify(value);
-}
 function toKey(value) {
     if (typeof value === 'string') {
         return value;
@@ -36135,7 +36123,7 @@ function toKey(value) {
     }
     return JSON.stringify(value);
 }
-function compare(valueA, valueB) {
+function equal(valueA, valueB) {
     if (valueA === valueB) {
         return true;
     }
@@ -36157,10 +36145,10 @@ function getValueOptions(options, value) {
     return options.filter(function (option) {
         if (isArray(value)) {
             return value.some(function (val) {
-                return compare(option.value, val);
+                return equal(option.value, val);
             });
         } else {
-            return compare(option.value, value);
+            return equal(option.value, value);
         }
     });
 }
@@ -42389,7 +42377,7 @@ var Menu = exports.Menu = function (_React$PureComponent) {
             var currentValue = (0, _utils.isArray)(this.props.value) ? this.props.value : [this.props.value];
             var Component = optionComponent || _option.OptionComponent;
             return React.createElement("div", { key: key, style: style }, React.createElement(Component, { option: option, labelComponent: labelComponent, height: rowHeight, active: currentValue.some(function (val) {
-                    return (0, _utils.compare)(val, option.value);
+                    return (0, _utils.equal)(val, option.value);
                 }), selected: selectedIndex === index, onSelect: this.onSelect }));
         }
     }, {
@@ -42734,8 +42722,9 @@ var Select = exports.Select = function (_React$PureComponent) {
                 disabled = _props2.disabled;
 
             var clearable = this.props.clearable && native;
-            return React.createElement(NativeSelect, { ref: this.nativeSelect, multiple: multi, disabled: disabled, native: native, tabIndex: -1, onChange: this.onChangeNativeSelect }, React.createElement("option", { value: "", disabled: !clearable }, placeholder), this.options.map(function (option, i) {
-                return React.createElement("option", { key: (0, _utils.toKey)(option.value), value: i, disabled: option.disabled }, option.label);
+            var value = (0, _utils.isArray)(this.props.value) ? this.props.value.map(this.findOptionIndex) : this.findOptionIndex(this.props.value || '');
+            return React.createElement(NativeSelect, { ref: this.nativeSelect, multiple: multi, value: value, disabled: disabled, native: native, tabIndex: -1, onChange: this.onChangeNativeSelect }, React.createElement("option", { value: "", disabled: !clearable }, placeholder), this.options.map(function (option, i) {
+                return React.createElement("option", { key: (0, _utils.toKey)(option.value), value: '' + i, disabled: option.disabled }, option.label);
             }));
         }
     }, {
@@ -42790,7 +42779,7 @@ var Select = exports.Select = function (_React$PureComponent) {
             var _this3 = this;
 
             var selectedIndex = this.options.findIndex(function (option) {
-                return (0, _utils.compare)(option.value, _this3.props.value);
+                return (0, _utils.equal)(option.value, _this3.props.value);
             });
             this.setState({ open: true, search: undefined, selectedIndex: selectedIndex }, function () {
                 if (_this3.props.onOpen) {
@@ -42857,6 +42846,17 @@ var Select = exports.Select = function (_React$PureComponent) {
             }, 700);
         }
     }, {
+        key: 'findOptionIndex',
+        value: function findOptionIndex(val) {
+            var index = this.options.findIndex(function (option) {
+                return option.value === val;
+            });
+            if (index === -1) {
+                return '';
+            }
+            return String(index);
+        }
+    }, {
         key: 'onChangeNativeSelect',
         value: function onChangeNativeSelect(e) {
             var _this6 = this;
@@ -42873,7 +42873,6 @@ var Select = exports.Select = function (_React$PureComponent) {
                     var values = Array.from(currentTarget.selectedOptions).map(function (htmlOption) {
                         return _this6.options[htmlOption.index - 1].value;
                     });
-                    console.log(values);
                     if (multi) {
                         onChange(values);
                     } else {
@@ -42912,9 +42911,7 @@ var Select = exports.Select = function (_React$PureComponent) {
             var optionWasCreated = false;
             var selectOnNative = function selectOnNative() {
                 if (current) {
-                    current.value = (0, _utils.isArray)(value) ? value.map(function (val) {
-                        return (0, _utils.toString)(val);
-                    }) : (0, _utils.toString)(value);
+                    current.value = (0, _utils.isArray)(value) ? value.map(_this7.findOptionIndex) : _this7.findOptionIndex(value);
                 }
                 _this7.setState({ focused: true }, function () {
                     return _this7.closeMenu(function () {
@@ -42947,7 +42944,7 @@ var Select = exports.Select = function (_React$PureComponent) {
         value: function onOptionRemove(value) {
             if ((0, _utils.isArray)(this.props.value)) {
                 var values = this.props.value.filter(function (val) {
-                    return !(0, _utils.compare)(val, value);
+                    return !(0, _utils.equal)(val, value);
                 });
                 this.onOptionSelect(values);
             }
@@ -43161,6 +43158,7 @@ tslib_1.__decorate([_lodashDecorators.bind, tslib_1.__metadata("design:type", Fu
 tslib_1.__decorate([(0, _lodashDecorators.debounce)(0), tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", []), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "openMenu", null);
 tslib_1.__decorate([(0, _lodashDecorators.debounce)(0), tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [Object]), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "closeMenu", null);
 tslib_1.__decorate([_lodashDecorators.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", []), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "cleanBlindText", null);
+tslib_1.__decorate([_lodashDecorators.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [Object]), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "findOptionIndex", null);
 tslib_1.__decorate([_lodashDecorators.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof React !== "undefined" && React.SyntheticEvent) === "function" ? _a : Object]), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onChangeNativeSelect", null);
 tslib_1.__decorate([_lodashDecorators.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", []), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onSearchFocus", null);
 tslib_1.__decorate([_lodashDecorators.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", []), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onSearchBlur", null);
