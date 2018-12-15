@@ -3,7 +3,7 @@ import { bind } from 'lodash-decorators';
 import * as React from 'react';
 import styled from 'styled-components';
 import { SelectLabel } from './label';
-import { toString, keys, getValueOptions, getWindow } from './utils';
+import { keys, getValueOptions, getWindow, toKey } from './utils';
 import { ValueComponentMulti } from './value-component-multi';
 import { ValueComponentSingle } from './value-component-single';
 const Button = styled.button `
@@ -136,7 +136,7 @@ export class Value extends React.PureComponent {
         }
         const Single = valueComponentSingle || ValueComponentSingle;
         const Multi = (valueComponentMulti || ValueComponentMulti);
-        return valueOptions.map(option => multi ? (React.createElement(Multi, { key: toString(option.value), option: option, labelComponent: labelComponent, options: valueOptions, onRemove: this.props.onOptionRemove })) : (React.createElement(Single, { key: toString(option.value), option: option, labelComponent: labelComponent })));
+        return valueOptions.map(option => multi ? (React.createElement(Multi, { key: toKey(option.value), option: option, labelComponent: labelComponent, options: valueOptions, onRemove: this.props.onOptionRemove })) : (React.createElement(Single, { key: toKey(option.value), option: option, labelComponent: labelComponent })));
     }
     focus() {
         if (this.search.current) {

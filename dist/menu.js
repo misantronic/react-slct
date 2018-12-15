@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import { List } from 'react-virtualized/dist/commonjs/List';
 import styled from 'styled-components';
 import { SelectLabel } from './label';
-import { toString, isArray, getWindowInnerHeight, getWindow, getDocument } from './utils';
+import { isArray, getWindowInnerHeight, getWindow, getDocument, equal } from './utils';
 import { OptionComponent } from './option';
 function menuPosition(props) {
     if (!props.rect ||
@@ -57,12 +57,11 @@ export class Menu extends React.PureComponent {
         const { options = [], labelComponent, selectedIndex, optionComponent, rowHeight } = this.props;
         const option = options[index];
         const currentValue = isArray(this.props.value)
-            ? this.props.value.map(val => toString(val))
-            : [toString(this.props.value)];
-        const value = toString(option.value);
+            ? this.props.value
+            : [this.props.value];
         const Component = optionComponent || OptionComponent;
         return (React.createElement("div", { key: key, style: style },
-            React.createElement(Component, { option: option, labelComponent: labelComponent, height: rowHeight, active: currentValue.some(val => val === value), selected: selectedIndex === index, onSelect: this.onSelect })));
+            React.createElement(Component, { option: option, labelComponent: labelComponent, height: rowHeight, active: currentValue.some(val => equal(val, option.value)), selected: selectedIndex === index, onSelect: this.onSelect })));
     }
     emptyRenderer() {
         const { Empty } = Menu;

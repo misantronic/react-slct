@@ -4,7 +4,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Value } from './value';
 import { Menu, MenuContainer } from './menu';
-import { toString, isArray, keys, getDocument, getValueOptions } from './utils';
+import { isArray, keys, getDocument, getValueOptions, equal, toKey } from './utils';
 import './global-stylings';
 export { Menu, keys };
 export class Select extends React.PureComponent {
@@ -79,14 +79,11 @@ export class Select extends React.PureComponent {
         const { native, placeholder, multi, disabled } = this.props;
         const clearable = this.props.clearable && native;
         const value = isArray(this.props.value)
-            ? this.props.value.map(val => toString(val))
-            : toString(this.props.value || '');
+            ? this.props.value.map(this.findOptionIndex)
+            : this.findOptionIndex(this.props.value || '');
         return (React.createElement(NativeSelect, { ref: this.nativeSelect, multiple: multi, value: value, disabled: disabled, native: native, tabIndex: -1, onChange: this.onChangeNativeSelect },
             React.createElement("option", { value: "", disabled: !clearable }, placeholder),
-            this.options.map(option => {
-                const value = toString(option.value);
-                return (React.createElement("option", { disabled: option.disabled, value: value, key: value }, option.label));
-            })));
+            this.options.map((option, i) => (React.createElement("option", { key: toKey(option.value), value: `${i}`, disabled: option.disabled }, option.label)))));
     }
     renderChildren() {
         const { options, placeholder, multi, children } = this.props;
@@ -122,7 +119,7 @@ export class Select extends React.PureComponent {
         }
     }
     openMenu() {
-        const selectedIndex = this.options.findIndex(option => toString(option.value) === toString(this.props.value));
+        const selectedIndex = this.options.findIndex(option => equal(option.value, this.props.value));
         this.setState({ open: true, search: undefined, selectedIndex }, () => {
             if (this.props.onOpen) {
                 this.props.onOpen();
@@ -168,6 +165,13 @@ export class Select extends React.PureComponent {
     cleanBlindText() {
         this.blindTextTimeout = setTimeout(() => this.setState({ blindText: '' }), 700);
     }
+    findOptionIndex(val) {
+        const index = this.options.findIndex(option => option.value === val);
+        if (index === -1) {
+            return '';
+        }
+        return String(index);
+    }
     onChangeNativeSelect(e) {
         const { onChange, multi } = this.props;
         const { currentTarget } = e;
@@ -203,8 +207,8 @@ export class Select extends React.PureComponent {
         const selectOnNative = () => {
             if (current) {
                 current.value = isArray(value)
-                    ? value.map(val => toString(val))
-                    : toString(value);
+                    ? value.map(this.findOptionIndex)
+                    : this.findOptionIndex(value);
             }
             this.setState({ focused: true }, () => this.closeMenu(() => onChange && onChange(value, option)));
         };
@@ -229,7 +233,7 @@ export class Select extends React.PureComponent {
     }
     onOptionRemove(value) {
         if (isArray(this.props.value)) {
-            const values = this.props.value.filter(val => toString(val) !== toString(value));
+            const values = this.props.value.filter(val => !equal(val, value));
             this.onOptionSelect(values);
         }
     }
@@ -418,6 +422,12 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "cleanBlindText", null);
+tslib_1.__decorate([
+    bind,
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:returntype", void 0)
+], Select.prototype, "findOptionIndex", null);
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),

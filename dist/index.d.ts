@@ -26,6 +26,7 @@ export declare class Select<T = any> extends React.PureComponent<SelectProps<T>,
     private addDocumentListener;
     private removeDocumentListener;
     private cleanBlindText;
+    private findOptionIndex;
     private onChangeNativeSelect;
     private onSearchFocus;
     private onSearchBlur;

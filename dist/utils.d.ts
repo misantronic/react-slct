@@ -1,5 +1,6 @@
 import { Option } from '.';
-export declare function toString(value: any): string;
+export declare function toKey(value: any): string;
+export declare function equal(valueA: any, valueB: any): boolean;
 export declare function getValueOptions(options: Option[], value: any): Option<any>[];
 export declare function isArray<T = any>(val: any): val is Array<T>;
 export declare function getDocument(): Document | undefined;
