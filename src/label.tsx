@@ -1,7 +1,6 @@
 // @ts-ignore
 import * as React from 'react';
-// @ts-ignore
-import styled, { StyledComponentClass } from 'styled-components';
+import styled from 'styled-components';
 
 export const SelectLabel = styled.span`
     overflow: hidden;
