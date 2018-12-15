@@ -77,7 +77,11 @@ export class Headless extends React.Component<{}, HeadlessState> {
                             {placeholder && (
                                 <Placeholder>{placeholder}</Placeholder>
                             )}
-                            {value && <div>{value}</div>}
+                            {value && !Array.isArray(value) && (
+                                <div>
+                                    {value.id}. {value.value}
+                                </div>
+                            )}
                             <ArrowButton>{open ? '▲' : '▼'}</ArrowButton>
                         </Value>
                         {open && (
@@ -90,9 +94,12 @@ export class Headless extends React.Component<{}, HeadlessState> {
                                         ) => {
                                             e.stopPropagation();
 
-                                            this.setState({
-                                                value: option.value
-                                            });
+                                            this.setState(
+                                                {
+                                                    value: option.value
+                                                },
+                                                onToggle
+                                            );
                                         }}
                                     >
                                         {option.label}
