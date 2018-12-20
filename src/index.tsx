@@ -219,8 +219,6 @@ export class Select<T = any> extends React.PureComponent<
             ? this.props.value.map(this.findOptionIndex)
             : this.findOptionIndex(this.props.value || '');
 
-        console.log({ value, propsValue: this.props.value });
-
         return (
             <NativeSelect
                 ref={this.nativeSelect as any}
