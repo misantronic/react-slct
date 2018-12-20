@@ -42,10 +42,10 @@ export class Select<T = any> extends React.PureComponent<
         display: block;
         z-index: ${(props: { native?: boolean }) =>
             props.native ? '1' : 'auto'};
-        opacity: 0;
+        opacity: 1;
         position: absolute;
         right: 0;
-        top: 0;
+        top: 20px;
         width: 100%;
         height: 100%;
     `;
@@ -219,6 +219,8 @@ export class Select<T = any> extends React.PureComponent<
             ? this.props.value.map(this.findOptionIndex)
             : this.findOptionIndex(this.props.value || '');
 
+        console.log({ value, propsValue: this.props.value });
+
         return (
             <NativeSelect
                 ref={this.nativeSelect as any}
@@ -357,10 +359,24 @@ export class Select<T = any> extends React.PureComponent<
 
     @bind
     private findOptionIndex(val: any) {
-        const index = this.options.findIndex(option => option.value === val);
+        let index = this.options.findIndex(option => option.value === val);
 
         if (index === -1) {
-            return '';
+            if (typeof val === 'object') {
+                index = this.options.findIndex(option => {
+                    if (typeof option.value === 'object') {
+                        return (
+                            JSON.stringify(option.value) === JSON.stringify(val)
+                        );
+                    }
+
+                    return false;
+                });
+            }
+
+            if (index === -1) {
+                return '';
+            }
         }
 
         return String(index);
