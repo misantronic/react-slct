@@ -69,7 +69,7 @@ export class Select extends React.PureComponent {
             className,
             error && 'has-error'
         ].filter(c => Boolean(c));
-        return (React.createElement(Container, { className: classNames.join(' '), disabled: disabled, ref: this.onContainerRef, onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
+        return (React.createElement(Container, { className: classNames.join(' '), disabled: disabled, ref: this.onContainerRef, "data-role": this.props['data-role'], onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
             this.renderNativeSelect(),
             React.createElement(Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: options, placeholder: placeholder, error: error, value: value, search: search, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, arrowComponent: arrowComponent, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onSearchBlur: this.onSearchBlur, onOptionRemove: this.onOptionRemove }),
             React.createElement(Menu, { open: open, options: this.options, value: value, multi: multi, error: error, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, emptyText: emptyText, rowHeight: rowHeight, onSelect: this.onOptionSelect })));
@@ -77,11 +77,14 @@ export class Select extends React.PureComponent {
     renderNativeSelect() {
         const { NativeSelect } = Select;
         const { native, placeholder, multi, disabled } = this.props;
+        const dataRole = this.props['data-role']
+            ? `select-${this.props['data-role']}`
+            : undefined;
         const clearable = this.props.clearable && native;
         const value = isArray(this.props.value)
             ? this.props.value.map(this.findOptionIndex)
             : this.findOptionIndex(this.props.value || '');
-        return (React.createElement(NativeSelect, { ref: this.nativeSelect, multiple: multi, value: value, disabled: disabled, native: native, tabIndex: -1, "data-role": this.props['data-role'], onChange: this.onChangeNativeSelect },
+        return (React.createElement(NativeSelect, { ref: this.nativeSelect, multiple: multi, value: value, disabled: disabled, native: native, tabIndex: -1, "data-role": dataRole, onChange: this.onChangeNativeSelect },
             React.createElement("option", { value: "", disabled: !clearable }, placeholder),
             this.options.map((option, i) => (React.createElement("option", { key: toKey(option.value), value: `${i}`, disabled: option.disabled }, option.label)))));
     }

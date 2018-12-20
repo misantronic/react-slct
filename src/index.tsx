@@ -160,6 +160,7 @@ export class Select<T = any> extends React.PureComponent<
                 className={classNames.join(' ')}
                 disabled={disabled}
                 ref={this.onContainerRef as any}
+                data-role={this.props['data-role']}
                 onKeyUp={this.onKeyUp}
                 onKeyDown={this.onKeyDown}
             >
@@ -210,6 +211,9 @@ export class Select<T = any> extends React.PureComponent<
     private renderNativeSelect(): React.ReactNode {
         const { NativeSelect } = Select;
         const { native, placeholder, multi, disabled } = this.props;
+        const dataRole = this.props['data-role']
+            ? `select-${this.props['data-role']}`
+            : undefined;
         const clearable = this.props.clearable && native;
         const value = isArray(this.props.value)
             ? this.props.value.map(this.findOptionIndex)
@@ -223,7 +227,7 @@ export class Select<T = any> extends React.PureComponent<
                 disabled={disabled}
                 native={native}
                 tabIndex={-1}
-                data-role={this.props['data-role']}
+                data-role={dataRole}
                 onChange={this.onChangeNativeSelect}
             >
                 <option value="" disabled={!clearable}>
