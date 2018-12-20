@@ -42,10 +42,10 @@ export class Select<T = any> extends React.PureComponent<
         display: block;
         z-index: ${(props: { native?: boolean }) =>
             props.native ? '1' : 'auto'};
-        opacity: 1;
+        opacity: 0;
         position: absolute;
         right: 0;
-        top: 20px;
+        top: 0;
         width: 100%;
         height: 100%;
     `;

@@ -405,10 +405,10 @@ Select.Container = styled.div `
 Select.NativeSelect = styled.select `
         display: block;
         z-index: ${(props) => props.native ? '1' : 'auto'};
-        opacity: 1;
+        opacity: 0;
         position: absolute;
         right: 0;
-        top: 20px;
+        top: 0;
         width: 100%;
         height: 100%;
     `;
