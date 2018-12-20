@@ -30,6 +30,7 @@ export interface SelectProps<T = any> {
     valueComponentMulti?:
         | React.ComponentClass<ValueComponentMultiProps>
         | React.StatelessComponent<ValueComponentMultiProps>;
+    'data-role'?: string;
     children?(config: {
         value?: T | T[];
         options: Option[];

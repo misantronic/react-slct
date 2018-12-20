@@ -223,6 +223,7 @@ export class Select<T = any> extends React.PureComponent<
                 disabled={disabled}
                 native={native}
                 tabIndex={-1}
+                data-role={this.props['data-role']}
                 onChange={this.onChangeNativeSelect}
             >
                 <option value="" disabled={!clearable}>
