@@ -84,6 +84,7 @@ export class Select extends React.PureComponent {
         const value = isArray(this.props.value)
             ? this.props.value.map(this.findOptionIndex)
             : this.findOptionIndex(this.props.value || '');
+        console.log({ value, propsValue: this.props.value });
         return (React.createElement(NativeSelect, { ref: this.nativeSelect, multiple: multi, value: value, disabled: disabled, native: native, tabIndex: -1, "data-role": dataRole, onChange: this.onChangeNativeSelect },
             React.createElement("option", { value: "", disabled: !clearable }, placeholder),
             this.options.map((option, i) => (React.createElement("option", { key: toKey(option.value), value: `${i}`, disabled: option.disabled }, option.label)))));
@@ -169,9 +170,19 @@ export class Select extends React.PureComponent {
         this.blindTextTimeout = setTimeout(() => this.setState({ blindText: '' }), 700);
     }
     findOptionIndex(val) {
-        const index = this.options.findIndex(option => option.value === val);
+        let index = this.options.findIndex(option => option.value === val);
         if (index === -1) {
-            return '';
+            if (typeof val === 'object') {
+                index = this.options.findIndex(option => {
+                    if (typeof option.value === 'object') {
+                        return (JSON.stringify(option.value) === JSON.stringify(val));
+                    }
+                    return false;
+                });
+            }
+            if (index === -1) {
+                return '';
+            }
         }
         return String(index);
     }
@@ -394,10 +405,10 @@ Select.Container = styled.div `
 Select.NativeSelect = styled.select `
         display: block;
         z-index: ${(props) => props.native ? '1' : 'auto'};
-        opacity: 0;
+        opacity: 1;
         position: absolute;
         right: 0;
-        top: 0;
+        top: 20px;
         width: 100%;
         height: 100%;
     `;
