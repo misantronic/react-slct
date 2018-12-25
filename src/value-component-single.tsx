@@ -2,12 +2,14 @@ import * as React from 'react';
 import { SelectLabel } from './label';
 import { ValueComponentSingleProps } from './typings';
 
-export const ValueComponentSingle = (props: ValueComponentSingleProps) => {
-    const Label = props.labelComponent || (SelectLabel as any);
+export const ValueComponentSingle = React.memo(
+    (props: ValueComponentSingleProps) => {
+        const Label = props.labelComponent || (SelectLabel as any);
 
-    return (
-        <Label className="value-single" {...props.option}>
-            {props.option.label}
-        </Label>
-    );
-};
+        return (
+            <Label className="value-single" {...props.option}>
+                {props.option.label}
+            </Label>
+        );
+    }
+);
