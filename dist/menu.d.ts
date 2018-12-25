@@ -4,7 +4,14 @@ interface MenuComponentState {
     rect?: Rect;
 }
 export declare class Menu extends React.PureComponent<MenuComponentProps, MenuComponentState> {
-    static MenuContainer: import("styled-components").StyledComponent<"div", any, {}, never>;
+    static MenuContainer: import("styled-components").StyledComponent<"div", any, {
+        style: {
+            top: string;
+            left: string;
+            width: string;
+            boxShadow: string;
+        };
+    } & MenuContainerProps, "style">;
     private static Empty;
     private list;
     constructor(props: any);
