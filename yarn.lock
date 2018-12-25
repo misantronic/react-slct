@@ -2699,10 +2699,10 @@ function-bind@^1.1.0, function-bind@^1.1.1:
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
   integrity sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
 
-fuse-box@^3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/fuse-box/-/fuse-box-3.6.0.tgz#a4adf41a60855c7b0a0775b3095b6b0c2d35b011"
-  integrity sha512-j/lIXZHIiHv2w9gxOBj9k8vAORXt0GrPQt/zc4ttVG3WT5pQ0uaqpxu6m4Npwk4WgOjN4mieD3taK4S56Ol3Zw==
+fuse-box@3.7.0-next.6:
+  version "3.7.0-next.6"
+  resolved "https://registry.yarnpkg.com/fuse-box/-/fuse-box-3.7.0-next.6.tgz#a09fd255ff64a0ce5002747f2544adbf39fdea93"
+  integrity sha512-XGuKLf2hD2t5R++WqWNqZ3BFD8iN/Jk6n/9+CwUcpqq9CP95Fu+srawKbPd+sbw8GHgVgFHjqbrwq+DOJIewJw==
   dependencies:
     acorn "^5.7.3"
     acorn-jsx "^4.0.1"
@@ -2732,6 +2732,7 @@ fuse-box@^3.6.0:
     request "^2.79.0"
     shorthash "0.0.2"
     source-map "^0.7.1"
+    sourcemap-blender "1.0.5"
     tslib "^1.8.0"
     watch "^1.0.1"
     ws "^1.1.1"
@@ -5616,10 +5617,17 @@ source-map@^0.5.0, source-map@^0.5.3, source-map@^0.5.6:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
   integrity sha1-igOdLRAh0i0eoUyA2OpGi6LvP8w=
 
-source-map@^0.7.1:
+source-map@^0.7.1, source-map@^0.7.3:
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.7.3.tgz#5302f8169031735226544092e64981f751750383"
   integrity sha512-CkCj6giN3S+n9qrYiBTX5gystlENnRW5jZeNLHpe6aue+SrHcG5VYwujhW9s4dY31mEGsxBDrHR6oI69fTXsaQ==
+
+sourcemap-blender@1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/sourcemap-blender/-/sourcemap-blender-1.0.5.tgz#d361f3d12381c4e477178113878fdf984a91bdbc"
+  integrity sha512-GPhjCmDtJ8YY6zt1L6kP6WtBg6WrdWt5hw2Wmgt9rwC3yiwLo9vEuabh/YYSZ5KmFV20hVkGdkTwpXtT2E65TA==
+  dependencies:
+    source-map "^0.7.3"
 
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"
@@ -5873,7 +5881,7 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
 
-terser@^3.7.3, terser@^3.8.1:
+terser@^3.13.1, terser@^3.7.3, terser@^3.8.1:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/terser/-/terser-3.13.1.tgz#a02e8827fb9705fe7b609c31093d010b28cea8eb"
   integrity sha512-ogyZye4DFqOtMzT92Y3Nxxw8OvXmL39HOALro4fc+EUYFFF9G/kk0znkvwMz6PPYgBtdKAodh3FPR70eugdaQA==

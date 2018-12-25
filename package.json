@@ -39,9 +39,10 @@
         "@types/react-dom": "^16.0.x",
         "@types/react-virtualized": "^9.18.x",
         "@types/styled-components": "^4.1.x",
-        "fuse-box": "^3.6.0",
+        "fuse-box": "3.7.0-next.6",
         "object-assign": "^4.1.1",
         "parcel-bundler": "^1.9.3",
+        "terser": "^3.13.1",
         "typescript": "^3.2.x"
     }
 }
