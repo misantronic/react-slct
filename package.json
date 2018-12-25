@@ -29,13 +29,13 @@
     },
     "dependencies": {
         "lodash-decorators": "^6.x",
-        "react": ">= 16.6.x",
-        "react-dom": ">= 16.6.x",
+        "react": ">= 16.7.x",
+        "react-dom": ">= 16.7.x",
         "react-virtualized": ">= 9.21.x",
         "styled-components": ">= 4.1.x"
     },
     "devDependencies": {
-        "@types/react": "^16.4.x",
+        "@types/react": "^16.7.x",
         "@types/react-dom": "^16.0.x",
         "@types/react-virtualized": "^9.18.x",
         "@types/styled-components": "^4.1.x",
