@@ -1,11 +1,12 @@
 {
     "name": "react-slct",
-    "version": "2.4.3",
+    "version": "2.4.4",
     "description": "Yet another Select-Box based on react and styled-components",
     "main": "dist/index.js",
     "scripts": {
         "compile": "rm -rf dist && tsc -p . && node fuse",
-        "examples": "rm -rf .cache && parcel examples/src/index.html --out-dir examples/dist"
+        "examples": "rm -rf .cache && parcel examples/src/index.html --out-dir examples/dist",
+        "publish": "git tag -a $npm_package_version -m '$npm_package_version' && git push --tags"
     },
     "repository": {
         "type": "git",
