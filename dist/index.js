@@ -10,6 +10,7 @@ export { Menu, keys };
 export class Select extends React.PureComponent {
     constructor(props) {
         super(props);
+        this.container = null;
         this.nativeSelect = React.createRef();
         this.state = {
             open: false,
@@ -504,7 +505,7 @@ tslib_1.__decorate([
 tslib_1.__decorate([
     bind,
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [HTMLDivElement]),
+    tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onContainerRef", null);
 //# sourceMappingURL=index.js.map

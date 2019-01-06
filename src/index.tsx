@@ -51,7 +51,7 @@ export class Select<T = any> extends React.PureComponent<
     `;
 
     private nativeSelect: React.RefObject<HTMLSelectElement>;
-    private container?: HTMLDivElement;
+    private container: HTMLDivElement | null = null;
     private blindTextTimeout!: NodeJS.Timer;
 
     constructor(props: SelectProps) {
@@ -623,7 +623,7 @@ export class Select<T = any> extends React.PureComponent<
     }
 
     @bind
-    private onContainerRef(el?: HTMLDivElement): void {
+    private onContainerRef(el: HTMLDivElement | null): void {
         this.container = el;
     }
 
