@@ -60,11 +60,7 @@ export class Menu extends React.PureComponent<
                 left: `${props.rect ? props.rect.left : 0}px`,
                 width: `${
                     props.rect ? props.menuWidth || props.rect.width : 0
-                }px`,
-                boxShadow:
-                    menuPosition(props) === 'bottom'
-                        ? '0 2px 5px rgba(0, 0, 0, 0.1)'
-                        : '0 -2px 5px rgba(0, 0, 0, 0.1)'
+                }px`
             }
         })
     )`
@@ -72,6 +68,10 @@ export class Menu extends React.PureComponent<
         z-index: 9999;
         background: #fff;
         box-sizing: border-box;
+        box-shadow: ${(props: MenuContainerProps) =>
+            menuPosition(props) === 'bottom'
+                ? '0 2px 5px rgba(0, 0, 0, 0.1)'
+                : '0 -2px 5px rgba(0, 0, 0, 0.1)'};
 
         .ReactVirtualized__List {
             border-width: 1px;

@@ -9,7 +9,6 @@ export declare class Menu extends React.PureComponent<MenuComponentProps, MenuCo
             top: string;
             left: string;
             width: string;
-            boxShadow: string;
         };
     } & MenuContainerProps, "style">;
     private static Empty;
