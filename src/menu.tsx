@@ -270,6 +270,9 @@ export class MenuContainer extends React.PureComponent<
 
     public render(): React.ReactNode {
         const { menuWidth, menuHeight, error, children } = this.props;
+        const className = ['react-slct-menu', this.props.className]
+            .filter(c => c)
+            .join(' ');
 
         return (
             <div
@@ -287,7 +290,7 @@ export class MenuContainer extends React.PureComponent<
                     ? createPortal(
                           <Menu.MenuContainer
                               data-role="menu"
-                              className="react-slct-menu"
+                              className={className}
                               error={error}
                               rect={this.state.rect}
                               menuWidth={menuWidth}

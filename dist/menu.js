@@ -176,6 +176,9 @@ export class MenuContainer extends React.PureComponent {
     }
     render() {
         const { menuWidth, menuHeight, error, children } = this.props;
+        const className = ['react-slct-menu', this.props.className]
+            .filter(c => c)
+            .join(' ');
         return (React.createElement("div", { ref: this.onEl, style: {
                 width: '100%',
                 height: '100%',
@@ -184,7 +187,7 @@ export class MenuContainer extends React.PureComponent {
                 top: 0,
                 pointerEvents: 'none'
             } }, this.document
-            ? createPortal(React.createElement(Menu.MenuContainer, { "data-role": "menu", className: "react-slct-menu", error: error, rect: this.state.rect, menuWidth: menuWidth, menuHeight: menuHeight }, children), this.document.body)
+            ? createPortal(React.createElement(Menu.MenuContainer, { "data-role": "menu", className: className, error: error, rect: this.state.rect, menuWidth: menuWidth, menuHeight: menuHeight }, children), this.document.body)
             : null));
     }
     addListener() {
