@@ -269,7 +269,7 @@ export class MenuContainer extends React.PureComponent<
     }
 
     public render(): React.ReactNode {
-        const { menuWidth, menuHeight, error, children } = this.props;
+        const { menuWidth, menuHeight, error, onRef, children } = this.props;
         const className = ['react-slct-menu', this.props.className]
             .filter(c => c)
             .join(' ');
@@ -295,6 +295,7 @@ export class MenuContainer extends React.PureComponent<
                               rect={this.state.rect}
                               menuWidth={menuWidth}
                               menuHeight={menuHeight}
+                              ref={onRef}
                           >
                               {children}
                           </Menu.MenuContainer>,

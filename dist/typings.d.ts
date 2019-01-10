@@ -78,6 +78,7 @@ export interface MenuContainerProps {
     error?: boolean;
     rect?: Rect;
     onRect?(rect?: Rect): void;
+    onRef?(el: HTMLDivElement | null): void;
 }
 export interface OptionComponentProps<T = any> {
     option: Option<T>;
