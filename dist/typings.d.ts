@@ -79,6 +79,7 @@ export interface MenuContainerProps {
     rect?: Rect;
     onRect?(rect?: Rect): void;
     onRef?(el: HTMLDivElement | null): void;
+    onClick?(el: React.MouseEvent<HTMLDivElement>): void;
 }
 export interface OptionComponentProps<T = any> {
     option: Option<T>;

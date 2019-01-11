@@ -175,7 +175,7 @@ export class MenuContainer extends React.PureComponent {
         this.removeListener();
     }
     render() {
-        const { menuWidth, menuHeight, error, onRef, children } = this.props;
+        const { menuWidth, menuHeight, error, onRef, onClick, children } = this.props;
         const className = ['react-slct-menu', this.props.className]
             .filter(c => c)
             .join(' ');
@@ -187,7 +187,7 @@ export class MenuContainer extends React.PureComponent {
                 top: 0,
                 pointerEvents: 'none'
             } }, this.document
-            ? createPortal(React.createElement(Menu.MenuContainer, { "data-role": "menu", className: className, error: error, rect: this.state.rect, menuWidth: menuWidth, menuHeight: menuHeight, ref: onRef }, children), this.document.body)
+            ? createPortal(React.createElement(Menu.MenuContainer, { "data-role": "menu", className: className, error: error, rect: this.state.rect, menuWidth: menuWidth, menuHeight: menuHeight, ref: onRef, onClick: onClick }, children), this.document.body)
             : null));
     }
     addListener() {
