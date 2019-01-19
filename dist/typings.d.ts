@@ -34,7 +34,7 @@ export interface SelectProps<T = any> {
         onRef(el: HTMLDivElement | null): void;
     }): React.ReactNode;
     onCreateText?(value: string): string;
-    onChange?(value: T | T[], option?: Option<T>): void;
+    onChange?(value: T extends any[] ? T[] : T, option?: Option<T>): void;
     onCreate?(value: string): void;
     onSearch?(value: string): void;
     onOpen?(): void;
@@ -69,7 +69,7 @@ export interface MenuComponentProps<T = any> {
     selectedIndex?: number;
     open: boolean;
     search?: string;
-    onSelect(value: T | T[], option?: T): void;
+    onSelect(value: T extends any[] ? T[] : T, option?: T): void;
 }
 export interface MenuContainerProps {
     className?: string;

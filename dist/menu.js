@@ -140,6 +140,14 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Menu.prototype, "onRect", null);
+const MenuWrapper = styled.div `
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointerevents: none;
+`;
 export class MenuContainer extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -179,14 +187,7 @@ export class MenuContainer extends React.PureComponent {
         const className = ['react-slct-menu', this.props.className]
             .filter(c => c)
             .join(' ');
-        return (React.createElement("div", { ref: this.onEl, style: {
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                left: 0,
-                top: 0,
-                pointerEvents: 'none'
-            } }, this.document
+        return (React.createElement(MenuWrapper, { ref: this.onEl }, this.document
             ? createPortal(React.createElement(Menu.MenuContainer, { "data-role": "menu", className: className, error: error, rect: this.state.rect, menuWidth: menuWidth, menuHeight: menuHeight, ref: onRef, onClick: onClick }, children), this.document.body)
             : null));
     }

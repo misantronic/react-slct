@@ -396,9 +396,9 @@ export class Select<T = any> extends React.PureComponent<
                 );
 
                 if (multi) {
-                    onChange(values);
+                    onChange(values as any);
                 } else {
-                    onChange(values[0]);
+                    onChange(values[0] as any);
                 }
             }
         }
