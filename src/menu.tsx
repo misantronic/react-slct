@@ -219,6 +219,15 @@ export interface MenuContainerState {
     rect?: Rect;
 }
 
+const MenuWrapper = styled.div`
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointerevents: none;
+`;
+
 export class MenuContainer extends React.PureComponent<
     MenuContainerProps,
     MenuContainerState
@@ -282,17 +291,7 @@ export class MenuContainer extends React.PureComponent<
             .join(' ');
 
         return (
-            <div
-                ref={this.onEl}
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    position: 'absolute',
-                    left: 0,
-                    top: 0,
-                    pointerEvents: 'none'
-                }}
-            >
+            <MenuWrapper ref={this.onEl}>
                 {this.document
                     ? createPortal(
                           <Menu.MenuContainer
@@ -310,7 +309,7 @@ export class MenuContainer extends React.PureComponent<
                           this.document.body
                       )
                     : null}
-            </div>
+            </MenuWrapper>
         );
     }
 
