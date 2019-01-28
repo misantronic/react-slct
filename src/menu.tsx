@@ -225,7 +225,7 @@ const MenuWrapper = styled.div`
     position: absolute;
     left: 0;
     top: 0;
-    pointerevents: none;
+    pointer-events: none;
 `;
 
 export class MenuContainer extends React.PureComponent<
