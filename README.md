@@ -27,7 +27,7 @@ yarn add react-slct
 -   Auto-select options in non-searchable box via keyboard-typing
 -   Makes use of React Portals to render menu
 -   100% typescript
--   Can be [headless](https://medium.com/merrickchristensen/headless-user-interface-components-565b0c0f2e18), to gain full control of what's being rendered.
+-   Supports [headless](https://medium.com/merrickchristensen/headless-user-interface-components-565b0c0f2e18)-mode, to gain full control of what's being rendered.
 
 ## Examples 🃏
 
