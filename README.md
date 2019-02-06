@@ -14,26 +14,23 @@ yarn add react-slct
 
 ## Features
 
-* Single-select
-* Multi-select
-* Searchable
-* Clearable
-* Disabled (whole box or single options)
-* Creatable in single- and multi-select
-* Automatic menu-position (top or bottom)
-* Customizable components
-* Native support (e.g. on mobile devices)
-* Full keyboard-support inkl. TAB-behavior
-* Auto-select options in non-searchable box via keyboard-typing
-* Makes use of React Portals to render menu
-* 100% typescript
+-   Single-select
+-   Multi-select
+-   Searchable
+-   Clearable
+-   Disabled (whole box or single options)
+-   Creatable in single- and multi-select
+-   Automatic menu-position (top or bottom)
+-   Customizable components
+-   Native support (e.g. on mobile devices)
+-   Full keyboard-support inkl. TAB-behavior
+-   Auto-select options in non-searchable box via keyboard-typing
+-   Makes use of React Portals to render menu
+-   100% typescript
+-   Can be [headless](https://medium.com/merrickchristensen/headless-user-interface-components-565b0c0f2e18), to gain full control of what's being rendered.
 
 ## Examples 🃏
 
 Check [here](https://rawgit.com/misantronic/react-slct/master/examples/dist/index.html) for examples.
 
 Run examples locally using `yarn examples` or `npm run examples`.
-
-## In progress
-
-* [Headless](https://medium.com/merrickchristensen/headless-user-interface-components-565b0c0f2e18), to gain full control about what's being rendered.
