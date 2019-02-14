@@ -1,6 +1,6 @@
 {
     "name": "react-slct",
-    "version": "2.5.3",
+    "version": "2.5.4",
     "description": "Yet another Select-Box based on react and styled-components",
     "main": "dist/index.js",
     "scripts": {
