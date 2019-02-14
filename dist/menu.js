@@ -1,16 +1,18 @@
-import * as tslib_1 from "tslib";
-import { bind } from 'lodash-decorators';
-import * as React from 'react';
-import { createPortal } from 'react-dom';
-import { List } from 'react-virtualized/dist/commonjs/List';
-import styled from 'styled-components';
-import { SelectLabel } from './label';
-import { isArray, getWindowInnerHeight, getWindow, getDocument, equal } from './utils';
-import { OptionComponent } from './option';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const lodash_decorators_1 = require("lodash-decorators");
+const React = require("react");
+const react_dom_1 = require("react-dom");
+const List_1 = require("react-virtualized/dist/commonjs/List");
+const styled_components_1 = require("styled-components");
+const label_1 = require("./label");
+const utils_1 = require("./utils");
+const option_1 = require("./option");
 function menuPosition(props) {
     if (!props.rect ||
         props.rect.top + props.rect.height + (props.menuHeight || 185) <=
-            getWindowInnerHeight()) {
+            utils_1.getWindowInnerHeight()) {
         return 'bottom';
     }
     return 'top';
@@ -27,7 +29,7 @@ function getContainerTop(props) {
     }
 }
 ``;
-export class Menu extends React.PureComponent {
+class Menu extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {};
@@ -51,24 +53,24 @@ export class Menu extends React.PureComponent {
         const rowHeight = this.props.rowHeight || 32;
         const menuHeight = 185;
         const height = Math.min(Math.max(options.length * rowHeight, rowHeight), menuHeight);
-        return open ? (React.createElement(MenuContainer, { error: error, menuHeight: height, onRect: this.onRect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List, { className: "react-slct-menu-list", ref: this.list, width: rect ? rect.width : 0, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToIndex: selectedIndex, noRowsRenderer: this.emptyRenderer })))) : null;
+        return open ? (React.createElement(MenuContainer, { error: error, menuHeight: height, onRect: this.onRect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List_1.List, { className: "react-slct-menu-list", ref: this.list, width: rect ? rect.width : 0, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToIndex: selectedIndex, noRowsRenderer: this.emptyRenderer })))) : null;
     }
     rowRenderer({ key, index, style }) {
         const { options = [], labelComponent, selectedIndex, optionComponent, rowHeight } = this.props;
         const option = options[index];
-        const currentValue = isArray(this.props.value)
+        const currentValue = utils_1.isArray(this.props.value)
             ? this.props.value
             : [this.props.value];
-        const Component = optionComponent || OptionComponent;
+        const Component = optionComponent || option_1.OptionComponent;
         return (React.createElement("div", { key: key, style: style },
-            React.createElement(Component, { option: option, labelComponent: labelComponent, height: rowHeight, active: currentValue.some(val => equal(val, option.value)), selected: selectedIndex === index, onSelect: this.onSelect })));
+            React.createElement(Component, { option: option, labelComponent: labelComponent, height: rowHeight, active: currentValue.some(val => utils_1.equal(val, option.value)), selected: selectedIndex === index, onSelect: this.onSelect })));
     }
     emptyRenderer() {
         const { Empty } = Menu;
         return React.createElement(Empty, { emptyText: this.props.emptyText });
     }
     onSelect(value, option) {
-        if (isArray(this.props.value)) {
+        if (utils_1.isArray(this.props.value)) {
             const found = this.props.value.some(item => item === value);
             let values;
             if (found) {
@@ -87,7 +89,7 @@ export class Menu extends React.PureComponent {
         this.setState({ rect });
     }
 }
-Menu.MenuContainer = styled.div.attrs((props) => ({
+Menu.MenuContainer = styled_components_1.default.div.attrs((props) => ({
     style: {
         top: getContainerTop(props),
         left: `${props.rect ? props.rect.left : 0}px`,
@@ -113,34 +115,35 @@ Menu.MenuContainer = styled.div.attrs((props) => ({
             }
         }
     `;
-Menu.Empty = (props) => (React.createElement(OptionComponent.OptionItem, null,
-    React.createElement(SelectLabel, null,
+Menu.Empty = (props) => (React.createElement(option_1.OptionComponent.OptionItem, null,
+    React.createElement(label_1.SelectLabel, null,
         React.createElement("i", null, props.emptyText || 'No results'))));
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Menu.prototype, "rowRenderer", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], Menu.prototype, "emptyRenderer", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Menu.prototype, "onSelect", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Menu.prototype, "onRect", null);
-const MenuWrapper = styled.div `
+exports.Menu = Menu;
+const MenuWrapper = styled_components_1.default.div `
     width: 100%;
     height: 100%;
     position: absolute;
@@ -148,7 +151,7 @@ const MenuWrapper = styled.div `
     top: 0;
     pointer-events: none;
 `;
-export class MenuContainer extends React.PureComponent {
+class MenuContainer extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {};
@@ -166,10 +169,10 @@ export class MenuContainer extends React.PureComponent {
         return undefined;
     }
     get window() {
-        return getWindow();
+        return utils_1.getWindow();
     }
     get document() {
-        return getDocument();
+        return utils_1.getDocument();
     }
     componentDidMount() {
         this.addListener();
@@ -188,7 +191,7 @@ export class MenuContainer extends React.PureComponent {
             .filter(c => c)
             .join(' ');
         return (React.createElement(MenuWrapper, { ref: this.onEl }, this.document
-            ? createPortal(React.createElement(Menu.MenuContainer, { "data-role": "menu", className: className, error: error, rect: this.state.rect, menuWidth: menuWidth, menuHeight: menuHeight, ref: onRef, onClick: onClick }, children), this.document.body)
+            ? react_dom_1.createPortal(React.createElement(Menu.MenuContainer, { "data-role": "menu", className: className, error: error, rect: this.state.rect, menuWidth: menuWidth, menuHeight: menuHeight, ref: onRef, onClick: onClick }, children), this.document.body)
             : null));
     }
     addListener() {
@@ -222,15 +225,16 @@ export class MenuContainer extends React.PureComponent {
     }
 }
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], MenuContainer.prototype, "onViewportChange", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], MenuContainer.prototype, "onEl", null);
+exports.MenuContainer = MenuContainer;
 //# sourceMappingURL=menu.js.map

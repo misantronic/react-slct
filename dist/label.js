@@ -1,5 +1,7 @@
-import styled from 'styled-components';
-export const SelectLabel = styled.span `
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const styled_components_1 = require("styled-components");
+exports.SelectLabel = styled_components_1.default.span `
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

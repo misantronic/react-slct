@@ -1,12 +1,14 @@
-import * as tslib_1 from "tslib";
-import { bind } from 'lodash-decorators';
-import * as React from 'react';
-import styled from 'styled-components';
-import { SelectLabel } from './label';
-import { keys, getValueOptions, getWindow, toKey } from './utils';
-import { ValueComponentMulti } from './value-component-multi';
-import { ValueComponentSingle } from './value-component-single';
-const Button = styled.button `
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const lodash_decorators_1 = require("lodash-decorators");
+const React = require("react");
+const styled_components_1 = require("styled-components");
+const label_1 = require("./label");
+const utils_1 = require("./utils");
+const value_component_multi_1 = require("./value-component-multi");
+const value_component_single_1 = require("./value-component-single");
+const Button = styled_components_1.default.button `
     background: transparent;
     border: none;
     margin: 0;
@@ -19,7 +21,7 @@ const Button = styled.button `
         outline: none;
     }
 `;
-const ArrowButton = styled(Button) `
+const ArrowButton = styled_components_1.default(Button) `
     font-size: 12px;
     color: #ccc;
     transform: translateY(2px);
@@ -28,7 +30,7 @@ const ArrowButton = styled(Button) `
         color: #333;
     }
 `;
-const ValueContainer = styled.div `
+const ValueContainer = styled_components_1.default.div `
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -46,7 +48,7 @@ const ValueContainer = styled.div `
     max-width: 100%;
     box-shadow: ${(props) => props.focused ? 'rgba(0, 0, 0, 0.15) 0 0 2px' : 'none'};
 `;
-const ValueLeft = styled.div `
+const ValueLeft = styled_components_1.default.div `
     display: flex;
     flex: 1;
     align-items: center;
@@ -56,16 +58,16 @@ const ValueLeft = styled.div `
     box-sizing: border-box;
     margin: ${(props) => props.multi && props.hasValue ? '-2px -5px' : 0};
 `;
-const ValueRight = styled.div `
+const ValueRight = styled_components_1.default.div `
     display: flex;
     align-items: center;
     margin-left: 4px;
     box-sizing: border-box;
 `;
-const Placeholder = styled(SelectLabel) `
+const Placeholder = styled_components_1.default(label_1.SelectLabel) `
     color: #aaa;
 `;
-const Clearer = styled(Button) `
+const Clearer = styled_components_1.default(Button) `
     margin-right: 6px;
     color: #ccc;
 
@@ -73,7 +75,7 @@ const Clearer = styled(Button) `
         color: #333;
     }
 `;
-const Search = styled.span `
+const Search = styled_components_1.default.span `
     min-width: 1px;
     margin-left: -1px;
     height: 16px;
@@ -85,11 +87,11 @@ const Search = styled.span `
         outline: none;
     }
 `;
-export class Value extends React.PureComponent {
+class Value extends React.PureComponent {
     constructor(props) {
         super(props);
         this.search = React.createRef();
-        const window = getWindow();
+        const window = utils_1.getWindow();
         if (window) {
             window.addEventListener('blur', this.blur);
         }
@@ -105,7 +107,7 @@ export class Value extends React.PureComponent {
     render() {
         const { options = [], value, disabled, clearable, open, mobile, multi, focused, error } = this.props;
         const ArrowComponent = this.props.arrowComponent;
-        const valueOptions = getValueOptions(options, value);
+        const valueOptions = utils_1.getValueOptions(options, value);
         const showClearer = Boolean(clearable && valueOptions.length && !mobile);
         const searchAtStart = !multi || valueOptions.length === 0;
         const searchAtEnd = multi && valueOptions.length > 0;
@@ -134,9 +136,9 @@ export class Value extends React.PureComponent {
         if (valueOptions.length === 0 && !search) {
             return React.createElement(Placeholder, null, placeholder);
         }
-        const Single = valueComponentSingle || ValueComponentSingle;
-        const Multi = (valueComponentMulti || ValueComponentMulti);
-        return valueOptions.map(option => multi ? (React.createElement(Multi, { key: toKey(option.value), option: option, labelComponent: labelComponent, options: valueOptions, onRemove: this.props.onOptionRemove })) : (React.createElement(Single, { key: toKey(option.value), option: option, labelComponent: labelComponent })));
+        const Single = valueComponentSingle || value_component_single_1.ValueComponentSingle;
+        const Multi = (valueComponentMulti || value_component_multi_1.ValueComponentMulti);
+        return valueOptions.map(option => multi ? (React.createElement(Multi, { key: utils_1.toKey(option.value), option: option, labelComponent: labelComponent, options: valueOptions, onRemove: this.props.onOptionRemove })) : (React.createElement(Single, { key: utils_1.toKey(option.value), option: option, labelComponent: labelComponent })));
     }
     focus() {
         if (this.search.current) {
@@ -171,42 +173,43 @@ export class Value extends React.PureComponent {
         if (e.metaKey) {
             return;
         }
-        if ((!searchable && e.keyCode !== keys.TAB) ||
-            e.keyCode === keys.ENTER ||
-            e.keyCode === keys.ARROW_UP ||
-            e.keyCode === keys.ARROW_DOWN) {
+        if ((!searchable && e.keyCode !== utils_1.keys.TAB) ||
+            e.keyCode === utils_1.keys.ENTER ||
+            e.keyCode === utils_1.keys.ARROW_UP ||
+            e.keyCode === utils_1.keys.ARROW_DOWN) {
             e.preventDefault();
         }
     }
 }
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], Value.prototype, "blur", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], Value.prototype, "onClick", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Value.prototype, "onClear", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Value.prototype, "onSearch", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Value.prototype, "onKeyDown", null);
+exports.Value = Value;
 //# sourceMappingURL=value.js.map

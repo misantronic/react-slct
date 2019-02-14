@@ -1,13 +1,16 @@
-import * as tslib_1 from "tslib";
-import { bind, debounce } from 'lodash-decorators';
-import * as React from 'react';
-import styled from 'styled-components';
-import { Value } from './value';
-import { Menu, MenuContainer } from './menu';
-import { isArray, keys, getDocument, getValueOptions, equal, toKey } from './utils';
-import './global-stylings';
-export { Menu, keys };
-export class Select extends React.PureComponent {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const lodash_decorators_1 = require("lodash-decorators");
+const React = require("react");
+const styled_components_1 = require("styled-components");
+const value_1 = require("./value");
+const menu_1 = require("./menu");
+exports.Menu = menu_1.Menu;
+const utils_1 = require("./utils");
+exports.keys = utils_1.keys;
+require("./global-stylings");
+class Select extends React.PureComponent {
     constructor(props) {
         super(props);
         this.container = null;
@@ -41,7 +44,7 @@ export class Select extends React.PureComponent {
         return options;
     }
     get document() {
-        return getDocument();
+        return utils_1.getDocument();
     }
     optionIsCreatable(option) {
         return (this.props.creatable &&
@@ -72,8 +75,8 @@ export class Select extends React.PureComponent {
         ].filter(c => Boolean(c));
         return (React.createElement(Container, { className: classNames.join(' '), disabled: disabled, ref: this.onContainerRef, "data-role": this.props['data-role'], onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
             this.renderNativeSelect(),
-            React.createElement(Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: options, placeholder: placeholder, error: error, value: value, search: search, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, arrowComponent: arrowComponent, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onSearchBlur: this.onSearchBlur, onOptionRemove: this.onOptionRemove }),
-            React.createElement(Menu, { open: open, options: this.options, value: value, multi: multi, error: error, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, emptyText: emptyText, rowHeight: rowHeight, onSelect: this.onOptionSelect })));
+            React.createElement(value_1.Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: options, placeholder: placeholder, error: error, value: value, search: search, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, arrowComponent: arrowComponent, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onSearchBlur: this.onSearchBlur, onOptionRemove: this.onOptionRemove }),
+            React.createElement(menu_1.Menu, { open: open, options: this.options, value: value, multi: multi, error: error, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, emptyText: emptyText, rowHeight: rowHeight, onSelect: this.onOptionSelect })));
     }
     renderNativeSelect() {
         const { NativeSelect } = Select;
@@ -82,22 +85,22 @@ export class Select extends React.PureComponent {
             ? `select-${this.props['data-role']}`
             : undefined;
         const clearable = this.props.clearable && native;
-        const value = isArray(this.props.value)
+        const value = utils_1.isArray(this.props.value)
             ? this.props.value.map(this.findOptionIndex)
             : this.findOptionIndex(this.props.value || '');
         return (React.createElement(NativeSelect, { ref: this.nativeSelect, multiple: multi, value: value, disabled: disabled, native: native, tabIndex: -1, "data-role": dataRole, onChange: this.onChangeNativeSelect },
             React.createElement("option", { value: "", disabled: !clearable }, placeholder),
-            this.options.map((option, i) => (React.createElement("option", { key: toKey(option.value), value: `${i}`, disabled: option.disabled }, option.label)))));
+            this.options.map((option, i) => (React.createElement("option", { key: utils_1.toKey(option.value), value: `${i}`, disabled: option.disabled }, option.label)))));
     }
     renderChildren() {
         const { options, placeholder, multi, children } = this.props;
         const { open, search } = this.state;
-        const valueOptions = getValueOptions(options || [], this.props.value);
+        const valueOptions = utils_1.getValueOptions(options || [], this.props.value);
         const value = !multi
             ? this.props.value
             : valueOptions.map(option => option.value);
         const showPlaceholder = !search &&
-            (isArray(value)
+            (utils_1.isArray(value)
                 ? value.length === 0
                 : value === undefined || value === null);
         if (!children) {
@@ -107,7 +110,7 @@ export class Select extends React.PureComponent {
             options: this.options,
             open,
             value,
-            MenuContainer,
+            MenuContainer: menu_1.MenuContainer,
             placeholder: showPlaceholder ? placeholder : undefined,
             onToggle: () => this.toggleMenu(),
             onRef: ref => (this.container = ref)
@@ -123,7 +126,7 @@ export class Select extends React.PureComponent {
         }
     }
     openMenu() {
-        const selectedIndex = this.options.findIndex(option => equal(option.value, this.props.value));
+        const selectedIndex = this.options.findIndex(option => utils_1.equal(option.value, this.props.value));
         this.setState({ open: true, search: undefined, selectedIndex }, () => {
             if (this.props.onOpen) {
                 this.props.onOpen();
@@ -220,7 +223,7 @@ export class Select extends React.PureComponent {
         let optionWasCreated = false;
         const selectOnNative = () => {
             if (current) {
-                current.value = isArray(value)
+                current.value = utils_1.isArray(value)
                     ? value.map(this.findOptionIndex)
                     : this.findOptionIndex(value);
             }
@@ -234,7 +237,7 @@ export class Select extends React.PureComponent {
                     this.createOption(option.value, selectOnNative);
                 }
             };
-            if (isArray(value)) {
+            if (utils_1.isArray(value)) {
                 value.map(createValue);
             }
             else {
@@ -246,8 +249,8 @@ export class Select extends React.PureComponent {
         }
     }
     onOptionRemove(value) {
-        if (isArray(this.props.value)) {
-            const values = this.props.value.filter(val => !equal(val, value));
+        if (utils_1.isArray(this.props.value)) {
+            const values = this.props.value.filter(val => !utils_1.equal(val, value));
             this.onOptionSelect(values);
         }
     }
@@ -279,7 +282,7 @@ export class Select extends React.PureComponent {
     onKeyDown({ keyCode }) {
         const { searchable, creatable } = this.props;
         switch (keyCode) {
-            case keys.TAB:
+            case utils_1.keys.TAB:
                 if (this.state.open) {
                     this.closeMenu();
                 }
@@ -294,7 +297,7 @@ export class Select extends React.PureComponent {
         const { value } = this.props;
         let selectedIndex = this.state.selectedIndex;
         switch (keyCode) {
-            case keys.ARROW_UP:
+            case utils_1.keys.ARROW_UP:
                 if (open) {
                     if (selectedIndex !== undefined) {
                         selectedIndex = selectedIndex - 1;
@@ -308,7 +311,7 @@ export class Select extends React.PureComponent {
                     this.openMenu();
                 }
                 break;
-            case keys.ARROW_DOWN:
+            case utils_1.keys.ARROW_DOWN:
                 if (open) {
                     if (selectedIndex === undefined ||
                         selectedIndex === this.options.length - 1) {
@@ -323,7 +326,7 @@ export class Select extends React.PureComponent {
                     this.openMenu();
                 }
                 break;
-            case keys.ENTER:
+            case utils_1.keys.ENTER:
                 if (this.state.selectedIndex === 0 &&
                     this.optionIsCreatable(this.options[0])) {
                     this.createOption(search);
@@ -331,10 +334,10 @@ export class Select extends React.PureComponent {
                 else if (selectedIndex !== undefined &&
                     this.options[selectedIndex]) {
                     const newValue = this.options[selectedIndex].value;
-                    this.onOptionSelect(isArray(value) ? [...value, newValue] : newValue);
+                    this.onOptionSelect(utils_1.isArray(value) ? [...value, newValue] : newValue);
                 }
                 break;
-            case keys.ESC:
+            case utils_1.keys.ESC:
                 if (open) {
                     this.closeMenu();
                 }
@@ -343,13 +346,13 @@ export class Select extends React.PureComponent {
     }
     handleBlindText(keyCode) {
         const { blindText } = this.state;
-        if (keyCode === keys.BACKSPACE && blindText.length) {
+        if (keyCode === utils_1.keys.BACKSPACE && blindText.length) {
             clearTimeout(this.blindTextTimeout);
             this.setState({
                 blindText: blindText.slice(0, blindText.length - 1)
             }, this.cleanBlindText);
         }
-        else if (keyCode === keys.SPACE) {
+        else if (keyCode === utils_1.keys.SPACE) {
             clearTimeout(this.blindTextTimeout);
             this.setState({
                 blindText: blindText + ' '
@@ -392,7 +395,7 @@ export class Select extends React.PureComponent {
         }
     }
 }
-Select.Container = styled.div `
+Select.Container = styled_components_1.default.div `
         display: flex;
         position: relative;
         cursor: default;
@@ -402,7 +405,7 @@ Select.Container = styled.div `
         opacity: ${(props) => props.disabled ? 0.75 : 1};
         user-select: none;
     `;
-Select.NativeSelect = styled.select `
+Select.NativeSelect = styled_components_1.default.select `
         display: block;
         z-index: ${(props) => props.native ? '1' : 'auto'};
         opacity: 0;
@@ -413,99 +416,100 @@ Select.NativeSelect = styled.select `
         height: 100%;
     `;
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "toggleMenu", null);
 tslib_1.__decorate([
-    debounce(0),
+    lodash_decorators_1.debounce(0),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "openMenu", null);
 tslib_1.__decorate([
-    debounce(0),
+    lodash_decorators_1.debounce(0),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "closeMenu", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "cleanBlindText", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "findOptionIndex", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onChangeNativeSelect", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onSearchFocus", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onSearchBlur", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onOptionSelect", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onOptionRemove", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onClear", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [String]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onSearch", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onDocumentClick", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onKeyDown", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onKeyUp", null);
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "onContainerRef", null);
+exports.Select = Select;
 //# sourceMappingURL=index.js.map

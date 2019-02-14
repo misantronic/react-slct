@@ -1,4 +1,6 @@
-export function toKey(value) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function toKey(value) {
     if (typeof value === 'string') {
         return value;
     }
@@ -12,7 +14,8 @@ export function toKey(value) {
     }
     return JSON.stringify(value);
 }
-export function equal(valueA, valueB) {
+exports.toKey = toKey;
+function equal(valueA, valueB) {
     if (valueA === valueB) {
         return true;
     }
@@ -30,7 +33,8 @@ export function equal(valueA, valueB) {
     }
     return false;
 }
-export function getValueOptions(options, value) {
+exports.equal = equal;
+function getValueOptions(options, value) {
     return options.filter(option => {
         if (isArray(value)) {
             return value.some(val => equal(option.value, val));
@@ -40,7 +44,8 @@ export function getValueOptions(options, value) {
         }
     });
 }
-export function isArray(val) {
+exports.getValueOptions = getValueOptions;
+function isArray(val) {
     if (Array.isArray(val)) {
         return true;
     }
@@ -50,26 +55,30 @@ export function isArray(val) {
     }
     return false;
 }
-export function getDocument() {
+exports.isArray = isArray;
+function getDocument() {
     if (typeof document !== 'undefined') {
         return document;
     }
     return undefined;
 }
-export function getWindow() {
+exports.getDocument = getDocument;
+function getWindow() {
     if (typeof window !== 'undefined') {
         return window;
     }
     return undefined;
 }
-export function getWindowInnerHeight(defaultHeight = 700) {
+exports.getWindow = getWindow;
+function getWindowInnerHeight(defaultHeight = 700) {
     const window = getWindow();
     if (window) {
         return window.innerHeight;
     }
     return defaultHeight;
 }
-export const keys = {
+exports.getWindowInnerHeight = getWindowInnerHeight;
+exports.keys = {
     ARROW_UP: 38,
     ARROW_DOWN: 40,
     ENTER: 13,

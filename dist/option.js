@@ -1,13 +1,15 @@
-import * as tslib_1 from "tslib";
-import { bind } from 'lodash-decorators';
-import * as React from 'react';
-import styled from 'styled-components';
-import { SelectLabel } from './label';
-export class OptionComponent extends React.PureComponent {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const lodash_decorators_1 = require("lodash-decorators");
+const React = require("react");
+const styled_components_1 = require("styled-components");
+const label_1 = require("./label");
+class OptionComponent extends React.PureComponent {
     render() {
         const { OptionItem } = OptionComponent;
         const { active, selected, labelComponent, option, height } = this.props;
-        const Label = (labelComponent ? labelComponent : SelectLabel);
+        const Label = (labelComponent ? labelComponent : label_1.SelectLabel);
         const className = [
             'option',
             selected ? 'selected' : null,
@@ -20,7 +22,7 @@ export class OptionComponent extends React.PureComponent {
         this.props.onSelect(this.props.option.value, this.props.option);
     }
 }
-OptionComponent.OptionItem = styled.div `
+OptionComponent.OptionItem = styled_components_1.default.div `
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -37,9 +39,10 @@ OptionComponent.OptionItem = styled.div `
         }
     `;
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], OptionComponent.prototype, "onClick", null);
+exports.OptionComponent = OptionComponent;
 //# sourceMappingURL=option.js.map

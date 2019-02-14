@@ -1,8 +1,10 @@
-import * as tslib_1 from "tslib";
-import { bind } from 'lodash-decorators';
-import * as React from 'react';
-import styled from 'styled-components';
-import { SelectLabel } from './label';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const lodash_decorators_1 = require("lodash-decorators");
+const React = require("react");
+const styled_components_1 = require("styled-components");
+const label_1 = require("./label");
 class Remove extends React.PureComponent {
     render() {
         const { StyledRemove } = Remove;
@@ -13,7 +15,7 @@ class Remove extends React.PureComponent {
         this.props.onClick(this.props.value);
     }
 }
-Remove.StyledRemove = styled.button `
+Remove.StyledRemove = styled_components_1.default.button `
         cursor: pointer;
         color: #007eff;
         border: none;
@@ -36,22 +38,22 @@ Remove.StyledRemove = styled.button `
         }
     `;
 tslib_1.__decorate([
-    bind,
+    lodash_decorators_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Remove.prototype, "onClick", null);
-export class ValueComponentMulti extends React.PureComponent {
+class ValueComponentMulti extends React.PureComponent {
     render() {
         const { TagContainer } = ValueComponentMulti;
         const { option, labelComponent, onRemove } = this.props;
-        const Label = (labelComponent || SelectLabel);
+        const Label = (labelComponent || label_1.SelectLabel);
         return (React.createElement(TagContainer, Object.assign({ className: "value-multi" }, option),
             React.createElement(Remove, { value: option.value, onClick: onRemove }, "\u00D7"),
             React.createElement(Label, Object.assign({}, option), option.label)));
     }
 }
-ValueComponentMulti.TagContainer = styled.div `
+ValueComponentMulti.TagContainer = styled_components_1.default.div `
         display: flex;
         padding: 0px 3px;
         background-color: rgba(0, 126, 255, 0.08);
@@ -67,4 +69,5 @@ ValueComponentMulti.TagContainer = styled.div `
             margin-right: 5px;
         }
     `;
+exports.ValueComponentMulti = ValueComponentMulti;
 //# sourceMappingURL=value-component-multi.js.map
