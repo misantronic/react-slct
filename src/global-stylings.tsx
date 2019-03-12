@@ -13,7 +13,7 @@ function create() {
     const reactSlctDiv = document.createElement('div');
 
     reactSlctDiv.id = id;
-    document.body.append(reactSlctDiv);
+    document.body.appendChild(reactSlctDiv);
 
     render(<ReactSlctStyle />, reactSlctDiv);
 }

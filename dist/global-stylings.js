@@ -12,7 +12,7 @@ function create() {
     `;
     const reactSlctDiv = document.createElement('div');
     reactSlctDiv.id = id;
-    document.body.append(reactSlctDiv);
+    document.body.appendChild(reactSlctDiv);
     react_dom_1.render(React.createElement(ReactSlctStyle, null), reactSlctDiv);
 }
 if (!document.getElementById(id)) {
