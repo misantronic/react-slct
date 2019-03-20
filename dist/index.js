@@ -62,7 +62,7 @@ class Select extends React.PureComponent {
     }
     render() {
         const { Container } = Select;
-        const { className, options, creatable, clearable, placeholder, value, disabled, error, menuComponent, labelComponent, optionComponent, valueComponentSingle, valueComponentMulti, arrowComponent, multi, native, emptyText, rowHeight } = this.props;
+        const { className, options, creatable, clearable, placeholder, value, disabled, error, menuComponent, labelComponent, optionComponent, valueComponentSingle, valueComponentMulti, arrowComponent, multi, native, emptyText, rowHeight, keepSearchOnBlur } = this.props;
         const { open, search, selectedIndex, focused } = this.state;
         const searchable = this.props.searchable || creatable;
         if (this.props.children) {
@@ -75,7 +75,7 @@ class Select extends React.PureComponent {
         ].filter(c => Boolean(c));
         return (React.createElement(Container, { className: classNames.join(' '), disabled: disabled, ref: this.onContainerRef, "data-role": this.props['data-role'], onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
             this.renderNativeSelect(),
-            React.createElement(value_1.Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: options, placeholder: placeholder, error: error, value: value, search: search, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, arrowComponent: arrowComponent, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onSearchBlur: this.onSearchBlur, onOptionRemove: this.onOptionRemove }),
+            React.createElement(value_1.Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: options, placeholder: placeholder, error: error, value: value, search: search, keepSearchOnBlur: keepSearchOnBlur, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, arrowComponent: arrowComponent, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onSearchBlur: this.onSearchBlur, onOptionRemove: this.onOptionRemove }),
             React.createElement(menu_1.Menu, { open: open, options: this.options, value: value, multi: multi, error: error, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, emptyText: emptyText, rowHeight: rowHeight, onSelect: this.onOptionSelect })));
     }
     renderNativeSelect() {
@@ -127,7 +127,12 @@ class Select extends React.PureComponent {
     }
     openMenu() {
         const selectedIndex = this.options.findIndex(option => utils_1.equal(option.value, this.props.value));
-        this.setState({ open: true, search: undefined, selectedIndex }, () => {
+        const keepSearchOnBlur = this.props.keepSearchOnBlur && !this.props.value;
+        this.setState({
+            open: true,
+            search: keepSearchOnBlur ? this.state.search : undefined,
+            selectedIndex
+        }, () => {
             if (this.props.onOpen) {
                 this.props.onOpen();
             }
@@ -135,10 +140,11 @@ class Select extends React.PureComponent {
         });
     }
     closeMenu(callback = () => { }) {
+        const keepSearchOnBlur = this.props.keepSearchOnBlur && !this.props.value;
         this.removeDocumentListener();
         this.setState({
             open: false,
-            search: undefined,
+            search: keepSearchOnBlur ? this.state.search : undefined,
             selectedIndex: undefined
         }, () => {
             if (this.props.onClose) {
@@ -161,12 +167,12 @@ class Select extends React.PureComponent {
     addDocumentListener() {
         this.removeDocumentListener();
         if (this.document) {
-            document.addEventListener('click', this.onDocumentClick);
+            this.document.addEventListener('click', this.onDocumentClick);
         }
     }
     removeDocumentListener() {
         if (this.document) {
-            document.removeEventListener('click', this.onDocumentClick);
+            this.document.removeEventListener('click', this.onDocumentClick);
         }
     }
     cleanBlindText() {

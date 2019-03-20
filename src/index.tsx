@@ -140,7 +140,8 @@ export class Select<T = any> extends React.PureComponent<
             multi,
             native,
             emptyText,
-            rowHeight
+            rowHeight,
+            keepSearchOnBlur
         } = this.props;
         const { open, search, selectedIndex, focused } = this.state;
         const searchable = this.props.searchable || creatable;
@@ -178,6 +179,7 @@ export class Select<T = any> extends React.PureComponent<
                     error={error}
                     value={value}
                     search={search}
+                    keepSearchOnBlur={keepSearchOnBlur}
                     labelComponent={labelComponent}
                     valueComponentSingle={valueComponentSingle}
                     valueComponentMulti={valueComponentMulti}
@@ -290,23 +292,35 @@ export class Select<T = any> extends React.PureComponent<
         const selectedIndex = this.options.findIndex(option =>
             equal(option.value, this.props.value)
         );
+        const keepSearchOnBlur =
+            this.props.keepSearchOnBlur && !this.props.value;
 
-        this.setState({ open: true, search: undefined, selectedIndex }, () => {
-            if (this.props.onOpen) {
-                this.props.onOpen();
+        this.setState(
+            {
+                open: true,
+                search: keepSearchOnBlur ? this.state.search : undefined,
+                selectedIndex
+            },
+            () => {
+                if (this.props.onOpen) {
+                    this.props.onOpen();
+                }
+
+                this.addDocumentListener();
             }
-
-            this.addDocumentListener();
-        });
+        );
     }
 
     @debounce(0)
     private closeMenu(callback = () => {}): void {
+        const keepSearchOnBlur =
+            this.props.keepSearchOnBlur && !this.props.value;
+
         this.removeDocumentListener();
         this.setState(
             {
                 open: false,
-                search: undefined,
+                search: keepSearchOnBlur ? this.state.search : undefined,
                 selectedIndex: undefined
             },
             () => {
@@ -337,13 +351,13 @@ export class Select<T = any> extends React.PureComponent<
         this.removeDocumentListener();
 
         if (this.document) {
-            document.addEventListener('click', this.onDocumentClick);
+            this.document.addEventListener('click', this.onDocumentClick);
         }
     }
 
     private removeDocumentListener(): void {
         if (this.document) {
-            document.removeEventListener('click', this.onDocumentClick);
+            this.document.removeEventListener('click', this.onDocumentClick);
         }
     }
 

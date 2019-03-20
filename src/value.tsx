@@ -22,6 +22,7 @@ export interface ValueProps {
     disabled: SelectProps['disabled'];
     error: SelectProps['error'];
     search?: string;
+    keepSearchOnBlur?: boolean;
     open: boolean;
     focused?: boolean;
     onClear(): void;
@@ -233,14 +234,17 @@ export class Value extends React.PureComponent<ValueProps> {
     private renderSearch(): React.ReactNode {
         const {
             open,
+            value,
             disabled,
             searchable,
+            keepSearchOnBlur,
             onSearchFocus,
             onSearchBlur
         } = this.props;
-        const canSearch = open && searchable;
+        const canSearch =
+            (open && searchable) || (keepSearchOnBlur && !value && searchable);
 
-        if (disabled) {
+        if (disabled && !keepSearchOnBlur) {
             return null;
         }
 
@@ -299,8 +303,23 @@ export class Value extends React.PureComponent<ValueProps> {
     }
 
     private focus(): void {
-        if (this.search.current) {
-            this.search.current.focus();
+        const el = this.search.current;
+
+        if (el) {
+            el.focus();
+
+            if (
+                typeof window.getSelection != 'undefined' &&
+                typeof document.createRange != 'undefined'
+            ) {
+                const range = document.createRange();
+                const sel = window.getSelection();
+
+                range.selectNodeContents(el);
+                range.collapse(false);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
         }
     }
 

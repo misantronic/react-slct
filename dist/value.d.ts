@@ -15,6 +15,7 @@ export interface ValueProps {
     disabled: SelectProps['disabled'];
     error: SelectProps['error'];
     search?: string;
+    keepSearchOnBlur?: boolean;
     open: boolean;
     focused?: boolean;
     onClear(): void;

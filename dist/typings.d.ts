@@ -24,6 +24,7 @@ export interface SelectProps<T = any> {
     valueComponentSingle?: React.ComponentClass<ValueComponentSingleProps> | React.StatelessComponent<ValueComponentSingleProps>;
     valueComponentMulti?: React.ComponentClass<ValueComponentMultiProps> | React.StatelessComponent<ValueComponentMultiProps>;
     'data-role'?: string;
+    keepSearchOnBlur?: boolean;
     children?(config: {
         value?: T | T[];
         options: Option[];

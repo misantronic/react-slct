@@ -121,9 +121,9 @@ class Value extends React.PureComponent {
                 React.createElement(ArrowButton, { type: "button", className: "arrow", tabIndex: -1 }, ArrowComponent ? (React.createElement(ArrowComponent, { open: open })) : open ? ('▲') : ('▼')))));
     }
     renderSearch() {
-        const { open, disabled, searchable, onSearchFocus, onSearchBlur } = this.props;
-        const canSearch = open && searchable;
-        if (disabled) {
+        const { open, value, disabled, searchable, keepSearchOnBlur, onSearchFocus, onSearchBlur } = this.props;
+        const canSearch = (open && searchable) || (keepSearchOnBlur && !value && searchable);
+        if (disabled && !keepSearchOnBlur) {
             return null;
         }
         return (React.createElement(Search, { className: "search", contentEditable: true, canSearch: canSearch, onInput: this.onSearch, onKeyDown: this.onKeyDown, onFocus: onSearchFocus, onBlur: onSearchBlur, ref: this.search }));
@@ -141,8 +141,18 @@ class Value extends React.PureComponent {
         return valueOptions.map(option => multi ? (React.createElement(Multi, { key: utils_1.toKey(option.value), option: option, labelComponent: labelComponent, options: valueOptions, onRemove: this.props.onOptionRemove })) : (React.createElement(Single, { key: utils_1.toKey(option.value), option: option, labelComponent: labelComponent })));
     }
     focus() {
-        if (this.search.current) {
-            this.search.current.focus();
+        const el = this.search.current;
+        if (el) {
+            el.focus();
+            if (typeof window.getSelection != 'undefined' &&
+                typeof document.createRange != 'undefined') {
+                const range = document.createRange();
+                const sel = window.getSelection();
+                range.selectNodeContents(el);
+                range.collapse(false);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
         }
     }
     blur() {
