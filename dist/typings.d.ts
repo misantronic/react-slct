@@ -87,6 +87,7 @@ export interface OptionComponentProps<T = any> {
     selected?: boolean;
     height?: number;
     labelComponent: SelectProps['labelComponent'];
+    search: SelectState['search'];
     onSelect(value: T, option?: Option<T>): void;
 }
 export interface ValueComponentSingleProps<T = any> {

@@ -56,14 +56,14 @@ class Menu extends React.PureComponent {
         return open ? (React.createElement(MenuContainer, { error: error, menuHeight: height, onRect: this.onRect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List_1.List, { className: "react-slct-menu-list", ref: this.list, width: rect ? rect.width : 0, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToIndex: selectedIndex, noRowsRenderer: this.emptyRenderer })))) : null;
     }
     rowRenderer({ key, index, style }) {
-        const { options = [], labelComponent, selectedIndex, optionComponent, rowHeight } = this.props;
+        const { options = [], labelComponent, selectedIndex, optionComponent, rowHeight, search } = this.props;
         const option = options[index];
         const currentValue = utils_1.isArray(this.props.value)
             ? this.props.value
             : [this.props.value];
         const Component = optionComponent || option_1.OptionComponent;
         return (React.createElement("div", { key: key, style: style },
-            React.createElement(Component, { option: option, labelComponent: labelComponent, height: rowHeight, active: currentValue.some(val => utils_1.equal(val, option.value)), selected: selectedIndex === index, onSelect: this.onSelect })));
+            React.createElement(Component, { option: option, labelComponent: labelComponent, height: rowHeight, active: currentValue.some(val => utils_1.equal(val, option.value)), selected: selectedIndex === index, search: search, onSelect: this.onSelect })));
     }
     emptyRenderer() {
         const { Empty } = Menu;

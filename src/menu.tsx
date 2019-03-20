@@ -161,7 +161,8 @@ export class Menu extends React.PureComponent<
             labelComponent,
             selectedIndex,
             optionComponent,
-            rowHeight
+            rowHeight,
+            search
         } = this.props;
         const option = options[index];
         const currentValue = isArray(this.props.value)
@@ -177,6 +178,7 @@ export class Menu extends React.PureComponent<
                     height={rowHeight}
                     active={currentValue.some(val => equal(val, option.value))}
                     selected={selectedIndex === index}
+                    search={search}
                     onSelect={this.onSelect}
                 />
             </div>
