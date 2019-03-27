@@ -29,7 +29,7 @@
     "dependencies": {
         "lodash-decorators": ">= 6.0.0",
         "react-virtualized": "^9.21.0",
-        "styled-components": ">= 4.1.0"
+        "styled-components": ">= 4.x"
     },
     "devDependencies": {
         "@types/react": "^16.7.x",
@@ -43,6 +43,5 @@
         "typescript": "^3.2.x",
         "react": "^16.7.0",
         "react-dom": "^16.7.0"
-
     }
 }
