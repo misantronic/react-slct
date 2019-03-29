@@ -52,7 +52,7 @@ export class Select<T = any> extends React.PureComponent<
 
     private nativeSelect: React.RefObject<HTMLSelectElement>;
     private container: HTMLDivElement | null = null;
-    private blindTextTimeout!: number;
+    private blindTextTimeout!: NodeJS.Timeout;
 
     constructor(props: SelectProps) {
         super(props);
