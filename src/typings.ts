@@ -116,6 +116,7 @@ export interface ValueComponentMultiProps<T = any>
 }
 
 export type LabelComponentProps<T = any> = Option<T> & {
+    active: boolean;
     type: 'value-single' | 'value-multi' | 'option';
 };
 

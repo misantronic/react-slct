@@ -100,6 +100,7 @@ export interface ValueComponentMultiProps<T = any> extends ValueComponentSingleP
     onRemove(value: T): void;
 }
 export declare type LabelComponentProps<T = any> = Option<T> & {
+    active: boolean;
     type: 'value-single' | 'value-multi' | 'option';
 };
 export interface Rect {

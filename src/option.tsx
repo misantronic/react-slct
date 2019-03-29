@@ -48,7 +48,7 @@ export class OptionComponent extends React.PureComponent<OptionComponentProps> {
                 height={height}
                 onClick={this.onClick}
             >
-                <Label type="option" {...option}>
+                <Label type="option" active={active} {...option}>
                     {option.label}
                 </Label>
             </OptionItem>

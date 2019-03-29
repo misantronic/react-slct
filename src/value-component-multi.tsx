@@ -86,7 +86,7 @@ export class ValueComponentMulti<T = any> extends React.PureComponent<
                 <Remove value={option.value} onClick={onRemove}>
                     ×
                 </Remove>
-                <Label type="value-multi" {...option}>
+                <Label type="value-multi" active {...option}>
                     {option.label}
                 </Label>
             </TagContainer>

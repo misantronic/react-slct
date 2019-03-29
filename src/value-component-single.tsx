@@ -8,6 +8,7 @@ export const ValueComponentSingle = React.memo(
 
         return (
             <Label
+                active
                 type="value-single"
                 className="value-single"
                 {...props.option}
