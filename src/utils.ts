@@ -1,6 +1,6 @@
 import { Option } from '.';
 
-export function toKey(value: any): string {
+export function toKey(value: any): string | number {
     if (typeof value === 'string') {
         return value;
     }
