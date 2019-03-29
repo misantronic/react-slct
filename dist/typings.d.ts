@@ -19,7 +19,7 @@ export interface SelectProps<T = any> {
         open: boolean;
     }>;
     menuComponent?: React.ComponentClass<MenuComponentProps> | React.StatelessComponent<MenuComponentProps>;
-    labelComponent?: React.ComponentClass<Option<T>> | React.StatelessComponent<Option<T>>;
+    labelComponent?: React.ComponentClass<LabelComponentProps<T>> | React.StatelessComponent<LabelComponentProps<T>>;
     optionComponent?: React.ComponentClass<OptionComponentProps> | React.StatelessComponent<OptionComponentProps>;
     valueComponentSingle?: React.ComponentClass<ValueComponentSingleProps> | React.StatelessComponent<ValueComponentSingleProps>;
     valueComponentMulti?: React.ComponentClass<ValueComponentMultiProps> | React.StatelessComponent<ValueComponentMultiProps>;
@@ -99,6 +99,9 @@ export interface ValueComponentMultiProps<T = any> extends ValueComponentSingleP
     options: Option<T>[];
     onRemove(value: T): void;
 }
+export declare type LabelComponentProps<T = any> = Option<T> & {
+    type: 'value-single' | 'value-multi' | 'option';
+};
 export interface Rect {
     left: number;
     top: number;

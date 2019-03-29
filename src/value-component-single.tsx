@@ -7,7 +7,11 @@ export const ValueComponentSingle = React.memo(
         const Label = props.labelComponent || (SelectLabel as any);
 
         return (
-            <Label className="value-single" {...props.option}>
+            <Label
+                type="value-single"
+                className="value-single"
+                {...props.option}
+            >
                 {props.option.label}
             </Label>
         );

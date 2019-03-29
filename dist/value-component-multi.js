@@ -50,7 +50,7 @@ class ValueComponentMulti extends React.PureComponent {
         const Label = (labelComponent || label_1.SelectLabel);
         return (React.createElement(TagContainer, Object.assign({ className: "value-multi" }, option),
             React.createElement(Remove, { value: option.value, onClick: onRemove }, "\u00D7"),
-            React.createElement(Label, Object.assign({}, option), option.label)));
+            React.createElement(Label, Object.assign({ type: "value-multi" }, option), option.label)));
     }
 }
 ValueComponentMulti.TagContainer = styled_components_1.default.div `
