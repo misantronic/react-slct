@@ -67,14 +67,17 @@ const ValueRight = styled_components_1.default.div `
 const Placeholder = styled_components_1.default(label_1.SelectLabel) `
     color: #aaa;
 `;
-const Clearer = styled_components_1.default(Button) `
+const ClearButton = styled_components_1.default(Button) `
     margin-right: 6px;
+`;
+const ClearContainer = styled_components_1.default.span `
     color: #ccc;
 
     &:hover {
         color: #333;
     }
 `;
+const ClearX = () => React.createElement(ClearContainer, null, "\u00D7");
 const Search = styled_components_1.default.span `
     min-width: 1px;
     margin-left: -1px;
@@ -107,6 +110,7 @@ class Value extends React.PureComponent {
     render() {
         const { options = [], value, disabled, clearable, open, mobile, multi, focused, error } = this.props;
         const ArrowComponent = this.props.arrowComponent;
+        const ClearComponent = this.props.clearComponent || ClearX;
         const valueOptions = utils_1.getValueOptions(options, value);
         const showClearer = Boolean(clearable && valueOptions.length && !mobile);
         const searchAtStart = !multi || valueOptions.length === 0;
@@ -117,7 +121,8 @@ class Value extends React.PureComponent {
                 this.renderValues(valueOptions),
                 searchAtEnd && this.renderSearch()),
             React.createElement(ValueRight, { className: "value-right" },
-                showClearer && (React.createElement(Clearer, { type: "button", tabIndex: -1, className: "clearer", onClick: this.onClear }, "\u00D7")),
+                showClearer && (React.createElement(ClearButton, { type: "button", tabIndex: -1, className: "clearer", onClick: this.onClear },
+                    React.createElement(ClearComponent, null))),
                 React.createElement(ArrowButton, { type: "button", className: "arrow", tabIndex: -1 }, ArrowComponent ? (React.createElement(ArrowComponent, { open: open })) : open ? ('▲') : ('▼')))));
     }
     renderSearch() {

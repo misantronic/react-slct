@@ -1,4 +1,5 @@
 /// <reference types="react" />
+declare type ReactComponent<P = {}> = React.ComponentClass<P> | React.StatelessComponent<P>;
 export interface SelectProps<T = any> {
     className?: string;
     options?: Option<T>[];
@@ -13,16 +14,15 @@ export interface SelectProps<T = any> {
     native?: boolean;
     error?: boolean;
     rowHeight?: number;
-    arrowComponent?: React.ComponentClass<{
-        open: boolean;
-    }> | React.StatelessComponent<{
+    arrowComponent?: ReactComponent<{
         open: boolean;
     }>;
-    menuComponent?: React.ComponentClass<MenuComponentProps> | React.StatelessComponent<MenuComponentProps>;
-    labelComponent?: React.ComponentClass<LabelComponentProps<T>> | React.StatelessComponent<LabelComponentProps<T>>;
-    optionComponent?: React.ComponentClass<OptionComponentProps> | React.StatelessComponent<OptionComponentProps>;
-    valueComponentSingle?: React.ComponentClass<ValueComponentSingleProps> | React.StatelessComponent<ValueComponentSingleProps>;
-    valueComponentMulti?: React.ComponentClass<ValueComponentMultiProps> | React.StatelessComponent<ValueComponentMultiProps>;
+    clearComponent?: ReactComponent;
+    menuComponent?: ReactComponent<MenuComponentProps>;
+    labelComponent?: ReactComponent<LabelComponentProps<T>>;
+    optionComponent?: ReactComponent<OptionComponentProps>;
+    valueComponentSingle?: ReactComponent<ValueComponentSingleProps>;
+    valueComponentMulti?: ReactComponent<ValueComponentMultiProps>;
     'data-role'?: string;
     keepSearchOnBlur?: boolean;
     children?(config: {
@@ -30,7 +30,7 @@ export interface SelectProps<T = any> {
         options: Option[];
         placeholder?: string;
         open?: boolean;
-        MenuContainer: React.ComponentClass<MenuContainerProps>;
+        MenuContainer: ReactComponent<MenuContainerProps>;
         onToggle(): void;
         onRef(el: HTMLDivElement | null): void;
     }): React.ReactNode;
@@ -109,3 +109,4 @@ export interface Rect {
     width: number;
     height: number;
 }
+export {};

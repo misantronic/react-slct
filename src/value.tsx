@@ -17,6 +17,7 @@ export interface ValueProps {
     valueComponentSingle: SelectProps['valueComponentSingle'];
     valueComponentMulti: SelectProps['valueComponentMulti'];
     arrowComponent: SelectProps['arrowComponent'];
+    clearComponent: SelectProps['clearComponent'];
     multi: SelectProps['multi'];
     mobile: SelectProps['native'];
     disabled: SelectProps['disabled'];
@@ -119,14 +120,19 @@ const Placeholder = styled(SelectLabel)`
     color: #aaa;
 `;
 
-const Clearer = styled(Button)`
+const ClearButton = styled(Button)`
     margin-right: 6px;
+`;
+
+const ClearContainer = styled.span`
     color: #ccc;
 
     &:hover {
         color: #333;
     }
 `;
+
+const ClearX = () => <ClearContainer>×</ClearContainer>;
 
 const Search = styled.span`
     min-width: 1px;
@@ -180,6 +186,7 @@ export class Value extends React.PureComponent<ValueProps> {
             error
         } = this.props;
         const ArrowComponent = this.props.arrowComponent;
+        const ClearComponent = this.props.clearComponent || ClearX;
         const valueOptions = getValueOptions(options, value);
         const showClearer = Boolean(
             clearable && valueOptions.length && !mobile
@@ -208,14 +215,14 @@ export class Value extends React.PureComponent<ValueProps> {
                 </ValueLeft>
                 <ValueRight className="value-right">
                     {showClearer && (
-                        <Clearer
+                        <ClearButton
                             type="button"
                             tabIndex={-1}
                             className="clearer"
                             onClick={this.onClear}
                         >
-                            ×
-                        </Clearer>
+                            <ClearComponent />
+                        </ClearButton>
                     )}
                     <ArrowButton type="button" className="arrow" tabIndex={-1}>
                         {ArrowComponent ? (
