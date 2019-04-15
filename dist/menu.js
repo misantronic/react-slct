@@ -115,7 +115,10 @@ Menu.MenuContainer = styled_components_1.default.div.attrs((props) => ({
             }
         }
     `;
-Menu.Empty = (props) => (React.createElement(option_1.OptionComponent.OptionItem, null,
+Menu.EmptyOptionItem = styled_components_1.default(option_1.OptionComponent.OptionItem) `
+        height: 100%;
+    `;
+Menu.Empty = (props) => (React.createElement(Menu.EmptyOptionItem, null,
     React.createElement(label_1.SelectLabel, null,
         React.createElement("i", null, props.emptyText || 'No results'))));
 tslib_1.__decorate([

@@ -86,12 +86,16 @@ export class Menu extends React.PureComponent<
         }
     `;
 
+    private static EmptyOptionItem = styled(OptionComponent.OptionItem)`
+        height: 100%;
+    `;
+
     private static Empty = (props: { emptyText?: string }) => (
-        <OptionComponent.OptionItem>
+        <Menu.EmptyOptionItem>
             <SelectLabel>
                 <i>{props.emptyText || 'No results'}</i>
             </SelectLabel>
-        </OptionComponent.OptionItem>
+        </Menu.EmptyOptionItem>
     );
 
     private list: React.RefObject<List>;

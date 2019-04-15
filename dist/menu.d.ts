@@ -11,6 +11,7 @@ export declare class Menu extends React.PureComponent<MenuComponentProps, MenuCo
             width: string;
         };
     } & MenuContainerProps, "style">;
+    private static EmptyOptionItem;
     private static Empty;
     private list;
     constructor(props: any);
