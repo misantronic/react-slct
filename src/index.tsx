@@ -142,6 +142,7 @@ export class Select<T = any> extends React.PureComponent<
             native,
             emptyText,
             rowHeight,
+            menuHeight,
             keepSearchOnBlur
         } = this.props;
         const { open, search, selectedIndex, focused } = this.state;
@@ -206,6 +207,7 @@ export class Select<T = any> extends React.PureComponent<
                     optionComponent={optionComponent}
                     emptyText={emptyText}
                     rowHeight={rowHeight}
+                    menuHeight={menuHeight}
                     onSelect={this.onOptionSelect}
                 />
             </Container>

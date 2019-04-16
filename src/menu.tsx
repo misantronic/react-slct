@@ -127,7 +127,7 @@ export class Menu extends React.PureComponent<
         const { rect } = this.state;
         const MenuContent = this.props.menuComponent;
         const rowHeight = this.props.rowHeight || 32;
-        const menuHeight = 185;
+        const menuHeight = this.props.menuHeight || 185;
         const height = Math.min(
             Math.max(options.length * rowHeight, rowHeight),
             menuHeight

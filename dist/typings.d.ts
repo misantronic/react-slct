@@ -14,6 +14,7 @@ export interface SelectProps<T = any> {
     native?: boolean;
     error?: boolean;
     rowHeight?: number;
+    menuHeight?: number;
     arrowComponent?: ReactComponent<{
         open: boolean;
     }>;
@@ -66,6 +67,7 @@ export interface MenuComponentProps<T = any> {
     emptyText: SelectProps['emptyText'];
     multi: SelectProps['multi'];
     rowHeight: SelectProps['rowHeight'];
+    menuHeight: SelectProps['menuHeight'];
     error: SelectProps['error'];
     selectedIndex?: number;
     open: boolean;
