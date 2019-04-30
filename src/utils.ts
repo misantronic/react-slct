@@ -28,7 +28,13 @@ export function equal(valueA: any, valueB: any) {
     }
 
     if (typeof valueA === 'object' && typeof valueB === 'object') {
-        if (valueA.id === valueB.id) {
+        if (
+            valueA.id !== undefined &&
+            valueA.id !== null &&
+            valueB.id !== undefined &&
+            valueB.id !== null &&
+            valueA.id === valueB.id
+        ) {
             return true;
         }
 

@@ -23,7 +23,11 @@ function equal(valueA, valueB) {
         return false;
     }
     if (typeof valueA === 'object' && typeof valueB === 'object') {
-        if (valueA.id === valueB.id) {
+        if (valueA.id !== undefined &&
+            valueA.id !== null &&
+            valueB.id !== undefined &&
+            valueB.id !== null &&
+            valueA.id === valueB.id) {
             return true;
         }
         if (valueA.toJSON && valueB.toJSON) {
