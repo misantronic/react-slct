@@ -155,6 +155,7 @@ export class Select<T = any> extends React.PureComponent<
         const classNames = [
             'react-slct',
             className,
+            open && 'open',
             error && 'has-error'
         ].filter(c => Boolean(c));
 

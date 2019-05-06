@@ -71,6 +71,7 @@ class Select extends React.PureComponent {
         const classNames = [
             'react-slct',
             className,
+            open && 'open',
             error && 'has-error'
         ].filter(c => Boolean(c));
         return (React.createElement(Container, { className: classNames.join(' '), disabled: disabled, ref: this.onContainerRef, "data-role": this.props['data-role'], onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
