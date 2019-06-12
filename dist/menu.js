@@ -71,10 +71,10 @@ class Menu extends React.PureComponent {
     }
     onSelect(value, option) {
         if (utils_1.isArray(this.props.value)) {
-            const found = this.props.value.some(item => item === value);
+            const found = this.props.value.some(item => utils_1.equal(item, value));
             let values;
             if (found) {
-                values = this.props.value.filter(item => item !== value);
+                values = this.props.value.filter(item => !utils_1.equal(item, value));
             }
             else {
                 values = Array.from(new Set([...this.props.value, value]));

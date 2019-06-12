@@ -199,12 +199,12 @@ export class Menu extends React.PureComponent<
     @bind
     private onSelect(value: any, option: Option): void {
         if (isArray(this.props.value)) {
-            const found = this.props.value.some(item => item === value);
+            const found = this.props.value.some(item => equal(item, value));
 
             let values;
 
             if (found) {
-                values = this.props.value.filter(item => item !== value);
+                values = this.props.value.filter(item => !equal(item, value));
             } else {
                 values = Array.from(new Set([...this.props.value, value]));
             }
