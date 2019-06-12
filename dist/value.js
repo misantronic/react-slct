@@ -155,8 +155,10 @@ class Value extends React.PureComponent {
                 const sel = window.getSelection();
                 range.selectNodeContents(el);
                 range.collapse(false);
-                sel.removeAllRanges();
-                sel.addRange(range);
+                if (sel) {
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
             }
         }
     }

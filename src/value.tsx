@@ -324,8 +324,11 @@ export class Value extends React.PureComponent<ValueProps> {
 
                 range.selectNodeContents(el);
                 range.collapse(false);
-                sel.removeAllRanges();
-                sel.addRange(range);
+
+                if (sel) {
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
             }
         }
     }
