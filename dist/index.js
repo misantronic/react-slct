@@ -340,8 +340,9 @@ class Select extends React.PureComponent {
                 }
                 else if (selectedIndex !== undefined &&
                     this.options[selectedIndex]) {
-                    const newValue = this.options[selectedIndex].value;
-                    this.onOptionSelect(utils_1.isArray(value) ? [...value, newValue] : newValue);
+                    const option = this.options[selectedIndex];
+                    const newValue = option.value;
+                    this.onOptionSelect(utils_1.isArray(value) ? [...value, newValue] : newValue, option);
                 }
                 break;
             case utils_1.keys.ESC:
@@ -393,7 +394,7 @@ class Select extends React.PureComponent {
                     .toLowerCase()
                     .startsWith(blindText.toLowerCase()));
                 if (option) {
-                    this.onOptionSelect(option.value);
+                    this.onOptionSelect(option.value, option);
                 }
             }
             else {

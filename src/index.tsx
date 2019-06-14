@@ -589,10 +589,12 @@ export class Select<T = any> extends React.PureComponent<
                     selectedIndex !== undefined &&
                     this.options[selectedIndex]
                 ) {
-                    const newValue = this.options[selectedIndex].value;
+                    const option = this.options[selectedIndex];
+                    const newValue = option.value;
 
                     this.onOptionSelect(
-                        isArray(value) ? [...value, newValue] : newValue
+                        isArray(value) ? [...value, newValue] : newValue,
+                        option
                     );
                 }
                 break;
@@ -667,7 +669,7 @@ export class Select<T = any> extends React.PureComponent<
                 );
 
                 if (option) {
-                    this.onOptionSelect(option.value);
+                    this.onOptionSelect(option.value, option);
                 }
             } else {
                 this.onOptionSelect(undefined);
