@@ -1,6 +1,6 @@
 import { bind, debounce } from 'lodash-decorators';
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Value } from './value';
 import { Menu, MenuContainer } from './menu';
 import {
@@ -40,14 +40,21 @@ export class Select<T = any> extends React.PureComponent<
 
     private static NativeSelect = styled.select`
         display: block;
-        z-index: ${(props: { native?: boolean }) =>
-            props.native ? '1' : 'auto'};
         opacity: 0;
         position: absolute;
         right: 0;
         top: 0;
         width: 100%;
         height: 100%;
+        ${(props: { native?: boolean }) =>
+            props.native
+                ? css`
+                      z-index: 1;
+                  `
+                : css`
+                      pointer-events: none;
+                      z-index: auto;
+                  `};
     `;
 
     private nativeSelect: React.RefObject<HTMLSelectElement>;

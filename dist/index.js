@@ -415,13 +415,20 @@ Select.Container = styled_components_1.default.div `
     `;
 Select.NativeSelect = styled_components_1.default.select `
         display: block;
-        z-index: ${(props) => props.native ? '1' : 'auto'};
         opacity: 0;
         position: absolute;
         right: 0;
         top: 0;
         width: 100%;
         height: 100%;
+        ${(props) => props.native
+    ? styled_components_1.css `
+                      z-index: 1;
+                  `
+    : styled_components_1.css `
+                      pointer-events: none;
+                      z-index: auto;
+                  `};
     `;
 tslib_1.__decorate([
     lodash_decorators_1.bind,
