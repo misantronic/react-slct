@@ -15,11 +15,19 @@ import {
     SelectProps,
     SelectState,
     MenuComponentProps,
+    LabelComponentProps,
     Option
 } from './typings';
 import './global-stylings';
 
-export { SelectProps, Menu, MenuComponentProps, Option, keys };
+export {
+    SelectProps,
+    Menu,
+    MenuComponentProps,
+    LabelComponentProps,
+    Option,
+    keys
+};
 
 export class Select<T = any> extends React.PureComponent<
     SelectProps<T>,
