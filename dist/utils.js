@@ -31,7 +31,8 @@ function equal(valueA, valueB) {
             return true;
         }
         if (valueA.toJSON && valueB.toJSON) {
-            return valueA.toJSON() === valueB.toJSON();
+            return (JSON.stringify(valueA.toJSON()) ===
+                JSON.stringify(valueB.toJSON()));
         }
         return JSON.stringify(valueA) === JSON.stringify(valueB);
     }

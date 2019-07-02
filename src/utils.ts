@@ -39,7 +39,10 @@ export function equal(valueA: any, valueB: any) {
         }
 
         if (valueA.toJSON && valueB.toJSON) {
-            return valueA.toJSON() === valueB.toJSON();
+            return (
+                JSON.stringify(valueA.toJSON()) ===
+                JSON.stringify(valueB.toJSON())
+            );
         }
 
         return JSON.stringify(valueA) === JSON.stringify(valueB);
