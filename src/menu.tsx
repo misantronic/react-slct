@@ -23,13 +23,12 @@ interface MenuComponentState {
     rect?: Rect;
 }
 
-function menuPosition(props: {
-    rect?: Rect;
-    menuHeight?: number;
-}): 'top' | 'bottom' {
+function menuPosition(props: MenuContainerProps): 'top' | 'bottom' {
+    const menuHeight = props.menuHeight === 'none' ? 0 : props.menuHeight;
+
     if (
         !props.rect ||
-        props.rect.top + props.rect.height + (props.menuHeight || 185) <=
+        props.rect.top + props.rect.height + (menuHeight || 185) <=
             getWindowInnerHeight()
     ) {
         return 'bottom';
@@ -259,21 +258,23 @@ export class MenuContainer extends React.PureComponent<
         return getDocument();
     }
 
-    private get rect() {
+    private get rect(): Rect {
         if (this.props.rect) {
             return this.props.rect;
         }
 
         const { rect } = this.state;
+        const menuHeight =
+            this.props.menuHeight === 'none' ? 0 : this.props.menuHeight;
 
         return {
+            left: rect ? rect.left : 0,
             top: getContainerTop({
                 rect,
-                menuHeight: this.props.menuHeight
+                menuHeight
             }),
-            left: rect ? rect.left : 0,
             width: rect ? this.props.menuWidth || rect.width : 0,
-            height: rect ? rect.height : 0
+            height: rect ? menuHeight || rect.height : 0
         };
     }
 

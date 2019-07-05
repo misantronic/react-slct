@@ -81,7 +81,7 @@ export interface MenuComponentProps<T = any> {
 export interface MenuContainerProps {
     className?: string;
     menuWidth?: number;
-    menuHeight?: number;
+    menuHeight?: number | 'none';
     error?: boolean;
     rect?: Rect;
     onRect?(rect?: Rect): void;

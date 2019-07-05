@@ -46190,7 +46190,9 @@ var typings_1 = require("./typings");
 var option_1 = require("./option");
 
 function menuPosition(props) {
-  if (!props.rect || props.rect.top + props.rect.height + (props.menuHeight || 185) <= utils_1.getWindowInnerHeight()) {
+  var menuHeight = props.menuHeight === 'none' ? 0 : props.menuHeight;
+
+  if (!props.rect || props.rect.top + props.rect.height + (menuHeight || 185) <= utils_1.getWindowInnerHeight()) {
     return 'bottom';
   }
 
@@ -46505,14 +46507,15 @@ function (_React$PureComponent2) {
       }
 
       var rect = this.state.rect;
+      var menuHeight = this.props.menuHeight === 'none' ? 0 : this.props.menuHeight;
       return {
+        left: rect ? rect.left : 0,
         top: getContainerTop({
           rect: rect,
-          menuHeight: this.props.menuHeight
+          menuHeight: menuHeight
         }),
-        left: rect ? rect.left : 0,
         width: rect ? this.props.menuWidth || rect.width : 0,
-        height: rect ? rect.height : 0
+        height: rect ? menuHeight || rect.height : 0
       };
     }
   }]);
@@ -48202,7 +48205,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56243" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59078" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
