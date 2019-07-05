@@ -30,7 +30,7 @@ function getContainerTop(props) {
     const height = rect.height === 'auto' ? 32 : rect.height;
     switch (menuPosition(props)) {
         case 'top':
-            return rect.top - menuHeight;
+            return rect.top - menuHeight + 1;
         case 'bottom':
             return rect.top + height - 1;
     }
@@ -68,9 +68,21 @@ class MenuContainer extends React.PureComponent {
         super(props);
         this.state = {};
     }
-    get rect() {
-        if (this.el) {
-            const clientRect = this.el.getBoundingClientRect();
+    get menuOverlayRect() {
+        if (this.menuOverlay) {
+            const clientRect = this.menuOverlay.getBoundingClientRect();
+            return {
+                left: Math.round(clientRect.left),
+                top: Math.round(clientRect.top),
+                width: Math.round(clientRect.width),
+                height: Math.round(clientRect.height)
+            };
+        }
+        return undefined;
+    }
+    get menuWrapperRect() {
+        if (this.menuWrapper) {
+            const clientRect = this.menuWrapper.getBoundingClientRect();
             return {
                 left: Math.round(clientRect.left),
                 top: Math.round(clientRect.top),
@@ -81,15 +93,27 @@ class MenuContainer extends React.PureComponent {
         return undefined;
     }
     get style() {
-        const { menuLeft, menuTop, menuWidth, menuHeight } = this.props;
-        const { rect } = this.state;
+        const { menuLeft, menuTop, menuWidth } = this.props;
+        const { menuOverlay, menuWrapper } = this.state;
+        const menuHeight = this.props.menuHeight && this.props.menuHeight !== 'auto'
+            ? this.props.menuHeight
+            : menuWrapper
+                ? menuWrapper.height
+                : 'auto';
         return {
             top: menuTop !== undefined
                 ? menuTop
-                : getContainerTop({ rect, menuHeight }),
-            left: menuLeft !== undefined ? menuLeft : rect ? rect.left : 0,
-            width: menuWidth || (rect ? rect.width : 0),
-            height: menuHeight || 'auto'
+                : getContainerTop({
+                    rect: menuOverlay,
+                    menuHeight
+                }),
+            left: menuLeft !== undefined
+                ? menuLeft
+                : menuOverlay
+                    ? menuOverlay.left
+                    : 0,
+            width: menuWidth || (menuOverlay ? menuOverlay.width : 'auto'),
+            height: menuHeight || (menuWrapper ? menuWrapper.height : 'auto')
         };
     }
     get window() {
@@ -102,21 +126,24 @@ class MenuContainer extends React.PureComponent {
         this.addListener();
     }
     componentDidUpdate(_, prevState) {
-        if (prevState.rect !== this.state.rect && this.props.onRect) {
-            this.props.onRect(this.state.rect);
+        const { menuOverlay, menuWrapper } = this.state;
+        if (this.props.onRect) {
+            if (prevState.menuOverlay !== menuOverlay ||
+                prevState.menuWrapper !== menuWrapper) {
+                this.props.onRect(menuOverlay, menuWrapper);
+            }
         }
     }
     componentWillUnmount() {
         this.removeListener();
     }
     render() {
-        const { style } = this;
-        const { error, onRef, onClick, children } = this.props;
+        const { error, onClick, children } = this.props;
         const className = ['react-slct-menu', this.props.className]
             .filter(c => c)
             .join(' ');
-        return (React.createElement(MenuOverlay, { ref: this.onEl }, this.document
-            ? react_dom_1.createPortal(React.createElement(MenuWrapper, { "data-role": "menu", className: className, error: error, ref: onRef, onClick: onClick, rect: this.state.rect, style: style }, children), this.document.body)
+        return (React.createElement(MenuOverlay, { ref: this.onMenuOverlay }, this.document
+            ? react_dom_1.createPortal(React.createElement(MenuWrapper, { "data-role": "menu", className: className, error: error, ref: this.onMenuWrapper, onClick: onClick, rect: this.state.menuOverlay, style: this.style }, children), this.document.body)
             : null));
     }
     addListener() {
@@ -139,14 +166,30 @@ class MenuContainer extends React.PureComponent {
     }
     onViewportChange(e) {
         if (this.allowRectChange(e)) {
-            this.setState({ rect: this.rect });
+            this.setState({
+                menuOverlay: this.menuOverlayRect,
+                menuWrapper: this.menuWrapperRect
+            });
         }
     }
-    onEl(el) {
-        this.el = el;
-        this.setState({
-            rect: this.rect
-        });
+    onMenuOverlay(el) {
+        this.menuOverlay = el;
+        if (this.menuOverlay) {
+            this.setState({
+                menuOverlay: this.menuOverlayRect
+            });
+        }
+    }
+    onMenuWrapper(el) {
+        if (el && this.props.onRef) {
+            this.props.onRef(el);
+        }
+        this.menuWrapper = el;
+        if (this.menuWrapper) {
+            this.setState({
+                menuWrapper: this.menuWrapperRect
+            });
+        }
     }
 }
 tslib_1.__decorate([
@@ -160,6 +203,13 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
-], MenuContainer.prototype, "onEl", null);
+], MenuContainer.prototype, "onMenuOverlay", null);
+tslib_1.__decorate([
+    lodash_decorators_1.bind,
+    lodash_decorators_1.debounce(16),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:returntype", void 0)
+], MenuContainer.prototype, "onMenuWrapper", null);
 exports.MenuContainer = MenuContainer;
 //# sourceMappingURL=menu-container.js.map

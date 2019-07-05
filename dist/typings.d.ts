@@ -81,7 +81,7 @@ export interface MenuContainerProps {
     menuWidth?: RectSize;
     menuHeight?: RectSize;
     error?: boolean;
-    onRect?(rect?: Rect): void;
+    onRect?(menuOverlay?: Rect, menuWrapper?: Rect): void;
     onRef?(el: HTMLDivElement | null): void;
     onClick?(el: React.MouseEvent<HTMLDivElement>): void;
 }

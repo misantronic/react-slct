@@ -1,15 +1,18 @@
 import * as React from 'react';
 import { MenuContainerProps, Rect } from './typings';
 export interface MenuContainerState {
-    rect?: Rect;
+    menuOverlay?: Rect;
+    menuWrapper?: Rect;
 }
 export declare class MenuContainer extends React.PureComponent<MenuContainerProps, MenuContainerState> {
-    private el?;
-    private readonly rect;
+    private menuOverlay?;
+    private menuWrapper?;
+    private readonly menuOverlayRect;
+    private readonly menuWrapperRect;
     private readonly style;
     private readonly window;
     private readonly document;
-    constructor(props: any);
+    constructor(props: MenuContainerProps);
     componentDidMount(): void;
     componentDidUpdate(_: any, prevState: MenuContainerState): void;
     componentWillUnmount(): void;
@@ -18,5 +21,6 @@ export declare class MenuContainer extends React.PureComponent<MenuContainerProp
     private removeListener;
     private allowRectChange;
     private onViewportChange;
-    private onEl;
+    private onMenuOverlay;
+    private onMenuWrapper;
 }
