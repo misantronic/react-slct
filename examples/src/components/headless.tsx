@@ -71,7 +71,15 @@ export class Headless extends React.Component<{}, HeadlessState> {
                 options={options}
                 placeholder="Headless component..."
             >
-                {({ value, options, placeholder, open, onToggle, onRef }) => (
+                {({
+                    value,
+                    options,
+                    placeholder,
+                    open,
+                    onToggle,
+                    onRef,
+                    MenuContainer
+                }) => (
                     <Container ref={onRef as any}>
                         <Value onClick={onToggle}>
                             {placeholder && (
@@ -85,27 +93,29 @@ export class Headless extends React.Component<{}, HeadlessState> {
                             <ArrowButton>{open ? '▲' : '▼'}</ArrowButton>
                         </Value>
                         {open && (
-                            <Options>
-                                {options.map((option, i) => (
-                                    <Option
-                                        key={i}
-                                        onClick={(
-                                            e: React.SyntheticEvent<any>
-                                        ) => {
-                                            e.stopPropagation();
+                            <MenuContainer>
+                                <Options>
+                                    {options.map((option, i) => (
+                                        <Option
+                                            key={i}
+                                            onClick={(
+                                                e: React.SyntheticEvent<any>
+                                            ) => {
+                                                e.stopPropagation();
 
-                                            this.setState(
-                                                {
-                                                    value: option.value
-                                                },
-                                                onToggle
-                                            );
-                                        }}
-                                    >
-                                        {option.label}
-                                    </Option>
-                                ))}
-                            </Options>
+                                                this.setState(
+                                                    {
+                                                        value: option.value
+                                                    },
+                                                    onToggle
+                                                );
+                                            }}
+                                        >
+                                            {option.label}
+                                        </Option>
+                                    ))}
+                                </Options>
+                            </MenuContainer>
                         )}
                     </Container>
                 )}
