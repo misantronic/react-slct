@@ -1,4 +1,4 @@
-import { bind } from 'lodash-decorators';
+import { bind, debounce } from 'lodash-decorators';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
@@ -6,7 +6,8 @@ import { MenuContainerProps, Rect } from './typings';
 import { getDocument, getWindow, getWindowInnerHeight } from './utils';
 
 export interface MenuContainerState {
-    rect?: Rect;
+    menuOverlay?: Rect;
+    menuWrapper?: Rect;
 }
 
 interface MenuWrapperProps {
@@ -51,7 +52,7 @@ function getContainerTop(props: MenuWrapperProps): number {
 
     switch (menuPosition(props)) {
         case 'top':
-            return rect.top - menuHeight;
+            return rect.top - menuHeight + 1;
         case 'bottom':
             return rect.top + height - 1;
     }
@@ -93,11 +94,27 @@ export class MenuContainer extends React.PureComponent<
     MenuContainerProps,
     MenuContainerState
 > {
-    private el?: HTMLDivElement | null;
+    private menuOverlay?: HTMLDivElement | null;
+    private menuWrapper?: HTMLDivElement | null;
 
-    private get rect(): Rect | undefined {
-        if (this.el) {
-            const clientRect = this.el.getBoundingClientRect();
+    private get menuOverlayRect(): Rect | undefined {
+        if (this.menuOverlay) {
+            const clientRect = this.menuOverlay.getBoundingClientRect();
+
+            return {
+                left: Math.round(clientRect.left),
+                top: Math.round(clientRect.top),
+                width: Math.round(clientRect.width),
+                height: Math.round(clientRect.height)
+            };
+        }
+
+        return undefined;
+    }
+
+    private get menuWrapperRect(): Rect | undefined {
+        if (this.menuWrapper) {
+            const clientRect = this.menuWrapper.getBoundingClientRect();
 
             return {
                 left: Math.round(clientRect.left),
@@ -111,17 +128,31 @@ export class MenuContainer extends React.PureComponent<
     }
 
     private get style(): Rect {
-        const { menuLeft, menuTop, menuWidth, menuHeight } = this.props;
-        const { rect } = this.state;
+        const { menuLeft, menuTop, menuWidth } = this.props;
+        const { menuOverlay, menuWrapper } = this.state;
+        const menuHeight =
+            this.props.menuHeight && this.props.menuHeight !== 'auto'
+                ? this.props.menuHeight
+                : menuWrapper
+                ? menuWrapper.height
+                : 'auto';
 
         return {
             top:
                 menuTop !== undefined
                     ? menuTop
-                    : getContainerTop({ rect, menuHeight }),
-            left: menuLeft !== undefined ? menuLeft : rect ? rect.left : 0,
-            width: menuWidth || (rect ? rect.width : 0),
-            height: menuHeight || 'auto'
+                    : getContainerTop({
+                          rect: menuOverlay,
+                          menuHeight
+                      }),
+            left:
+                menuLeft !== undefined
+                    ? menuLeft
+                    : menuOverlay
+                    ? menuOverlay.left
+                    : 0,
+            width: menuWidth || (menuOverlay ? menuOverlay.width : 'auto'),
+            height: menuHeight || (menuWrapper ? menuWrapper.height : 'auto')
         };
     }
 
@@ -133,7 +164,7 @@ export class MenuContainer extends React.PureComponent<
         return getDocument();
     }
 
-    constructor(props) {
+    constructor(props: MenuContainerProps) {
         super(props);
 
         this.state = {};
@@ -143,9 +174,16 @@ export class MenuContainer extends React.PureComponent<
         this.addListener();
     }
 
-    public componentDidUpdate(_, prevState: MenuContainerState): void {
-        if (prevState.rect !== this.state.rect && this.props.onRect) {
-            this.props.onRect(this.state.rect);
+    public componentDidUpdate(_: any, prevState: MenuContainerState): void {
+        const { menuOverlay, menuWrapper } = this.state;
+
+        if (this.props.onRect) {
+            if (
+                prevState.menuOverlay !== menuOverlay ||
+                prevState.menuWrapper !== menuWrapper
+            ) {
+                this.props.onRect(menuOverlay, menuWrapper);
+            }
         }
     }
 
@@ -154,24 +192,23 @@ export class MenuContainer extends React.PureComponent<
     }
 
     public render(): React.ReactNode {
-        const { style } = this;
-        const { error, onRef, onClick, children } = this.props;
+        const { error, onClick, children } = this.props;
         const className = ['react-slct-menu', this.props.className]
             .filter(c => c)
             .join(' ');
 
         return (
-            <MenuOverlay ref={this.onEl}>
+            <MenuOverlay ref={this.onMenuOverlay}>
                 {this.document
                     ? createPortal(
                           <MenuWrapper
                               data-role="menu"
                               className={className}
                               error={error}
-                              ref={onRef}
+                              ref={this.onMenuWrapper}
                               onClick={onClick}
-                              rect={this.state.rect}
-                              style={style}
+                              rect={this.state.menuOverlay}
+                              style={this.style}
                           >
                               {children}
                           </MenuWrapper>,
@@ -215,16 +252,37 @@ export class MenuContainer extends React.PureComponent<
     @bind
     private onViewportChange(e): void {
         if (this.allowRectChange(e)) {
-            this.setState({ rect: this.rect });
+            this.setState({
+                menuOverlay: this.menuOverlayRect,
+                menuWrapper: this.menuWrapperRect
+            });
         }
     }
 
     @bind
-    private onEl(el: HTMLDivElement | null): void {
-        this.el = el;
+    private onMenuOverlay(el: HTMLDivElement | null): void {
+        this.menuOverlay = el;
 
-        this.setState({
-            rect: this.rect
-        });
+        if (this.menuOverlay) {
+            this.setState({
+                menuOverlay: this.menuOverlayRect
+            });
+        }
+    }
+
+    @bind
+    @debounce(16)
+    private onMenuWrapper(el: HTMLDivElement | null): void {
+        if (el && this.props.onRef) {
+            this.props.onRef(el);
+        }
+
+        this.menuWrapper = el;
+
+        if (this.menuWrapper) {
+            this.setState({
+                menuWrapper: this.menuWrapperRect
+            });
+        }
     }
 }
