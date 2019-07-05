@@ -47236,7 +47236,7 @@ function getContainerTop(props) {
     return 0;
   }
 
-  var menuHeight = !props.menuHeight || props.menuHeight === 'auto' ? 186 : props.menuHeight;
+  var menuHeight = props.menuHeight !== 'auto' && props.menuHeight || 186;
   var height = rect.height === 'auto' ? 32 : rect.height;
 
   switch (menuPosition(props)) {
@@ -47416,7 +47416,7 @@ function (_React$PureComponent) {
       var _this$state2 = this.state,
           menuOverlay = _this$state2.menuOverlay,
           menuWrapper = _this$state2.menuWrapper;
-      var menuHeight = this.props.menuHeight && this.props.menuHeight !== 'auto' ? this.props.menuHeight : menuWrapper ? menuWrapper.height : 'auto';
+      var menuHeight = this.props.menuHeight ? this.props.menuHeight : menuWrapper ? menuWrapper.height : 'auto';
       return {
         top: menuTop !== undefined ? menuTop : getContainerTop({
           rect: menuOverlay,
@@ -49459,7 +49459,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55518" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54045" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -24,9 +24,7 @@ function getContainerTop(props) {
     if (!rect) {
         return 0;
     }
-    const menuHeight = !props.menuHeight || props.menuHeight === 'auto'
-        ? 186
-        : props.menuHeight;
+    const menuHeight = (props.menuHeight !== 'auto' && props.menuHeight) || 186;
     const height = rect.height === 'auto' ? 32 : rect.height;
     switch (menuPosition(props)) {
         case 'top':
@@ -95,11 +93,8 @@ class MenuContainer extends React.PureComponent {
     get style() {
         const { menuLeft, menuTop, menuWidth } = this.props;
         const { menuOverlay, menuWrapper } = this.state;
-        const menuHeight = this.props.menuHeight && this.props.menuHeight !== 'auto'
-            ? this.props.menuHeight
-            : menuWrapper
-                ? menuWrapper.height
-                : 'auto';
+        const menuHeight = this.props.menuHeight ||
+            (menuWrapper ? menuWrapper.height : 'auto');
         return {
             top: menuTop !== undefined
                 ? menuTop
