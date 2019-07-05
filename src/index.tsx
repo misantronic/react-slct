@@ -2,7 +2,8 @@ import { bind, debounce } from 'lodash-decorators';
 import * as React from 'react';
 import styled, { css } from 'styled-components';
 import { Value } from './value';
-import { Menu, MenuContainer } from './menu';
+import { Menu } from './menu';
+import { MenuContainer } from './menu-container';
 import {
     isArray,
     keys,
