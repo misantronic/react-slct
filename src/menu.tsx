@@ -288,7 +288,7 @@ export class MenuContainer extends React.PureComponent<
             menuWidth,
             menuHeight,
             error,
-            rect,
+            onRef,
             onClick,
             children
         } = this.props;
@@ -297,17 +297,17 @@ export class MenuContainer extends React.PureComponent<
             .join(' ');
 
         return (
-            <MenuWrapper>
+            <MenuWrapper ref={this.onEl}>
                 {this.document
                     ? createPortal(
                           <Menu.MenuContainer
                               data-role="menu"
                               className={className}
                               error={error}
-                              rect={rect || this.state.rect}
+                              rect={this.state.rect}
                               menuWidth={menuWidth}
                               menuHeight={menuHeight}
-                              ref={this.onEl}
+                              ref={onRef}
                               onClick={onClick}
                           >
                               {children}
@@ -358,10 +358,6 @@ export class MenuContainer extends React.PureComponent<
 
     @bind
     private onEl(el: HTMLDivElement | null): void {
-        if (this.props.onRef) {
-            this.props.onRef(el);
-        }
-
         this.el = el;
 
         this.setState({
