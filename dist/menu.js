@@ -10,7 +10,7 @@ const label_1 = require("./label");
 const utils_1 = require("./utils");
 const option_1 = require("./option");
 function menuPosition(props) {
-    const menuHeight = props.menuHeight === 'none' ? 0 : props.menuHeight;
+    const menuHeight = typeof props.menuHeight === 'string' ? 0 : props.menuHeight;
     const height = props.rect
         ? typeof props.rect.height === 'string'
             ? 0
@@ -188,14 +188,14 @@ class MenuContainer extends React.PureComponent {
             return this.props.rect;
         }
         const { rect } = this.state;
-        const menuHeight = this.props.menuHeight === 'none' ? 0 : this.props.menuHeight;
+        const menuWidth = typeof this.props.menuWidth === 'string' ? 0 : this.props.menuWidth;
+        const menuHeight = typeof this.props.menuHeight === 'string'
+            ? 0
+            : this.props.menuHeight;
         return {
             left: rect ? rect.left : 0,
-            top: getContainerTop({
-                rect,
-                menuHeight
-            }),
-            width: rect ? this.props.menuWidth || rect.width : 0,
+            top: getContainerTop({ rect, menuHeight }),
+            width: rect ? menuWidth || rect.width : 0,
             height: rect ? menuHeight || rect.height : 0
         };
     }

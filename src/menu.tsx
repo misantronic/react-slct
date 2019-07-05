@@ -24,7 +24,8 @@ interface MenuComponentState {
 }
 
 function menuPosition(props: MenuContainerProps): 'top' | 'bottom' {
-    const menuHeight = props.menuHeight === 'none' ? 0 : props.menuHeight;
+    const menuHeight =
+        typeof props.menuHeight === 'string' ? 0 : props.menuHeight;
     const height = props.rect
         ? typeof props.rect.height === 'string'
             ? 0
@@ -276,16 +277,17 @@ export class MenuContainer extends React.PureComponent<
         }
 
         const { rect } = this.state;
+        const menuWidth =
+            typeof this.props.menuWidth === 'string' ? 0 : this.props.menuWidth;
         const menuHeight =
-            this.props.menuHeight === 'none' ? 0 : this.props.menuHeight;
+            typeof this.props.menuHeight === 'string'
+                ? 0
+                : this.props.menuHeight;
 
         return {
             left: rect ? rect.left : 0,
-            top: getContainerTop({
-                rect,
-                menuHeight
-            }),
-            width: rect ? this.props.menuWidth || rect.width : 0,
+            top: getContainerTop({ rect, menuHeight }),
+            width: rect ? menuWidth || rect.width : 0,
             height: rect ? menuHeight || rect.height : 0
         };
     }

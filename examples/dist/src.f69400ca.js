@@ -46190,7 +46190,7 @@ var typings_1 = require("./typings");
 var option_1 = require("./option");
 
 function menuPosition(props) {
-  var menuHeight = props.menuHeight === 'none' ? 0 : props.menuHeight;
+  var menuHeight = typeof props.menuHeight === 'string' ? 0 : props.menuHeight;
   var height = props.rect ? typeof props.rect.height === 'string' ? 0 : props.rect.height : 0;
 
   if (!props.rect || props.rect.top + height + (menuHeight || 185) <= utils_1.getWindowInnerHeight()) {
@@ -46511,14 +46511,15 @@ function (_React$PureComponent2) {
       }
 
       var rect = this.state.rect;
-      var menuHeight = this.props.menuHeight === 'none' ? 0 : this.props.menuHeight;
+      var menuWidth = typeof this.props.menuWidth === 'string' ? 0 : this.props.menuWidth;
+      var menuHeight = typeof this.props.menuHeight === 'string' ? 0 : this.props.menuHeight;
       return {
         left: rect ? rect.left : 0,
         top: getContainerTop({
           rect: rect,
           menuHeight: menuHeight
         }),
-        width: rect ? this.props.menuWidth || rect.width : 0,
+        width: rect ? menuWidth || rect.width : 0,
         height: rect ? menuHeight || rect.height : 0
       };
     }
@@ -48209,7 +48210,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51019" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65186" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
