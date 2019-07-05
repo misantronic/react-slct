@@ -289,6 +289,7 @@ export class MenuContainer extends React.PureComponent<
             menuHeight,
             error,
             onRef,
+            rect,
             onClick,
             children
         } = this.props;
@@ -304,7 +305,7 @@ export class MenuContainer extends React.PureComponent<
                               data-role="menu"
                               className={className}
                               error={error}
-                              rect={this.state.rect}
+                              rect={rect || this.state.rect}
                               menuWidth={menuWidth}
                               menuHeight={menuHeight}
                               ref={onRef}
