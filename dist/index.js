@@ -7,6 +7,7 @@ const styled_components_1 = require("styled-components");
 const value_1 = require("./value");
 const menu_1 = require("./menu");
 exports.Menu = menu_1.Menu;
+const menu_container_1 = require("./menu-container");
 const utils_1 = require("./utils");
 exports.keys = utils_1.keys;
 require("./global-stylings");
@@ -111,7 +112,7 @@ class Select extends React.PureComponent {
             options: this.options,
             open,
             value,
-            MenuContainer: menu_1.MenuContainer,
+            MenuContainer: menu_container_1.MenuContainer,
             placeholder: showPlaceholder ? placeholder : undefined,
             onToggle: () => this.toggleMenu(),
             onRef: ref => (this.container = ref)
