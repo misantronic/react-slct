@@ -11,9 +11,13 @@ const utils_1 = require("./utils");
 const option_1 = require("./option");
 function menuPosition(props) {
     const menuHeight = props.menuHeight === 'none' ? 0 : props.menuHeight;
+    const height = props.rect
+        ? typeof props.rect.height === 'string'
+            ? 0
+            : props.rect.height
+        : 0;
     if (!props.rect ||
-        props.rect.top + props.rect.height + (menuHeight || 185) <=
-            utils_1.getWindowInnerHeight()) {
+        props.rect.top + height + (menuHeight || 185) <= utils_1.getWindowInnerHeight()) {
         return 'bottom';
     }
     return 'top';
@@ -22,11 +26,12 @@ function getContainerTop(props) {
     if (!props.rect) {
         return 0;
     }
+    const height = typeof props.rect.height === 'string' ? 0 : props.rect.height;
     switch (menuPosition(props)) {
         case 'top':
             return props.rect.top - (props.menuHeight || 186);
         case 'bottom':
-            return props.rect.top + props.rect.height - 1;
+            return props.rect.top + height - 1;
     }
 }
 class Menu extends React.PureComponent {
@@ -53,7 +58,12 @@ class Menu extends React.PureComponent {
         const rowHeight = this.props.rowHeight || 32;
         const menuHeight = this.props.menuHeight || 185;
         const height = Math.min(Math.max(options.length * rowHeight, rowHeight), menuHeight);
-        return open ? (React.createElement(MenuContainer, { error: error, menuHeight: height, onRect: this.onRect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List_1.List, { className: "react-slct-menu-list", ref: this.list, width: rect ? rect.width : 0, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToIndex: selectedIndex, noRowsRenderer: this.emptyRenderer })))) : null;
+        const width = rect
+            ? typeof rect.width === 'number'
+                ? rect.width
+                : 0
+            : 0;
+        return open ? (React.createElement(MenuContainer, { error: error, menuHeight: height, onRect: this.onRect }, MenuContent ? (React.createElement(MenuContent, Object.assign({}, this.props))) : (React.createElement(List_1.List, { className: "react-slct-menu-list", ref: this.list, width: width, height: height, rowHeight: rowHeight, rowCount: options.length, rowRenderer: this.rowRenderer, scrollToIndex: selectedIndex, noRowsRenderer: this.emptyRenderer })))) : null;
     }
     rowRenderer({ key, index, style }) {
         const { options = [], labelComponent, selectedIndex, optionComponent, rowHeight, search } = this.props;

@@ -25,11 +25,15 @@ interface MenuComponentState {
 
 function menuPosition(props: MenuContainerProps): 'top' | 'bottom' {
     const menuHeight = props.menuHeight === 'none' ? 0 : props.menuHeight;
+    const height = props.rect
+        ? typeof props.rect.height === 'string'
+            ? 0
+            : props.rect.height
+        : 0;
 
     if (
         !props.rect ||
-        props.rect.top + props.rect.height + (menuHeight || 185) <=
-            getWindowInnerHeight()
+        props.rect.top + height + (menuHeight || 185) <= getWindowInnerHeight()
     ) {
         return 'bottom';
     }
@@ -42,11 +46,14 @@ function getContainerTop(props: { rect?: Rect; menuHeight?: number }): number {
         return 0;
     }
 
+    const height =
+        typeof props.rect.height === 'string' ? 0 : props.rect.height;
+
     switch (menuPosition(props)) {
         case 'top':
             return props.rect.top - (props.menuHeight || 186);
         case 'bottom':
-            return props.rect.top + props.rect.height - 1;
+            return props.rect.top + height - 1;
     }
 }
 
@@ -127,6 +134,11 @@ export class Menu extends React.PureComponent<
             Math.max(options.length * rowHeight, rowHeight),
             menuHeight
         );
+        const width = rect
+            ? typeof rect.width === 'number'
+                ? rect.width
+                : 0
+            : 0;
 
         return open ? (
             <MenuContainer
@@ -140,7 +152,7 @@ export class Menu extends React.PureComponent<
                     <List
                         className="react-slct-menu-list"
                         ref={this.list}
-                        width={rect ? rect.width : 0}
+                        width={width}
                         height={height}
                         rowHeight={rowHeight}
                         rowCount={options.length}

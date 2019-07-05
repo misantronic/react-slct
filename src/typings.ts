@@ -118,6 +118,6 @@ export type LabelComponentProps<T = any> = Option<T> & {
 export interface Rect {
     left: number;
     top: number;
-    width: number;
-    height: number;
+    width: number | 'none' | 'auto';
+    height: number | 'none' | 'auto';
 }

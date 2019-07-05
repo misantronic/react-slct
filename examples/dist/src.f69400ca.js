@@ -46191,8 +46191,9 @@ var option_1 = require("./option");
 
 function menuPosition(props) {
   var menuHeight = props.menuHeight === 'none' ? 0 : props.menuHeight;
+  var height = props.rect ? typeof props.rect.height === 'string' ? 0 : props.rect.height : 0;
 
-  if (!props.rect || props.rect.top + props.rect.height + (menuHeight || 185) <= utils_1.getWindowInnerHeight()) {
+  if (!props.rect || props.rect.top + height + (menuHeight || 185) <= utils_1.getWindowInnerHeight()) {
     return 'bottom';
   }
 
@@ -46204,12 +46205,14 @@ function getContainerTop(props) {
     return 0;
   }
 
+  var height = typeof props.rect.height === 'string' ? 0 : props.rect.height;
+
   switch (menuPosition(props)) {
     case 'top':
       return props.rect.top - (props.menuHeight || 186);
 
     case 'bottom':
-      return props.rect.top + props.rect.height - 1;
+      return props.rect.top + height - 1;
   }
 }
 
@@ -46258,6 +46261,7 @@ function (_React$PureComponent) {
       var rowHeight = this.props.rowHeight || 32;
       var menuHeight = this.props.menuHeight || 185;
       var height = Math.min(Math.max(options.length * rowHeight, rowHeight), menuHeight);
+      var width = rect ? typeof rect.width === 'number' ? rect.width : 0 : 0;
       return open ? React.createElement(MenuContainer, {
         error: error,
         menuHeight: height,
@@ -46265,7 +46269,7 @@ function (_React$PureComponent) {
       }, MenuContent ? React.createElement(MenuContent, Object.assign({}, this.props)) : React.createElement(List_1.List, {
         className: "react-slct-menu-list",
         ref: this.list,
-        width: rect ? rect.width : 0,
+        width: width,
         height: height,
         rowHeight: rowHeight,
         rowCount: options.length,
@@ -48205,7 +48209,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59078" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51019" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
