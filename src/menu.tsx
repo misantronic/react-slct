@@ -42,17 +42,19 @@ function menuPosition(props: MenuContainerProps): 'top' | 'bottom' {
     return 'top';
 }
 
-function getContainerTop(props: { rect?: Rect; menuHeight?: number }): number {
+function getContainerTop(props: MenuContainerProps): number {
     if (!props.rect) {
         return 0;
     }
 
+    const menuHeight =
+        typeof props.menuHeight === 'string' ? 0 : props.menuHeight;
     const height =
         typeof props.rect.height === 'string' ? 0 : props.rect.height;
 
     switch (menuPosition(props)) {
         case 'top':
-            return props.rect.top - (props.menuHeight || 186);
+            return props.rect.top - (menuHeight || 186);
         case 'bottom':
             return props.rect.top + height - 1;
     }
@@ -277,18 +279,12 @@ export class MenuContainer extends React.PureComponent<
         }
 
         const { rect } = this.state;
-        const menuWidth =
-            typeof this.props.menuWidth === 'string' ? 0 : this.props.menuWidth;
-        const menuHeight =
-            typeof this.props.menuHeight === 'string'
-                ? 0
-                : this.props.menuHeight;
 
         return {
             left: rect ? rect.left : 0,
-            top: getContainerTop({ rect, menuHeight }),
-            width: rect ? menuWidth || rect.width : 0,
-            height: rect ? menuHeight || rect.height : 0
+            top: getContainerTop({ ...this.props, rect }),
+            width: this.props.menuWidth || (rect ? rect.width : 0),
+            height: this.props.menuHeight || (rect ? rect.height : 0)
         };
     }
 
