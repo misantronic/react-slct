@@ -32,15 +32,15 @@
         "styled-components": ">= 4.x"
     },
     "devDependencies": {
-        "@types/react": "^16.8.14",
+        "@types/react": "^16.8.23",
         "@types/react-dom": "^16.8.4",
         "@types/react-virtualized": "^9.18.x",
-        "@types/styled-components": "^4.1.14",
+        "@types/styled-components": "^4.1.16",
         "fuse-box": "^3.7.1",
         "object-assign": "^4.1.1",
-        "parcel-bundler": "^1.9.3",
-        "terser": "^3.13.1",
-        "typescript": "^3.4.5",
+        "parcel-bundler": "^1.12.3",
+        "terser": "^4.0.2",
+        "typescript": "^3.5.2",
         "react": "^16.8.6",
         "react-dom": "^16.8.6"
     }
