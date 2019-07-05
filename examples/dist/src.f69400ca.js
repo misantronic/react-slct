@@ -47187,7 +47187,7 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var _a;
+var _a, _b;
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -47241,7 +47241,7 @@ function getContainerTop(props) {
 
   switch (menuPosition(props)) {
     case 'top':
-      return rect.top - menuHeight;
+      return rect.top - menuHeight + 1;
 
     case 'bottom':
       return rect.top + height - 1;
@@ -47278,8 +47278,14 @@ function (_React$PureComponent) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(_, prevState) {
-      if (prevState.rect !== this.state.rect && this.props.onRect) {
-        this.props.onRect(this.state.rect);
+      var _this$state = this.state,
+          menuOverlay = _this$state.menuOverlay,
+          menuWrapper = _this$state.menuWrapper;
+
+      if (this.props.onRect) {
+        if (prevState.menuOverlay !== menuOverlay || prevState.menuWrapper !== menuWrapper) {
+          this.props.onRect(menuOverlay, menuWrapper);
+        }
       }
     }
   }, {
@@ -47290,25 +47296,23 @@ function (_React$PureComponent) {
   }, {
     key: "render",
     value: function render() {
-      var style = this.style;
       var _this$props = this.props,
           error = _this$props.error,
-          onRef = _this$props.onRef,
           onClick = _this$props.onClick,
           children = _this$props.children;
       var className = ['react-slct-menu', this.props.className].filter(function (c) {
         return c;
       }).join(' ');
       return React.createElement(MenuOverlay, {
-        ref: this.onEl
+        ref: this.onMenuOverlay
       }, this.document ? react_dom_1.createPortal(React.createElement(MenuWrapper, {
         "data-role": "menu",
         className: className,
         error: error,
-        ref: onRef,
+        ref: this.onMenuWrapper,
         onClick: onClick,
-        rect: this.state.rect,
-        style: style
+        rect: this.state.menuOverlay,
+        style: this.style
       }, children), this.document.body) : null);
     }
   }, {
@@ -47341,23 +47345,57 @@ function (_React$PureComponent) {
     value: function onViewportChange(e) {
       if (this.allowRectChange(e)) {
         this.setState({
-          rect: this.rect
+          menuOverlay: this.menuOverlayRect,
+          menuWrapper: this.menuWrapperRect
         });
       }
     }
   }, {
-    key: "onEl",
-    value: function onEl(el) {
-      this.el = el;
-      this.setState({
-        rect: this.rect
-      });
+    key: "onMenuOverlay",
+    value: function onMenuOverlay(el) {
+      this.menuOverlay = el;
+
+      if (this.menuOverlay) {
+        this.setState({
+          menuOverlay: this.menuOverlayRect
+        });
+      }
     }
   }, {
-    key: "rect",
+    key: "onMenuWrapper",
+    value: function onMenuWrapper(el) {
+      if (el && this.props.onRef) {
+        this.props.onRef(el);
+      }
+
+      this.menuWrapper = el;
+
+      if (this.menuWrapper) {
+        this.setState({
+          menuWrapper: this.menuWrapperRect
+        });
+      }
+    }
+  }, {
+    key: "menuOverlayRect",
     get: function get() {
-      if (this.el) {
-        var clientRect = this.el.getBoundingClientRect();
+      if (this.menuOverlay) {
+        var clientRect = this.menuOverlay.getBoundingClientRect();
+        return {
+          left: Math.round(clientRect.left),
+          top: Math.round(clientRect.top),
+          width: Math.round(clientRect.width),
+          height: Math.round(clientRect.height)
+        };
+      }
+
+      return undefined;
+    }
+  }, {
+    key: "menuWrapperRect",
+    get: function get() {
+      if (this.menuWrapper) {
+        var clientRect = this.menuWrapper.getBoundingClientRect();
         return {
           left: Math.round(clientRect.left),
           top: Math.round(clientRect.top),
@@ -47374,17 +47412,19 @@ function (_React$PureComponent) {
       var _this$props2 = this.props,
           menuLeft = _this$props2.menuLeft,
           menuTop = _this$props2.menuTop,
-          menuWidth = _this$props2.menuWidth,
-          menuHeight = _this$props2.menuHeight;
-      var rect = this.state.rect;
+          menuWidth = _this$props2.menuWidth;
+      var _this$state2 = this.state,
+          menuOverlay = _this$state2.menuOverlay,
+          menuWrapper = _this$state2.menuWrapper;
+      var menuHeight = this.props.menuHeight && this.props.menuHeight !== 'auto' ? this.props.menuHeight : menuWrapper ? menuWrapper.height : 'auto';
       return {
         top: menuTop !== undefined ? menuTop : getContainerTop({
-          rect: rect,
+          rect: menuOverlay,
           menuHeight: menuHeight
         }),
-        left: menuLeft !== undefined ? menuLeft : rect ? rect.left : 0,
-        width: menuWidth || (rect ? rect.width : 0),
-        height: menuHeight || 'auto'
+        left: menuLeft !== undefined ? menuLeft : menuOverlay ? menuOverlay.left : 0,
+        width: menuWidth || (menuOverlay ? menuOverlay.width : 'auto'),
+        height: menuHeight || (menuWrapper ? menuWrapper.height : 'auto')
       };
     }
   }, {
@@ -47404,7 +47444,9 @@ function (_React$PureComponent) {
 
 tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [Object]), tslib_1.__metadata("design:returntype", void 0)], MenuContainer.prototype, "onViewportChange", null);
 
-tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [Object]), tslib_1.__metadata("design:returntype", void 0)], MenuContainer.prototype, "onEl", null);
+tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [Object]), tslib_1.__metadata("design:returntype", void 0)], MenuContainer.prototype, "onMenuOverlay", null);
+
+tslib_1.__decorate([lodash_decorators_1.bind, lodash_decorators_1.debounce(16), tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [Object]), tslib_1.__metadata("design:returntype", void 0)], MenuContainer.prototype, "onMenuWrapper", null);
 
 exports.MenuContainer = MenuContainer;
 },{"tslib":"../../node_modules/tslib/tslib.es6.js","lodash-decorators":"../../node_modules/lodash-decorators/index.js","react":"../../node_modules/react/index.js","react-dom":"../../node_modules/react-dom/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js","./utils":"../../src/utils.ts"}],"../../src/option.tsx":[function(require,module,exports) {
@@ -48742,7 +48784,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["\n    width: 100%;\n    height: 100%;\n    display: flex;\n    flex-direction: column;\n    border: 1px solid #ccc;\n    box-sizing: border-box;\n    background: white;\n    overflow-y: auto;\n"]);
+  var data = _taggedTemplateLiteral(["\n    width: 100%;\n    height: 280px;\n    display: flex;\n    flex-direction: column;\n    border: 1px solid #ccc;\n    box-sizing: border-box;\n    background: white;\n    overflow-y: auto;\n"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -48833,9 +48875,7 @@ function (_React$Component) {
           ref: onRef
         }, React.createElement(Value, {
           onClick: onToggle
-        }, placeholder && React.createElement(Placeholder, null, placeholder), value && !Array.isArray(value) && React.createElement("div", null, value.id, ". ", value.value), React.createElement(ArrowButton, null, open ? '▲' : '▼')), open && React.createElement(MenuContainer, {
-          menuHeight: 200
-        }, React.createElement(Options, null, options.map(function (option, i) {
+        }, placeholder && React.createElement(Placeholder, null, placeholder), value && !Array.isArray(value) && React.createElement("div", null, value.id, ". ", value.value), React.createElement(ArrowButton, null, open ? '▲' : '▼')), open && React.createElement(MenuContainer, null, React.createElement(Options, null, options.map(function (option, i) {
           return React.createElement(Option, {
             key: i,
             onClick: function onClick(e) {
@@ -49419,7 +49459,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63070" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55518" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

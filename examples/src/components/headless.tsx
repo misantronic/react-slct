@@ -27,7 +27,7 @@ const Placeholder = styled.span`
 
 const Options = styled.div`
     width: 100%;
-    height: 100%;
+    height: 280px;
     display: flex;
     flex-direction: column;
     border: 1px solid #ccc;
@@ -92,7 +92,7 @@ export class Headless extends React.Component<{}, HeadlessState> {
                             <ArrowButton>{open ? '▲' : '▼'}</ArrowButton>
                         </Value>
                         {open && (
-                            <MenuContainer menuHeight={200}>
+                            <MenuContainer>
                                 <Options>
                                     {options.map((option, i) => (
                                         <Option
