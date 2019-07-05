@@ -57,6 +57,7 @@ export class Menu extends React.PureComponent<
         const { rect } = this.state;
         const MenuContent = this.props.menuComponent;
         const rowHeight = this.props.rowHeight || 32;
+        const width = rect && rect.width !== 'auto' ? rect.width : 0;
         const height = Math.min(
             Math.max(options.length * rowHeight, rowHeight),
             this.props.menuHeight || 185
@@ -74,7 +75,7 @@ export class Menu extends React.PureComponent<
                     <List
                         className="react-slct-menu-list"
                         ref={this.list}
-                        width={rect ? rect.width : 0}
+                        width={width}
                         height={height}
                         rowHeight={rowHeight}
                         rowCount={options.length}

@@ -80,10 +80,11 @@ export interface MenuComponentProps<T = any> {
 
 export interface MenuContainerProps {
     className?: string;
-    menuWidth?: number;
-    menuHeight?: number;
+    menuLeft?: number;
+    menuTop?: number;
+    menuWidth?: RectSize;
+    menuHeight?: RectSize;
     error?: boolean;
-    rect?: Rect;
     onRect?(rect?: Rect): void;
     onRef?(el: HTMLDivElement | null): void;
     onClick?(el: React.MouseEvent<HTMLDivElement>): void;
@@ -115,9 +116,11 @@ export type LabelComponentProps<T = any> = Option<T> & {
     type: 'value-single' | 'value-multi' | 'option';
 };
 
+type RectSize = number | 'auto';
+
 export interface Rect {
     left: number;
     top: number;
-    width: number;
-    height: number;
+    width: RectSize;
+    height: RectSize;
 }
