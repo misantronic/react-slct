@@ -19,16 +19,15 @@ function menuPosition(props) {
 }
 function getContainerTop(props) {
     if (!props.rect) {
-        return '0px';
+        return 0;
     }
     switch (menuPosition(props)) {
         case 'top':
-            return `${props.rect.top - (props.menuHeight || 186)}px`;
+            return props.rect.top - (props.menuHeight || 186);
         case 'bottom':
-            return `${props.rect.top + props.rect.height - 1}px`;
+            return props.rect.top + props.rect.height - 1;
     }
 }
-``;
 class Menu extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -90,11 +89,7 @@ class Menu extends React.PureComponent {
     }
 }
 Menu.MenuContainer = styled_components_1.default.div.attrs((props) => ({
-    style: {
-        top: getContainerTop(props),
-        left: `${props.rect ? props.rect.left : 0}px`,
-        width: `${props.rect ? props.menuWidth || props.rect.width : 0}px`
-    }
+    style: props.rect
 })) `
         position: fixed;
         z-index: 9999;
@@ -159,7 +154,7 @@ class MenuContainer extends React.PureComponent {
         super(props);
         this.state = {};
     }
-    get rect() {
+    get elRect() {
         if (this.el) {
             const clientRect = this.el.getBoundingClientRect();
             return {
@@ -177,6 +172,21 @@ class MenuContainer extends React.PureComponent {
     get document() {
         return utils_1.getDocument();
     }
+    get rect() {
+        if (this.props.rect) {
+            return this.props.rect;
+        }
+        const { rect } = this.state;
+        return {
+            top: getContainerTop({
+                rect,
+                menuHeight: this.props.menuHeight
+            }),
+            left: rect ? rect.left : 0,
+            width: rect ? this.props.menuWidth || rect.width : 0,
+            height: rect ? rect.height : 0
+        };
+    }
     componentDidMount() {
         this.addListener();
     }
@@ -189,12 +199,12 @@ class MenuContainer extends React.PureComponent {
         this.removeListener();
     }
     render() {
-        const { menuWidth, menuHeight, error, onRef, rect, onClick, children } = this.props;
+        const { menuWidth, menuHeight, error, onRef, onClick, children } = this.props;
         const className = ['react-slct-menu', this.props.className]
             .filter(c => c)
             .join(' ');
         return (React.createElement(MenuWrapper, { ref: this.onEl }, this.document
-            ? react_dom_1.createPortal(React.createElement(Menu.MenuContainer, { "data-role": "menu", className: className, error: error, rect: rect || this.state.rect, menuWidth: menuWidth, menuHeight: menuHeight, ref: onRef, onClick: onClick }, children), this.document.body)
+            ? react_dom_1.createPortal(React.createElement(Menu.MenuContainer, { "data-role": "menu", className: className, error: error, rect: this.rect, menuWidth: menuWidth, menuHeight: menuHeight, ref: onRef, onClick: onClick }, children), this.document.body)
             : null));
     }
     addListener() {
@@ -217,13 +227,13 @@ class MenuContainer extends React.PureComponent {
     }
     onViewportChange(e) {
         if (this.allowRectChange(e)) {
-            this.setState({ rect: this.rect });
+            this.setState({ rect: this.elRect });
         }
     }
     onEl(el) {
         this.el = el;
         this.setState({
-            rect: this.rect
+            rect: this.elRect
         });
     }
 }

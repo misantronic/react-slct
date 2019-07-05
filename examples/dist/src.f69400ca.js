@@ -46199,19 +46199,17 @@ function menuPosition(props) {
 
 function getContainerTop(props) {
   if (!props.rect) {
-    return '0px';
+    return 0;
   }
 
   switch (menuPosition(props)) {
     case 'top':
-      return "".concat(props.rect.top - (props.menuHeight || 186), "px");
+      return props.rect.top - (props.menuHeight || 186);
 
     case 'bottom':
-      return "".concat(props.rect.top + props.rect.height - 1, "px");
+      return props.rect.top + props.rect.height - 1;
   }
 }
-
-"";
 
 var Menu =
 /*#__PURE__*/
@@ -46350,11 +46348,7 @@ function (_React$PureComponent) {
 
 Menu.MenuContainer = styled_components_1.default.div.attrs(function (props) {
   return {
-    style: {
-      top: getContainerTop(props),
-      left: "".concat(props.rect ? props.rect.left : 0, "px"),
-      width: "".concat(props.rect ? props.menuWidth || props.rect.width : 0, "px")
-    }
+    style: props.rect
   };
 })(_templateObject(), function (props) {
   return menuPosition(props) === 'bottom' ? '0 2px 5px rgba(0, 0, 0, 0.1)' : '0 -2px 5px rgba(0, 0, 0, 0.1)';
@@ -46417,7 +46411,6 @@ function (_React$PureComponent2) {
           menuWidth = _this$props4.menuWidth,
           menuHeight = _this$props4.menuHeight,
           error = _this$props4.error,
-          rect = _this$props4.rect,
           onRef = _this$props4.onRef,
           onClick = _this$props4.onClick,
           children = _this$props4.children;
@@ -46430,7 +46423,7 @@ function (_React$PureComponent2) {
         "data-role": "menu",
         className: className,
         error: error,
-        rect: rect || this.state.rect,
+        rect: this.rect,
         menuWidth: menuWidth,
         menuHeight: menuHeight,
         ref: onRef,
@@ -46467,7 +46460,7 @@ function (_React$PureComponent2) {
     value: function onViewportChange(e) {
       if (this.allowRectChange(e)) {
         this.setState({
-          rect: this.rect
+          rect: this.elRect
         });
       }
     }
@@ -46476,11 +46469,11 @@ function (_React$PureComponent2) {
     value: function onEl(el) {
       this.el = el;
       this.setState({
-        rect: this.rect
+        rect: this.elRect
       });
     }
   }, {
-    key: "rect",
+    key: "elRect",
     get: function get() {
       if (this.el) {
         var clientRect = this.el.getBoundingClientRect();
@@ -46503,6 +46496,24 @@ function (_React$PureComponent2) {
     key: "document",
     get: function get() {
       return utils_1.getDocument();
+    }
+  }, {
+    key: "rect",
+    get: function get() {
+      if (this.props.rect) {
+        return this.props.rect;
+      }
+
+      var rect = this.state.rect;
+      return {
+        top: getContainerTop({
+          rect: rect,
+          menuHeight: this.props.menuHeight
+        }),
+        left: rect ? rect.left : 0,
+        width: rect ? this.props.menuWidth || rect.width : 0,
+        height: rect ? rect.height : 0
+      };
     }
   }]);
 
@@ -48191,7 +48202,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64628" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56243" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

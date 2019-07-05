@@ -5,11 +5,7 @@ interface MenuComponentState {
 }
 export declare class Menu extends React.PureComponent<MenuComponentProps, MenuComponentState> {
     static MenuContainer: import("styled-components").StyledComponent<"div", any, {
-        style: {
-            top: string;
-            left: string;
-            width: string;
-        };
+        style: Rect | undefined;
     } & MenuContainerProps, "style">;
     private static EmptyOptionItem;
     private static Empty;
@@ -27,9 +23,10 @@ export interface MenuContainerState {
 }
 export declare class MenuContainer extends React.PureComponent<MenuContainerProps, MenuContainerState> {
     private el?;
-    private readonly rect;
+    private readonly elRect;
     private readonly window;
     private readonly document;
+    private readonly rect;
     constructor(props: any);
     componentDidMount(): void;
     componentDidUpdate(_: any, prevState: MenuContainerState): void;

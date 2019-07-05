@@ -23,7 +23,10 @@ interface MenuComponentState {
     rect?: Rect;
 }
 
-function menuPosition(props: MenuContainerProps): 'top' | 'bottom' {
+function menuPosition(props: {
+    rect?: Rect;
+    menuHeight?: number;
+}): 'top' | 'bottom' {
     if (
         !props.rect ||
         props.rect.top + props.rect.height + (props.menuHeight || 185) <=
@@ -35,19 +38,18 @@ function menuPosition(props: MenuContainerProps): 'top' | 'bottom' {
     return 'top';
 }
 
-function getContainerTop(props: MenuContainerProps): string {
+function getContainerTop(props: { rect?: Rect; menuHeight?: number }): number {
     if (!props.rect) {
-        return '0px';
+        return 0;
     }
 
     switch (menuPosition(props)) {
         case 'top':
-            return `${props.rect.top - (props.menuHeight || 186)}px`;
+            return props.rect.top - (props.menuHeight || 186);
         case 'bottom':
-            return `${props.rect.top + props.rect.height - 1}px`;
+            return props.rect.top + props.rect.height - 1;
     }
 }
-``;
 
 export class Menu extends React.PureComponent<
     MenuComponentProps,
@@ -55,13 +57,7 @@ export class Menu extends React.PureComponent<
 > {
     public static MenuContainer = styled.div.attrs(
         (props: MenuContainerProps) => ({
-            style: {
-                top: getContainerTop(props),
-                left: `${props.rect ? props.rect.left : 0}px`,
-                width: `${
-                    props.rect ? props.menuWidth || props.rect.width : 0
-                }px`
-            }
+            style: props.rect
         })
     )`
         position: fixed;
@@ -240,7 +236,7 @@ export class MenuContainer extends React.PureComponent<
 > {
     private el?: HTMLDivElement | null;
 
-    private get rect(): Rect | undefined {
+    private get elRect(): Rect | undefined {
         if (this.el) {
             const clientRect = this.el.getBoundingClientRect();
 
@@ -261,6 +257,24 @@ export class MenuContainer extends React.PureComponent<
 
     private get document() {
         return getDocument();
+    }
+
+    private get rect() {
+        if (this.props.rect) {
+            return this.props.rect;
+        }
+
+        const { rect } = this.state;
+
+        return {
+            top: getContainerTop({
+                rect,
+                menuHeight: this.props.menuHeight
+            }),
+            left: rect ? rect.left : 0,
+            width: rect ? this.props.menuWidth || rect.width : 0,
+            height: rect ? rect.height : 0
+        };
     }
 
     constructor(props) {
@@ -289,7 +303,6 @@ export class MenuContainer extends React.PureComponent<
             menuHeight,
             error,
             onRef,
-            rect,
             onClick,
             children
         } = this.props;
@@ -305,7 +318,7 @@ export class MenuContainer extends React.PureComponent<
                               data-role="menu"
                               className={className}
                               error={error}
-                              rect={rect || this.state.rect}
+                              rect={this.rect}
                               menuWidth={menuWidth}
                               menuHeight={menuHeight}
                               ref={onRef}
@@ -353,7 +366,7 @@ export class MenuContainer extends React.PureComponent<
     @bind
     private onViewportChange(e): void {
         if (this.allowRectChange(e)) {
-            this.setState({ rect: this.rect });
+            this.setState({ rect: this.elRect });
         }
     }
 
@@ -362,7 +375,7 @@ export class MenuContainer extends React.PureComponent<
         this.el = el;
 
         this.setState({
-            rect: this.rect
+            rect: this.elRect
         });
     }
 }
