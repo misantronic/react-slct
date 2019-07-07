@@ -27,9 +27,9 @@
         "react-dom": ">= 16.x"
     },
     "dependencies": {
-        "lodash-decorators": ">= 6.0.0",
+        "lodash-decorators": "^6.0.1",
         "react-virtualized": "^9.21.0",
-        "styled-components": ">= 4.x"
+        "styled-components": "^4.3.2"
     },
     "devDependencies": {
         "@types/react": "^16.8.23",
