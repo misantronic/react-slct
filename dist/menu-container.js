@@ -91,25 +91,34 @@ class MenuContainer extends React.PureComponent {
         return undefined;
     }
     get style() {
+        const { window } = this;
         const { menuLeft, menuTop, menuWidth } = this.props;
         const { menuOverlay, menuWrapper } = this.state;
         const menuHeight = this.props.menuHeight ||
             (menuWrapper ? menuWrapper.height : 'auto');
-        return {
-            top: menuTop !== undefined
-                ? menuTop
-                : getContainerTop({
-                    rect: menuOverlay,
-                    menuHeight
-                }),
-            left: menuLeft !== undefined
-                ? menuLeft
-                : menuOverlay
-                    ? menuOverlay.left
-                    : 0,
-            width: menuWidth || (menuOverlay ? menuOverlay.width : 'auto'),
-            height: menuHeight || (menuWrapper ? menuWrapper.height : 'auto')
-        };
+        let width = menuWidth || (menuOverlay ? menuOverlay.width : 'auto');
+        const height = menuHeight || (menuWrapper ? menuWrapper.height : 'auto');
+        const top = menuTop !== undefined
+            ? menuTop
+            : getContainerTop({
+                rect: menuOverlay,
+                menuHeight: height
+            });
+        let left = menuLeft !== undefined
+            ? menuLeft
+            : menuOverlay
+                ? menuOverlay.left
+                : 0;
+        if (window) {
+            const numWidth = Number(width);
+            if (numWidth > window.innerWidth) {
+                width = window.innerWidth - 20;
+            }
+            if (left + numWidth > window.innerWidth) {
+                left = Math.max(10, window.innerWidth - numWidth - 20);
+            }
+        }
+        return { top, left, width, height };
     }
     get window() {
         return utils_1.getWindow();
