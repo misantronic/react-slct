@@ -535,7 +535,10 @@ export class Select<T = any> extends React.PureComponent<
     private onDocumentClick(e): void {
         const { target } = e;
 
-        if (target.closest('.react-slct-menu')) {
+        if (
+            target.closest('.react-slct-menu') ||
+            target.closest('.react-slct-value')
+        ) {
             return;
         }
 
