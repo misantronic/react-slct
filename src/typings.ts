@@ -34,6 +34,8 @@ export interface SelectProps<T = any> {
         open?: boolean;
         MenuContainer: ReactComponent<MenuContainerProps>;
         onToggle(): void;
+        onClose(): void;
+        onOpen(): void;
         onRef(el: HTMLDivElement | null): void;
     }): React.ReactNode;
     onCreateText?(value: string): string;

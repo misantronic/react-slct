@@ -115,6 +115,8 @@ class Select extends React.PureComponent {
             MenuContainer: menu_container_1.MenuContainer,
             placeholder: showPlaceholder ? placeholder : undefined,
             onToggle: () => this.toggleMenu(),
+            onClose: () => this.closeMenu(),
+            onOpen: () => this.openMenu(),
             onRef: ref => (this.container = ref)
         });
     }

@@ -295,6 +295,8 @@ export class Select<T = any> extends React.PureComponent<
             MenuContainer,
             placeholder: showPlaceholder ? placeholder : undefined,
             onToggle: () => this.toggleMenu(),
+            onClose: () => this.closeMenu(),
+            onOpen: () => this.openMenu(),
             onRef: ref => (this.container = ref)
         });
     }
