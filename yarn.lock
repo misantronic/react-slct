@@ -814,7 +814,7 @@
     "@types/prop-types" "*"
     "@types/react" "*"
 
-"@types/react-virtualized@^9.18.x":
+"@types/react-virtualized@^9.21.3":
   version "9.21.3"
   resolved "https://registry.yarnpkg.com/@types/react-virtualized/-/react-virtualized-9.21.3.tgz#79a44b870a4848cbc7cc04ff4bc06e5a10955262"
   integrity sha512-QhXeiVwXrshVAoq2Cy3SGZEDiFdeFfup2ciQya5RTgr5uycQ2alIKzLfy4X38UCrxonwxe8byk5q8fYV0U87Zg==
