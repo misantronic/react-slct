@@ -33,7 +33,7 @@
     },
     "devDependencies": {
         "@types/react": "^16.8.23",
-        "@types/react-dom": "^16.8.4",
+        "@types/react-dom": "^16.8.5",
         "@types/react-virtualized": "^9.21.3",
         "@types/styled-components": "^4.1.16",
         "fuse-box": "^3.7.1",
