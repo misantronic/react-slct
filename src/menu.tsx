@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FixedSizeList } from 'react-window';
 import styled from 'styled-components';
 import { SelectLabel } from './label';

@@ -50,7 +50,8 @@ const MenuWrapper = styled_components_1.default.div `
     ? '0 2px 5px rgba(0, 0, 0, 0.1)'
     : '0 -2px 5px rgba(0, 0, 0, 0.1)'};
 
-    .ReactVirtualized__List {
+    .react-slct-menu-list {
+        box-sizing: border-box;
         border-width: 1px;
         border-style: solid;
         border-color: ${(props) => props.error ? 'var(--react-slct-error-color)' : '#ccc'};
