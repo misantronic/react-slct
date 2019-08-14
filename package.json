@@ -28,20 +28,20 @@
     },
     "dependencies": {
         "lodash-decorators": "^6.0.1",
-        "react-virtualized": "^9.21.0",
+        "react-window": "^1.8.5",
         "styled-components": "^4.3.2"
     },
     "devDependencies": {
         "@types/react": "^16.9.1",
         "@types/react-dom": "^16.8.5",
-        "@types/react-virtualized": "^9.21.4",
+        "@types/react-window": "^1.8.1",
         "@types/styled-components": "^4.1.16",
         "fuse-box": "^3.7.1",
         "object-assign": "^4.1.1",
         "parcel-bundler": "^1.12.3",
-        "terser": "^4.1.4",
-        "typescript": "^3.5.2",
         "react": "^16.9.0",
-        "react-dom": "^16.9.0"
+        "react-dom": "^16.9.0",
+        "terser": "^4.1.4",
+        "typescript": "^3.5.2"
     }
 }
