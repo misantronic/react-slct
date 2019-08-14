@@ -1,6 +1,6 @@
 # react-slct 🐘 [![npm version](https://badge.fury.io/js/react-slct.svg)](https://badge.fury.io/js/react-slct) [![dependencies](https://david-dm.org/misantronic/react-slct.svg)]() ![](http://img.badgesize.io/misantronic/react-slct/master/dist/react-slct.min.js) ![](http://img.badgesize.io/misantronic/react-slct/master/dist/react-slct.min.js?compression=gzip)
 
-Yet another Select-Box based on react, styled-components and react-virtualized.
+Yet another Select-Box based on react, styled-components and react-window.
 
 ## Install
 
