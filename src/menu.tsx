@@ -36,7 +36,7 @@ export function Menu(props: MenuComponentProps) {
     const list = useRef<FixedSizeList>(null);
     const width = menuWidth || (rect && rect.width !== 'auto' ? rect.width : 0);
     const height = Math.min(
-        Math.max(options.length * rowHeight, rowHeight),
+        Math.max(options.length * rowHeight, rowHeight) + 2,
         menuHeight || 185
     );
 

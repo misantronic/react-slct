@@ -21,7 +21,7 @@ function Menu(props) {
     const [rect, setRect] = react_1.useState();
     const list = react_1.useRef(null);
     const width = menuWidth || (rect && rect.width !== 'auto' ? rect.width : 0);
-    const height = Math.min(Math.max(options.length * rowHeight, rowHeight), menuHeight || 185);
+    const height = Math.min(Math.max(options.length * rowHeight, rowHeight) + 2, menuHeight || 185);
     react_1.useEffect(() => {
         if (open &&
             list.current &&
