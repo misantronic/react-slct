@@ -31,7 +31,7 @@ function Menu(props) {
         }
     }, [open]);
     const itemData = React.useMemo(() => {
-        return Object.assign({}, props, { onSelect: (value, option) => {
+        return Object.assign(Object.assign({}, props), { onSelect: (value, option) => {
                 if (utils_1.isArray(props.value)) {
                     const found = props.value.some(item => utils_1.equal(item, value));
                     const values = found

@@ -87,7 +87,12 @@ export class Select<T = any> extends React.PureComponent<
         let options = this.props.options || [];
         const showCreate =
             creatable &&
-            !options.some(option => option.value === (search as any));
+            !options.some(option => {
+                const { value, label } = option;
+
+                // @ts-ignore
+                return value === search || label === search;
+            });
 
         if (search) {
             options = options.filter(option =>

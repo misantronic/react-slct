@@ -26,7 +26,11 @@ class Select extends React.PureComponent {
         const { creatable, onCreateText } = this.props;
         let options = this.props.options || [];
         const showCreate = creatable &&
-            !options.some(option => option.value === search);
+            !options.some(option => {
+                const { value, label } = option;
+                // @ts-ignore
+                return value === search || label === search;
+            });
         if (search) {
             options = options.filter(option => option.label.toLowerCase().includes(search.toLowerCase()));
         }

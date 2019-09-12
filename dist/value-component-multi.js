@@ -53,6 +53,7 @@ class ValueComponentMulti extends React.PureComponent {
             React.createElement(Label, Object.assign({ type: "value-multi", active: true }, option), option.label)));
     }
 }
+exports.ValueComponentMulti = ValueComponentMulti;
 ValueComponentMulti.TagContainer = styled_components_1.default.div `
         display: flex;
         padding: 0px 3px;
@@ -69,5 +70,4 @@ ValueComponentMulti.TagContainer = styled_components_1.default.div `
             margin-right: 5px;
         }
     `;
-exports.ValueComponentMulti = ValueComponentMulti;
 //# sourceMappingURL=value-component-multi.js.map
