@@ -29,7 +29,7 @@
     "dependencies": {
         "lodash-decorators": "^6.0.1",
         "react-window": "^1.8.5",
-        "styled-components": "^4.4.0"
+        "styled-components": "^4.4.1"
     },
     "devDependencies": {
         "@types/react": "^16.9.9",
