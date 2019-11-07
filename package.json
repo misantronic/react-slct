@@ -39,7 +39,7 @@
         "fuse-box": "^3.7.1",
         "object-assign": "^4.1.1",
         "parcel-bundler": "^1.12.4",
-        "react": "^16.10.2",
+        "react": "^16.11.0",
         "react-dom": "^16.11.0",
         "terser": "^4.3.9",
         "typescript": "^3.6.4"
