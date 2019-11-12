@@ -11,8 +11,8 @@ export declare class Select<T = any> extends React.PureComponent<SelectProps<T>,
     private container;
     private blindTextTimeout;
     constructor(props: SelectProps);
-    private readonly options;
-    private readonly document;
+    private get options();
+    private get document();
     private optionIsCreatable;
     componentDidUpdate(_: any, prevState: SelectState): void;
     componentWillUnmount(): void;

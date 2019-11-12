@@ -7,11 +7,11 @@ export interface MenuContainerState {
 export declare class MenuContainer extends React.PureComponent<MenuContainerProps, MenuContainerState> {
     private menuOverlay?;
     private menuWrapper?;
-    private readonly menuOverlayRect;
-    private readonly menuWrapperRect;
-    private readonly style;
-    private readonly window;
-    private readonly document;
+    private get menuOverlayRect();
+    private get menuWrapperRect();
+    private get style();
+    private get window();
+    private get document();
     constructor(props: MenuContainerProps);
     componentDidMount(): void;
     componentDidUpdate(_: any, prevState: MenuContainerState): void;
