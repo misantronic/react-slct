@@ -11,6 +11,12 @@ const menu_container_1 = require("./menu-container");
 const utils_1 = require("./utils");
 exports.keys = utils_1.keys;
 require("./global-stylings");
+var option_1 = require("./option");
+exports.OptionComponent = option_1.OptionComponent;
+var value_component_single_1 = require("./value-component-single");
+exports.ValueComponentSingle = value_component_single_1.ValueComponentSingle;
+var value_component_multi_1 = require("./value-component-multi");
+exports.ValueComponentMulti = value_component_multi_1.ValueComponentMulti;
 class Select extends React.PureComponent {
     constructor(props) {
         super(props);

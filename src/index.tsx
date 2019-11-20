@@ -29,6 +29,14 @@ export {
     Option,
     keys
 };
+export { OptionComponent } from './option';
+export { ValueComponentSingle } from './value-component-single';
+export { ValueComponentMulti } from './value-component-multi';
+export {
+    OptionComponentProps,
+    ValueComponentSingleProps,
+    ValueComponentMultiProps
+} from './typings';
 
 export class Select<T = any> extends React.PureComponent<
     SelectProps<T>,

@@ -4,6 +4,10 @@ import { keys } from './utils';
 import { SelectProps, SelectState, MenuComponentProps, LabelComponentProps, Option } from './typings';
 import './global-stylings';
 export { SelectProps, Menu, MenuComponentProps, LabelComponentProps, Option, keys };
+export { OptionComponent } from './option';
+export { ValueComponentSingle } from './value-component-single';
+export { ValueComponentMulti } from './value-component-multi';
+export { OptionComponentProps, ValueComponentSingleProps, ValueComponentMultiProps } from './typings';
 export declare class Select<T = any> extends React.PureComponent<SelectProps<T>, SelectState> {
     private static Container;
     private static NativeSelect;
