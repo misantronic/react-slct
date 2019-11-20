@@ -12,6 +12,7 @@ class OptionComponent extends React.PureComponent {
         const Label = (labelComponent ? labelComponent : label_1.SelectLabel);
         const className = [
             'option',
+            this.props.className,
             selected ? 'selected' : null,
             active ? 'active' : null
         ].filter(v => Boolean(v));

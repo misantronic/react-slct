@@ -80,9 +80,12 @@ export class ValueComponentMulti<T = any> extends React.PureComponent<
         const { TagContainer } = ValueComponentMulti;
         const { option, labelComponent, onRemove } = this.props;
         const Label = (labelComponent || SelectLabel) as any;
+        const className = ['value-multi', this.props.className]
+            .filter(c => Boolean(c))
+            .join(' ');
 
         return (
-            <TagContainer className="value-multi" {...option}>
+            <TagContainer className={className} {...option}>
                 <Remove value={option.value} onClick={onRemove}>
                     ×
                 </Remove>

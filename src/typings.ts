@@ -95,6 +95,7 @@ export interface MenuContainerProps {
 }
 
 export interface OptionComponentProps<T = any> {
+    className?: string;
     option: Option<T>;
     active?: boolean;
     selected?: boolean;
@@ -105,6 +106,7 @@ export interface OptionComponentProps<T = any> {
 }
 
 export interface ValueComponentSingleProps<T = any> {
+    className?: string;
     option: Option<T>;
     labelComponent: SelectProps['labelComponent'];
 }
