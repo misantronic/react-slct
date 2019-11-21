@@ -244,12 +244,15 @@ export class Value extends React.PureComponent<ValueProps> {
             value,
             disabled,
             searchable,
+            search,
             keepSearchOnBlur,
             onSearchFocus,
             onSearchBlur
         } = this.props;
         const canSearch =
-            (open && searchable) || (keepSearchOnBlur && !value && searchable);
+            (open && searchable) ||
+            (keepSearchOnBlur && !value && searchable) ||
+            Boolean(search);
 
         if (disabled && !keepSearchOnBlur) {
             return null;
@@ -276,10 +279,11 @@ export class Value extends React.PureComponent<ValueProps> {
             labelComponent,
             valueComponentSingle,
             valueComponentMulti,
-            multi
+            multi,
+            open
         } = this.props;
 
-        if (search && !multi) {
+        if (search && open && !multi) {
             return null;
         }
 
