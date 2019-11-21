@@ -17,6 +17,7 @@ export interface SelectProps<T = any> {
     menuWidth?: number;
     menuHeight?: number;
     hideSelectedOptions?: boolean;
+    equalCompareProp?: string | null;
     arrowComponent?: ReactComponent<{
         open: boolean;
     }>;
@@ -74,6 +75,7 @@ export interface MenuComponentProps<T = any> {
     menuWidth: SelectProps['menuHeight'];
     menuHeight: SelectProps['menuHeight'];
     hideSelectedOptions: SelectProps['hideSelectedOptions'];
+    equalCompareProp: SelectProps['equalCompareProp'];
     error: SelectProps['error'];
     selectedIndex?: number;
     open: boolean;

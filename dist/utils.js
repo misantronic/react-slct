@@ -15,7 +15,7 @@ function toKey(value) {
     return JSON.stringify(value);
 }
 exports.toKey = toKey;
-function equal(valueA, valueB) {
+function equal(valueA, valueB, equalCompareProp = 'id') {
     if (valueA === valueB) {
         return true;
     }
@@ -23,11 +23,12 @@ function equal(valueA, valueB) {
         return false;
     }
     if (typeof valueA === 'object' && typeof valueB === 'object') {
-        if (valueA.id !== undefined &&
-            valueA.id !== null &&
-            valueB.id !== undefined &&
-            valueB.id !== null &&
-            valueA.id === valueB.id) {
+        if (equalCompareProp &&
+            valueA[equalCompareProp] !== undefined &&
+            valueA[equalCompareProp] !== null &&
+            valueB[equalCompareProp] !== undefined &&
+            valueB[equalCompareProp] !== null &&
+            valueA[equalCompareProp] === valueB[equalCompareProp]) {
             return true;
         }
         if (valueA.toJSON && valueB.toJSON) {
@@ -39,13 +40,13 @@ function equal(valueA, valueB) {
     return false;
 }
 exports.equal = equal;
-function getValueOptions(options, value) {
+function getValueOptions(options, value, equalCompareProp) {
     return options.filter(option => {
         if (isArray(value)) {
-            return value.some(val => equal(option.value, val));
+            return value.some(val => equal(option.value, val, equalCompareProp));
         }
         else {
-            return equal(option.value, value);
+            return equal(option.value, value, equalCompareProp);
         }
     });
 }

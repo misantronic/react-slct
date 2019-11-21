@@ -22,6 +22,7 @@ export interface ValueProps {
     mobile: SelectProps['native'];
     disabled: SelectProps['disabled'];
     error: SelectProps['error'];
+    equalCompareProp: SelectProps['equalCompareProp'];
     search?: string;
     keepSearchOnBlur?: boolean;
     open: boolean;
@@ -183,11 +184,12 @@ export class Value extends React.PureComponent<ValueProps> {
             mobile,
             multi,
             focused,
+            equalCompareProp,
             error
         } = this.props;
         const ArrowComponent = this.props.arrowComponent;
         const ClearComponent = this.props.clearComponent || ClearX;
-        const valueOptions = getValueOptions(options, value);
+        const valueOptions = getValueOptions(options, value, equalCompareProp);
         const showClearer = Boolean(
             clearable && valueOptions.length && !mobile
         );

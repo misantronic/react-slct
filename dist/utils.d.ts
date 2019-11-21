@@ -1,7 +1,7 @@
 import { Option } from '.';
 export declare function toKey(value: any): string | number;
-export declare function equal(valueA: any, valueB: any): boolean;
-export declare function getValueOptions(options: Option[], value: any): Option<any>[];
+export declare function equal(valueA: any, valueB: any, equalCompareProp?: string | null): boolean;
+export declare function getValueOptions(options: Option[], value: any, equalCompareProp?: string | null): Option<any>[];
 export declare function isArray<T = any>(val: any): val is Array<T>;
 export declare function getDocument(): Document | undefined;
 export declare function getWindow(): Window | undefined;

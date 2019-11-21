@@ -168,6 +168,7 @@ export class Select<T = any> extends React.PureComponent<
             arrowComponent,
             clearComponent,
             hideSelectedOptions,
+            equalCompareProp,
             multi,
             native,
             emptyText,
@@ -214,6 +215,7 @@ export class Select<T = any> extends React.PureComponent<
                     value={value}
                     search={search}
                     keepSearchOnBlur={keepSearchOnBlur}
+                    equalCompareProp={equalCompareProp}
                     labelComponent={labelComponent}
                     valueComponentSingle={valueComponentSingle}
                     valueComponentMulti={valueComponentMulti}
@@ -238,6 +240,7 @@ export class Select<T = any> extends React.PureComponent<
                     labelComponent={labelComponent}
                     optionComponent={optionComponent}
                     hideSelectedOptions={hideSelectedOptions}
+                    equalCompareProp={equalCompareProp}
                     emptyText={emptyText}
                     rowHeight={rowHeight}
                     menuWidth={menuWidth}
@@ -332,7 +335,11 @@ export class Select<T = any> extends React.PureComponent<
         const selectedIndex = this.props.hideSelectedOptions
             ? undefined
             : this.options.findIndex(option =>
-                  equal(option.value, this.props.value)
+                  equal(
+                      option.value,
+                      this.props.value,
+                      this.props.equalCompareProp
+                  )
               );
         const keepSearchOnBlur =
             this.props.keepSearchOnBlur && !this.props.value;
@@ -522,7 +529,9 @@ export class Select<T = any> extends React.PureComponent<
     @bind
     private onOptionRemove(value: any): void {
         if (isArray(this.props.value)) {
-            const values = this.props.value.filter(val => !equal(val, value));
+            const values = this.props.value.filter(
+                val => !equal(val, value, this.props.equalCompareProp)
+            );
 
             this.onOptionSelect(values);
         }

@@ -8,6 +8,7 @@ import { equal, isArray } from './utils';
 interface MenuRowProps {
     index: number;
     style: CSSProperties;
+    equalCompareProp?: string | null;
     data: MenuComponentProps;
 }
 
@@ -19,6 +20,7 @@ export const MenuRow = memo(({ index, style, data }: MenuRowProps) => {
         optionComponent,
         rowHeight,
         search,
+        equalCompareProp,
         onSelect
     } = data;
     const option = options[index];
@@ -31,7 +33,9 @@ export const MenuRow = memo(({ index, style, data }: MenuRowProps) => {
                 option={option}
                 labelComponent={labelComponent}
                 height={rowHeight}
-                active={currentValue.some(val => equal(val, option.value))}
+                active={currentValue.some(val =>
+                    equal(val, option.value, equalCompareProp)
+                )}
                 selected={selectedIndex === index}
                 search={search}
                 onSelect={onSelect}

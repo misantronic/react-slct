@@ -34,7 +34,9 @@ export function Menu(props: MenuComponentProps) {
     } = props;
     const options = (props.options || []).filter(option => {
         const currentValue = isArray(props.value) ? props.value : [props.value];
-        const selected = currentValue.some(val => equal(val, option.value));
+        const selected = currentValue.some(val =>
+            equal(val, option.value, props.equalCompareProp)
+        );
 
         if (hideSelectedOptions && selected) {
             return false;
@@ -66,9 +68,14 @@ export function Menu(props: MenuComponentProps) {
             options,
             onSelect: (value: any, option: Option) => {
                 if (isArray(props.value)) {
-                    const found = props.value.some(item => equal(item, value));
+                    const found = props.value.some(item =>
+                        equal(item, value, props.equalCompareProp)
+                    );
                     const values = found
-                        ? props.value.filter(item => !equal(item, value))
+                        ? props.value.filter(
+                              item =>
+                                  !equal(item, value, props.equalCompareProp)
+                          )
                         : Array.from(new Set([...props.value, value]));
 
                     props.onSelect(values, option);

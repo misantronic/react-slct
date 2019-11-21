@@ -18,7 +18,11 @@ export function toKey(value: any): string | number {
     return JSON.stringify(value);
 }
 
-export function equal(valueA: any, valueB: any) {
+export function equal(
+    valueA: any,
+    valueB: any,
+    equalCompareProp: string | null = 'id'
+) {
     if (valueA === valueB) {
         return true;
     }
@@ -29,11 +33,12 @@ export function equal(valueA: any, valueB: any) {
 
     if (typeof valueA === 'object' && typeof valueB === 'object') {
         if (
-            valueA.id !== undefined &&
-            valueA.id !== null &&
-            valueB.id !== undefined &&
-            valueB.id !== null &&
-            valueA.id === valueB.id
+            equalCompareProp &&
+            valueA[equalCompareProp] !== undefined &&
+            valueA[equalCompareProp] !== null &&
+            valueB[equalCompareProp] !== undefined &&
+            valueB[equalCompareProp] !== null &&
+            valueA[equalCompareProp] === valueB[equalCompareProp]
         ) {
             return true;
         }
@@ -51,12 +56,18 @@ export function equal(valueA: any, valueB: any) {
     return false;
 }
 
-export function getValueOptions(options: Option[], value: any) {
+export function getValueOptions(
+    options: Option[],
+    value: any,
+    equalCompareProp?: string | null
+) {
     return options.filter(option => {
         if (isArray(value)) {
-            return value.some(val => equal(option.value, val));
+            return value.some(val =>
+                equal(option.value, val, equalCompareProp)
+            );
         } else {
-            return equal(option.value, value);
+            return equal(option.value, value, equalCompareProp);
         }
     });
 }

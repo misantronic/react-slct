@@ -15,6 +15,7 @@ export interface ValueProps {
     mobile: SelectProps['native'];
     disabled: SelectProps['disabled'];
     error: SelectProps['error'];
+    equalCompareProp: SelectProps['equalCompareProp'];
     search?: string;
     keepSearchOnBlur?: boolean;
     open: boolean;
