@@ -126,16 +126,18 @@ class Value extends React.PureComponent {
                 React.createElement(ArrowButton, { type: "button", className: "arrow", tabIndex: -1 }, ArrowComponent ? (React.createElement(ArrowComponent, { open: open })) : open ? ('▲') : ('▼')))));
     }
     renderSearch() {
-        const { open, value, disabled, searchable, keepSearchOnBlur, onSearchFocus, onSearchBlur } = this.props;
-        const canSearch = (open && searchable) || (keepSearchOnBlur && !value && searchable);
+        const { open, value, disabled, searchable, search, keepSearchOnBlur, onSearchFocus, onSearchBlur } = this.props;
+        const canSearch = (open && searchable) ||
+            (keepSearchOnBlur && !value && searchable) ||
+            Boolean(search);
         if (disabled && !keepSearchOnBlur) {
             return null;
         }
         return (React.createElement(Search, { className: "search", contentEditable: true, canSearch: canSearch, onInput: this.onSearch, onKeyDown: this.onKeyDown, onFocus: onSearchFocus, onBlur: onSearchBlur, ref: this.search }));
     }
     renderValues(valueOptions) {
-        const { placeholder, search, labelComponent, valueComponentSingle, valueComponentMulti, multi } = this.props;
-        if (search && !multi) {
+        const { placeholder, search, labelComponent, valueComponentSingle, valueComponentMulti, multi, open } = this.props;
+        if (search && open && !multi) {
             return null;
         }
         if (valueOptions.length === 0 && !search) {
