@@ -18,6 +18,7 @@ export interface SelectProps<T = any> {
     rowHeight?: number;
     menuWidth?: number;
     menuHeight?: number;
+    hideSelectedOptions?: boolean;
     arrowComponent?: ReactComponent<{ open: boolean }>;
     clearComponent?: ReactComponent;
     menuComponent?: ReactComponent<MenuComponentProps>;
@@ -75,6 +76,7 @@ export interface MenuComponentProps<T = any> {
     rowHeight: SelectProps['rowHeight'];
     menuWidth: SelectProps['menuHeight'];
     menuHeight: SelectProps['menuHeight'];
+    hideSelectedOptions: SelectProps['hideSelectedOptions'];
     error: SelectProps['error'];
     selectedIndex?: number;
     open: boolean;

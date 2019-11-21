@@ -17,7 +17,15 @@ const Empty = (props) => (React.createElement(EmptyOptionItem, null,
     React.createElement(label_1.SelectLabel, null,
         React.createElement("i", null, props.emptyText || 'No results'))));
 function Menu(props) {
-    const { options = [], rowHeight = 32, selectedIndex, open, error, menuWidth, menuHeight } = props;
+    const { rowHeight = 32, selectedIndex, open, error, menuWidth, menuHeight, hideSelectedOptions } = props;
+    const options = (props.options || []).filter(option => {
+        const currentValue = utils_1.isArray(props.value) ? props.value : [props.value];
+        const selected = currentValue.some(val => utils_1.equal(val, option.value));
+        if (hideSelectedOptions && selected) {
+            return false;
+        }
+        return true;
+    });
     const [rect, setRect] = react_1.useState();
     const list = react_1.useRef(null);
     const width = menuWidth || (rect && rect.width !== 'auto' ? rect.width : 0);
@@ -31,7 +39,7 @@ function Menu(props) {
         }
     }, [open]);
     const itemData = React.useMemo(() => {
-        return Object.assign(Object.assign({}, props), { onSelect: (value, option) => {
+        return Object.assign(Object.assign({}, props), { options, onSelect: (value, option) => {
                 if (utils_1.isArray(props.value)) {
                     const found = props.value.some(item => utils_1.equal(item, value));
                     const values = found

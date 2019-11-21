@@ -167,6 +167,7 @@ export class Select<T = any> extends React.PureComponent<
             valueComponentMulti,
             arrowComponent,
             clearComponent,
+            hideSelectedOptions,
             multi,
             native,
             emptyText,
@@ -236,6 +237,7 @@ export class Select<T = any> extends React.PureComponent<
                     menuComponent={menuComponent}
                     labelComponent={labelComponent}
                     optionComponent={optionComponent}
+                    hideSelectedOptions={hideSelectedOptions}
                     emptyText={emptyText}
                     rowHeight={rowHeight}
                     menuWidth={menuWidth}
@@ -327,9 +329,11 @@ export class Select<T = any> extends React.PureComponent<
 
     @debounce(0)
     private openMenu(): void {
-        const selectedIndex = this.options.findIndex(option =>
-            equal(option.value, this.props.value)
-        );
+        const selectedIndex = this.props.hideSelectedOptions
+            ? undefined
+            : this.options.findIndex(option =>
+                  equal(option.value, this.props.value)
+              );
         const keepSearchOnBlur =
             this.props.keepSearchOnBlur && !this.props.value;
 

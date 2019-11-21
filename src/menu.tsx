@@ -24,14 +24,24 @@ const Empty = (props: { emptyText?: string }) => (
 
 export function Menu(props: MenuComponentProps) {
     const {
-        options = [],
         rowHeight = 32,
         selectedIndex,
         open,
         error,
         menuWidth,
-        menuHeight
+        menuHeight,
+        hideSelectedOptions
     } = props;
+    const options = (props.options || []).filter(option => {
+        const currentValue = isArray(props.value) ? props.value : [props.value];
+        const selected = currentValue.some(val => equal(val, option.value));
+
+        if (hideSelectedOptions && selected) {
+            return false;
+        }
+
+        return true;
+    });
     const [rect, setRect] = useState<Rect>();
     const list = useRef<FixedSizeList>(null);
     const width = menuWidth || (rect && rect.width !== 'auto' ? rect.width : 0);
@@ -53,6 +63,7 @@ export function Menu(props: MenuComponentProps) {
     const itemData = React.useMemo(() => {
         return {
             ...props,
+            options,
             onSelect: (value: any, option: Option) => {
                 if (isArray(props.value)) {
                     const found = props.value.some(item => equal(item, value));
