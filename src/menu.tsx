@@ -32,18 +32,29 @@ export function Menu(props: MenuComponentProps) {
         menuHeight,
         hideSelectedOptions
     } = props;
-    const options = (props.options || []).filter(option => {
-        const currentValue = isArray(props.value) ? props.value : [props.value];
-        const selected = currentValue.some(val =>
-            equal(val, option.value, props.equalCompareProp)
-        );
+    const currentValue = isArray(props.value) ? props.value : [props.value];
+    const options = React.useMemo(
+        () =>
+            (props.options || []).filter(option => {
+                if (hideSelectedOptions) {
+                    const selected = currentValue.some(val =>
+                        equal(val, option.value, props.equalCompareProp)
+                    );
 
-        if (hideSelectedOptions && selected) {
-            return false;
-        }
+                    if (selected) {
+                        return false;
+                    }
+                }
 
-        return true;
-    });
+                return true;
+            }),
+        [
+            props.options,
+            props.equalCompareProp,
+            hideSelectedOptions,
+            currentValue
+        ]
+    );
     const [rect, setRect] = useState<Rect>();
     const list = useRef<FixedSizeList>(null);
     const width = menuWidth || (rect && rect.width !== 'auto' ? rect.width : 0);

@@ -18,14 +18,21 @@ const Empty = (props) => (React.createElement(EmptyOptionItem, null,
         React.createElement("i", null, props.emptyText || 'No results'))));
 function Menu(props) {
     const { rowHeight = 32, selectedIndex, open, error, menuWidth, menuHeight, hideSelectedOptions } = props;
-    const options = (props.options || []).filter(option => {
-        const currentValue = utils_1.isArray(props.value) ? props.value : [props.value];
-        const selected = currentValue.some(val => utils_1.equal(val, option.value, props.equalCompareProp));
-        if (hideSelectedOptions && selected) {
-            return false;
+    const currentValue = utils_1.isArray(props.value) ? props.value : [props.value];
+    const options = React.useMemo(() => (props.options || []).filter(option => {
+        if (hideSelectedOptions) {
+            const selected = currentValue.some(val => utils_1.equal(val, option.value, props.equalCompareProp));
+            if (selected) {
+                return false;
+            }
         }
         return true;
-    });
+    }), [
+        props.options,
+        props.equalCompareProp,
+        hideSelectedOptions,
+        currentValue
+    ]);
     const [rect, setRect] = react_1.useState();
     const list = react_1.useRef(null);
     const width = menuWidth || (rect && rect.width !== 'auto' ? rect.width : 0);
