@@ -97,7 +97,7 @@ class Select extends React.PureComponent {
             ? `select-${this.props['data-role']}`
             : undefined;
         const clearable = this.props.clearable && native;
-        const value = utils_1.isArray(this.props.value)
+        const value = utils_1.isArray(this.props.value) && multi
             ? this.props.value.map(this.findOptionIndex)
             : this.findOptionIndex(this.props.value || '');
         return (React.createElement(NativeSelect, { ref: this.nativeSelect, multiple: multi, value: value, disabled: disabled, native: native, tabIndex: -1, "data-role": dataRole, onChange: this.onChangeNativeSelect },

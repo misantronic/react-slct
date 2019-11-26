@@ -258,9 +258,10 @@ export class Select<T = any> extends React.PureComponent<
             ? `select-${this.props['data-role']}`
             : undefined;
         const clearable = this.props.clearable && native;
-        const value = isArray(this.props.value)
-            ? this.props.value.map(this.findOptionIndex)
-            : this.findOptionIndex(this.props.value || '');
+        const value =
+            isArray(this.props.value) && multi
+                ? this.props.value.map(this.findOptionIndex)
+                : this.findOptionIndex(this.props.value || '');
 
         return (
             <NativeSelect
