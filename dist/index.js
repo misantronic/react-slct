@@ -198,12 +198,7 @@ class Select extends React.PureComponent {
         let index = this.options.findIndex(option => option.value === val);
         if (index === -1) {
             if (typeof val === 'object') {
-                index = this.options.findIndex(option => {
-                    if (typeof option.value === 'object') {
-                        return (JSON.stringify(option.value) === JSON.stringify(val));
-                    }
-                    return false;
-                });
+                index = this.options.findIndex(option => utils_1.equal(option.value, val, this.props.equalCompareProp));
             }
             if (index === -1) {
                 return '';
