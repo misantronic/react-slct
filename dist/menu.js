@@ -17,8 +17,8 @@ const Empty = (props) => (React.createElement(EmptyOptionItem, null,
     React.createElement(label_1.SelectLabel, null,
         React.createElement("i", null, props.emptyText || 'No results'))));
 function Menu(props) {
-    const { rowHeight = 32, selectedIndex, open, error, menuWidth, menuHeight, hideSelectedOptions } = props;
-    const currentValue = utils_1.isArray(props.value) ? props.value : [props.value];
+    const { rowHeight = 32, selectedIndex, open, error, menuWidth, menuHeight, multi, hideSelectedOptions } = props;
+    const currentValue = utils_1.isArray(props.value) && multi ? props.value : [props.value];
     const options = React.useMemo(() => (props.options || []).filter(option => {
         if (hideSelectedOptions) {
             const selected = currentValue.some(val => utils_1.equal(val, option.value, props.equalCompareProp));
@@ -47,7 +47,7 @@ function Menu(props) {
     }, [open]);
     const itemData = React.useMemo(() => {
         return Object.assign(Object.assign({}, props), { options, onSelect: (value, option) => {
-                if (utils_1.isArray(props.value)) {
+                if (utils_1.isArray(props.value) && props.multi) {
                     const found = props.value.some(item => utils_1.equal(item, value, props.equalCompareProp));
                     const values = found
                         ? props.value.filter(item => !utils_1.equal(item, value, props.equalCompareProp))

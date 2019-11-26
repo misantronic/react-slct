@@ -59,10 +59,11 @@ export function equal(
 export function getValueOptions(
     options: Option[],
     value: any,
+    multi: boolean | undefined,
     equalCompareProp?: string | null
 ) {
     return options.filter(option => {
-        if (isArray(value)) {
+        if (isArray(value) && multi) {
             return value.some(val =>
                 equal(option.value, val, equalCompareProp)
             );

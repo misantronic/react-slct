@@ -293,13 +293,18 @@ export class Select<T = any> extends React.PureComponent<
     private renderChildren(): React.ReactNode {
         const { options, placeholder, multi, children } = this.props;
         const { open, search } = this.state;
-        const valueOptions = getValueOptions(options || [], this.props.value);
+        const valueOptions = getValueOptions(
+            options || [],
+            this.props.value,
+            this.props.multi,
+            this.props.equalCompareProp
+        );
         const value: T | T[] | undefined = !multi
             ? this.props.value
             : valueOptions.map(option => option.value);
         const showPlaceholder =
             !search &&
-            (isArray(value)
+            (isArray(value) && multi
                 ? value.length === 0
                 : value === undefined || value === null);
 
@@ -481,14 +486,15 @@ export class Select<T = any> extends React.PureComponent<
     @bind
     private onOptionSelect(value: any | any[], option?: Option<T>): void {
         const { current } = this.nativeSelect;
-        const { onChange, creatable } = this.props;
+        const { multi, onChange, creatable } = this.props;
         let optionWasCreated = false;
 
         const selectOnNative = () => {
             if (current) {
-                current.value = isArray(value)
-                    ? (value.map(this.findOptionIndex) as any)
-                    : this.findOptionIndex(value);
+                current.value =
+                    isArray(value) && multi
+                        ? (value.map(this.findOptionIndex) as any)
+                        : this.findOptionIndex(value);
             }
 
             this.setState({ focused: true }, () =>
@@ -509,7 +515,7 @@ export class Select<T = any> extends React.PureComponent<
                 }
             };
 
-            if (isArray(value)) {
+            if (isArray(value) && multi) {
                 value.map(createValue);
             } else {
                 createValue(value);
@@ -523,7 +529,7 @@ export class Select<T = any> extends React.PureComponent<
 
     @bind
     private onOptionRemove(value: any): void {
-        if (isArray(this.props.value)) {
+        if (isArray(this.props.value) && this.props.multi) {
             const values = this.props.value.filter(
                 val => !equal(val, value, this.props.equalCompareProp)
             );
@@ -588,7 +594,7 @@ export class Select<T = any> extends React.PureComponent<
     @bind
     private onKeyUp({ keyCode }: React.KeyboardEvent): void {
         const { search, open } = this.state;
-        const { value } = this.props;
+        const { value, multi } = this.props;
         let selectedIndex = this.state.selectedIndex;
 
         switch (keyCode) {
@@ -637,7 +643,9 @@ export class Select<T = any> extends React.PureComponent<
                     const newValue = option.value;
 
                     this.onOptionSelect(
-                        isArray(value) ? [...value, newValue] : newValue,
+                        isArray(value) && multi
+                            ? [...value, newValue]
+                            : newValue,
                         option
                     );
                 }

@@ -189,7 +189,12 @@ export class Value extends React.PureComponent<ValueProps> {
         } = this.props;
         const ArrowComponent = this.props.arrowComponent;
         const ClearComponent = this.props.clearComponent || ClearX;
-        const valueOptions = getValueOptions(options, value, equalCompareProp);
+        const valueOptions = getValueOptions(
+            options,
+            value,
+            multi,
+            equalCompareProp
+        );
         const showClearer = Boolean(
             clearable && valueOptions.length && !mobile
         );

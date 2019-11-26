@@ -21,10 +21,12 @@ export const MenuRow = memo(({ index, style, data }: MenuRowProps) => {
         rowHeight,
         search,
         equalCompareProp,
+        multi,
         onSelect
     } = data;
     const option = options[index];
-    const currentValue = isArray(data.value) ? data.value : [data.value];
+    const currentValue =
+        isArray(data.value) && multi ? data.value : [data.value];
     const Component = optionComponent || OptionComponent;
 
     return (

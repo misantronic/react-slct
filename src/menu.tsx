@@ -30,9 +30,11 @@ export function Menu(props: MenuComponentProps) {
         error,
         menuWidth,
         menuHeight,
+        multi,
         hideSelectedOptions
     } = props;
-    const currentValue = isArray(props.value) ? props.value : [props.value];
+    const currentValue =
+        isArray(props.value) && multi ? props.value : [props.value];
     const options = React.useMemo(
         () =>
             (props.options || []).filter(option => {
@@ -78,7 +80,7 @@ export function Menu(props: MenuComponentProps) {
             ...props,
             options,
             onSelect: (value: any, option: Option) => {
-                if (isArray(props.value)) {
+                if (isArray(props.value) && props.multi) {
                     const found = props.value.some(item =>
                         equal(item, value, props.equalCompareProp)
                     );

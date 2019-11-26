@@ -40,9 +40,9 @@ function equal(valueA, valueB, equalCompareProp = 'id') {
     return false;
 }
 exports.equal = equal;
-function getValueOptions(options, value, equalCompareProp) {
+function getValueOptions(options, value, multi, equalCompareProp) {
     return options.filter(option => {
-        if (isArray(value)) {
+        if (isArray(value) && multi) {
             return value.some(val => equal(option.value, val, equalCompareProp));
         }
         else {
