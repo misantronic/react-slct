@@ -1,16 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function toKey(value) {
+function toKey(value, equalCompareProp = 'id') {
     if (typeof value === 'string') {
         return value;
     }
-    if (typeof value === 'object') {
-        if (value.id) {
-            return value.id;
+    if (value && typeof value === 'object') {
+        const jsonObject = value.toJSON ? value.toJSON() : value;
+        if (equalCompareProp) {
+            return jsonObject[equalCompareProp];
         }
-        if (value.toJSON) {
-            return value.toJSON();
-        }
+        return JSON.stringify(jsonObject);
     }
     return JSON.stringify(value);
 }

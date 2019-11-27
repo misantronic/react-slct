@@ -145,7 +145,7 @@ class Value extends React.PureComponent {
         }
         const Single = valueComponentSingle || value_component_single_1.ValueComponentSingle;
         const Multi = (valueComponentMulti || value_component_multi_1.ValueComponentMulti);
-        return valueOptions.map(option => multi ? (React.createElement(Multi, { key: utils_1.toKey(option.value), option: option, labelComponent: labelComponent, options: valueOptions, onRemove: this.props.onOptionRemove })) : (React.createElement(Single, { key: utils_1.toKey(option.value), option: option, labelComponent: labelComponent })));
+        return valueOptions.map(option => multi ? (React.createElement(Multi, { key: utils_1.toKey(option.value, this.props.equalCompareProp), option: option, labelComponent: labelComponent, options: valueOptions, onRemove: this.props.onOptionRemove })) : (React.createElement(Single, { key: utils_1.toKey(option.value, this.props.equalCompareProp), option: option, labelComponent: labelComponent })));
     }
     focus() {
         const el = this.search.current;

@@ -279,7 +279,7 @@ export class Select<T = any> extends React.PureComponent<
                 </option>
                 {this.options.map((option, i) => (
                     <option
-                        key={toKey(option.value)}
+                        key={toKey(option.value, this.props.equalCompareProp)}
                         value={`${i}`}
                         disabled={option.disabled}
                     >

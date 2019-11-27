@@ -304,7 +304,7 @@ export class Value extends React.PureComponent<ValueProps> {
         return valueOptions.map(option =>
             multi ? (
                 <Multi
-                    key={toKey(option.value)}
+                    key={toKey(option.value, this.props.equalCompareProp)}
                     option={option}
                     labelComponent={labelComponent}
                     options={valueOptions}
@@ -312,7 +312,7 @@ export class Value extends React.PureComponent<ValueProps> {
                 />
             ) : (
                 <Single
-                    key={toKey(option.value)}
+                    key={toKey(option.value, this.props.equalCompareProp)}
                     option={option}
                     labelComponent={labelComponent}
                 />
