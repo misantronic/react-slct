@@ -11,7 +11,7 @@ export function toKey(
     if (value && typeof value === 'object') {
         const jsonObject = value.toJSON ? value.toJSON() : value;
 
-        if (equalCompareProp) {
+        if (equalCompareProp && jsonObject[equalCompareProp]) {
             return jsonObject[equalCompareProp];
         }
 

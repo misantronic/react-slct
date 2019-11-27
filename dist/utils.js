@@ -6,7 +6,7 @@ function toKey(value, equalCompareProp = 'id') {
     }
     if (value && typeof value === 'object') {
         const jsonObject = value.toJSON ? value.toJSON() : value;
-        if (equalCompareProp) {
+        if (equalCompareProp && jsonObject[equalCompareProp]) {
             return jsonObject[equalCompareProp];
         }
         return JSON.stringify(jsonObject);
