@@ -91,7 +91,7 @@ export class Select<T = any> extends React.PureComponent<
 
     private get options(): Option<T>[] {
         const { search } = this.state;
-        const { creatable, onCreateText } = this.props;
+        const { creatable, creatableText } = this.props;
         let options = this.props.options || [];
         const showCreate =
             creatable &&
@@ -109,11 +109,15 @@ export class Select<T = any> extends React.PureComponent<
         }
 
         if (showCreate && search) {
+            const label = creatableText
+                ? typeof creatableText === 'string'
+                    ? creatableText
+                    : creatableText(search)
+                : `Create "${search}"`;
+
             options = [
                 {
-                    label: onCreateText
-                        ? onCreateText(search)
-                        : `Create "${search}"`,
+                    label,
                     value: search as any,
                     creatable: true
                 },

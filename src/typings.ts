@@ -40,7 +40,7 @@ export interface SelectProps<T = any> {
         onOpen(): void;
         onRef(el: HTMLDivElement | null): void;
     }): React.ReactNode;
-    onCreateText?(value: string): string;
+    creatableText?: (value: string) => string | string;
     onChange?(value: T extends any[] ? T[] : T, option?: Option<T>): void;
     onCreate?(value: string): void;
     onSearch?(value: string): void;
