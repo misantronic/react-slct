@@ -43,6 +43,7 @@ export class OptionComponent extends React.PureComponent<OptionComponentProps> {
 
         return (
             <OptionItem
+                data-role="option"
                 className={className.join(' ')}
                 selected={selected}
                 active={active}

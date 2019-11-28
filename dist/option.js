@@ -16,7 +16,7 @@ class OptionComponent extends React.PureComponent {
             selected ? 'selected' : null,
             active ? 'active' : null
         ].filter(v => Boolean(v));
-        return (React.createElement(OptionItem, { className: className.join(' '), selected: selected, active: active, height: height, onClick: this.onClick },
+        return (React.createElement(OptionItem, { "data-role": "option", className: className.join(' '), selected: selected, active: active, height: height, onClick: this.onClick },
             React.createElement(Label, Object.assign({ type: "option", active: active }, option), option.label)));
     }
     onClick() {
