@@ -85,7 +85,7 @@ export class ValueComponentMulti<T = any> extends React.PureComponent<
             .join(' ');
 
         return (
-            <TagContainer className={className} {...option}>
+            <TagContainer className={className}>
                 <Remove value={option.value} onClick={onRemove}>
                     ×
                 </Remove>
