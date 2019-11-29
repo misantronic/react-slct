@@ -103,7 +103,7 @@ class Select extends React.PureComponent {
         const value = utils_1.isArray(this.props.value) && multi
             ? this.props.value.map(this.findOptionIndex)
             : this.findOptionIndex(this.props.value || '');
-        return (React.createElement(NativeSelect, { ref: this.nativeSelect, multiple: multi, value: value, disabled: disabled, native: native, tabIndex: -1, "data-role": dataRole, onChange: this.onChangeNativeSelect },
+        return (React.createElement(NativeSelect, { ref: this.nativeSelect, multiple: multi, value: value, disabled: disabled || !native, native: native, tabIndex: -1, "data-role": dataRole, onChange: this.onChangeNativeSelect },
             React.createElement("option", { value: "", disabled: !clearable }, placeholder),
             this.options.map((option, i) => (React.createElement("option", { key: utils_1.toKey(option.value, this.props.equalCompareProp), value: `${i}`, disabled: option.disabled }, option.label)))));
     }

@@ -27,7 +27,7 @@ const App = styled.div`
     box-sizing: border-box;
 `;
 
-const Example = styled.div`
+const Example = styled.label`
     display: flex;
     margin-bottom: 10px;
 `;

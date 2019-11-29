@@ -51,7 +51,7 @@ class ValueComponentMulti extends React.PureComponent {
         const className = ['value-multi', this.props.className]
             .filter(c => Boolean(c))
             .join(' ');
-        return (React.createElement(TagContainer, Object.assign({ className: className }, option),
+        return (React.createElement(TagContainer, { className: className },
             React.createElement(Remove, { value: option.value, onClick: onRemove }, "\u00D7"),
             React.createElement(Label, Object.assign({ type: "value-multi", active: true }, option), option.label)));
     }
