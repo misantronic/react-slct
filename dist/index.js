@@ -293,8 +293,7 @@ class Select extends React.PureComponent {
     }
     onDocumentClick(e) {
         const { target } = e;
-        if (target.closest('.react-slct-menu') ||
-            target.closest('.react-slct-value')) {
+        if (target.closest('.react-slct-menu')) {
             return;
         }
         if (this.container && !this.container.contains(target)) {
