@@ -13,6 +13,7 @@ export interface SelectProps<T = any> {
     multi?: boolean;
     native?: boolean;
     error?: boolean;
+    required?: boolean;
     rowHeight?: number;
     menuWidth?: number;
     menuHeight?: number;

@@ -257,7 +257,7 @@ export class Select<T = any> extends React.PureComponent<
 
     private renderNativeSelect(): React.ReactNode {
         const { NativeSelect } = Select;
-        const { native, placeholder, multi, disabled } = this.props;
+        const { native, placeholder, multi, required, disabled } = this.props;
         const dataRole = this.props['data-role']
             ? `select-${this.props['data-role']}`
             : undefined;
@@ -266,13 +266,16 @@ export class Select<T = any> extends React.PureComponent<
             isArray(this.props.value) && multi
                 ? this.props.value.map(this.findOptionIndex)
                 : this.findOptionIndex(this.props.value || '');
+        const propDisabled =
+            disabled !== undefined ? disabled : required ? false : !native;
 
         return (
             <NativeSelect
                 ref={this.nativeSelect as any}
                 multiple={multi}
                 value={value}
-                disabled={disabled || !native}
+                disabled={propDisabled}
+                required={required}
                 native={native}
                 tabIndex={-1}
                 data-role={dataRole}
