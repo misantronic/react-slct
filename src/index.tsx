@@ -377,8 +377,6 @@ export class Select<T = any> extends React.PureComponent<
     private closeMenu(value: any | any[], callback = () => {}): void {
         const keepSearchOnBlur = this.props.keepSearchOnBlur && !value;
 
-        console.log({ keepSearchOnBlur });
-
         this.removeDocumentListener();
         this.setState(
             {

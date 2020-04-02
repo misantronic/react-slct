@@ -161,7 +161,6 @@ class Select extends React.PureComponent {
     }
     closeMenu(value, callback = () => { }) {
         const keepSearchOnBlur = this.props.keepSearchOnBlur && !value;
-        console.log({ keepSearchOnBlur });
         this.removeDocumentListener();
         this.setState({
             open: false,
