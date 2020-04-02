@@ -326,7 +326,7 @@ export class Select<T = any> extends React.PureComponent<
             MenuContainer,
             placeholder: showPlaceholder ? placeholder : undefined,
             onToggle: () => this.toggleMenu(),
-            onClose: () => this.closeMenu(),
+            onClose: () => this.closeMenu(value),
             onOpen: () => this.openMenu(),
             onRef: ref => (this.container = ref)
         });
@@ -339,7 +339,7 @@ export class Select<T = any> extends React.PureComponent<
         if (open) {
             this.openMenu();
         } else {
-            this.closeMenu();
+            this.closeMenu(this.props.value);
         }
     }
 
@@ -374,9 +374,10 @@ export class Select<T = any> extends React.PureComponent<
     }
 
     @debounce(0)
-    private closeMenu(callback = () => {}): void {
-        const keepSearchOnBlur =
-            this.props.keepSearchOnBlur && !this.props.value;
+    private closeMenu(value: any | any[], callback = () => {}): void {
+        const keepSearchOnBlur = this.props.keepSearchOnBlur && !value;
+
+        console.log({ keepSearchOnBlur });
 
         this.removeDocumentListener();
         this.setState(
@@ -399,7 +400,7 @@ export class Select<T = any> extends React.PureComponent<
         const { onCreate } = this.props;
 
         if (onCreate) {
-            this.closeMenu(() => {
+            this.closeMenu(value, () => {
                 onCreate(value);
 
                 if (cb) {
@@ -505,7 +506,7 @@ export class Select<T = any> extends React.PureComponent<
             }
 
             this.setState({ focused: true }, () =>
-                this.closeMenu(() => onChange && onChange(value, option))
+                this.closeMenu(value, () => onChange && onChange(value, option))
             );
         };
 
@@ -574,7 +575,7 @@ export class Select<T = any> extends React.PureComponent<
         }
 
         if (this.container && !this.container.contains(target)) {
-            this.closeMenu();
+            this.closeMenu(this.props.value);
         }
     }
 
@@ -585,7 +586,7 @@ export class Select<T = any> extends React.PureComponent<
         switch (keyCode) {
             case keys.TAB:
                 if (this.state.open) {
-                    this.closeMenu();
+                    this.closeMenu(this.props.value);
                 }
                 break;
         }
@@ -656,7 +657,7 @@ export class Select<T = any> extends React.PureComponent<
                 break;
             case keys.ESC:
                 if (open) {
-                    this.closeMenu();
+                    this.closeMenu(value);
                 }
                 break;
         }

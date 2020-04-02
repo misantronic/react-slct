@@ -129,7 +129,7 @@ class Select extends React.PureComponent {
             MenuContainer: menu_container_1.MenuContainer,
             placeholder: showPlaceholder ? placeholder : undefined,
             onToggle: () => this.toggleMenu(),
-            onClose: () => this.closeMenu(),
+            onClose: () => this.closeMenu(value),
             onOpen: () => this.openMenu(),
             onRef: ref => (this.container = ref)
         });
@@ -140,7 +140,7 @@ class Select extends React.PureComponent {
             this.openMenu();
         }
         else {
-            this.closeMenu();
+            this.closeMenu(this.props.value);
         }
     }
     openMenu() {
@@ -159,8 +159,9 @@ class Select extends React.PureComponent {
             this.addDocumentListener();
         });
     }
-    closeMenu(callback = () => { }) {
-        const keepSearchOnBlur = this.props.keepSearchOnBlur && !this.props.value;
+    closeMenu(value, callback = () => { }) {
+        const keepSearchOnBlur = this.props.keepSearchOnBlur && !value;
+        console.log({ keepSearchOnBlur });
         this.removeDocumentListener();
         this.setState({
             open: false,
@@ -176,7 +177,7 @@ class Select extends React.PureComponent {
     createOption(value, cb) {
         const { onCreate } = this.props;
         if (onCreate) {
-            this.closeMenu(() => {
+            this.closeMenu(value, () => {
                 onCreate(value);
                 if (cb) {
                     cb();
@@ -249,7 +250,7 @@ class Select extends React.PureComponent {
                         ? value.map(this.findOptionIndex)
                         : this.findOptionIndex(value);
             }
-            this.setState({ focused: true }, () => this.closeMenu(() => onChange && onChange(value, option)));
+            this.setState({ focused: true }, () => this.closeMenu(value, () => onChange && onChange(value, option)));
         };
         if (creatable) {
             const createValue = (val) => {
@@ -298,7 +299,7 @@ class Select extends React.PureComponent {
             return;
         }
         if (this.container && !this.container.contains(target)) {
-            this.closeMenu();
+            this.closeMenu(this.props.value);
         }
     }
     onKeyDown({ keyCode }) {
@@ -306,7 +307,7 @@ class Select extends React.PureComponent {
         switch (keyCode) {
             case utils_1.keys.TAB:
                 if (this.state.open) {
-                    this.closeMenu();
+                    this.closeMenu(this.props.value);
                 }
                 break;
         }
@@ -364,7 +365,7 @@ class Select extends React.PureComponent {
                 break;
             case utils_1.keys.ESC:
                 if (open) {
-                    this.closeMenu();
+                    this.closeMenu(value);
                 }
                 break;
         }
@@ -462,7 +463,7 @@ tslib_1.__decorate([
 tslib_1.__decorate([
     lodash_decorators_1.debounce(0),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Select.prototype, "closeMenu", null);
 tslib_1.__decorate([
