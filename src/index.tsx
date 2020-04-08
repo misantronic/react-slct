@@ -1,26 +1,35 @@
 import { bind, debounce } from 'lodash-decorators';
 import * as React from 'react';
 import styled, { css } from 'styled-components';
-import { Value } from './value';
+import './global-stylings';
 import { Menu } from './menu';
 import { MenuContainer } from './menu-container';
 import {
-    isArray,
-    keys,
+    LabelComponentProps,
+    MenuComponentProps,
+    Option,
+    SelectProps,
+    SelectState
+} from './typings';
+import {
+    equal,
     getDocument,
     getValueOptions,
-    equal,
+    isArray,
+    keys,
+    replaceUmlauts,
     toKey
 } from './utils';
-import {
-    SelectProps,
-    SelectState,
-    MenuComponentProps,
-    LabelComponentProps,
-    Option
-} from './typings';
-import './global-stylings';
+import { Value } from './value';
 
+export { OptionComponent } from './option';
+export {
+    OptionComponentProps,
+    ValueComponentMultiProps,
+    ValueComponentSingleProps
+} from './typings';
+export { ValueComponentMulti } from './value-component-multi';
+export { ValueComponentSingle } from './value-component-single';
 export {
     SelectProps,
     Menu,
@@ -29,14 +38,6 @@ export {
     Option,
     keys
 };
-export { OptionComponent } from './option';
-export { ValueComponentSingle } from './value-component-single';
-export { ValueComponentMulti } from './value-component-multi';
-export {
-    OptionComponentProps,
-    ValueComponentSingleProps,
-    ValueComponentMultiProps
-} from './typings';
 
 export class Select<T = any> extends React.PureComponent<
     SelectProps<T>,
@@ -104,7 +105,9 @@ export class Select<T = any> extends React.PureComponent<
 
         if (search) {
             options = options.filter(option =>
-                option.label.toLowerCase().includes(search.toLowerCase())
+                replaceUmlauts(option.label)
+                    .toLowerCase()
+                    .includes(replaceUmlauts(search).toLowerCase())
             );
         }
 

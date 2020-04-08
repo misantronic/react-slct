@@ -39,6 +39,16 @@ function equal(valueA, valueB, equalCompareProp = 'id') {
     return false;
 }
 exports.equal = equal;
+function replaceUmlauts(str) {
+    return str
+        .replace('Ü', 'u')
+        .replace('Ö', 'o')
+        .replace('Ä', 'a')
+        .replace('ü', 'u')
+        .replace('ä', 'a')
+        .replace('ö', 'o');
+}
+exports.replaceUmlauts = replaceUmlauts;
 function getValueOptions(options, value, multi, equalCompareProp) {
     return options.filter(option => {
         if (isArray(value) && multi) {

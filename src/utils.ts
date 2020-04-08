@@ -59,6 +59,16 @@ export function equal(
     return false;
 }
 
+export function replaceUmlauts(str: string) {
+    return str
+        .replace('Ü', 'u')
+        .replace('Ö', 'o')
+        .replace('Ä', 'a')
+        .replace('ü', 'u')
+        .replace('ä', 'a')
+        .replace('ö', 'o');
+}
+
 export function getValueOptions(
     options: Option[],
     value: any,

@@ -4,19 +4,19 @@ const tslib_1 = require("tslib");
 const lodash_decorators_1 = require("lodash-decorators");
 const React = require("react");
 const styled_components_1 = require("styled-components");
-const value_1 = require("./value");
+require("./global-stylings");
 const menu_1 = require("./menu");
 exports.Menu = menu_1.Menu;
 const menu_container_1 = require("./menu-container");
 const utils_1 = require("./utils");
 exports.keys = utils_1.keys;
-require("./global-stylings");
+const value_1 = require("./value");
 var option_1 = require("./option");
 exports.OptionComponent = option_1.OptionComponent;
-var value_component_single_1 = require("./value-component-single");
-exports.ValueComponentSingle = value_component_single_1.ValueComponentSingle;
 var value_component_multi_1 = require("./value-component-multi");
 exports.ValueComponentMulti = value_component_multi_1.ValueComponentMulti;
+var value_component_single_1 = require("./value-component-single");
+exports.ValueComponentSingle = value_component_single_1.ValueComponentSingle;
 class Select extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -38,7 +38,9 @@ class Select extends React.PureComponent {
                 return value === search || label === search;
             });
         if (search) {
-            options = options.filter(option => option.label.toLowerCase().includes(search.toLowerCase()));
+            options = options.filter(option => utils_1.replaceUmlauts(option.label)
+                .toLowerCase()
+                .includes(utils_1.replaceUmlauts(search).toLowerCase()));
         }
         if (showCreate && search) {
             const label = creatableText
