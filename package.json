@@ -34,7 +34,7 @@
     "devDependencies": {
         "@types/react": "^16.9.23",
         "@types/react-dom": "^16.9.5",
-        "@types/react-window": "^1.8.1",
+        "@types/react-window": "^1.8.2",
         "@types/styled-components": "^5.0.1",
         "fuse-box": "^3.7.1",
         "object-assign": "^4.1.1",
