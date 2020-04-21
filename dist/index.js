@@ -32,13 +32,13 @@ class Select extends React.PureComponent {
         const { creatable, creatableText } = this.props;
         let options = this.props.options || [];
         const showCreate = creatable &&
-            !options.some(option => {
+            !options.some((option) => {
                 const { value, label } = option;
                 // @ts-ignore
                 return value === search || label === search;
             });
         if (search) {
-            options = options.filter(option => utils_1.replaceUmlauts(option.label)
+            options = options.filter((option) => utils_1.replaceUmlauts(option.label)
                 .toLowerCase()
                 .includes(utils_1.replaceUmlauts(search).toLowerCase()));
         }
@@ -89,7 +89,7 @@ class Select extends React.PureComponent {
             className,
             open && 'open',
             error && 'has-error'
-        ].filter(c => Boolean(c));
+        ].filter((c) => Boolean(c));
         return (React.createElement(Container, { className: classNames.join(' '), disabled: disabled, ref: this.onContainerRef, "data-role": this.props['data-role'], onKeyUp: this.onKeyUp, onKeyDown: this.onKeyDown },
             this.renderNativeSelect(),
             React.createElement(value_1.Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: options, placeholder: placeholder, error: error, value: value, search: search, keepSearchOnBlur: keepSearchOnBlur, equalCompareProp: equalCompareProp, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, arrowComponent: arrowComponent, clearComponent: clearComponent, onClear: this.onClear, onClick: this.toggleMenu, onSearch: this.onSearch, onSearchFocus: this.onSearchFocus, onSearchBlur: this.onSearchBlur, onOptionRemove: this.onOptionRemove }),
@@ -116,7 +116,7 @@ class Select extends React.PureComponent {
         const valueOptions = utils_1.getValueOptions(options || [], this.props.value, this.props.multi, this.props.equalCompareProp);
         const value = !multi
             ? this.props.value
-            : valueOptions.map(option => option.value);
+            : valueOptions.map((option) => option.value);
         const showPlaceholder = !search &&
             (utils_1.isArray(value) && multi
                 ? value.length === 0
@@ -133,7 +133,7 @@ class Select extends React.PureComponent {
             onToggle: () => this.toggleMenu(),
             onClose: () => this.closeMenu(value),
             onOpen: () => this.openMenu(),
-            onRef: ref => (this.container = ref)
+            onRef: (ref) => (this.container = ref)
         });
     }
     toggleMenu() {
@@ -148,7 +148,7 @@ class Select extends React.PureComponent {
     openMenu() {
         const selectedIndex = this.props.hideSelectedOptions
             ? undefined
-            : this.options.findIndex(option => utils_1.equal(option.value, this.props.value, this.props.equalCompareProp));
+            : this.options.findIndex((option) => utils_1.equal(option.value, this.props.value, this.props.equalCompareProp));
         const keepSearchOnBlur = this.props.keepSearchOnBlur && !this.props.value;
         this.setState({
             open: true,
@@ -201,10 +201,10 @@ class Select extends React.PureComponent {
         this.blindTextTimeout = setTimeout(() => this.setState({ blindText: '' }), 700);
     }
     findOptionIndex(val) {
-        let index = this.options.findIndex(option => option.value === val);
+        let index = this.options.findIndex((option) => option.value === val);
         if (index === -1) {
             if (typeof val === 'object') {
-                index = this.options.findIndex(option => utils_1.equal(option.value, val, this.props.equalCompareProp));
+                index = this.options.findIndex((option) => utils_1.equal(option.value, val, this.props.equalCompareProp));
             }
             if (index === -1) {
                 return '';
@@ -220,7 +220,7 @@ class Select extends React.PureComponent {
                 this.onClear();
             }
             else {
-                const values = Array.from(currentTarget.selectedOptions).map(htmlOption => this.options[htmlOption.index - 1].value);
+                const values = Array.from(currentTarget.selectedOptions).map((htmlOption) => this.options[htmlOption.index - 1].value);
                 if (multi) {
                     onChange(values);
                 }
@@ -255,7 +255,7 @@ class Select extends React.PureComponent {
         };
         if (creatable) {
             const createValue = (val) => {
-                const option = this.options.find(option => this.optionIsCreatable(option) && option.value === val);
+                const option = this.options.find((option) => this.optionIsCreatable(option) && option.value === val);
                 if (option) {
                     optionWasCreated = true;
                     this.createOption(option.value, selectOnNative);
@@ -274,7 +274,7 @@ class Select extends React.PureComponent {
     }
     onOptionRemove(value) {
         if (utils_1.isArray(this.props.value) && this.props.multi) {
-            const values = this.props.value.filter(val => !utils_1.equal(val, value, this.props.equalCompareProp));
+            const values = this.props.value.filter((val) => !utils_1.equal(val, value, this.props.equalCompareProp));
             this.onOptionSelect(values);
         }
     }
@@ -282,7 +282,7 @@ class Select extends React.PureComponent {
         this.onOptionSelect(this.props.multi ? [] : undefined);
     }
     onSearch(search) {
-        this.setState({ search }, () => {
+        this.setState({ search, open: true }, () => {
             if (this.options.length === 1 || (this.props.creatable && search)) {
                 this.setState({ selectedIndex: 0 });
             }
@@ -402,14 +402,14 @@ class Select extends React.PureComponent {
         const { open, blindText } = this.state;
         const { multi } = this.props;
         if (open) {
-            const selectedIndex = this.options.findIndex(option => option.label.toLowerCase().startsWith(blindText.toLowerCase()));
+            const selectedIndex = this.options.findIndex((option) => option.label.toLowerCase().startsWith(blindText.toLowerCase()));
             if (selectedIndex >= 0) {
                 this.setState({ selectedIndex });
             }
         }
         else if (!multi) {
             if (blindText) {
-                const option = this.options.find(option => option.label
+                const option = this.options.find((option) => option.label
                     .toLowerCase()
                     .startsWith(blindText.toLowerCase()));
                 if (option) {

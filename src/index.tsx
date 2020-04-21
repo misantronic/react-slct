@@ -21,7 +21,6 @@ import {
     toKey
 } from './utils';
 import { Value } from './value';
-
 export { OptionComponent } from './option';
 export {
     OptionComponentProps,
@@ -96,7 +95,7 @@ export class Select<T = any> extends React.PureComponent<
         let options = this.props.options || [];
         const showCreate =
             creatable &&
-            !options.some(option => {
+            !options.some((option) => {
                 const { value, label } = option;
 
                 // @ts-ignore
@@ -104,7 +103,7 @@ export class Select<T = any> extends React.PureComponent<
             });
 
         if (search) {
-            options = options.filter(option =>
+            options = options.filter((option) =>
                 replaceUmlauts(option.label)
                     .toLowerCase()
                     .includes(replaceUmlauts(search).toLowerCase())
@@ -196,7 +195,7 @@ export class Select<T = any> extends React.PureComponent<
             className,
             open && 'open',
             error && 'has-error'
-        ].filter(c => Boolean(c));
+        ].filter((c) => Boolean(c));
 
         return (
             <Container
@@ -311,7 +310,7 @@ export class Select<T = any> extends React.PureComponent<
         );
         const value: T | T[] | undefined = !multi
             ? this.props.value
-            : valueOptions.map(option => option.value);
+            : valueOptions.map((option) => option.value);
         const showPlaceholder =
             !search &&
             (isArray(value) && multi
@@ -331,7 +330,7 @@ export class Select<T = any> extends React.PureComponent<
             onToggle: () => this.toggleMenu(),
             onClose: () => this.closeMenu(value),
             onOpen: () => this.openMenu(),
-            onRef: ref => (this.container = ref)
+            onRef: (ref) => (this.container = ref)
         });
     }
 
@@ -350,7 +349,7 @@ export class Select<T = any> extends React.PureComponent<
     private openMenu(): void {
         const selectedIndex = this.props.hideSelectedOptions
             ? undefined
-            : this.options.findIndex(option =>
+            : this.options.findIndex((option) =>
                   equal(
                       option.value,
                       this.props.value,
@@ -435,11 +434,11 @@ export class Select<T = any> extends React.PureComponent<
 
     @bind
     private findOptionIndex(val: any) {
-        let index = this.options.findIndex(option => option.value === val);
+        let index = this.options.findIndex((option) => option.value === val);
 
         if (index === -1) {
             if (typeof val === 'object') {
-                index = this.options.findIndex(option =>
+                index = this.options.findIndex((option) =>
                     equal(option.value, val, this.props.equalCompareProp)
                 );
             }
@@ -464,7 +463,7 @@ export class Select<T = any> extends React.PureComponent<
                 this.onClear();
             } else {
                 const values = Array.from(currentTarget.selectedOptions).map(
-                    htmlOption => this.options[htmlOption.index - 1].value
+                    (htmlOption) => this.options[htmlOption.index - 1].value
                 );
 
                 if (multi) {
@@ -514,7 +513,7 @@ export class Select<T = any> extends React.PureComponent<
         if (creatable) {
             const createValue = (val: any) => {
                 const option = this.options.find(
-                    option =>
+                    (option) =>
                         this.optionIsCreatable(option) && option.value === val
                 );
 
@@ -540,7 +539,7 @@ export class Select<T = any> extends React.PureComponent<
     private onOptionRemove(value: any): void {
         if (isArray(this.props.value) && this.props.multi) {
             const values = this.props.value.filter(
-                val => !equal(val, value, this.props.equalCompareProp)
+                (val) => !equal(val, value, this.props.equalCompareProp)
             );
 
             this.onOptionSelect(values);
@@ -554,7 +553,7 @@ export class Select<T = any> extends React.PureComponent<
 
     @bind
     private onSearch(search: string): void {
-        this.setState({ search }, () => {
+        this.setState({ search, open: true }, () => {
             if (this.options.length === 1 || (this.props.creatable && search)) {
                 this.setState({ selectedIndex: 0 });
             } else {
@@ -711,7 +710,7 @@ export class Select<T = any> extends React.PureComponent<
         const { multi } = this.props;
 
         if (open) {
-            const selectedIndex = this.options.findIndex(option =>
+            const selectedIndex = this.options.findIndex((option) =>
                 option.label.toLowerCase().startsWith(blindText.toLowerCase())
             );
 
@@ -720,7 +719,7 @@ export class Select<T = any> extends React.PureComponent<
             }
         } else if (!multi) {
             if (blindText) {
-                const option = this.options.find(option =>
+                const option = this.options.find((option) =>
                     option.label
                         .toLowerCase()
                         .startsWith(blindText.toLowerCase())

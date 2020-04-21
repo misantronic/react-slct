@@ -81,10 +81,21 @@ const ClearX = () => React.createElement(ClearContainer, null, "\u00D7");
 const Search = styled_components_1.default.span `
     min-width: 1px;
     margin-left: -1px;
+    top: 1px;
     height: 16px;
-    opacity: ${(props) => (props.canSearch ? 1 : 0)};
     user-select: text;
-    position: ${(props) => props.canSearch ? 'static' : 'absolute'};
+
+    ${(props) => props.canSearch
+    ? styled_components_1.css `
+                  opacity: 1;
+                  position: relative;
+                  top: 1px;
+                  left: 1px;
+              `
+    : styled_components_1.css `
+                  position: absolute;
+                  opacity: 0;
+              `}
 
     &:focus {
         outline: none;
@@ -108,7 +119,7 @@ class Value extends React.PureComponent {
         }
     }
     render() {
-        const { options = [], value, disabled, clearable, open, mobile, multi, focused, equalCompareProp, error } = this.props;
+        const { options = [], value, disabled, clearable, open, mobile, multi, focused, equalCompareProp, error, } = this.props;
         const ArrowComponent = this.props.arrowComponent;
         const ClearComponent = this.props.clearComponent || ClearX;
         const valueOptions = utils_1.getValueOptions(options, value, multi, equalCompareProp);
@@ -126,7 +137,7 @@ class Value extends React.PureComponent {
                 React.createElement(ArrowButton, { type: "button", className: "arrow", tabIndex: -1 }, ArrowComponent ? (React.createElement(ArrowComponent, { open: open })) : open ? ('▲') : ('▼')))));
     }
     renderSearch() {
-        const { open, value, disabled, searchable, search, keepSearchOnBlur, onSearchFocus, onSearchBlur } = this.props;
+        const { open, value, disabled, searchable, search, keepSearchOnBlur, onSearchFocus, onSearchBlur, } = this.props;
         const canSearch = (open && searchable) ||
             (keepSearchOnBlur && !value && searchable) ||
             Boolean(search);
@@ -136,7 +147,7 @@ class Value extends React.PureComponent {
         return (React.createElement(Search, { className: "search", contentEditable: true, canSearch: canSearch, onInput: this.onSearch, onKeyDown: this.onKeyDown, onFocus: onSearchFocus, onBlur: onSearchBlur, ref: this.search }));
     }
     renderValues(valueOptions) {
-        const { placeholder, search, labelComponent, valueComponentSingle, valueComponentMulti, multi, open } = this.props;
+        const { placeholder, search, labelComponent, valueComponentSingle, valueComponentMulti, multi, open, } = this.props;
         if (search && open && !multi) {
             return null;
         }
@@ -145,7 +156,7 @@ class Value extends React.PureComponent {
         }
         const Single = valueComponentSingle || value_component_single_1.ValueComponentSingle;
         const Multi = (valueComponentMulti || value_component_multi_1.ValueComponentMulti);
-        return valueOptions.map(option => multi ? (React.createElement(Multi, { key: utils_1.toKey(option.value, this.props.equalCompareProp), option: option, labelComponent: labelComponent, options: valueOptions, onRemove: this.props.onOptionRemove })) : (React.createElement(Single, { key: utils_1.toKey(option.value, this.props.equalCompareProp), option: option, labelComponent: labelComponent })));
+        return valueOptions.map((option) => multi ? (React.createElement(Multi, { key: utils_1.toKey(option.value, this.props.equalCompareProp), option: option, labelComponent: labelComponent, options: valueOptions, onRemove: this.props.onOptionRemove })) : (React.createElement(Single, { key: utils_1.toKey(option.value, this.props.equalCompareProp), option: option, labelComponent: labelComponent })));
     }
     focus() {
         const el = this.search.current;

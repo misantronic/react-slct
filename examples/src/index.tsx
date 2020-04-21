@@ -9,7 +9,7 @@ import { options } from './utils/options';
 import {
     OptionComponentProps,
     MenuComponentProps,
-    Option
+    Option,
 } from '../../src/typings';
 
 const GlobalStyle = createGlobalStyle`
@@ -79,9 +79,9 @@ const menuComponent = (props: MenuComponentProps) => (
     </div>
 );
 
-const optionsWithoutIcons = options.map(option => ({
+const optionsWithoutIcons = options.map((option) => ({
     value: option.value,
-    label: option.label
+    label: option.label,
 }));
 
 const code = (...props) => `<Select placeholder="Please select..." 
@@ -108,6 +108,16 @@ render(
         <Example>
             <Single placeholder="Searchable select..." searchable />
             <Code>{code(`searchable`, `onChange={value => ...}`)}</Code>
+        </Example>
+        <Example>
+            <Single
+                placeholder="Searchable and clearable select..."
+                clearable
+                searchable
+            />
+            <Code>
+                {code(`searchable`, `clearable`, `onChange={value => ...}`)}
+            </Code>
         </Example>
         <Example>
             <Single placeholder="Disabled select..." disabled />
