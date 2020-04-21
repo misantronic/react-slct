@@ -138,8 +138,6 @@ const ClearX = () => <ClearContainer>×</ClearContainer>;
 const Search = styled.span`
     min-width: 1px;
     margin-left: -1px;
-    top: 1px;
-    height: 16px;
     user-select: text;
 
     ${(props: SearchProps) =>
@@ -147,7 +145,6 @@ const Search = styled.span`
             ? css`
                   opacity: 1;
                   position: relative;
-                  top: 1px;
                   left: 1px;
               `
             : css`
@@ -196,7 +193,7 @@ export class Value extends React.PureComponent<ValueProps> {
             multi,
             focused,
             equalCompareProp,
-            error,
+            error
         } = this.props;
         const ArrowComponent = this.props.arrowComponent;
         const ClearComponent = this.props.clearComponent || ClearX;
@@ -265,7 +262,7 @@ export class Value extends React.PureComponent<ValueProps> {
             search,
             keepSearchOnBlur,
             onSearchFocus,
-            onSearchBlur,
+            onSearchBlur
         } = this.props;
         const canSearch =
             (open && searchable) ||
@@ -298,7 +295,7 @@ export class Value extends React.PureComponent<ValueProps> {
             valueComponentSingle,
             valueComponentMulti,
             multi,
-            open,
+            open
         } = this.props;
 
         if (search && open && !multi) {

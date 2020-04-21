@@ -81,15 +81,12 @@ const ClearX = () => React.createElement(ClearContainer, null, "\u00D7");
 const Search = styled_components_1.default.span `
     min-width: 1px;
     margin-left: -1px;
-    top: 1px;
-    height: 16px;
     user-select: text;
 
     ${(props) => props.canSearch
     ? styled_components_1.css `
                   opacity: 1;
                   position: relative;
-                  top: 1px;
                   left: 1px;
               `
     : styled_components_1.css `
@@ -119,7 +116,7 @@ class Value extends React.PureComponent {
         }
     }
     render() {
-        const { options = [], value, disabled, clearable, open, mobile, multi, focused, equalCompareProp, error, } = this.props;
+        const { options = [], value, disabled, clearable, open, mobile, multi, focused, equalCompareProp, error } = this.props;
         const ArrowComponent = this.props.arrowComponent;
         const ClearComponent = this.props.clearComponent || ClearX;
         const valueOptions = utils_1.getValueOptions(options, value, multi, equalCompareProp);
@@ -137,7 +134,7 @@ class Value extends React.PureComponent {
                 React.createElement(ArrowButton, { type: "button", className: "arrow", tabIndex: -1 }, ArrowComponent ? (React.createElement(ArrowComponent, { open: open })) : open ? ('▲') : ('▼')))));
     }
     renderSearch() {
-        const { open, value, disabled, searchable, search, keepSearchOnBlur, onSearchFocus, onSearchBlur, } = this.props;
+        const { open, value, disabled, searchable, search, keepSearchOnBlur, onSearchFocus, onSearchBlur } = this.props;
         const canSearch = (open && searchable) ||
             (keepSearchOnBlur && !value && searchable) ||
             Boolean(search);
@@ -147,7 +144,7 @@ class Value extends React.PureComponent {
         return (React.createElement(Search, { className: "search", contentEditable: true, canSearch: canSearch, onInput: this.onSearch, onKeyDown: this.onKeyDown, onFocus: onSearchFocus, onBlur: onSearchBlur, ref: this.search }));
     }
     renderValues(valueOptions) {
-        const { placeholder, search, labelComponent, valueComponentSingle, valueComponentMulti, multi, open, } = this.props;
+        const { placeholder, search, labelComponent, valueComponentSingle, valueComponentMulti, multi, open } = this.props;
         if (search && open && !multi) {
             return null;
         }
