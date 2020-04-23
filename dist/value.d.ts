@@ -11,6 +11,7 @@ export interface ValueProps {
     valueComponentMulti: SelectProps['valueComponentMulti'];
     arrowComponent: SelectProps['arrowComponent'];
     clearComponent: SelectProps['clearComponent'];
+    valueIconComponent: SelectProps['valueIconComponent'];
     multi: SelectProps['multi'];
     mobile: SelectProps['native'];
     disabled: SelectProps['disabled'];

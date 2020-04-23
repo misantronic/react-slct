@@ -119,12 +119,14 @@ class Value extends React.PureComponent {
         const { options = [], value, disabled, clearable, open, mobile, multi, focused, equalCompareProp, error } = this.props;
         const ArrowComponent = this.props.arrowComponent;
         const ClearComponent = this.props.clearComponent || ClearX;
+        const ValueIconComponent = this.props.valueIconComponent;
         const valueOptions = utils_1.getValueOptions(options, value, multi, equalCompareProp);
         const showClearer = Boolean(clearable && valueOptions.length && !mobile);
         const searchAtStart = !multi || valueOptions.length === 0;
         const searchAtEnd = multi && valueOptions.length > 0;
         return (React.createElement(ValueContainer, { "data-role": "value", className: "react-slct-value", disabled: disabled, mobile: mobile, focused: focused, error: error, onClick: this.onClick },
             React.createElement(ValueLeft, { className: "value-left", multi: multi, hasValue: !!valueOptions.length },
+                ValueIconComponent && React.createElement(ValueIconComponent, null),
                 searchAtStart && this.renderSearch(),
                 this.renderValues(valueOptions),
                 searchAtEnd && this.renderSearch()),
