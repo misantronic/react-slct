@@ -28,6 +28,7 @@ export interface SelectProps<T = any> {
     optionComponent?: ReactComponent<OptionComponentProps>;
     valueComponentSingle?: ReactComponent<ValueComponentSingleProps>;
     valueComponentMulti?: ReactComponent<ValueComponentMultiProps>;
+    valueIconComponent?: ReactComponent;
     'data-role'?: string;
     keepSearchOnBlur?: boolean;
     children?(config: {

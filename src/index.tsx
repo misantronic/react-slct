@@ -227,6 +227,7 @@ export class Select<T = any> extends React.PureComponent<
                     valueComponentMulti={valueComponentMulti}
                     arrowComponent={arrowComponent}
                     clearComponent={clearComponent}
+                    valueIconComponent={this.props.valueIconComponent}
                     onClear={this.onClear}
                     onClick={this.toggleMenu}
                     onSearch={this.onSearch}

@@ -18,6 +18,7 @@ export interface ValueProps {
     valueComponentMulti: SelectProps['valueComponentMulti'];
     arrowComponent: SelectProps['arrowComponent'];
     clearComponent: SelectProps['clearComponent'];
+    valueIconComponent: SelectProps['valueIconComponent'];
     multi: SelectProps['multi'];
     mobile: SelectProps['native'];
     disabled: SelectProps['disabled'];
@@ -197,6 +198,7 @@ export class Value extends React.PureComponent<ValueProps> {
         } = this.props;
         const ArrowComponent = this.props.arrowComponent;
         const ClearComponent = this.props.clearComponent || ClearX;
+        const ValueIconComponent = this.props.valueIconComponent;
         const valueOptions = getValueOptions(
             options,
             value,
@@ -224,6 +226,7 @@ export class Value extends React.PureComponent<ValueProps> {
                     multi={multi}
                     hasValue={!!valueOptions.length}
                 >
+                    {ValueIconComponent && <ValueIconComponent />}
                     {searchAtStart && this.renderSearch()}
                     {this.renderValues(valueOptions)}
                     {searchAtEnd && this.renderSearch()}

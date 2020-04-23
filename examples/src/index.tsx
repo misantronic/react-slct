@@ -9,7 +9,7 @@ import { options } from './utils/options';
 import {
     OptionComponentProps,
     MenuComponentProps,
-    Option,
+    Option
 } from '../../src/typings';
 
 const GlobalStyle = createGlobalStyle`
@@ -81,7 +81,7 @@ const menuComponent = (props: MenuComponentProps) => (
 
 const optionsWithoutIcons = options.map((option) => ({
     value: option.value,
-    label: option.label,
+    label: option.label
 }));
 
 const code = (...props) => `<Select placeholder="Please select..." 
@@ -193,6 +193,26 @@ render(
 `}
                 {code(
                     `labelComponent={labelComponent}`,
+                    `onChange={value => ...}`
+                )}
+            </Code>
+        </Example>
+        <Example>
+            <Single
+                clearable
+                placeholder="Custom valueIconComponent.."
+                valueIconComponent={() => (
+                    <span style={{ marginRight: 2 }}>🔎</span>
+                )}
+            />
+            <Code>
+                {`const valueIconComponent = () => (
+    <span style={{ marginRight: 2 }}>🔎</span>
+);
+
+`}
+                {code(
+                    `valueIconComponent={valueIconComponent}`,
                     `onChange={value => ...}`
                 )}
             </Code>
