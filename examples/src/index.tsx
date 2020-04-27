@@ -219,6 +219,22 @@ render(
         </Example>
         <Example>
             <Single
+                clearable
+                placeholder="Custom arrowComponent.."
+                arrowComponent={() => <span>🔎</span>}
+            />
+            <Code>
+                {`const arrowComponent = () => <span>🔎</span>;
+
+`}
+                {code(
+                    `arrowComponent={arrowComponent}`,
+                    `onChange={value => ...}`
+                )}
+            </Code>
+        </Example>
+        <Example>
+            <Single
                 placeholder="Custom optionComponent.."
                 optionComponent={optionComponent}
             />

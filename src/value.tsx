@@ -242,15 +242,17 @@ export class Value extends React.PureComponent<ValueProps> {
                             <ClearComponent />
                         </ClearButton>
                     )}
-                    <ArrowButton type="button" className="arrow" tabIndex={-1}>
-                        {ArrowComponent ? (
-                            <ArrowComponent open={open} />
-                        ) : open ? (
-                            '▲'
-                        ) : (
-                            '▼'
-                        )}
-                    </ArrowButton>
+                    {ArrowComponent ? (
+                        <ArrowComponent open={open} />
+                    ) : (
+                        <ArrowButton
+                            type="button"
+                            className="arrow"
+                            tabIndex={-1}
+                        >
+                            {open ? '▲' : '▼'}
+                        </ArrowButton>
+                    )}
                 </ValueRight>
             </ValueContainer>
         );
