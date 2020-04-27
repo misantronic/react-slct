@@ -133,7 +133,7 @@ class Value extends React.PureComponent {
             React.createElement(ValueRight, { className: "value-right" },
                 showClearer && (React.createElement(ClearButton, { type: "button", tabIndex: -1, className: "clearer", onClick: this.onClear },
                     React.createElement(ClearComponent, null))),
-                React.createElement(ArrowButton, { type: "button", className: "arrow", tabIndex: -1 }, ArrowComponent ? (React.createElement(ArrowComponent, { open: open })) : open ? ('▲') : ('▼')))));
+                ArrowComponent ? (React.createElement(ArrowComponent, { open: open })) : (React.createElement(ArrowButton, { type: "button", className: "arrow", tabIndex: -1 }, open ? '▲' : '▼')))));
     }
     renderSearch() {
         const { open, value, disabled, searchable, search, keepSearchOnBlur, onSearchFocus, onSearchBlur } = this.props;
