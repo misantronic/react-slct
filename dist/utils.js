@@ -50,12 +50,24 @@ function replaceUmlauts(str) {
 }
 exports.replaceUmlauts = replaceUmlauts;
 function getValueOptions(options, value, multi, equalCompareProp) {
-    return options.filter(option => {
+    return options
+        .slice()
+        .filter((option) => {
         if (isArray(value) && multi) {
-            return value.some(val => equal(option.value, val, equalCompareProp));
+            return value.some((val) => equal(option.value, val, equalCompareProp));
         }
         else {
             return equal(option.value, value, equalCompareProp);
+        }
+    })
+        .sort((optionA, optionB) => {
+        if (isArray(value) && multi) {
+            const a = value.reduce((memo, val, i) => equal(optionA.value, val, equalCompareProp) ? i : memo, -1);
+            const b = value.reduce((memo, val, i) => equal(optionB.value, val, equalCompareProp) ? i : memo, -1);
+            return a < b ? -1 : a > b ? 1 : 0;
+        }
+        else {
+            return 0;
         }
     });
 }
