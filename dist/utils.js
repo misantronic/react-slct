@@ -62,8 +62,8 @@ function getValueOptions(options, value, multi, equalCompareProp) {
     })
         .sort((optionA, optionB) => {
         if (isArray(value) && multi) {
-            const a = value.reduce((memo, val, i) => equal(optionA.value, val, equalCompareProp) ? i : memo, -1);
-            const b = value.reduce((memo, val, i) => equal(optionB.value, val, equalCompareProp) ? i : memo, -1);
+            const a = value.findIndex((val) => equal(optionA.value, val, equalCompareProp));
+            const b = value.findIndex((val) => equal(optionB.value, val, equalCompareProp));
             return a < b ? -1 : a > b ? 1 : 0;
         }
         else {
