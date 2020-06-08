@@ -31,7 +31,7 @@ export interface SelectProps<T = any> {
     valueIconComponent?: ReactComponent;
     'data-role'?: string;
     keepSearchOnBlur?: boolean;
-    control?: (instance: SelectStaticFunctions) => void;
+    control?: (instance: SelectStaticControl) => void;
     children?(config: {
         value?: T | T[];
         options: Option[];
@@ -50,7 +50,7 @@ export interface SelectProps<T = any> {
     onOpen?(): void;
     onClose?(): void;
 }
-export interface SelectStaticFunctions {
+export interface SelectStaticControl {
     open(): void;
     close(): void;
 }

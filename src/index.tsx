@@ -23,7 +23,8 @@ export { OptionComponent } from './option';
 export {
     OptionComponentProps,
     ValueComponentMultiProps,
-    ValueComponentSingleProps
+    ValueComponentSingleProps,
+    SelectStaticControl
 } from './typings';
 export { ValueComponentMulti } from './value-component-multi';
 export { ValueComponentSingle } from './value-component-single';

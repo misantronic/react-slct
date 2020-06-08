@@ -4,7 +4,7 @@ import { Menu } from './menu';
 import { LabelComponentProps, MenuComponentProps, Option, SelectProps } from './typings';
 import { keys } from './utils';
 export { OptionComponent } from './option';
-export { OptionComponentProps, ValueComponentMultiProps, ValueComponentSingleProps } from './typings';
+export { OptionComponentProps, ValueComponentMultiProps, ValueComponentSingleProps, SelectStaticControl } from './typings';
 export { ValueComponentMulti } from './value-component-multi';
 export { ValueComponentSingle } from './value-component-single';
 export { SelectProps, Menu, MenuComponentProps, LabelComponentProps, Option, keys };
