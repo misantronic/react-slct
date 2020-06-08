@@ -45,7 +45,7 @@ const Option = styled.div`
     }
 `;
 
-const ArrowButton = styled.button`
+const ArrowButton = styled.div`
     font-size: 12px;
     color: #ccc;
 
@@ -79,7 +79,7 @@ export class Headless extends React.Component<{}, HeadlessState> {
                     onRef,
                     MenuContainer
                 }) => (
-                    <Container ref={onRef as any}>
+                    <Container ref={onRef}>
                         <Value onClick={onToggle}>
                             {placeholder && (
                                 <Placeholder>{placeholder}</Placeholder>
@@ -89,7 +89,9 @@ export class Headless extends React.Component<{}, HeadlessState> {
                                     {value.id}. {value.value}
                                 </div>
                             )}
-                            <ArrowButton>{open ? '▲' : '▼'}</ArrowButton>
+                            <ArrowButton tabIndex={-1}>
+                                {open ? '▲' : '▼'}
+                            </ArrowButton>
                         </Value>
                         {open && (
                             <MenuContainer>

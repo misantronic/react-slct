@@ -32045,7 +32045,2284 @@ function __importDefault(mod) {
     default: mod
   };
 }
-},{}],"../../node_modules/lodash-decorators/factory/DecoratorConfig.js":[function(require,module,exports) {
+},{}],"../../src/global-stylings.tsx":[function(require,module,exports) {
+"use strict";
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n        .react-slct, .react-slct-menu {\n            --react-slct-error-color: #ff5c5c; \n        }\n    "]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var tslib_1 = require("tslib");
+
+var React = tslib_1.__importStar(require("react"));
+
+var react_dom_1 = require("react-dom");
+
+var styled_components_1 = require("styled-components");
+
+var id = 'react-slct-style';
+
+function create() {
+  var ReactSlctStyle = styled_components_1.createGlobalStyle(_templateObject());
+  var reactSlctDiv = document.createElement('div');
+  reactSlctDiv.id = id;
+  document.body.appendChild(reactSlctDiv);
+  react_dom_1.render(React.createElement(ReactSlctStyle, null), reactSlctDiv);
+}
+
+if (!document.getElementById(id)) {
+  create();
+}
+},{"tslib":"../../node_modules/tslib/tslib.es6.js","react":"../../node_modules/react/index.js","react-dom":"../../node_modules/react-dom/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js"}],"../../node_modules/@babel/runtime/helpers/esm/extends.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = _extends;
+
+function _extends() {
+  exports.default = _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+},{}],"../../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = _inheritsLoose;
+
+function _inheritsLoose(subClass, superClass) {
+  subClass.prototype = Object.create(superClass.prototype);
+  subClass.prototype.constructor = subClass;
+  subClass.__proto__ = superClass;
+}
+},{}],"../../node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = _assertThisInitialized;
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+},{}],"../../node_modules/memoize-one/dist/memoize-one.esm.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function areInputsEqual(newInputs, lastInputs) {
+  if (newInputs.length !== lastInputs.length) {
+    return false;
+  }
+
+  for (var i = 0; i < newInputs.length; i++) {
+    if (newInputs[i] !== lastInputs[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function memoizeOne(resultFn, isEqual) {
+  if (isEqual === void 0) {
+    isEqual = areInputsEqual;
+  }
+
+  var lastThis;
+  var lastArgs = [];
+  var lastResult;
+  var calledOnce = false;
+
+  function memoized() {
+    var newArgs = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      newArgs[_i] = arguments[_i];
+    }
+
+    if (calledOnce && lastThis === this && isEqual(newArgs, lastArgs)) {
+      return lastResult;
+    }
+
+    lastResult = resultFn.apply(this, newArgs);
+    calledOnce = true;
+    lastThis = this;
+    lastArgs = newArgs;
+    return lastResult;
+  }
+
+  return memoized;
+}
+
+var _default = memoizeOne;
+exports.default = _default;
+},{}],"../../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = _objectWithoutPropertiesLoose;
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+},{}],"../../node_modules/react-window/dist/index.esm.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.areEqual = areEqual;
+exports.shouldComponentUpdate = shouldComponentUpdate;
+exports.FixedSizeList = exports.FixedSizeGrid = exports.VariableSizeList = exports.VariableSizeGrid = void 0;
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
+
+var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/inheritsLoose"));
+
+var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/assertThisInitialized"));
+
+var _memoizeOne = _interopRequireDefault(require("memoize-one"));
+
+var _react = require("react");
+
+var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectWithoutPropertiesLoose"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+// Animation frame based implementation of setTimeout.
+// Inspired by Joe Lambert, https://gist.github.com/joelambert/1002116#file-requesttimeout-js
+var hasNativePerformanceNow = (typeof performance === "undefined" ? "undefined" : _typeof(performance)) === 'object' && typeof performance.now === 'function';
+var now = hasNativePerformanceNow ? function () {
+  return performance.now();
+} : function () {
+  return Date.now();
+};
+
+function cancelTimeout(timeoutID) {
+  cancelAnimationFrame(timeoutID.id);
+}
+
+function requestTimeout(callback, delay) {
+  var start = now();
+
+  function tick() {
+    if (now() - start >= delay) {
+      callback.call(null);
+    } else {
+      timeoutID.id = requestAnimationFrame(tick);
+    }
+  }
+
+  var timeoutID = {
+    id: requestAnimationFrame(tick)
+  };
+  return timeoutID;
+}
+
+var size = -1; // This utility copied from "dom-helpers" package.
+
+function getScrollbarSize(recalculate) {
+  if (recalculate === void 0) {
+    recalculate = false;
+  }
+
+  if (size === -1 || recalculate) {
+    var div = document.createElement('div');
+    var style = div.style;
+    style.width = '50px';
+    style.height = '50px';
+    style.overflow = 'scroll';
+    document.body.appendChild(div);
+    size = div.offsetWidth - div.clientWidth;
+    document.body.removeChild(div);
+  }
+
+  return size;
+}
+
+var cachedRTLResult = null; // TRICKY According to the spec, scrollLeft should be negative for RTL aligned elements.
+// Chrome does not seem to adhere; its scrollLeft values are positive (measured relative to the left).
+// Safari's elastic bounce makes detecting this even more complicated wrt potential false positives.
+// The safest way to check this is to intentionally set a negative offset,
+// and then verify that the subsequent "scroll" event matches the negative offset.
+// If it does not match, then we can assume a non-standard RTL scroll implementation.
+
+function getRTLOffsetType(recalculate) {
+  if (recalculate === void 0) {
+    recalculate = false;
+  }
+
+  if (cachedRTLResult === null || recalculate) {
+    var outerDiv = document.createElement('div');
+    var outerStyle = outerDiv.style;
+    outerStyle.width = '50px';
+    outerStyle.height = '50px';
+    outerStyle.overflow = 'scroll';
+    outerStyle.direction = 'rtl';
+    var innerDiv = document.createElement('div');
+    var innerStyle = innerDiv.style;
+    innerStyle.width = '100px';
+    innerStyle.height = '100px';
+    outerDiv.appendChild(innerDiv);
+    document.body.appendChild(outerDiv);
+
+    if (outerDiv.scrollLeft > 0) {
+      cachedRTLResult = 'positive-descending';
+    } else {
+      outerDiv.scrollLeft = 1;
+
+      if (outerDiv.scrollLeft === 0) {
+        cachedRTLResult = 'negative';
+      } else {
+        cachedRTLResult = 'positive-ascending';
+      }
+    }
+
+    document.body.removeChild(outerDiv);
+    return cachedRTLResult;
+  }
+
+  return cachedRTLResult;
+}
+
+var IS_SCROLLING_DEBOUNCE_INTERVAL = 150;
+
+var defaultItemKey = function defaultItemKey(_ref) {
+  var columnIndex = _ref.columnIndex,
+      data = _ref.data,
+      rowIndex = _ref.rowIndex;
+  return rowIndex + ":" + columnIndex;
+}; // In DEV mode, this Set helps us only log a warning once per component instance.
+// This avoids spamming the console every time a render happens.
+
+
+var devWarningsOverscanCount = null;
+var devWarningsOverscanRowsColumnsCount = null;
+var devWarningsTagName = null;
+
+if ("development" !== 'production') {
+  if (typeof window !== 'undefined' && typeof window.WeakSet !== 'undefined') {
+    devWarningsOverscanCount =
+    /*#__PURE__*/
+    new WeakSet();
+    devWarningsOverscanRowsColumnsCount =
+    /*#__PURE__*/
+    new WeakSet();
+    devWarningsTagName =
+    /*#__PURE__*/
+    new WeakSet();
+  }
+}
+
+function createGridComponent(_ref2) {
+  var _class, _temp;
+
+  var getColumnOffset = _ref2.getColumnOffset,
+      getColumnStartIndexForOffset = _ref2.getColumnStartIndexForOffset,
+      getColumnStopIndexForStartIndex = _ref2.getColumnStopIndexForStartIndex,
+      getColumnWidth = _ref2.getColumnWidth,
+      getEstimatedTotalHeight = _ref2.getEstimatedTotalHeight,
+      getEstimatedTotalWidth = _ref2.getEstimatedTotalWidth,
+      getOffsetForColumnAndAlignment = _ref2.getOffsetForColumnAndAlignment,
+      getOffsetForRowAndAlignment = _ref2.getOffsetForRowAndAlignment,
+      getRowHeight = _ref2.getRowHeight,
+      getRowOffset = _ref2.getRowOffset,
+      getRowStartIndexForOffset = _ref2.getRowStartIndexForOffset,
+      getRowStopIndexForStartIndex = _ref2.getRowStopIndexForStartIndex,
+      initInstanceProps = _ref2.initInstanceProps,
+      shouldResetStyleCacheOnItemSizeChange = _ref2.shouldResetStyleCacheOnItemSizeChange,
+      validateProps = _ref2.validateProps;
+  return _temp = _class =
+  /*#__PURE__*/
+  function (_PureComponent) {
+    (0, _inheritsLoose2.default)(Grid, _PureComponent); // Always use explicit constructor for React components.
+    // It produces less code after transpilation. (#26)
+    // eslint-disable-next-line no-useless-constructor
+
+    function Grid(props) {
+      var _this;
+
+      _this = _PureComponent.call(this, props) || this;
+      _this._instanceProps = initInstanceProps(_this.props, (0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)));
+      _this._resetIsScrollingTimeoutId = null;
+      _this._outerRef = void 0;
+      _this.state = {
+        instance: (0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)),
+        isScrolling: false,
+        horizontalScrollDirection: 'forward',
+        scrollLeft: typeof _this.props.initialScrollLeft === 'number' ? _this.props.initialScrollLeft : 0,
+        scrollTop: typeof _this.props.initialScrollTop === 'number' ? _this.props.initialScrollTop : 0,
+        scrollUpdateWasRequested: false,
+        verticalScrollDirection: 'forward'
+      };
+      _this._callOnItemsRendered = void 0;
+      _this._callOnItemsRendered = (0, _memoizeOne.default)(function (overscanColumnStartIndex, overscanColumnStopIndex, overscanRowStartIndex, overscanRowStopIndex, visibleColumnStartIndex, visibleColumnStopIndex, visibleRowStartIndex, visibleRowStopIndex) {
+        return _this.props.onItemsRendered({
+          overscanColumnStartIndex: overscanColumnStartIndex,
+          overscanColumnStopIndex: overscanColumnStopIndex,
+          overscanRowStartIndex: overscanRowStartIndex,
+          overscanRowStopIndex: overscanRowStopIndex,
+          visibleColumnStartIndex: visibleColumnStartIndex,
+          visibleColumnStopIndex: visibleColumnStopIndex,
+          visibleRowStartIndex: visibleRowStartIndex,
+          visibleRowStopIndex: visibleRowStopIndex
+        });
+      });
+      _this._callOnScroll = void 0;
+      _this._callOnScroll = (0, _memoizeOne.default)(function (scrollLeft, scrollTop, horizontalScrollDirection, verticalScrollDirection, scrollUpdateWasRequested) {
+        return _this.props.onScroll({
+          horizontalScrollDirection: horizontalScrollDirection,
+          scrollLeft: scrollLeft,
+          scrollTop: scrollTop,
+          verticalScrollDirection: verticalScrollDirection,
+          scrollUpdateWasRequested: scrollUpdateWasRequested
+        });
+      });
+      _this._getItemStyle = void 0;
+
+      _this._getItemStyle = function (rowIndex, columnIndex) {
+        var _this$props = _this.props,
+            columnWidth = _this$props.columnWidth,
+            direction = _this$props.direction,
+            rowHeight = _this$props.rowHeight;
+
+        var itemStyleCache = _this._getItemStyleCache(shouldResetStyleCacheOnItemSizeChange && columnWidth, shouldResetStyleCacheOnItemSizeChange && direction, shouldResetStyleCacheOnItemSizeChange && rowHeight);
+
+        var key = rowIndex + ":" + columnIndex;
+        var style;
+
+        if (itemStyleCache.hasOwnProperty(key)) {
+          style = itemStyleCache[key];
+        } else {
+          var _style;
+
+          itemStyleCache[key] = style = (_style = {
+            position: 'absolute'
+          }, _style[direction === 'rtl' ? 'right' : 'left'] = getColumnOffset(_this.props, columnIndex, _this._instanceProps), _style.top = getRowOffset(_this.props, rowIndex, _this._instanceProps), _style.height = getRowHeight(_this.props, rowIndex, _this._instanceProps), _style.width = getColumnWidth(_this.props, columnIndex, _this._instanceProps), _style);
+        }
+
+        return style;
+      };
+
+      _this._getItemStyleCache = void 0;
+      _this._getItemStyleCache = (0, _memoizeOne.default)(function (_, __, ___) {
+        return {};
+      });
+
+      _this._onScroll = function (event) {
+        var _event$currentTarget = event.currentTarget,
+            clientHeight = _event$currentTarget.clientHeight,
+            clientWidth = _event$currentTarget.clientWidth,
+            scrollLeft = _event$currentTarget.scrollLeft,
+            scrollTop = _event$currentTarget.scrollTop,
+            scrollHeight = _event$currentTarget.scrollHeight,
+            scrollWidth = _event$currentTarget.scrollWidth;
+
+        _this.setState(function (prevState) {
+          if (prevState.scrollLeft === scrollLeft && prevState.scrollTop === scrollTop) {
+            // Scroll position may have been updated by cDM/cDU,
+            // In which case we don't need to trigger another render,
+            // And we don't want to update state.isScrolling.
+            return null;
+          }
+
+          var direction = _this.props.direction; // TRICKY According to the spec, scrollLeft should be negative for RTL aligned elements.
+          // This is not the case for all browsers though (e.g. Chrome reports values as positive, measured relative to the left).
+          // It's also easier for this component if we convert offsets to the same format as they would be in for ltr.
+          // So the simplest solution is to determine which browser behavior we're dealing with, and convert based on it.
+
+          var calculatedScrollLeft = scrollLeft;
+
+          if (direction === 'rtl') {
+            switch (getRTLOffsetType()) {
+              case 'negative':
+                calculatedScrollLeft = -scrollLeft;
+                break;
+
+              case 'positive-descending':
+                calculatedScrollLeft = scrollWidth - clientWidth - scrollLeft;
+                break;
+            }
+          } // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
+
+
+          calculatedScrollLeft = Math.max(0, Math.min(calculatedScrollLeft, scrollWidth - clientWidth));
+          var calculatedScrollTop = Math.max(0, Math.min(scrollTop, scrollHeight - clientHeight));
+          return {
+            isScrolling: true,
+            horizontalScrollDirection: prevState.scrollLeft < scrollLeft ? 'forward' : 'backward',
+            scrollLeft: calculatedScrollLeft,
+            scrollTop: calculatedScrollTop,
+            verticalScrollDirection: prevState.scrollTop < scrollTop ? 'forward' : 'backward',
+            scrollUpdateWasRequested: false
+          };
+        }, _this._resetIsScrollingDebounced);
+      };
+
+      _this._outerRefSetter = function (ref) {
+        var outerRef = _this.props.outerRef;
+        _this._outerRef = ref;
+
+        if (typeof outerRef === 'function') {
+          outerRef(ref);
+        } else if (outerRef != null && _typeof(outerRef) === 'object' && outerRef.hasOwnProperty('current')) {
+          outerRef.current = ref;
+        }
+      };
+
+      _this._resetIsScrollingDebounced = function () {
+        if (_this._resetIsScrollingTimeoutId !== null) {
+          cancelTimeout(_this._resetIsScrollingTimeoutId);
+        }
+
+        _this._resetIsScrollingTimeoutId = requestTimeout(_this._resetIsScrolling, IS_SCROLLING_DEBOUNCE_INTERVAL);
+      };
+
+      _this._resetIsScrolling = function () {
+        _this._resetIsScrollingTimeoutId = null;
+
+        _this.setState({
+          isScrolling: false
+        }, function () {
+          // Clear style cache after state update has been committed.
+          // This way we don't break pure sCU for items that don't use isScrolling param.
+          _this._getItemStyleCache(-1);
+        });
+      };
+
+      return _this;
+    }
+
+    Grid.getDerivedStateFromProps = function getDerivedStateFromProps(nextProps, prevState) {
+      validateSharedProps(nextProps, prevState);
+      validateProps(nextProps);
+      return null;
+    };
+
+    var _proto = Grid.prototype;
+
+    _proto.scrollTo = function scrollTo(_ref3) {
+      var scrollLeft = _ref3.scrollLeft,
+          scrollTop = _ref3.scrollTop;
+
+      if (scrollLeft !== undefined) {
+        scrollLeft = Math.max(0, scrollLeft);
+      }
+
+      if (scrollTop !== undefined) {
+        scrollTop = Math.max(0, scrollTop);
+      }
+
+      this.setState(function (prevState) {
+        if (scrollLeft === undefined) {
+          scrollLeft = prevState.scrollLeft;
+        }
+
+        if (scrollTop === undefined) {
+          scrollTop = prevState.scrollTop;
+        }
+
+        if (prevState.scrollLeft === scrollLeft && prevState.scrollTop === scrollTop) {
+          return null;
+        }
+
+        return {
+          horizontalScrollDirection: prevState.scrollLeft < scrollLeft ? 'forward' : 'backward',
+          scrollLeft: scrollLeft,
+          scrollTop: scrollTop,
+          scrollUpdateWasRequested: true,
+          verticalScrollDirection: prevState.scrollTop < scrollTop ? 'forward' : 'backward'
+        };
+      }, this._resetIsScrollingDebounced);
+    };
+
+    _proto.scrollToItem = function scrollToItem(_ref4) {
+      var _ref4$align = _ref4.align,
+          align = _ref4$align === void 0 ? 'auto' : _ref4$align,
+          columnIndex = _ref4.columnIndex,
+          rowIndex = _ref4.rowIndex;
+      var _this$props2 = this.props,
+          columnCount = _this$props2.columnCount,
+          height = _this$props2.height,
+          rowCount = _this$props2.rowCount,
+          width = _this$props2.width;
+      var _this$state = this.state,
+          scrollLeft = _this$state.scrollLeft,
+          scrollTop = _this$state.scrollTop;
+      var scrollbarSize = getScrollbarSize();
+
+      if (columnIndex !== undefined) {
+        columnIndex = Math.max(0, Math.min(columnIndex, columnCount - 1));
+      }
+
+      if (rowIndex !== undefined) {
+        rowIndex = Math.max(0, Math.min(rowIndex, rowCount - 1));
+      }
+
+      var estimatedTotalHeight = getEstimatedTotalHeight(this.props, this._instanceProps);
+      var estimatedTotalWidth = getEstimatedTotalWidth(this.props, this._instanceProps); // The scrollbar size should be considered when scrolling an item into view,
+      // to ensure it's fully visible.
+      // But we only need to account for its size when it's actually visible.
+
+      var horizontalScrollbarSize = estimatedTotalWidth > width ? scrollbarSize : 0;
+      var verticalScrollbarSize = estimatedTotalHeight > height ? scrollbarSize : 0;
+      this.scrollTo({
+        scrollLeft: columnIndex !== undefined ? getOffsetForColumnAndAlignment(this.props, columnIndex, align, scrollLeft, this._instanceProps, verticalScrollbarSize) : scrollLeft,
+        scrollTop: rowIndex !== undefined ? getOffsetForRowAndAlignment(this.props, rowIndex, align, scrollTop, this._instanceProps, horizontalScrollbarSize) : scrollTop
+      });
+    };
+
+    _proto.componentDidMount = function componentDidMount() {
+      var _this$props3 = this.props,
+          initialScrollLeft = _this$props3.initialScrollLeft,
+          initialScrollTop = _this$props3.initialScrollTop;
+
+      if (this._outerRef != null) {
+        var outerRef = this._outerRef;
+
+        if (typeof initialScrollLeft === 'number') {
+          outerRef.scrollLeft = initialScrollLeft;
+        }
+
+        if (typeof initialScrollTop === 'number') {
+          outerRef.scrollTop = initialScrollTop;
+        }
+      }
+
+      this._callPropsCallbacks();
+    };
+
+    _proto.componentDidUpdate = function componentDidUpdate() {
+      var direction = this.props.direction;
+      var _this$state2 = this.state,
+          scrollLeft = _this$state2.scrollLeft,
+          scrollTop = _this$state2.scrollTop,
+          scrollUpdateWasRequested = _this$state2.scrollUpdateWasRequested;
+
+      if (scrollUpdateWasRequested && this._outerRef != null) {
+        // TRICKY According to the spec, scrollLeft should be negative for RTL aligned elements.
+        // This is not the case for all browsers though (e.g. Chrome reports values as positive, measured relative to the left).
+        // So we need to determine which browser behavior we're dealing with, and mimic it.
+        var outerRef = this._outerRef;
+
+        if (direction === 'rtl') {
+          switch (getRTLOffsetType()) {
+            case 'negative':
+              outerRef.scrollLeft = -scrollLeft;
+              break;
+
+            case 'positive-ascending':
+              outerRef.scrollLeft = scrollLeft;
+              break;
+
+            default:
+              var clientWidth = outerRef.clientWidth,
+                  scrollWidth = outerRef.scrollWidth;
+              outerRef.scrollLeft = scrollWidth - clientWidth - scrollLeft;
+              break;
+          }
+        } else {
+          outerRef.scrollLeft = Math.max(0, scrollLeft);
+        }
+
+        outerRef.scrollTop = Math.max(0, scrollTop);
+      }
+
+      this._callPropsCallbacks();
+    };
+
+    _proto.componentWillUnmount = function componentWillUnmount() {
+      if (this._resetIsScrollingTimeoutId !== null) {
+        cancelTimeout(this._resetIsScrollingTimeoutId);
+      }
+    };
+
+    _proto.render = function render() {
+      var _this$props4 = this.props,
+          children = _this$props4.children,
+          className = _this$props4.className,
+          columnCount = _this$props4.columnCount,
+          direction = _this$props4.direction,
+          height = _this$props4.height,
+          innerRef = _this$props4.innerRef,
+          innerElementType = _this$props4.innerElementType,
+          innerTagName = _this$props4.innerTagName,
+          itemData = _this$props4.itemData,
+          _this$props4$itemKey = _this$props4.itemKey,
+          itemKey = _this$props4$itemKey === void 0 ? defaultItemKey : _this$props4$itemKey,
+          outerElementType = _this$props4.outerElementType,
+          outerTagName = _this$props4.outerTagName,
+          rowCount = _this$props4.rowCount,
+          style = _this$props4.style,
+          useIsScrolling = _this$props4.useIsScrolling,
+          width = _this$props4.width;
+      var isScrolling = this.state.isScrolling;
+
+      var _this$_getHorizontalR = this._getHorizontalRangeToRender(),
+          columnStartIndex = _this$_getHorizontalR[0],
+          columnStopIndex = _this$_getHorizontalR[1];
+
+      var _this$_getVerticalRan = this._getVerticalRangeToRender(),
+          rowStartIndex = _this$_getVerticalRan[0],
+          rowStopIndex = _this$_getVerticalRan[1];
+
+      var items = [];
+
+      if (columnCount > 0 && rowCount) {
+        for (var _rowIndex = rowStartIndex; _rowIndex <= rowStopIndex; _rowIndex++) {
+          for (var _columnIndex = columnStartIndex; _columnIndex <= columnStopIndex; _columnIndex++) {
+            items.push((0, _react.createElement)(children, {
+              columnIndex: _columnIndex,
+              data: itemData,
+              isScrolling: useIsScrolling ? isScrolling : undefined,
+              key: itemKey({
+                columnIndex: _columnIndex,
+                data: itemData,
+                rowIndex: _rowIndex
+              }),
+              rowIndex: _rowIndex,
+              style: this._getItemStyle(_rowIndex, _columnIndex)
+            }));
+          }
+        }
+      } // Read this value AFTER items have been created,
+      // So their actual sizes (if variable) are taken into consideration.
+
+
+      var estimatedTotalHeight = getEstimatedTotalHeight(this.props, this._instanceProps);
+      var estimatedTotalWidth = getEstimatedTotalWidth(this.props, this._instanceProps);
+      return (0, _react.createElement)(outerElementType || outerTagName || 'div', {
+        className: className,
+        onScroll: this._onScroll,
+        ref: this._outerRefSetter,
+        style: (0, _extends2.default)({
+          position: 'relative',
+          height: height,
+          width: width,
+          overflow: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          willChange: 'transform',
+          direction: direction
+        }, style)
+      }, (0, _react.createElement)(innerElementType || innerTagName || 'div', {
+        children: items,
+        ref: innerRef,
+        style: {
+          height: estimatedTotalHeight,
+          pointerEvents: isScrolling ? 'none' : undefined,
+          width: estimatedTotalWidth
+        }
+      }));
+    };
+
+    _proto._callPropsCallbacks = function _callPropsCallbacks() {
+      var _this$props5 = this.props,
+          columnCount = _this$props5.columnCount,
+          onItemsRendered = _this$props5.onItemsRendered,
+          onScroll = _this$props5.onScroll,
+          rowCount = _this$props5.rowCount;
+
+      if (typeof onItemsRendered === 'function') {
+        if (columnCount > 0 && rowCount > 0) {
+          var _this$_getHorizontalR2 = this._getHorizontalRangeToRender(),
+              _overscanColumnStartIndex = _this$_getHorizontalR2[0],
+              _overscanColumnStopIndex = _this$_getHorizontalR2[1],
+              _visibleColumnStartIndex = _this$_getHorizontalR2[2],
+              _visibleColumnStopIndex = _this$_getHorizontalR2[3];
+
+          var _this$_getVerticalRan2 = this._getVerticalRangeToRender(),
+              _overscanRowStartIndex = _this$_getVerticalRan2[0],
+              _overscanRowStopIndex = _this$_getVerticalRan2[1],
+              _visibleRowStartIndex = _this$_getVerticalRan2[2],
+              _visibleRowStopIndex = _this$_getVerticalRan2[3];
+
+          this._callOnItemsRendered(_overscanColumnStartIndex, _overscanColumnStopIndex, _overscanRowStartIndex, _overscanRowStopIndex, _visibleColumnStartIndex, _visibleColumnStopIndex, _visibleRowStartIndex, _visibleRowStopIndex);
+        }
+      }
+
+      if (typeof onScroll === 'function') {
+        var _this$state3 = this.state,
+            _horizontalScrollDirection = _this$state3.horizontalScrollDirection,
+            _scrollLeft = _this$state3.scrollLeft,
+            _scrollTop = _this$state3.scrollTop,
+            _scrollUpdateWasRequested = _this$state3.scrollUpdateWasRequested,
+            _verticalScrollDirection = _this$state3.verticalScrollDirection;
+
+        this._callOnScroll(_scrollLeft, _scrollTop, _horizontalScrollDirection, _verticalScrollDirection, _scrollUpdateWasRequested);
+      }
+    }; // Lazily create and cache item styles while scrolling,
+    // So that pure component sCU will prevent re-renders.
+    // We maintain this cache, and pass a style prop rather than index,
+    // So that List can clear cached styles and force item re-render if necessary.
+
+
+    _proto._getHorizontalRangeToRender = function _getHorizontalRangeToRender() {
+      var _this$props6 = this.props,
+          columnCount = _this$props6.columnCount,
+          overscanColumnCount = _this$props6.overscanColumnCount,
+          overscanColumnsCount = _this$props6.overscanColumnsCount,
+          overscanCount = _this$props6.overscanCount,
+          rowCount = _this$props6.rowCount;
+      var _this$state4 = this.state,
+          horizontalScrollDirection = _this$state4.horizontalScrollDirection,
+          isScrolling = _this$state4.isScrolling,
+          scrollLeft = _this$state4.scrollLeft;
+      var overscanCountResolved = overscanColumnCount || overscanColumnsCount || overscanCount || 1;
+
+      if (columnCount === 0 || rowCount === 0) {
+        return [0, 0, 0, 0];
+      }
+
+      var startIndex = getColumnStartIndexForOffset(this.props, scrollLeft, this._instanceProps);
+      var stopIndex = getColumnStopIndexForStartIndex(this.props, startIndex, scrollLeft, this._instanceProps); // Overscan by one item in each direction so that tab/focus works.
+      // If there isn't at least one extra item, tab loops back around.
+
+      var overscanBackward = !isScrolling || horizontalScrollDirection === 'backward' ? Math.max(1, overscanCountResolved) : 1;
+      var overscanForward = !isScrolling || horizontalScrollDirection === 'forward' ? Math.max(1, overscanCountResolved) : 1;
+      return [Math.max(0, startIndex - overscanBackward), Math.max(0, Math.min(columnCount - 1, stopIndex + overscanForward)), startIndex, stopIndex];
+    };
+
+    _proto._getVerticalRangeToRender = function _getVerticalRangeToRender() {
+      var _this$props7 = this.props,
+          columnCount = _this$props7.columnCount,
+          overscanCount = _this$props7.overscanCount,
+          overscanRowCount = _this$props7.overscanRowCount,
+          overscanRowsCount = _this$props7.overscanRowsCount,
+          rowCount = _this$props7.rowCount;
+      var _this$state5 = this.state,
+          isScrolling = _this$state5.isScrolling,
+          verticalScrollDirection = _this$state5.verticalScrollDirection,
+          scrollTop = _this$state5.scrollTop;
+      var overscanCountResolved = overscanRowCount || overscanRowsCount || overscanCount || 1;
+
+      if (columnCount === 0 || rowCount === 0) {
+        return [0, 0, 0, 0];
+      }
+
+      var startIndex = getRowStartIndexForOffset(this.props, scrollTop, this._instanceProps);
+      var stopIndex = getRowStopIndexForStartIndex(this.props, startIndex, scrollTop, this._instanceProps); // Overscan by one item in each direction so that tab/focus works.
+      // If there isn't at least one extra item, tab loops back around.
+
+      var overscanBackward = !isScrolling || verticalScrollDirection === 'backward' ? Math.max(1, overscanCountResolved) : 1;
+      var overscanForward = !isScrolling || verticalScrollDirection === 'forward' ? Math.max(1, overscanCountResolved) : 1;
+      return [Math.max(0, startIndex - overscanBackward), Math.max(0, Math.min(rowCount - 1, stopIndex + overscanForward)), startIndex, stopIndex];
+    };
+
+    return Grid;
+  }(_react.PureComponent), _class.defaultProps = {
+    direction: 'ltr',
+    itemData: undefined,
+    useIsScrolling: false
+  }, _temp;
+}
+
+var validateSharedProps = function validateSharedProps(_ref5, _ref6) {
+  var children = _ref5.children,
+      direction = _ref5.direction,
+      height = _ref5.height,
+      innerTagName = _ref5.innerTagName,
+      outerTagName = _ref5.outerTagName,
+      overscanColumnsCount = _ref5.overscanColumnsCount,
+      overscanCount = _ref5.overscanCount,
+      overscanRowsCount = _ref5.overscanRowsCount,
+      width = _ref5.width;
+  var instance = _ref6.instance;
+
+  if ("development" !== 'production') {
+    if (typeof overscanCount === 'number') {
+      if (devWarningsOverscanCount && !devWarningsOverscanCount.has(instance)) {
+        devWarningsOverscanCount.add(instance);
+        console.warn('The overscanCount prop has been deprecated. ' + 'Please use the overscanColumnCount and overscanRowCount props instead.');
+      }
+    }
+
+    if (typeof overscanColumnsCount === 'number' || typeof overscanRowsCount === 'number') {
+      if (devWarningsOverscanRowsColumnsCount && !devWarningsOverscanRowsColumnsCount.has(instance)) {
+        devWarningsOverscanRowsColumnsCount.add(instance);
+        console.warn('The overscanColumnsCount and overscanRowsCount props have been deprecated. ' + 'Please use the overscanColumnCount and overscanRowCount props instead.');
+      }
+    }
+
+    if (innerTagName != null || outerTagName != null) {
+      if (devWarningsTagName && !devWarningsTagName.has(instance)) {
+        devWarningsTagName.add(instance);
+        console.warn('The innerTagName and outerTagName props have been deprecated. ' + 'Please use the innerElementType and outerElementType props instead.');
+      }
+    }
+
+    if (children == null) {
+      throw Error('An invalid "children" prop has been specified. ' + 'Value should be a React component. ' + ("\"" + (children === null ? 'null' : _typeof(children)) + "\" was specified."));
+    }
+
+    switch (direction) {
+      case 'ltr':
+      case 'rtl':
+        // Valid values
+        break;
+
+      default:
+        throw Error('An invalid "direction" prop has been specified. ' + 'Value should be either "ltr" or "rtl". ' + ("\"" + direction + "\" was specified."));
+    }
+
+    if (typeof width !== 'number') {
+      throw Error('An invalid "width" prop has been specified. ' + 'Grids must specify a number for width. ' + ("\"" + (width === null ? 'null' : _typeof(width)) + "\" was specified."));
+    }
+
+    if (typeof height !== 'number') {
+      throw Error('An invalid "height" prop has been specified. ' + 'Grids must specify a number for height. ' + ("\"" + (height === null ? 'null' : _typeof(height)) + "\" was specified."));
+    }
+  }
+};
+
+var DEFAULT_ESTIMATED_ITEM_SIZE = 50;
+
+var getEstimatedTotalHeight = function getEstimatedTotalHeight(_ref, _ref2) {
+  var rowCount = _ref.rowCount;
+  var rowMetadataMap = _ref2.rowMetadataMap,
+      estimatedRowHeight = _ref2.estimatedRowHeight,
+      lastMeasuredRowIndex = _ref2.lastMeasuredRowIndex;
+  var totalSizeOfMeasuredRows = 0; // Edge case check for when the number of items decreases while a scroll is in progress.
+  // https://github.com/bvaughn/react-window/pull/138
+
+  if (lastMeasuredRowIndex >= rowCount) {
+    lastMeasuredRowIndex = rowCount - 1;
+  }
+
+  if (lastMeasuredRowIndex >= 0) {
+    var itemMetadata = rowMetadataMap[lastMeasuredRowIndex];
+    totalSizeOfMeasuredRows = itemMetadata.offset + itemMetadata.size;
+  }
+
+  var numUnmeasuredItems = rowCount - lastMeasuredRowIndex - 1;
+  var totalSizeOfUnmeasuredItems = numUnmeasuredItems * estimatedRowHeight;
+  return totalSizeOfMeasuredRows + totalSizeOfUnmeasuredItems;
+};
+
+var getEstimatedTotalWidth = function getEstimatedTotalWidth(_ref3, _ref4) {
+  var columnCount = _ref3.columnCount;
+  var columnMetadataMap = _ref4.columnMetadataMap,
+      estimatedColumnWidth = _ref4.estimatedColumnWidth,
+      lastMeasuredColumnIndex = _ref4.lastMeasuredColumnIndex;
+  var totalSizeOfMeasuredRows = 0; // Edge case check for when the number of items decreases while a scroll is in progress.
+  // https://github.com/bvaughn/react-window/pull/138
+
+  if (lastMeasuredColumnIndex >= columnCount) {
+    lastMeasuredColumnIndex = columnCount - 1;
+  }
+
+  if (lastMeasuredColumnIndex >= 0) {
+    var itemMetadata = columnMetadataMap[lastMeasuredColumnIndex];
+    totalSizeOfMeasuredRows = itemMetadata.offset + itemMetadata.size;
+  }
+
+  var numUnmeasuredItems = columnCount - lastMeasuredColumnIndex - 1;
+  var totalSizeOfUnmeasuredItems = numUnmeasuredItems * estimatedColumnWidth;
+  return totalSizeOfMeasuredRows + totalSizeOfUnmeasuredItems;
+};
+
+var getItemMetadata = function getItemMetadata(itemType, props, index, instanceProps) {
+  var itemMetadataMap, itemSize, lastMeasuredIndex;
+
+  if (itemType === 'column') {
+    itemMetadataMap = instanceProps.columnMetadataMap;
+    itemSize = props.columnWidth;
+    lastMeasuredIndex = instanceProps.lastMeasuredColumnIndex;
+  } else {
+    itemMetadataMap = instanceProps.rowMetadataMap;
+    itemSize = props.rowHeight;
+    lastMeasuredIndex = instanceProps.lastMeasuredRowIndex;
+  }
+
+  if (index > lastMeasuredIndex) {
+    var offset = 0;
+
+    if (lastMeasuredIndex >= 0) {
+      var itemMetadata = itemMetadataMap[lastMeasuredIndex];
+      offset = itemMetadata.offset + itemMetadata.size;
+    }
+
+    for (var i = lastMeasuredIndex + 1; i <= index; i++) {
+      var size = itemSize(i);
+      itemMetadataMap[i] = {
+        offset: offset,
+        size: size
+      };
+      offset += size;
+    }
+
+    if (itemType === 'column') {
+      instanceProps.lastMeasuredColumnIndex = index;
+    } else {
+      instanceProps.lastMeasuredRowIndex = index;
+    }
+  }
+
+  return itemMetadataMap[index];
+};
+
+var findNearestItem = function findNearestItem(itemType, props, instanceProps, offset) {
+  var itemMetadataMap, lastMeasuredIndex;
+
+  if (itemType === 'column') {
+    itemMetadataMap = instanceProps.columnMetadataMap;
+    lastMeasuredIndex = instanceProps.lastMeasuredColumnIndex;
+  } else {
+    itemMetadataMap = instanceProps.rowMetadataMap;
+    lastMeasuredIndex = instanceProps.lastMeasuredRowIndex;
+  }
+
+  var lastMeasuredItemOffset = lastMeasuredIndex > 0 ? itemMetadataMap[lastMeasuredIndex].offset : 0;
+
+  if (lastMeasuredItemOffset >= offset) {
+    // If we've already measured items within this range just use a binary search as it's faster.
+    return findNearestItemBinarySearch(itemType, props, instanceProps, lastMeasuredIndex, 0, offset);
+  } else {
+    // If we haven't yet measured this high, fallback to an exponential search with an inner binary search.
+    // The exponential search avoids pre-computing sizes for the full set of items as a binary search would.
+    // The overall complexity for this approach is O(log n).
+    return findNearestItemExponentialSearch(itemType, props, instanceProps, Math.max(0, lastMeasuredIndex), offset);
+  }
+};
+
+var findNearestItemBinarySearch = function findNearestItemBinarySearch(itemType, props, instanceProps, high, low, offset) {
+  while (low <= high) {
+    var middle = low + Math.floor((high - low) / 2);
+    var currentOffset = getItemMetadata(itemType, props, middle, instanceProps).offset;
+
+    if (currentOffset === offset) {
+      return middle;
+    } else if (currentOffset < offset) {
+      low = middle + 1;
+    } else if (currentOffset > offset) {
+      high = middle - 1;
+    }
+  }
+
+  if (low > 0) {
+    return low - 1;
+  } else {
+    return 0;
+  }
+};
+
+var findNearestItemExponentialSearch = function findNearestItemExponentialSearch(itemType, props, instanceProps, index, offset) {
+  var itemCount = itemType === 'column' ? props.columnCount : props.rowCount;
+  var interval = 1;
+
+  while (index < itemCount && getItemMetadata(itemType, props, index, instanceProps).offset < offset) {
+    index += interval;
+    interval *= 2;
+  }
+
+  return findNearestItemBinarySearch(itemType, props, instanceProps, Math.min(index, itemCount - 1), Math.floor(index / 2), offset);
+};
+
+var getOffsetForIndexAndAlignment = function getOffsetForIndexAndAlignment(itemType, props, index, align, scrollOffset, instanceProps, scrollbarSize) {
+  var size = itemType === 'column' ? props.width : props.height;
+  var itemMetadata = getItemMetadata(itemType, props, index, instanceProps); // Get estimated total size after ItemMetadata is computed,
+  // To ensure it reflects actual measurements instead of just estimates.
+
+  var estimatedTotalSize = itemType === 'column' ? getEstimatedTotalWidth(props, instanceProps) : getEstimatedTotalHeight(props, instanceProps);
+  var maxOffset = Math.max(0, Math.min(estimatedTotalSize - size, itemMetadata.offset));
+  var minOffset = Math.max(0, itemMetadata.offset - size + scrollbarSize + itemMetadata.size);
+
+  if (align === 'smart') {
+    if (scrollOffset >= minOffset - size && scrollOffset <= maxOffset + size) {
+      align = 'auto';
+    } else {
+      align = 'center';
+    }
+  }
+
+  switch (align) {
+    case 'start':
+      return maxOffset;
+
+    case 'end':
+      return minOffset;
+
+    case 'center':
+      return Math.round(minOffset + (maxOffset - minOffset) / 2);
+
+    case 'auto':
+    default:
+      if (scrollOffset >= minOffset && scrollOffset <= maxOffset) {
+        return scrollOffset;
+      } else if (minOffset > maxOffset) {
+        // Because we only take into account the scrollbar size when calculating minOffset
+        // this value can be larger than maxOffset when at the end of the list
+        return minOffset;
+      } else if (scrollOffset < minOffset) {
+        return minOffset;
+      } else {
+        return maxOffset;
+      }
+
+  }
+};
+
+var VariableSizeGrid =
+/*#__PURE__*/
+createGridComponent({
+  getColumnOffset: function getColumnOffset(props, index, instanceProps) {
+    return getItemMetadata('column', props, index, instanceProps).offset;
+  },
+  getColumnStartIndexForOffset: function getColumnStartIndexForOffset(props, scrollLeft, instanceProps) {
+    return findNearestItem('column', props, instanceProps, scrollLeft);
+  },
+  getColumnStopIndexForStartIndex: function getColumnStopIndexForStartIndex(props, startIndex, scrollLeft, instanceProps) {
+    var columnCount = props.columnCount,
+        width = props.width;
+    var itemMetadata = getItemMetadata('column', props, startIndex, instanceProps);
+    var maxOffset = scrollLeft + width;
+    var offset = itemMetadata.offset + itemMetadata.size;
+    var stopIndex = startIndex;
+
+    while (stopIndex < columnCount - 1 && offset < maxOffset) {
+      stopIndex++;
+      offset += getItemMetadata('column', props, stopIndex, instanceProps).size;
+    }
+
+    return stopIndex;
+  },
+  getColumnWidth: function getColumnWidth(props, index, instanceProps) {
+    return instanceProps.columnMetadataMap[index].size;
+  },
+  getEstimatedTotalHeight: getEstimatedTotalHeight,
+  getEstimatedTotalWidth: getEstimatedTotalWidth,
+  getOffsetForColumnAndAlignment: function getOffsetForColumnAndAlignment(props, index, align, scrollOffset, instanceProps, scrollbarSize) {
+    return getOffsetForIndexAndAlignment('column', props, index, align, scrollOffset, instanceProps, scrollbarSize);
+  },
+  getOffsetForRowAndAlignment: function getOffsetForRowAndAlignment(props, index, align, scrollOffset, instanceProps, scrollbarSize) {
+    return getOffsetForIndexAndAlignment('row', props, index, align, scrollOffset, instanceProps, scrollbarSize);
+  },
+  getRowOffset: function getRowOffset(props, index, instanceProps) {
+    return getItemMetadata('row', props, index, instanceProps).offset;
+  },
+  getRowHeight: function getRowHeight(props, index, instanceProps) {
+    return instanceProps.rowMetadataMap[index].size;
+  },
+  getRowStartIndexForOffset: function getRowStartIndexForOffset(props, scrollTop, instanceProps) {
+    return findNearestItem('row', props, instanceProps, scrollTop);
+  },
+  getRowStopIndexForStartIndex: function getRowStopIndexForStartIndex(props, startIndex, scrollTop, instanceProps) {
+    var rowCount = props.rowCount,
+        height = props.height;
+    var itemMetadata = getItemMetadata('row', props, startIndex, instanceProps);
+    var maxOffset = scrollTop + height;
+    var offset = itemMetadata.offset + itemMetadata.size;
+    var stopIndex = startIndex;
+
+    while (stopIndex < rowCount - 1 && offset < maxOffset) {
+      stopIndex++;
+      offset += getItemMetadata('row', props, stopIndex, instanceProps).size;
+    }
+
+    return stopIndex;
+  },
+  initInstanceProps: function initInstanceProps(props, instance) {
+    var _ref5 = props,
+        estimatedColumnWidth = _ref5.estimatedColumnWidth,
+        estimatedRowHeight = _ref5.estimatedRowHeight;
+    var instanceProps = {
+      columnMetadataMap: {},
+      estimatedColumnWidth: estimatedColumnWidth || DEFAULT_ESTIMATED_ITEM_SIZE,
+      estimatedRowHeight: estimatedRowHeight || DEFAULT_ESTIMATED_ITEM_SIZE,
+      lastMeasuredColumnIndex: -1,
+      lastMeasuredRowIndex: -1,
+      rowMetadataMap: {}
+    };
+
+    instance.resetAfterColumnIndex = function (columnIndex, shouldForceUpdate) {
+      if (shouldForceUpdate === void 0) {
+        shouldForceUpdate = true;
+      }
+
+      instance.resetAfterIndices({
+        columnIndex: columnIndex,
+        shouldForceUpdate: shouldForceUpdate
+      });
+    };
+
+    instance.resetAfterRowIndex = function (rowIndex, shouldForceUpdate) {
+      if (shouldForceUpdate === void 0) {
+        shouldForceUpdate = true;
+      }
+
+      instance.resetAfterIndices({
+        rowIndex: rowIndex,
+        shouldForceUpdate: shouldForceUpdate
+      });
+    };
+
+    instance.resetAfterIndices = function (_ref6) {
+      var columnIndex = _ref6.columnIndex,
+          rowIndex = _ref6.rowIndex,
+          _ref6$shouldForceUpda = _ref6.shouldForceUpdate,
+          shouldForceUpdate = _ref6$shouldForceUpda === void 0 ? true : _ref6$shouldForceUpda;
+
+      if (typeof columnIndex === 'number') {
+        instanceProps.lastMeasuredColumnIndex = Math.min(instanceProps.lastMeasuredColumnIndex, columnIndex - 1);
+      }
+
+      if (typeof rowIndex === 'number') {
+        instanceProps.lastMeasuredRowIndex = Math.min(instanceProps.lastMeasuredRowIndex, rowIndex - 1);
+      } // We could potentially optimize further by only evicting styles after this index,
+      // But since styles are only cached while scrolling is in progress-
+      // It seems an unnecessary optimization.
+      // It's unlikely that resetAfterIndex() will be called while a user is scrolling.
+
+
+      instance._getItemStyleCache(-1);
+
+      if (shouldForceUpdate) {
+        instance.forceUpdate();
+      }
+    };
+
+    return instanceProps;
+  },
+  shouldResetStyleCacheOnItemSizeChange: false,
+  validateProps: function validateProps(_ref7) {
+    var columnWidth = _ref7.columnWidth,
+        rowHeight = _ref7.rowHeight;
+
+    if ("development" !== 'production') {
+      if (typeof columnWidth !== 'function') {
+        throw Error('An invalid "columnWidth" prop has been specified. ' + 'Value should be a function. ' + ("\"" + (columnWidth === null ? 'null' : _typeof(columnWidth)) + "\" was specified."));
+      } else if (typeof rowHeight !== 'function') {
+        throw Error('An invalid "rowHeight" prop has been specified. ' + 'Value should be a function. ' + ("\"" + (rowHeight === null ? 'null' : _typeof(rowHeight)) + "\" was specified."));
+      }
+    }
+  }
+});
+exports.VariableSizeGrid = VariableSizeGrid;
+var IS_SCROLLING_DEBOUNCE_INTERVAL$1 = 150;
+
+var defaultItemKey$1 = function defaultItemKey(index, data) {
+  return index;
+}; // In DEV mode, this Set helps us only log a warning once per component instance.
+// This avoids spamming the console every time a render happens.
+
+
+var devWarningsDirection = null;
+var devWarningsTagName$1 = null;
+
+if ("development" !== 'production') {
+  if (typeof window !== 'undefined' && typeof window.WeakSet !== 'undefined') {
+    devWarningsDirection =
+    /*#__PURE__*/
+    new WeakSet();
+    devWarningsTagName$1 =
+    /*#__PURE__*/
+    new WeakSet();
+  }
+}
+
+function createListComponent(_ref) {
+  var _class, _temp;
+
+  var getItemOffset = _ref.getItemOffset,
+      getEstimatedTotalSize = _ref.getEstimatedTotalSize,
+      getItemSize = _ref.getItemSize,
+      getOffsetForIndexAndAlignment = _ref.getOffsetForIndexAndAlignment,
+      getStartIndexForOffset = _ref.getStartIndexForOffset,
+      getStopIndexForStartIndex = _ref.getStopIndexForStartIndex,
+      initInstanceProps = _ref.initInstanceProps,
+      shouldResetStyleCacheOnItemSizeChange = _ref.shouldResetStyleCacheOnItemSizeChange,
+      validateProps = _ref.validateProps;
+  return _temp = _class =
+  /*#__PURE__*/
+  function (_PureComponent) {
+    (0, _inheritsLoose2.default)(List, _PureComponent); // Always use explicit constructor for React components.
+    // It produces less code after transpilation. (#26)
+    // eslint-disable-next-line no-useless-constructor
+
+    function List(props) {
+      var _this;
+
+      _this = _PureComponent.call(this, props) || this;
+      _this._instanceProps = initInstanceProps(_this.props, (0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)));
+      _this._outerRef = void 0;
+      _this._resetIsScrollingTimeoutId = null;
+      _this.state = {
+        instance: (0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)),
+        isScrolling: false,
+        scrollDirection: 'forward',
+        scrollOffset: typeof _this.props.initialScrollOffset === 'number' ? _this.props.initialScrollOffset : 0,
+        scrollUpdateWasRequested: false
+      };
+      _this._callOnItemsRendered = void 0;
+      _this._callOnItemsRendered = (0, _memoizeOne.default)(function (overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex) {
+        return _this.props.onItemsRendered({
+          overscanStartIndex: overscanStartIndex,
+          overscanStopIndex: overscanStopIndex,
+          visibleStartIndex: visibleStartIndex,
+          visibleStopIndex: visibleStopIndex
+        });
+      });
+      _this._callOnScroll = void 0;
+      _this._callOnScroll = (0, _memoizeOne.default)(function (scrollDirection, scrollOffset, scrollUpdateWasRequested) {
+        return _this.props.onScroll({
+          scrollDirection: scrollDirection,
+          scrollOffset: scrollOffset,
+          scrollUpdateWasRequested: scrollUpdateWasRequested
+        });
+      });
+      _this._getItemStyle = void 0;
+
+      _this._getItemStyle = function (index) {
+        var _this$props = _this.props,
+            direction = _this$props.direction,
+            itemSize = _this$props.itemSize,
+            layout = _this$props.layout;
+
+        var itemStyleCache = _this._getItemStyleCache(shouldResetStyleCacheOnItemSizeChange && itemSize, shouldResetStyleCacheOnItemSizeChange && layout, shouldResetStyleCacheOnItemSizeChange && direction);
+
+        var style;
+
+        if (itemStyleCache.hasOwnProperty(index)) {
+          style = itemStyleCache[index];
+        } else {
+          var _style;
+
+          var _offset = getItemOffset(_this.props, index, _this._instanceProps);
+
+          var size = getItemSize(_this.props, index, _this._instanceProps); // TODO Deprecate direction "horizontal"
+
+          var isHorizontal = direction === 'horizontal' || layout === 'horizontal';
+          itemStyleCache[index] = style = (_style = {
+            position: 'absolute'
+          }, _style[direction === 'rtl' ? 'right' : 'left'] = isHorizontal ? _offset : 0, _style.top = !isHorizontal ? _offset : 0, _style.height = !isHorizontal ? size : '100%', _style.width = isHorizontal ? size : '100%', _style);
+        }
+
+        return style;
+      };
+
+      _this._getItemStyleCache = void 0;
+      _this._getItemStyleCache = (0, _memoizeOne.default)(function (_, __, ___) {
+        return {};
+      });
+
+      _this._onScrollHorizontal = function (event) {
+        var _event$currentTarget = event.currentTarget,
+            clientWidth = _event$currentTarget.clientWidth,
+            scrollLeft = _event$currentTarget.scrollLeft,
+            scrollWidth = _event$currentTarget.scrollWidth;
+
+        _this.setState(function (prevState) {
+          if (prevState.scrollOffset === scrollLeft) {
+            // Scroll position may have been updated by cDM/cDU,
+            // In which case we don't need to trigger another render,
+            // And we don't want to update state.isScrolling.
+            return null;
+          }
+
+          var direction = _this.props.direction;
+          var scrollOffset = scrollLeft;
+
+          if (direction === 'rtl') {
+            // TRICKY According to the spec, scrollLeft should be negative for RTL aligned elements.
+            // This is not the case for all browsers though (e.g. Chrome reports values as positive, measured relative to the left).
+            // It's also easier for this component if we convert offsets to the same format as they would be in for ltr.
+            // So the simplest solution is to determine which browser behavior we're dealing with, and convert based on it.
+            switch (getRTLOffsetType()) {
+              case 'negative':
+                scrollOffset = -scrollLeft;
+                break;
+
+              case 'positive-descending':
+                scrollOffset = scrollWidth - clientWidth - scrollLeft;
+                break;
+            }
+          } // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
+
+
+          scrollOffset = Math.max(0, Math.min(scrollOffset, scrollWidth - clientWidth));
+          return {
+            isScrolling: true,
+            scrollDirection: prevState.scrollOffset < scrollLeft ? 'forward' : 'backward',
+            scrollOffset: scrollOffset,
+            scrollUpdateWasRequested: false
+          };
+        }, _this._resetIsScrollingDebounced);
+      };
+
+      _this._onScrollVertical = function (event) {
+        var _event$currentTarget2 = event.currentTarget,
+            clientHeight = _event$currentTarget2.clientHeight,
+            scrollHeight = _event$currentTarget2.scrollHeight,
+            scrollTop = _event$currentTarget2.scrollTop;
+
+        _this.setState(function (prevState) {
+          if (prevState.scrollOffset === scrollTop) {
+            // Scroll position may have been updated by cDM/cDU,
+            // In which case we don't need to trigger another render,
+            // And we don't want to update state.isScrolling.
+            return null;
+          } // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
+
+
+          var scrollOffset = Math.max(0, Math.min(scrollTop, scrollHeight - clientHeight));
+          return {
+            isScrolling: true,
+            scrollDirection: prevState.scrollOffset < scrollOffset ? 'forward' : 'backward',
+            scrollOffset: scrollOffset,
+            scrollUpdateWasRequested: false
+          };
+        }, _this._resetIsScrollingDebounced);
+      };
+
+      _this._outerRefSetter = function (ref) {
+        var outerRef = _this.props.outerRef;
+        _this._outerRef = ref;
+
+        if (typeof outerRef === 'function') {
+          outerRef(ref);
+        } else if (outerRef != null && _typeof(outerRef) === 'object' && outerRef.hasOwnProperty('current')) {
+          outerRef.current = ref;
+        }
+      };
+
+      _this._resetIsScrollingDebounced = function () {
+        if (_this._resetIsScrollingTimeoutId !== null) {
+          cancelTimeout(_this._resetIsScrollingTimeoutId);
+        }
+
+        _this._resetIsScrollingTimeoutId = requestTimeout(_this._resetIsScrolling, IS_SCROLLING_DEBOUNCE_INTERVAL$1);
+      };
+
+      _this._resetIsScrolling = function () {
+        _this._resetIsScrollingTimeoutId = null;
+
+        _this.setState({
+          isScrolling: false
+        }, function () {
+          // Clear style cache after state update has been committed.
+          // This way we don't break pure sCU for items that don't use isScrolling param.
+          _this._getItemStyleCache(-1, null);
+        });
+      };
+
+      return _this;
+    }
+
+    List.getDerivedStateFromProps = function getDerivedStateFromProps(nextProps, prevState) {
+      validateSharedProps$1(nextProps, prevState);
+      validateProps(nextProps);
+      return null;
+    };
+
+    var _proto = List.prototype;
+
+    _proto.scrollTo = function scrollTo(scrollOffset) {
+      scrollOffset = Math.max(0, scrollOffset);
+      this.setState(function (prevState) {
+        if (prevState.scrollOffset === scrollOffset) {
+          return null;
+        }
+
+        return {
+          scrollDirection: prevState.scrollOffset < scrollOffset ? 'forward' : 'backward',
+          scrollOffset: scrollOffset,
+          scrollUpdateWasRequested: true
+        };
+      }, this._resetIsScrollingDebounced);
+    };
+
+    _proto.scrollToItem = function scrollToItem(index, align) {
+      if (align === void 0) {
+        align = 'auto';
+      }
+
+      var itemCount = this.props.itemCount;
+      var scrollOffset = this.state.scrollOffset;
+      index = Math.max(0, Math.min(index, itemCount - 1));
+      this.scrollTo(getOffsetForIndexAndAlignment(this.props, index, align, scrollOffset, this._instanceProps));
+    };
+
+    _proto.componentDidMount = function componentDidMount() {
+      var _this$props2 = this.props,
+          direction = _this$props2.direction,
+          initialScrollOffset = _this$props2.initialScrollOffset,
+          layout = _this$props2.layout;
+
+      if (typeof initialScrollOffset === 'number' && this._outerRef != null) {
+        var outerRef = this._outerRef; // TODO Deprecate direction "horizontal"
+
+        if (direction === 'horizontal' || layout === 'horizontal') {
+          outerRef.scrollLeft = initialScrollOffset;
+        } else {
+          outerRef.scrollTop = initialScrollOffset;
+        }
+      }
+
+      this._callPropsCallbacks();
+    };
+
+    _proto.componentDidUpdate = function componentDidUpdate() {
+      var _this$props3 = this.props,
+          direction = _this$props3.direction,
+          layout = _this$props3.layout;
+      var _this$state = this.state,
+          scrollOffset = _this$state.scrollOffset,
+          scrollUpdateWasRequested = _this$state.scrollUpdateWasRequested;
+
+      if (scrollUpdateWasRequested && this._outerRef != null) {
+        var outerRef = this._outerRef; // TODO Deprecate direction "horizontal"
+
+        if (direction === 'horizontal' || layout === 'horizontal') {
+          if (direction === 'rtl') {
+            // TRICKY According to the spec, scrollLeft should be negative for RTL aligned elements.
+            // This is not the case for all browsers though (e.g. Chrome reports values as positive, measured relative to the left).
+            // So we need to determine which browser behavior we're dealing with, and mimic it.
+            switch (getRTLOffsetType()) {
+              case 'negative':
+                outerRef.scrollLeft = -scrollOffset;
+                break;
+
+              case 'positive-ascending':
+                outerRef.scrollLeft = scrollOffset;
+                break;
+
+              default:
+                var clientWidth = outerRef.clientWidth,
+                    scrollWidth = outerRef.scrollWidth;
+                outerRef.scrollLeft = scrollWidth - clientWidth - scrollOffset;
+                break;
+            }
+          } else {
+            outerRef.scrollLeft = scrollOffset;
+          }
+        } else {
+          outerRef.scrollTop = scrollOffset;
+        }
+      }
+
+      this._callPropsCallbacks();
+    };
+
+    _proto.componentWillUnmount = function componentWillUnmount() {
+      if (this._resetIsScrollingTimeoutId !== null) {
+        cancelTimeout(this._resetIsScrollingTimeoutId);
+      }
+    };
+
+    _proto.render = function render() {
+      var _this$props4 = this.props,
+          children = _this$props4.children,
+          className = _this$props4.className,
+          direction = _this$props4.direction,
+          height = _this$props4.height,
+          innerRef = _this$props4.innerRef,
+          innerElementType = _this$props4.innerElementType,
+          innerTagName = _this$props4.innerTagName,
+          itemCount = _this$props4.itemCount,
+          itemData = _this$props4.itemData,
+          _this$props4$itemKey = _this$props4.itemKey,
+          itemKey = _this$props4$itemKey === void 0 ? defaultItemKey$1 : _this$props4$itemKey,
+          layout = _this$props4.layout,
+          outerElementType = _this$props4.outerElementType,
+          outerTagName = _this$props4.outerTagName,
+          style = _this$props4.style,
+          useIsScrolling = _this$props4.useIsScrolling,
+          width = _this$props4.width;
+      var isScrolling = this.state.isScrolling; // TODO Deprecate direction "horizontal"
+
+      var isHorizontal = direction === 'horizontal' || layout === 'horizontal';
+      var onScroll = isHorizontal ? this._onScrollHorizontal : this._onScrollVertical;
+
+      var _this$_getRangeToRend = this._getRangeToRender(),
+          startIndex = _this$_getRangeToRend[0],
+          stopIndex = _this$_getRangeToRend[1];
+
+      var items = [];
+
+      if (itemCount > 0) {
+        for (var _index = startIndex; _index <= stopIndex; _index++) {
+          items.push((0, _react.createElement)(children, {
+            data: itemData,
+            key: itemKey(_index, itemData),
+            index: _index,
+            isScrolling: useIsScrolling ? isScrolling : undefined,
+            style: this._getItemStyle(_index)
+          }));
+        }
+      } // Read this value AFTER items have been created,
+      // So their actual sizes (if variable) are taken into consideration.
+
+
+      var estimatedTotalSize = getEstimatedTotalSize(this.props, this._instanceProps);
+      return (0, _react.createElement)(outerElementType || outerTagName || 'div', {
+        className: className,
+        onScroll: onScroll,
+        ref: this._outerRefSetter,
+        style: (0, _extends2.default)({
+          position: 'relative',
+          height: height,
+          width: width,
+          overflow: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          willChange: 'transform',
+          direction: direction
+        }, style)
+      }, (0, _react.createElement)(innerElementType || innerTagName || 'div', {
+        children: items,
+        ref: innerRef,
+        style: {
+          height: isHorizontal ? '100%' : estimatedTotalSize,
+          pointerEvents: isScrolling ? 'none' : undefined,
+          width: isHorizontal ? estimatedTotalSize : '100%'
+        }
+      }));
+    };
+
+    _proto._callPropsCallbacks = function _callPropsCallbacks() {
+      if (typeof this.props.onItemsRendered === 'function') {
+        var itemCount = this.props.itemCount;
+
+        if (itemCount > 0) {
+          var _this$_getRangeToRend2 = this._getRangeToRender(),
+              _overscanStartIndex = _this$_getRangeToRend2[0],
+              _overscanStopIndex = _this$_getRangeToRend2[1],
+              _visibleStartIndex = _this$_getRangeToRend2[2],
+              _visibleStopIndex = _this$_getRangeToRend2[3];
+
+          this._callOnItemsRendered(_overscanStartIndex, _overscanStopIndex, _visibleStartIndex, _visibleStopIndex);
+        }
+      }
+
+      if (typeof this.props.onScroll === 'function') {
+        var _this$state2 = this.state,
+            _scrollDirection = _this$state2.scrollDirection,
+            _scrollOffset = _this$state2.scrollOffset,
+            _scrollUpdateWasRequested = _this$state2.scrollUpdateWasRequested;
+
+        this._callOnScroll(_scrollDirection, _scrollOffset, _scrollUpdateWasRequested);
+      }
+    }; // Lazily create and cache item styles while scrolling,
+    // So that pure component sCU will prevent re-renders.
+    // We maintain this cache, and pass a style prop rather than index,
+    // So that List can clear cached styles and force item re-render if necessary.
+
+
+    _proto._getRangeToRender = function _getRangeToRender() {
+      var _this$props5 = this.props,
+          itemCount = _this$props5.itemCount,
+          overscanCount = _this$props5.overscanCount;
+      var _this$state3 = this.state,
+          isScrolling = _this$state3.isScrolling,
+          scrollDirection = _this$state3.scrollDirection,
+          scrollOffset = _this$state3.scrollOffset;
+
+      if (itemCount === 0) {
+        return [0, 0, 0, 0];
+      }
+
+      var startIndex = getStartIndexForOffset(this.props, scrollOffset, this._instanceProps);
+      var stopIndex = getStopIndexForStartIndex(this.props, startIndex, scrollOffset, this._instanceProps); // Overscan by one item in each direction so that tab/focus works.
+      // If there isn't at least one extra item, tab loops back around.
+
+      var overscanBackward = !isScrolling || scrollDirection === 'backward' ? Math.max(1, overscanCount) : 1;
+      var overscanForward = !isScrolling || scrollDirection === 'forward' ? Math.max(1, overscanCount) : 1;
+      return [Math.max(0, startIndex - overscanBackward), Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)), startIndex, stopIndex];
+    };
+
+    return List;
+  }(_react.PureComponent), _class.defaultProps = {
+    direction: 'ltr',
+    itemData: undefined,
+    layout: 'vertical',
+    overscanCount: 2,
+    useIsScrolling: false
+  }, _temp;
+} // NOTE: I considered further wrapping individual items with a pure ListItem component.
+// This would avoid ever calling the render function for the same index more than once,
+// But it would also add the overhead of a lot of components/fibers.
+// I assume people already do this (render function returning a class component),
+// So my doing it would just unnecessarily double the wrappers.
+
+
+var validateSharedProps$1 = function validateSharedProps(_ref2, _ref3) {
+  var children = _ref2.children,
+      direction = _ref2.direction,
+      height = _ref2.height,
+      layout = _ref2.layout,
+      innerTagName = _ref2.innerTagName,
+      outerTagName = _ref2.outerTagName,
+      width = _ref2.width;
+  var instance = _ref3.instance;
+
+  if ("development" !== 'production') {
+    if (innerTagName != null || outerTagName != null) {
+      if (devWarningsTagName$1 && !devWarningsTagName$1.has(instance)) {
+        devWarningsTagName$1.add(instance);
+        console.warn('The innerTagName and outerTagName props have been deprecated. ' + 'Please use the innerElementType and outerElementType props instead.');
+      }
+    } // TODO Deprecate direction "horizontal"
+
+
+    var isHorizontal = direction === 'horizontal' || layout === 'horizontal';
+
+    switch (direction) {
+      case 'horizontal':
+      case 'vertical':
+        if (devWarningsDirection && !devWarningsDirection.has(instance)) {
+          devWarningsDirection.add(instance);
+          console.warn('The direction prop should be either "ltr" (default) or "rtl". ' + 'Please use the layout prop to specify "vertical" (default) or "horizontal" orientation.');
+        }
+
+        break;
+
+      case 'ltr':
+      case 'rtl':
+        // Valid values
+        break;
+
+      default:
+        throw Error('An invalid "direction" prop has been specified. ' + 'Value should be either "ltr" or "rtl". ' + ("\"" + direction + "\" was specified."));
+    }
+
+    switch (layout) {
+      case 'horizontal':
+      case 'vertical':
+        // Valid values
+        break;
+
+      default:
+        throw Error('An invalid "layout" prop has been specified. ' + 'Value should be either "horizontal" or "vertical". ' + ("\"" + layout + "\" was specified."));
+    }
+
+    if (children == null) {
+      throw Error('An invalid "children" prop has been specified. ' + 'Value should be a React component. ' + ("\"" + (children === null ? 'null' : _typeof(children)) + "\" was specified."));
+    }
+
+    if (isHorizontal && typeof width !== 'number') {
+      throw Error('An invalid "width" prop has been specified. ' + 'Horizontal lists must specify a number for width. ' + ("\"" + (width === null ? 'null' : _typeof(width)) + "\" was specified."));
+    } else if (!isHorizontal && typeof height !== 'number') {
+      throw Error('An invalid "height" prop has been specified. ' + 'Vertical lists must specify a number for height. ' + ("\"" + (height === null ? 'null' : _typeof(height)) + "\" was specified."));
+    }
+  }
+};
+
+var DEFAULT_ESTIMATED_ITEM_SIZE$1 = 50;
+
+var getItemMetadata$1 = function getItemMetadata(props, index, instanceProps) {
+  var _ref = props,
+      itemSize = _ref.itemSize;
+  var itemMetadataMap = instanceProps.itemMetadataMap,
+      lastMeasuredIndex = instanceProps.lastMeasuredIndex;
+
+  if (index > lastMeasuredIndex) {
+    var offset = 0;
+
+    if (lastMeasuredIndex >= 0) {
+      var itemMetadata = itemMetadataMap[lastMeasuredIndex];
+      offset = itemMetadata.offset + itemMetadata.size;
+    }
+
+    for (var i = lastMeasuredIndex + 1; i <= index; i++) {
+      var size = itemSize(i);
+      itemMetadataMap[i] = {
+        offset: offset,
+        size: size
+      };
+      offset += size;
+    }
+
+    instanceProps.lastMeasuredIndex = index;
+  }
+
+  return itemMetadataMap[index];
+};
+
+var findNearestItem$1 = function findNearestItem(props, instanceProps, offset) {
+  var itemMetadataMap = instanceProps.itemMetadataMap,
+      lastMeasuredIndex = instanceProps.lastMeasuredIndex;
+  var lastMeasuredItemOffset = lastMeasuredIndex > 0 ? itemMetadataMap[lastMeasuredIndex].offset : 0;
+
+  if (lastMeasuredItemOffset >= offset) {
+    // If we've already measured items within this range just use a binary search as it's faster.
+    return findNearestItemBinarySearch$1(props, instanceProps, lastMeasuredIndex, 0, offset);
+  } else {
+    // If we haven't yet measured this high, fallback to an exponential search with an inner binary search.
+    // The exponential search avoids pre-computing sizes for the full set of items as a binary search would.
+    // The overall complexity for this approach is O(log n).
+    return findNearestItemExponentialSearch$1(props, instanceProps, Math.max(0, lastMeasuredIndex), offset);
+  }
+};
+
+var findNearestItemBinarySearch$1 = function findNearestItemBinarySearch(props, instanceProps, high, low, offset) {
+  while (low <= high) {
+    var middle = low + Math.floor((high - low) / 2);
+    var currentOffset = getItemMetadata$1(props, middle, instanceProps).offset;
+
+    if (currentOffset === offset) {
+      return middle;
+    } else if (currentOffset < offset) {
+      low = middle + 1;
+    } else if (currentOffset > offset) {
+      high = middle - 1;
+    }
+  }
+
+  if (low > 0) {
+    return low - 1;
+  } else {
+    return 0;
+  }
+};
+
+var findNearestItemExponentialSearch$1 = function findNearestItemExponentialSearch(props, instanceProps, index, offset) {
+  var itemCount = props.itemCount;
+  var interval = 1;
+
+  while (index < itemCount && getItemMetadata$1(props, index, instanceProps).offset < offset) {
+    index += interval;
+    interval *= 2;
+  }
+
+  return findNearestItemBinarySearch$1(props, instanceProps, Math.min(index, itemCount - 1), Math.floor(index / 2), offset);
+};
+
+var getEstimatedTotalSize = function getEstimatedTotalSize(_ref2, _ref3) {
+  var itemCount = _ref2.itemCount;
+  var itemMetadataMap = _ref3.itemMetadataMap,
+      estimatedItemSize = _ref3.estimatedItemSize,
+      lastMeasuredIndex = _ref3.lastMeasuredIndex;
+  var totalSizeOfMeasuredItems = 0; // Edge case check for when the number of items decreases while a scroll is in progress.
+  // https://github.com/bvaughn/react-window/pull/138
+
+  if (lastMeasuredIndex >= itemCount) {
+    lastMeasuredIndex = itemCount - 1;
+  }
+
+  if (lastMeasuredIndex >= 0) {
+    var itemMetadata = itemMetadataMap[lastMeasuredIndex];
+    totalSizeOfMeasuredItems = itemMetadata.offset + itemMetadata.size;
+  }
+
+  var numUnmeasuredItems = itemCount - lastMeasuredIndex - 1;
+  var totalSizeOfUnmeasuredItems = numUnmeasuredItems * estimatedItemSize;
+  return totalSizeOfMeasuredItems + totalSizeOfUnmeasuredItems;
+};
+
+var VariableSizeList =
+/*#__PURE__*/
+createListComponent({
+  getItemOffset: function getItemOffset(props, index, instanceProps) {
+    return getItemMetadata$1(props, index, instanceProps).offset;
+  },
+  getItemSize: function getItemSize(props, index, instanceProps) {
+    return instanceProps.itemMetadataMap[index].size;
+  },
+  getEstimatedTotalSize: getEstimatedTotalSize,
+  getOffsetForIndexAndAlignment: function getOffsetForIndexAndAlignment(props, index, align, scrollOffset, instanceProps) {
+    var direction = props.direction,
+        height = props.height,
+        layout = props.layout,
+        width = props.width; // TODO Deprecate direction "horizontal"
+
+    var isHorizontal = direction === 'horizontal' || layout === 'horizontal';
+    var size = isHorizontal ? width : height;
+    var itemMetadata = getItemMetadata$1(props, index, instanceProps); // Get estimated total size after ItemMetadata is computed,
+    // To ensure it reflects actual measurements instead of just estimates.
+
+    var estimatedTotalSize = getEstimatedTotalSize(props, instanceProps);
+    var maxOffset = Math.max(0, Math.min(estimatedTotalSize - size, itemMetadata.offset));
+    var minOffset = Math.max(0, itemMetadata.offset - size + itemMetadata.size);
+
+    if (align === 'smart') {
+      if (scrollOffset >= minOffset - size && scrollOffset <= maxOffset + size) {
+        align = 'auto';
+      } else {
+        align = 'center';
+      }
+    }
+
+    switch (align) {
+      case 'start':
+        return maxOffset;
+
+      case 'end':
+        return minOffset;
+
+      case 'center':
+        return Math.round(minOffset + (maxOffset - minOffset) / 2);
+
+      case 'auto':
+      default:
+        if (scrollOffset >= minOffset && scrollOffset <= maxOffset) {
+          return scrollOffset;
+        } else if (scrollOffset < minOffset) {
+          return minOffset;
+        } else {
+          return maxOffset;
+        }
+
+    }
+  },
+  getStartIndexForOffset: function getStartIndexForOffset(props, offset, instanceProps) {
+    return findNearestItem$1(props, instanceProps, offset);
+  },
+  getStopIndexForStartIndex: function getStopIndexForStartIndex(props, startIndex, scrollOffset, instanceProps) {
+    var direction = props.direction,
+        height = props.height,
+        itemCount = props.itemCount,
+        layout = props.layout,
+        width = props.width; // TODO Deprecate direction "horizontal"
+
+    var isHorizontal = direction === 'horizontal' || layout === 'horizontal';
+    var size = isHorizontal ? width : height;
+    var itemMetadata = getItemMetadata$1(props, startIndex, instanceProps);
+    var maxOffset = scrollOffset + size;
+    var offset = itemMetadata.offset + itemMetadata.size;
+    var stopIndex = startIndex;
+
+    while (stopIndex < itemCount - 1 && offset < maxOffset) {
+      stopIndex++;
+      offset += getItemMetadata$1(props, stopIndex, instanceProps).size;
+    }
+
+    return stopIndex;
+  },
+  initInstanceProps: function initInstanceProps(props, instance) {
+    var _ref4 = props,
+        estimatedItemSize = _ref4.estimatedItemSize;
+    var instanceProps = {
+      itemMetadataMap: {},
+      estimatedItemSize: estimatedItemSize || DEFAULT_ESTIMATED_ITEM_SIZE$1,
+      lastMeasuredIndex: -1
+    };
+
+    instance.resetAfterIndex = function (index, shouldForceUpdate) {
+      if (shouldForceUpdate === void 0) {
+        shouldForceUpdate = true;
+      }
+
+      instanceProps.lastMeasuredIndex = Math.min(instanceProps.lastMeasuredIndex, index - 1); // We could potentially optimize further by only evicting styles after this index,
+      // But since styles are only cached while scrolling is in progress-
+      // It seems an unnecessary optimization.
+      // It's unlikely that resetAfterIndex() will be called while a user is scrolling.
+
+      instance._getItemStyleCache(-1);
+
+      if (shouldForceUpdate) {
+        instance.forceUpdate();
+      }
+    };
+
+    return instanceProps;
+  },
+  shouldResetStyleCacheOnItemSizeChange: false,
+  validateProps: function validateProps(_ref5) {
+    var itemSize = _ref5.itemSize;
+
+    if ("development" !== 'production') {
+      if (typeof itemSize !== 'function') {
+        throw Error('An invalid "itemSize" prop has been specified. ' + 'Value should be a function. ' + ("\"" + (itemSize === null ? 'null' : _typeof(itemSize)) + "\" was specified."));
+      }
+    }
+  }
+});
+exports.VariableSizeList = VariableSizeList;
+var FixedSizeGrid =
+/*#__PURE__*/
+createGridComponent({
+  getColumnOffset: function getColumnOffset(_ref, index) {
+    var columnWidth = _ref.columnWidth;
+    return index * columnWidth;
+  },
+  getColumnWidth: function getColumnWidth(_ref2, index) {
+    var columnWidth = _ref2.columnWidth;
+    return columnWidth;
+  },
+  getRowOffset: function getRowOffset(_ref3, index) {
+    var rowHeight = _ref3.rowHeight;
+    return index * rowHeight;
+  },
+  getRowHeight: function getRowHeight(_ref4, index) {
+    var rowHeight = _ref4.rowHeight;
+    return rowHeight;
+  },
+  getEstimatedTotalHeight: function getEstimatedTotalHeight(_ref5) {
+    var rowCount = _ref5.rowCount,
+        rowHeight = _ref5.rowHeight;
+    return rowHeight * rowCount;
+  },
+  getEstimatedTotalWidth: function getEstimatedTotalWidth(_ref6) {
+    var columnCount = _ref6.columnCount,
+        columnWidth = _ref6.columnWidth;
+    return columnWidth * columnCount;
+  },
+  getOffsetForColumnAndAlignment: function getOffsetForColumnAndAlignment(_ref7, columnIndex, align, scrollLeft, instanceProps, scrollbarSize) {
+    var columnCount = _ref7.columnCount,
+        columnWidth = _ref7.columnWidth,
+        width = _ref7.width;
+    var lastColumnOffset = Math.max(0, columnCount * columnWidth - width);
+    var maxOffset = Math.min(lastColumnOffset, columnIndex * columnWidth);
+    var minOffset = Math.max(0, columnIndex * columnWidth - width + scrollbarSize + columnWidth);
+
+    if (align === 'smart') {
+      if (scrollLeft >= minOffset - width && scrollLeft <= maxOffset + width) {
+        align = 'auto';
+      } else {
+        align = 'center';
+      }
+    }
+
+    switch (align) {
+      case 'start':
+        return maxOffset;
+
+      case 'end':
+        return minOffset;
+
+      case 'center':
+        // "Centered" offset is usually the average of the min and max.
+        // But near the edges of the list, this doesn't hold true.
+        var middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2);
+
+        if (middleOffset < Math.ceil(width / 2)) {
+          return 0; // near the beginning
+        } else if (middleOffset > lastColumnOffset + Math.floor(width / 2)) {
+          return lastColumnOffset; // near the end
+        } else {
+          return middleOffset;
+        }
+
+      case 'auto':
+      default:
+        if (scrollLeft >= minOffset && scrollLeft <= maxOffset) {
+          return scrollLeft;
+        } else if (minOffset > maxOffset) {
+          // Because we only take into account the scrollbar size when calculating minOffset
+          // this value can be larger than maxOffset when at the end of the list
+          return minOffset;
+        } else if (scrollLeft < minOffset) {
+          return minOffset;
+        } else {
+          return maxOffset;
+        }
+
+    }
+  },
+  getOffsetForRowAndAlignment: function getOffsetForRowAndAlignment(_ref8, rowIndex, align, scrollTop, instanceProps, scrollbarSize) {
+    var rowHeight = _ref8.rowHeight,
+        height = _ref8.height,
+        rowCount = _ref8.rowCount;
+    var lastRowOffset = Math.max(0, rowCount * rowHeight - height);
+    var maxOffset = Math.min(lastRowOffset, rowIndex * rowHeight);
+    var minOffset = Math.max(0, rowIndex * rowHeight - height + scrollbarSize + rowHeight);
+
+    if (align === 'smart') {
+      if (scrollTop >= minOffset - height && scrollTop <= maxOffset + height) {
+        align = 'auto';
+      } else {
+        align = 'center';
+      }
+    }
+
+    switch (align) {
+      case 'start':
+        return maxOffset;
+
+      case 'end':
+        return minOffset;
+
+      case 'center':
+        // "Centered" offset is usually the average of the min and max.
+        // But near the edges of the list, this doesn't hold true.
+        var middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2);
+
+        if (middleOffset < Math.ceil(height / 2)) {
+          return 0; // near the beginning
+        } else if (middleOffset > lastRowOffset + Math.floor(height / 2)) {
+          return lastRowOffset; // near the end
+        } else {
+          return middleOffset;
+        }
+
+      case 'auto':
+      default:
+        if (scrollTop >= minOffset && scrollTop <= maxOffset) {
+          return scrollTop;
+        } else if (minOffset > maxOffset) {
+          // Because we only take into account the scrollbar size when calculating minOffset
+          // this value can be larger than maxOffset when at the end of the list
+          return minOffset;
+        } else if (scrollTop < minOffset) {
+          return minOffset;
+        } else {
+          return maxOffset;
+        }
+
+    }
+  },
+  getColumnStartIndexForOffset: function getColumnStartIndexForOffset(_ref9, scrollLeft) {
+    var columnWidth = _ref9.columnWidth,
+        columnCount = _ref9.columnCount;
+    return Math.max(0, Math.min(columnCount - 1, Math.floor(scrollLeft / columnWidth)));
+  },
+  getColumnStopIndexForStartIndex: function getColumnStopIndexForStartIndex(_ref10, startIndex, scrollLeft) {
+    var columnWidth = _ref10.columnWidth,
+        columnCount = _ref10.columnCount,
+        width = _ref10.width;
+    var left = startIndex * columnWidth;
+    var numVisibleColumns = Math.ceil((width + scrollLeft - left) / columnWidth);
+    return Math.max(0, Math.min(columnCount - 1, startIndex + numVisibleColumns - 1 // -1 is because stop index is inclusive
+    ));
+  },
+  getRowStartIndexForOffset: function getRowStartIndexForOffset(_ref11, scrollTop) {
+    var rowHeight = _ref11.rowHeight,
+        rowCount = _ref11.rowCount;
+    return Math.max(0, Math.min(rowCount - 1, Math.floor(scrollTop / rowHeight)));
+  },
+  getRowStopIndexForStartIndex: function getRowStopIndexForStartIndex(_ref12, startIndex, scrollTop) {
+    var rowHeight = _ref12.rowHeight,
+        rowCount = _ref12.rowCount,
+        height = _ref12.height;
+    var top = startIndex * rowHeight;
+    var numVisibleRows = Math.ceil((height + scrollTop - top) / rowHeight);
+    return Math.max(0, Math.min(rowCount - 1, startIndex + numVisibleRows - 1 // -1 is because stop index is inclusive
+    ));
+  },
+  initInstanceProps: function initInstanceProps(props) {// Noop
+  },
+  shouldResetStyleCacheOnItemSizeChange: true,
+  validateProps: function validateProps(_ref13) {
+    var columnWidth = _ref13.columnWidth,
+        rowHeight = _ref13.rowHeight;
+
+    if ("development" !== 'production') {
+      if (typeof columnWidth !== 'number') {
+        throw Error('An invalid "columnWidth" prop has been specified. ' + 'Value should be a number. ' + ("\"" + (columnWidth === null ? 'null' : _typeof(columnWidth)) + "\" was specified."));
+      }
+
+      if (typeof rowHeight !== 'number') {
+        throw Error('An invalid "rowHeight" prop has been specified. ' + 'Value should be a number. ' + ("\"" + (rowHeight === null ? 'null' : _typeof(rowHeight)) + "\" was specified."));
+      }
+    }
+  }
+});
+exports.FixedSizeGrid = FixedSizeGrid;
+var FixedSizeList =
+/*#__PURE__*/
+createListComponent({
+  getItemOffset: function getItemOffset(_ref, index) {
+    var itemSize = _ref.itemSize;
+    return index * itemSize;
+  },
+  getItemSize: function getItemSize(_ref2, index) {
+    var itemSize = _ref2.itemSize;
+    return itemSize;
+  },
+  getEstimatedTotalSize: function getEstimatedTotalSize(_ref3) {
+    var itemCount = _ref3.itemCount,
+        itemSize = _ref3.itemSize;
+    return itemSize * itemCount;
+  },
+  getOffsetForIndexAndAlignment: function getOffsetForIndexAndAlignment(_ref4, index, align, scrollOffset) {
+    var direction = _ref4.direction,
+        height = _ref4.height,
+        itemCount = _ref4.itemCount,
+        itemSize = _ref4.itemSize,
+        layout = _ref4.layout,
+        width = _ref4.width; // TODO Deprecate direction "horizontal"
+
+    var isHorizontal = direction === 'horizontal' || layout === 'horizontal';
+    var size = isHorizontal ? width : height;
+    var lastItemOffset = Math.max(0, itemCount * itemSize - size);
+    var maxOffset = Math.min(lastItemOffset, index * itemSize);
+    var minOffset = Math.max(0, index * itemSize - size + itemSize);
+
+    if (align === 'smart') {
+      if (scrollOffset >= minOffset - size && scrollOffset <= maxOffset + size) {
+        align = 'auto';
+      } else {
+        align = 'center';
+      }
+    }
+
+    switch (align) {
+      case 'start':
+        return maxOffset;
+
+      case 'end':
+        return minOffset;
+
+      case 'center':
+        {
+          // "Centered" offset is usually the average of the min and max.
+          // But near the edges of the list, this doesn't hold true.
+          var middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2);
+
+          if (middleOffset < Math.ceil(size / 2)) {
+            return 0; // near the beginning
+          } else if (middleOffset > lastItemOffset + Math.floor(size / 2)) {
+            return lastItemOffset; // near the end
+          } else {
+            return middleOffset;
+          }
+        }
+
+      case 'auto':
+      default:
+        if (scrollOffset >= minOffset && scrollOffset <= maxOffset) {
+          return scrollOffset;
+        } else if (scrollOffset < minOffset) {
+          return minOffset;
+        } else {
+          return maxOffset;
+        }
+
+    }
+  },
+  getStartIndexForOffset: function getStartIndexForOffset(_ref5, offset) {
+    var itemCount = _ref5.itemCount,
+        itemSize = _ref5.itemSize;
+    return Math.max(0, Math.min(itemCount - 1, Math.floor(offset / itemSize)));
+  },
+  getStopIndexForStartIndex: function getStopIndexForStartIndex(_ref6, startIndex, scrollOffset) {
+    var direction = _ref6.direction,
+        height = _ref6.height,
+        itemCount = _ref6.itemCount,
+        itemSize = _ref6.itemSize,
+        layout = _ref6.layout,
+        width = _ref6.width; // TODO Deprecate direction "horizontal"
+
+    var isHorizontal = direction === 'horizontal' || layout === 'horizontal';
+    var offset = startIndex * itemSize;
+    var size = isHorizontal ? width : height;
+    var numVisibleItems = Math.ceil((size + scrollOffset - offset) / itemSize);
+    return Math.max(0, Math.min(itemCount - 1, startIndex + numVisibleItems - 1 // -1 is because stop index is inclusive
+    ));
+  },
+  initInstanceProps: function initInstanceProps(props) {// Noop
+  },
+  shouldResetStyleCacheOnItemSizeChange: true,
+  validateProps: function validateProps(_ref7) {
+    var itemSize = _ref7.itemSize;
+
+    if ("development" !== 'production') {
+      if (typeof itemSize !== 'number') {
+        throw Error('An invalid "itemSize" prop has been specified. ' + 'Value should be a number. ' + ("\"" + (itemSize === null ? 'null' : _typeof(itemSize)) + "\" was specified."));
+      }
+    }
+  }
+}); // Pulled from react-compat
+// https://github.com/developit/preact-compat/blob/7c5de00e7c85e2ffd011bf3af02899b63f699d3a/src/index.js#L349
+
+exports.FixedSizeList = FixedSizeList;
+
+function shallowDiffers(prev, next) {
+  for (var attribute in prev) {
+    if (!(attribute in next)) {
+      return true;
+    }
+  }
+
+  for (var _attribute in next) {
+    if (prev[_attribute] !== next[_attribute]) {
+      return true;
+    }
+  }
+
+  return false;
+} // It knows to compare individual style props and ignore the wrapper object.
+// See https://reactjs.org/docs/react-api.html#reactmemo
+
+
+function areEqual(prevProps, nextProps) {
+  var prevStyle = prevProps.style,
+      prevRest = (0, _objectWithoutPropertiesLoose2.default)(prevProps, ["style"]);
+  var nextStyle = nextProps.style,
+      nextRest = (0, _objectWithoutPropertiesLoose2.default)(nextProps, ["style"]);
+  return !shallowDiffers(prevStyle, nextStyle) && !shallowDiffers(prevRest, nextRest);
+} // It knows to compare individual style props and ignore the wrapper object.
+// See https://reactjs.org/docs/react-component.html#shouldcomponentupdate
+
+
+function shouldComponentUpdate(nextProps, nextState) {
+  return !areEqual(this.props, nextProps) || shallowDiffers(this.state, nextState);
+}
+},{"@babel/runtime/helpers/esm/extends":"../../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/inheritsLoose":"../../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","@babel/runtime/helpers/esm/assertThisInitialized":"../../node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js","memoize-one":"../../node_modules/memoize-one/dist/memoize-one.esm.js","react":"../../node_modules/react/index.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js"}],"../../src/label.tsx":[function(require,module,exports) {
+"use strict";
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n    overflow: hidden;\n    white-space: nowrap;\n    text-overflow: ellipsis;\n    user-select: none;\n    box-sizing: border-box;\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var tslib_1 = require("tslib");
+
+var styled_components_1 = tslib_1.__importDefault(require("styled-components"));
+
+exports.SelectLabel = styled_components_1.default.span(_templateObject());
+},{"tslib":"../../node_modules/tslib/tslib.es6.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js"}],"../../node_modules/lodash-decorators/factory/DecoratorConfig.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41904,2284 +44181,7 @@ __export(require("./throttleAll"));
 __export(require("./unary"));
 
 __export(require("./wrap"));
-},{"./factory":"../../node_modules/lodash-decorators/factory.js","./after":"../../node_modules/lodash-decorators/after.js","./afterAll":"../../node_modules/lodash-decorators/afterAll.js","./ary":"../../node_modules/lodash-decorators/ary.js","./attempt":"../../node_modules/lodash-decorators/attempt.js","./before":"../../node_modules/lodash-decorators/before.js","./beforeAll":"../../node_modules/lodash-decorators/beforeAll.js","./bind":"../../node_modules/lodash-decorators/bind.js","./bindAll":"../../node_modules/lodash-decorators/bindAll.js","./curry":"../../node_modules/lodash-decorators/curry.js","./curryAll":"../../node_modules/lodash-decorators/curryAll.js","./curryRight":"../../node_modules/lodash-decorators/curryRight.js","./curryRightAll":"../../node_modules/lodash-decorators/curryRightAll.js","./debounce":"../../node_modules/lodash-decorators/debounce.js","./debounceAll":"../../node_modules/lodash-decorators/debounceAll.js","./defer":"../../node_modules/lodash-decorators/defer.js","./delay":"../../node_modules/lodash-decorators/delay.js","./flip":"../../node_modules/lodash-decorators/flip.js","./flow":"../../node_modules/lodash-decorators/flow.js","./flowRight":"../../node_modules/lodash-decorators/flowRight.js","./memoize":"../../node_modules/lodash-decorators/memoize.js","./memoizeAll":"../../node_modules/lodash-decorators/memoizeAll.js","./mixin":"../../node_modules/lodash-decorators/mixin.js","./negate":"../../node_modules/lodash-decorators/negate.js","./once":"../../node_modules/lodash-decorators/once.js","./overArgs":"../../node_modules/lodash-decorators/overArgs.js","./partial":"../../node_modules/lodash-decorators/partial.js","./partialRight":"../../node_modules/lodash-decorators/partialRight.js","./rearg":"../../node_modules/lodash-decorators/rearg.js","./rest":"../../node_modules/lodash-decorators/rest.js","./spread":"../../node_modules/lodash-decorators/spread.js","./tap":"../../node_modules/lodash-decorators/tap.js","./throttle":"../../node_modules/lodash-decorators/throttle.js","./throttleAll":"../../node_modules/lodash-decorators/throttleAll.js","./unary":"../../node_modules/lodash-decorators/unary.js","./wrap":"../../node_modules/lodash-decorators/wrap.js"}],"../../src/global-stylings.tsx":[function(require,module,exports) {
-"use strict";
-
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n        .react-slct, .react-slct-menu {\n            --react-slct-error-color: #ff5c5c; \n        }\n    "]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var tslib_1 = require("tslib");
-
-var React = tslib_1.__importStar(require("react"));
-
-var react_dom_1 = require("react-dom");
-
-var styled_components_1 = require("styled-components");
-
-var id = 'react-slct-style';
-
-function create() {
-  var ReactSlctStyle = styled_components_1.createGlobalStyle(_templateObject());
-  var reactSlctDiv = document.createElement('div');
-  reactSlctDiv.id = id;
-  document.body.appendChild(reactSlctDiv);
-  react_dom_1.render(React.createElement(ReactSlctStyle, null), reactSlctDiv);
-}
-
-if (!document.getElementById(id)) {
-  create();
-}
-},{"tslib":"../../node_modules/tslib/tslib.es6.js","react":"../../node_modules/react/index.js","react-dom":"../../node_modules/react-dom/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js"}],"../../node_modules/@babel/runtime/helpers/esm/extends.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _extends;
-
-function _extends() {
-  exports.default = _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-},{}],"../../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _inheritsLoose;
-
-function _inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  subClass.__proto__ = superClass;
-}
-},{}],"../../node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _assertThisInitialized;
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-},{}],"../../node_modules/memoize-one/dist/memoize-one.esm.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-function areInputsEqual(newInputs, lastInputs) {
-  if (newInputs.length !== lastInputs.length) {
-    return false;
-  }
-
-  for (var i = 0; i < newInputs.length; i++) {
-    if (newInputs[i] !== lastInputs[i]) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function memoizeOne(resultFn, isEqual) {
-  if (isEqual === void 0) {
-    isEqual = areInputsEqual;
-  }
-
-  var lastThis;
-  var lastArgs = [];
-  var lastResult;
-  var calledOnce = false;
-
-  function memoized() {
-    var newArgs = [];
-
-    for (var _i = 0; _i < arguments.length; _i++) {
-      newArgs[_i] = arguments[_i];
-    }
-
-    if (calledOnce && lastThis === this && isEqual(newArgs, lastArgs)) {
-      return lastResult;
-    }
-
-    lastResult = resultFn.apply(this, newArgs);
-    calledOnce = true;
-    lastThis = this;
-    lastArgs = newArgs;
-    return lastResult;
-  }
-
-  return memoized;
-}
-
-var _default = memoizeOne;
-exports.default = _default;
-},{}],"../../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _objectWithoutPropertiesLoose;
-
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
-},{}],"../../node_modules/react-window/dist/index.esm.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.areEqual = areEqual;
-exports.shouldComponentUpdate = shouldComponentUpdate;
-exports.FixedSizeList = exports.FixedSizeGrid = exports.VariableSizeList = exports.VariableSizeGrid = void 0;
-
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
-
-var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/inheritsLoose"));
-
-var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/assertThisInitialized"));
-
-var _memoizeOne = _interopRequireDefault(require("memoize-one"));
-
-var _react = require("react");
-
-var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectWithoutPropertiesLoose"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-// Animation frame based implementation of setTimeout.
-// Inspired by Joe Lambert, https://gist.github.com/joelambert/1002116#file-requesttimeout-js
-var hasNativePerformanceNow = (typeof performance === "undefined" ? "undefined" : _typeof(performance)) === 'object' && typeof performance.now === 'function';
-var now = hasNativePerformanceNow ? function () {
-  return performance.now();
-} : function () {
-  return Date.now();
-};
-
-function cancelTimeout(timeoutID) {
-  cancelAnimationFrame(timeoutID.id);
-}
-
-function requestTimeout(callback, delay) {
-  var start = now();
-
-  function tick() {
-    if (now() - start >= delay) {
-      callback.call(null);
-    } else {
-      timeoutID.id = requestAnimationFrame(tick);
-    }
-  }
-
-  var timeoutID = {
-    id: requestAnimationFrame(tick)
-  };
-  return timeoutID;
-}
-
-var size = -1; // This utility copied from "dom-helpers" package.
-
-function getScrollbarSize(recalculate) {
-  if (recalculate === void 0) {
-    recalculate = false;
-  }
-
-  if (size === -1 || recalculate) {
-    var div = document.createElement('div');
-    var style = div.style;
-    style.width = '50px';
-    style.height = '50px';
-    style.overflow = 'scroll';
-    document.body.appendChild(div);
-    size = div.offsetWidth - div.clientWidth;
-    document.body.removeChild(div);
-  }
-
-  return size;
-}
-
-var cachedRTLResult = null; // TRICKY According to the spec, scrollLeft should be negative for RTL aligned elements.
-// Chrome does not seem to adhere; its scrollLeft values are positive (measured relative to the left).
-// Safari's elastic bounce makes detecting this even more complicated wrt potential false positives.
-// The safest way to check this is to intentionally set a negative offset,
-// and then verify that the subsequent "scroll" event matches the negative offset.
-// If it does not match, then we can assume a non-standard RTL scroll implementation.
-
-function getRTLOffsetType(recalculate) {
-  if (recalculate === void 0) {
-    recalculate = false;
-  }
-
-  if (cachedRTLResult === null || recalculate) {
-    var outerDiv = document.createElement('div');
-    var outerStyle = outerDiv.style;
-    outerStyle.width = '50px';
-    outerStyle.height = '50px';
-    outerStyle.overflow = 'scroll';
-    outerStyle.direction = 'rtl';
-    var innerDiv = document.createElement('div');
-    var innerStyle = innerDiv.style;
-    innerStyle.width = '100px';
-    innerStyle.height = '100px';
-    outerDiv.appendChild(innerDiv);
-    document.body.appendChild(outerDiv);
-
-    if (outerDiv.scrollLeft > 0) {
-      cachedRTLResult = 'positive-descending';
-    } else {
-      outerDiv.scrollLeft = 1;
-
-      if (outerDiv.scrollLeft === 0) {
-        cachedRTLResult = 'negative';
-      } else {
-        cachedRTLResult = 'positive-ascending';
-      }
-    }
-
-    document.body.removeChild(outerDiv);
-    return cachedRTLResult;
-  }
-
-  return cachedRTLResult;
-}
-
-var IS_SCROLLING_DEBOUNCE_INTERVAL = 150;
-
-var defaultItemKey = function defaultItemKey(_ref) {
-  var columnIndex = _ref.columnIndex,
-      data = _ref.data,
-      rowIndex = _ref.rowIndex;
-  return rowIndex + ":" + columnIndex;
-}; // In DEV mode, this Set helps us only log a warning once per component instance.
-// This avoids spamming the console every time a render happens.
-
-
-var devWarningsOverscanCount = null;
-var devWarningsOverscanRowsColumnsCount = null;
-var devWarningsTagName = null;
-
-if ("development" !== 'production') {
-  if (typeof window !== 'undefined' && typeof window.WeakSet !== 'undefined') {
-    devWarningsOverscanCount =
-    /*#__PURE__*/
-    new WeakSet();
-    devWarningsOverscanRowsColumnsCount =
-    /*#__PURE__*/
-    new WeakSet();
-    devWarningsTagName =
-    /*#__PURE__*/
-    new WeakSet();
-  }
-}
-
-function createGridComponent(_ref2) {
-  var _class, _temp;
-
-  var getColumnOffset = _ref2.getColumnOffset,
-      getColumnStartIndexForOffset = _ref2.getColumnStartIndexForOffset,
-      getColumnStopIndexForStartIndex = _ref2.getColumnStopIndexForStartIndex,
-      getColumnWidth = _ref2.getColumnWidth,
-      getEstimatedTotalHeight = _ref2.getEstimatedTotalHeight,
-      getEstimatedTotalWidth = _ref2.getEstimatedTotalWidth,
-      getOffsetForColumnAndAlignment = _ref2.getOffsetForColumnAndAlignment,
-      getOffsetForRowAndAlignment = _ref2.getOffsetForRowAndAlignment,
-      getRowHeight = _ref2.getRowHeight,
-      getRowOffset = _ref2.getRowOffset,
-      getRowStartIndexForOffset = _ref2.getRowStartIndexForOffset,
-      getRowStopIndexForStartIndex = _ref2.getRowStopIndexForStartIndex,
-      initInstanceProps = _ref2.initInstanceProps,
-      shouldResetStyleCacheOnItemSizeChange = _ref2.shouldResetStyleCacheOnItemSizeChange,
-      validateProps = _ref2.validateProps;
-  return _temp = _class =
-  /*#__PURE__*/
-  function (_PureComponent) {
-    (0, _inheritsLoose2.default)(Grid, _PureComponent); // Always use explicit constructor for React components.
-    // It produces less code after transpilation. (#26)
-    // eslint-disable-next-line no-useless-constructor
-
-    function Grid(props) {
-      var _this;
-
-      _this = _PureComponent.call(this, props) || this;
-      _this._instanceProps = initInstanceProps(_this.props, (0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)));
-      _this._resetIsScrollingTimeoutId = null;
-      _this._outerRef = void 0;
-      _this.state = {
-        instance: (0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)),
-        isScrolling: false,
-        horizontalScrollDirection: 'forward',
-        scrollLeft: typeof _this.props.initialScrollLeft === 'number' ? _this.props.initialScrollLeft : 0,
-        scrollTop: typeof _this.props.initialScrollTop === 'number' ? _this.props.initialScrollTop : 0,
-        scrollUpdateWasRequested: false,
-        verticalScrollDirection: 'forward'
-      };
-      _this._callOnItemsRendered = void 0;
-      _this._callOnItemsRendered = (0, _memoizeOne.default)(function (overscanColumnStartIndex, overscanColumnStopIndex, overscanRowStartIndex, overscanRowStopIndex, visibleColumnStartIndex, visibleColumnStopIndex, visibleRowStartIndex, visibleRowStopIndex) {
-        return _this.props.onItemsRendered({
-          overscanColumnStartIndex: overscanColumnStartIndex,
-          overscanColumnStopIndex: overscanColumnStopIndex,
-          overscanRowStartIndex: overscanRowStartIndex,
-          overscanRowStopIndex: overscanRowStopIndex,
-          visibleColumnStartIndex: visibleColumnStartIndex,
-          visibleColumnStopIndex: visibleColumnStopIndex,
-          visibleRowStartIndex: visibleRowStartIndex,
-          visibleRowStopIndex: visibleRowStopIndex
-        });
-      });
-      _this._callOnScroll = void 0;
-      _this._callOnScroll = (0, _memoizeOne.default)(function (scrollLeft, scrollTop, horizontalScrollDirection, verticalScrollDirection, scrollUpdateWasRequested) {
-        return _this.props.onScroll({
-          horizontalScrollDirection: horizontalScrollDirection,
-          scrollLeft: scrollLeft,
-          scrollTop: scrollTop,
-          verticalScrollDirection: verticalScrollDirection,
-          scrollUpdateWasRequested: scrollUpdateWasRequested
-        });
-      });
-      _this._getItemStyle = void 0;
-
-      _this._getItemStyle = function (rowIndex, columnIndex) {
-        var _this$props = _this.props,
-            columnWidth = _this$props.columnWidth,
-            direction = _this$props.direction,
-            rowHeight = _this$props.rowHeight;
-
-        var itemStyleCache = _this._getItemStyleCache(shouldResetStyleCacheOnItemSizeChange && columnWidth, shouldResetStyleCacheOnItemSizeChange && direction, shouldResetStyleCacheOnItemSizeChange && rowHeight);
-
-        var key = rowIndex + ":" + columnIndex;
-        var style;
-
-        if (itemStyleCache.hasOwnProperty(key)) {
-          style = itemStyleCache[key];
-        } else {
-          var _style;
-
-          itemStyleCache[key] = style = (_style = {
-            position: 'absolute'
-          }, _style[direction === 'rtl' ? 'right' : 'left'] = getColumnOffset(_this.props, columnIndex, _this._instanceProps), _style.top = getRowOffset(_this.props, rowIndex, _this._instanceProps), _style.height = getRowHeight(_this.props, rowIndex, _this._instanceProps), _style.width = getColumnWidth(_this.props, columnIndex, _this._instanceProps), _style);
-        }
-
-        return style;
-      };
-
-      _this._getItemStyleCache = void 0;
-      _this._getItemStyleCache = (0, _memoizeOne.default)(function (_, __, ___) {
-        return {};
-      });
-
-      _this._onScroll = function (event) {
-        var _event$currentTarget = event.currentTarget,
-            clientHeight = _event$currentTarget.clientHeight,
-            clientWidth = _event$currentTarget.clientWidth,
-            scrollLeft = _event$currentTarget.scrollLeft,
-            scrollTop = _event$currentTarget.scrollTop,
-            scrollHeight = _event$currentTarget.scrollHeight,
-            scrollWidth = _event$currentTarget.scrollWidth;
-
-        _this.setState(function (prevState) {
-          if (prevState.scrollLeft === scrollLeft && prevState.scrollTop === scrollTop) {
-            // Scroll position may have been updated by cDM/cDU,
-            // In which case we don't need to trigger another render,
-            // And we don't want to update state.isScrolling.
-            return null;
-          }
-
-          var direction = _this.props.direction; // TRICKY According to the spec, scrollLeft should be negative for RTL aligned elements.
-          // This is not the case for all browsers though (e.g. Chrome reports values as positive, measured relative to the left).
-          // It's also easier for this component if we convert offsets to the same format as they would be in for ltr.
-          // So the simplest solution is to determine which browser behavior we're dealing with, and convert based on it.
-
-          var calculatedScrollLeft = scrollLeft;
-
-          if (direction === 'rtl') {
-            switch (getRTLOffsetType()) {
-              case 'negative':
-                calculatedScrollLeft = -scrollLeft;
-                break;
-
-              case 'positive-descending':
-                calculatedScrollLeft = scrollWidth - clientWidth - scrollLeft;
-                break;
-            }
-          } // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
-
-
-          calculatedScrollLeft = Math.max(0, Math.min(calculatedScrollLeft, scrollWidth - clientWidth));
-          var calculatedScrollTop = Math.max(0, Math.min(scrollTop, scrollHeight - clientHeight));
-          return {
-            isScrolling: true,
-            horizontalScrollDirection: prevState.scrollLeft < scrollLeft ? 'forward' : 'backward',
-            scrollLeft: calculatedScrollLeft,
-            scrollTop: calculatedScrollTop,
-            verticalScrollDirection: prevState.scrollTop < scrollTop ? 'forward' : 'backward',
-            scrollUpdateWasRequested: false
-          };
-        }, _this._resetIsScrollingDebounced);
-      };
-
-      _this._outerRefSetter = function (ref) {
-        var outerRef = _this.props.outerRef;
-        _this._outerRef = ref;
-
-        if (typeof outerRef === 'function') {
-          outerRef(ref);
-        } else if (outerRef != null && _typeof(outerRef) === 'object' && outerRef.hasOwnProperty('current')) {
-          outerRef.current = ref;
-        }
-      };
-
-      _this._resetIsScrollingDebounced = function () {
-        if (_this._resetIsScrollingTimeoutId !== null) {
-          cancelTimeout(_this._resetIsScrollingTimeoutId);
-        }
-
-        _this._resetIsScrollingTimeoutId = requestTimeout(_this._resetIsScrolling, IS_SCROLLING_DEBOUNCE_INTERVAL);
-      };
-
-      _this._resetIsScrolling = function () {
-        _this._resetIsScrollingTimeoutId = null;
-
-        _this.setState({
-          isScrolling: false
-        }, function () {
-          // Clear style cache after state update has been committed.
-          // This way we don't break pure sCU for items that don't use isScrolling param.
-          _this._getItemStyleCache(-1);
-        });
-      };
-
-      return _this;
-    }
-
-    Grid.getDerivedStateFromProps = function getDerivedStateFromProps(nextProps, prevState) {
-      validateSharedProps(nextProps, prevState);
-      validateProps(nextProps);
-      return null;
-    };
-
-    var _proto = Grid.prototype;
-
-    _proto.scrollTo = function scrollTo(_ref3) {
-      var scrollLeft = _ref3.scrollLeft,
-          scrollTop = _ref3.scrollTop;
-
-      if (scrollLeft !== undefined) {
-        scrollLeft = Math.max(0, scrollLeft);
-      }
-
-      if (scrollTop !== undefined) {
-        scrollTop = Math.max(0, scrollTop);
-      }
-
-      this.setState(function (prevState) {
-        if (scrollLeft === undefined) {
-          scrollLeft = prevState.scrollLeft;
-        }
-
-        if (scrollTop === undefined) {
-          scrollTop = prevState.scrollTop;
-        }
-
-        if (prevState.scrollLeft === scrollLeft && prevState.scrollTop === scrollTop) {
-          return null;
-        }
-
-        return {
-          horizontalScrollDirection: prevState.scrollLeft < scrollLeft ? 'forward' : 'backward',
-          scrollLeft: scrollLeft,
-          scrollTop: scrollTop,
-          scrollUpdateWasRequested: true,
-          verticalScrollDirection: prevState.scrollTop < scrollTop ? 'forward' : 'backward'
-        };
-      }, this._resetIsScrollingDebounced);
-    };
-
-    _proto.scrollToItem = function scrollToItem(_ref4) {
-      var _ref4$align = _ref4.align,
-          align = _ref4$align === void 0 ? 'auto' : _ref4$align,
-          columnIndex = _ref4.columnIndex,
-          rowIndex = _ref4.rowIndex;
-      var _this$props2 = this.props,
-          columnCount = _this$props2.columnCount,
-          height = _this$props2.height,
-          rowCount = _this$props2.rowCount,
-          width = _this$props2.width;
-      var _this$state = this.state,
-          scrollLeft = _this$state.scrollLeft,
-          scrollTop = _this$state.scrollTop;
-      var scrollbarSize = getScrollbarSize();
-
-      if (columnIndex !== undefined) {
-        columnIndex = Math.max(0, Math.min(columnIndex, columnCount - 1));
-      }
-
-      if (rowIndex !== undefined) {
-        rowIndex = Math.max(0, Math.min(rowIndex, rowCount - 1));
-      }
-
-      var estimatedTotalHeight = getEstimatedTotalHeight(this.props, this._instanceProps);
-      var estimatedTotalWidth = getEstimatedTotalWidth(this.props, this._instanceProps); // The scrollbar size should be considered when scrolling an item into view,
-      // to ensure it's fully visible.
-      // But we only need to account for its size when it's actually visible.
-
-      var horizontalScrollbarSize = estimatedTotalWidth > width ? scrollbarSize : 0;
-      var verticalScrollbarSize = estimatedTotalHeight > height ? scrollbarSize : 0;
-      this.scrollTo({
-        scrollLeft: columnIndex !== undefined ? getOffsetForColumnAndAlignment(this.props, columnIndex, align, scrollLeft, this._instanceProps, verticalScrollbarSize) : scrollLeft,
-        scrollTop: rowIndex !== undefined ? getOffsetForRowAndAlignment(this.props, rowIndex, align, scrollTop, this._instanceProps, horizontalScrollbarSize) : scrollTop
-      });
-    };
-
-    _proto.componentDidMount = function componentDidMount() {
-      var _this$props3 = this.props,
-          initialScrollLeft = _this$props3.initialScrollLeft,
-          initialScrollTop = _this$props3.initialScrollTop;
-
-      if (this._outerRef != null) {
-        var outerRef = this._outerRef;
-
-        if (typeof initialScrollLeft === 'number') {
-          outerRef.scrollLeft = initialScrollLeft;
-        }
-
-        if (typeof initialScrollTop === 'number') {
-          outerRef.scrollTop = initialScrollTop;
-        }
-      }
-
-      this._callPropsCallbacks();
-    };
-
-    _proto.componentDidUpdate = function componentDidUpdate() {
-      var direction = this.props.direction;
-      var _this$state2 = this.state,
-          scrollLeft = _this$state2.scrollLeft,
-          scrollTop = _this$state2.scrollTop,
-          scrollUpdateWasRequested = _this$state2.scrollUpdateWasRequested;
-
-      if (scrollUpdateWasRequested && this._outerRef != null) {
-        // TRICKY According to the spec, scrollLeft should be negative for RTL aligned elements.
-        // This is not the case for all browsers though (e.g. Chrome reports values as positive, measured relative to the left).
-        // So we need to determine which browser behavior we're dealing with, and mimic it.
-        var outerRef = this._outerRef;
-
-        if (direction === 'rtl') {
-          switch (getRTLOffsetType()) {
-            case 'negative':
-              outerRef.scrollLeft = -scrollLeft;
-              break;
-
-            case 'positive-ascending':
-              outerRef.scrollLeft = scrollLeft;
-              break;
-
-            default:
-              var clientWidth = outerRef.clientWidth,
-                  scrollWidth = outerRef.scrollWidth;
-              outerRef.scrollLeft = scrollWidth - clientWidth - scrollLeft;
-              break;
-          }
-        } else {
-          outerRef.scrollLeft = Math.max(0, scrollLeft);
-        }
-
-        outerRef.scrollTop = Math.max(0, scrollTop);
-      }
-
-      this._callPropsCallbacks();
-    };
-
-    _proto.componentWillUnmount = function componentWillUnmount() {
-      if (this._resetIsScrollingTimeoutId !== null) {
-        cancelTimeout(this._resetIsScrollingTimeoutId);
-      }
-    };
-
-    _proto.render = function render() {
-      var _this$props4 = this.props,
-          children = _this$props4.children,
-          className = _this$props4.className,
-          columnCount = _this$props4.columnCount,
-          direction = _this$props4.direction,
-          height = _this$props4.height,
-          innerRef = _this$props4.innerRef,
-          innerElementType = _this$props4.innerElementType,
-          innerTagName = _this$props4.innerTagName,
-          itemData = _this$props4.itemData,
-          _this$props4$itemKey = _this$props4.itemKey,
-          itemKey = _this$props4$itemKey === void 0 ? defaultItemKey : _this$props4$itemKey,
-          outerElementType = _this$props4.outerElementType,
-          outerTagName = _this$props4.outerTagName,
-          rowCount = _this$props4.rowCount,
-          style = _this$props4.style,
-          useIsScrolling = _this$props4.useIsScrolling,
-          width = _this$props4.width;
-      var isScrolling = this.state.isScrolling;
-
-      var _this$_getHorizontalR = this._getHorizontalRangeToRender(),
-          columnStartIndex = _this$_getHorizontalR[0],
-          columnStopIndex = _this$_getHorizontalR[1];
-
-      var _this$_getVerticalRan = this._getVerticalRangeToRender(),
-          rowStartIndex = _this$_getVerticalRan[0],
-          rowStopIndex = _this$_getVerticalRan[1];
-
-      var items = [];
-
-      if (columnCount > 0 && rowCount) {
-        for (var _rowIndex = rowStartIndex; _rowIndex <= rowStopIndex; _rowIndex++) {
-          for (var _columnIndex = columnStartIndex; _columnIndex <= columnStopIndex; _columnIndex++) {
-            items.push((0, _react.createElement)(children, {
-              columnIndex: _columnIndex,
-              data: itemData,
-              isScrolling: useIsScrolling ? isScrolling : undefined,
-              key: itemKey({
-                columnIndex: _columnIndex,
-                data: itemData,
-                rowIndex: _rowIndex
-              }),
-              rowIndex: _rowIndex,
-              style: this._getItemStyle(_rowIndex, _columnIndex)
-            }));
-          }
-        }
-      } // Read this value AFTER items have been created,
-      // So their actual sizes (if variable) are taken into consideration.
-
-
-      var estimatedTotalHeight = getEstimatedTotalHeight(this.props, this._instanceProps);
-      var estimatedTotalWidth = getEstimatedTotalWidth(this.props, this._instanceProps);
-      return (0, _react.createElement)(outerElementType || outerTagName || 'div', {
-        className: className,
-        onScroll: this._onScroll,
-        ref: this._outerRefSetter,
-        style: (0, _extends2.default)({
-          position: 'relative',
-          height: height,
-          width: width,
-          overflow: 'auto',
-          WebkitOverflowScrolling: 'touch',
-          willChange: 'transform',
-          direction: direction
-        }, style)
-      }, (0, _react.createElement)(innerElementType || innerTagName || 'div', {
-        children: items,
-        ref: innerRef,
-        style: {
-          height: estimatedTotalHeight,
-          pointerEvents: isScrolling ? 'none' : undefined,
-          width: estimatedTotalWidth
-        }
-      }));
-    };
-
-    _proto._callPropsCallbacks = function _callPropsCallbacks() {
-      var _this$props5 = this.props,
-          columnCount = _this$props5.columnCount,
-          onItemsRendered = _this$props5.onItemsRendered,
-          onScroll = _this$props5.onScroll,
-          rowCount = _this$props5.rowCount;
-
-      if (typeof onItemsRendered === 'function') {
-        if (columnCount > 0 && rowCount > 0) {
-          var _this$_getHorizontalR2 = this._getHorizontalRangeToRender(),
-              _overscanColumnStartIndex = _this$_getHorizontalR2[0],
-              _overscanColumnStopIndex = _this$_getHorizontalR2[1],
-              _visibleColumnStartIndex = _this$_getHorizontalR2[2],
-              _visibleColumnStopIndex = _this$_getHorizontalR2[3];
-
-          var _this$_getVerticalRan2 = this._getVerticalRangeToRender(),
-              _overscanRowStartIndex = _this$_getVerticalRan2[0],
-              _overscanRowStopIndex = _this$_getVerticalRan2[1],
-              _visibleRowStartIndex = _this$_getVerticalRan2[2],
-              _visibleRowStopIndex = _this$_getVerticalRan2[3];
-
-          this._callOnItemsRendered(_overscanColumnStartIndex, _overscanColumnStopIndex, _overscanRowStartIndex, _overscanRowStopIndex, _visibleColumnStartIndex, _visibleColumnStopIndex, _visibleRowStartIndex, _visibleRowStopIndex);
-        }
-      }
-
-      if (typeof onScroll === 'function') {
-        var _this$state3 = this.state,
-            _horizontalScrollDirection = _this$state3.horizontalScrollDirection,
-            _scrollLeft = _this$state3.scrollLeft,
-            _scrollTop = _this$state3.scrollTop,
-            _scrollUpdateWasRequested = _this$state3.scrollUpdateWasRequested,
-            _verticalScrollDirection = _this$state3.verticalScrollDirection;
-
-        this._callOnScroll(_scrollLeft, _scrollTop, _horizontalScrollDirection, _verticalScrollDirection, _scrollUpdateWasRequested);
-      }
-    }; // Lazily create and cache item styles while scrolling,
-    // So that pure component sCU will prevent re-renders.
-    // We maintain this cache, and pass a style prop rather than index,
-    // So that List can clear cached styles and force item re-render if necessary.
-
-
-    _proto._getHorizontalRangeToRender = function _getHorizontalRangeToRender() {
-      var _this$props6 = this.props,
-          columnCount = _this$props6.columnCount,
-          overscanColumnCount = _this$props6.overscanColumnCount,
-          overscanColumnsCount = _this$props6.overscanColumnsCount,
-          overscanCount = _this$props6.overscanCount,
-          rowCount = _this$props6.rowCount;
-      var _this$state4 = this.state,
-          horizontalScrollDirection = _this$state4.horizontalScrollDirection,
-          isScrolling = _this$state4.isScrolling,
-          scrollLeft = _this$state4.scrollLeft;
-      var overscanCountResolved = overscanColumnCount || overscanColumnsCount || overscanCount || 1;
-
-      if (columnCount === 0 || rowCount === 0) {
-        return [0, 0, 0, 0];
-      }
-
-      var startIndex = getColumnStartIndexForOffset(this.props, scrollLeft, this._instanceProps);
-      var stopIndex = getColumnStopIndexForStartIndex(this.props, startIndex, scrollLeft, this._instanceProps); // Overscan by one item in each direction so that tab/focus works.
-      // If there isn't at least one extra item, tab loops back around.
-
-      var overscanBackward = !isScrolling || horizontalScrollDirection === 'backward' ? Math.max(1, overscanCountResolved) : 1;
-      var overscanForward = !isScrolling || horizontalScrollDirection === 'forward' ? Math.max(1, overscanCountResolved) : 1;
-      return [Math.max(0, startIndex - overscanBackward), Math.max(0, Math.min(columnCount - 1, stopIndex + overscanForward)), startIndex, stopIndex];
-    };
-
-    _proto._getVerticalRangeToRender = function _getVerticalRangeToRender() {
-      var _this$props7 = this.props,
-          columnCount = _this$props7.columnCount,
-          overscanCount = _this$props7.overscanCount,
-          overscanRowCount = _this$props7.overscanRowCount,
-          overscanRowsCount = _this$props7.overscanRowsCount,
-          rowCount = _this$props7.rowCount;
-      var _this$state5 = this.state,
-          isScrolling = _this$state5.isScrolling,
-          verticalScrollDirection = _this$state5.verticalScrollDirection,
-          scrollTop = _this$state5.scrollTop;
-      var overscanCountResolved = overscanRowCount || overscanRowsCount || overscanCount || 1;
-
-      if (columnCount === 0 || rowCount === 0) {
-        return [0, 0, 0, 0];
-      }
-
-      var startIndex = getRowStartIndexForOffset(this.props, scrollTop, this._instanceProps);
-      var stopIndex = getRowStopIndexForStartIndex(this.props, startIndex, scrollTop, this._instanceProps); // Overscan by one item in each direction so that tab/focus works.
-      // If there isn't at least one extra item, tab loops back around.
-
-      var overscanBackward = !isScrolling || verticalScrollDirection === 'backward' ? Math.max(1, overscanCountResolved) : 1;
-      var overscanForward = !isScrolling || verticalScrollDirection === 'forward' ? Math.max(1, overscanCountResolved) : 1;
-      return [Math.max(0, startIndex - overscanBackward), Math.max(0, Math.min(rowCount - 1, stopIndex + overscanForward)), startIndex, stopIndex];
-    };
-
-    return Grid;
-  }(_react.PureComponent), _class.defaultProps = {
-    direction: 'ltr',
-    itemData: undefined,
-    useIsScrolling: false
-  }, _temp;
-}
-
-var validateSharedProps = function validateSharedProps(_ref5, _ref6) {
-  var children = _ref5.children,
-      direction = _ref5.direction,
-      height = _ref5.height,
-      innerTagName = _ref5.innerTagName,
-      outerTagName = _ref5.outerTagName,
-      overscanColumnsCount = _ref5.overscanColumnsCount,
-      overscanCount = _ref5.overscanCount,
-      overscanRowsCount = _ref5.overscanRowsCount,
-      width = _ref5.width;
-  var instance = _ref6.instance;
-
-  if ("development" !== 'production') {
-    if (typeof overscanCount === 'number') {
-      if (devWarningsOverscanCount && !devWarningsOverscanCount.has(instance)) {
-        devWarningsOverscanCount.add(instance);
-        console.warn('The overscanCount prop has been deprecated. ' + 'Please use the overscanColumnCount and overscanRowCount props instead.');
-      }
-    }
-
-    if (typeof overscanColumnsCount === 'number' || typeof overscanRowsCount === 'number') {
-      if (devWarningsOverscanRowsColumnsCount && !devWarningsOverscanRowsColumnsCount.has(instance)) {
-        devWarningsOverscanRowsColumnsCount.add(instance);
-        console.warn('The overscanColumnsCount and overscanRowsCount props have been deprecated. ' + 'Please use the overscanColumnCount and overscanRowCount props instead.');
-      }
-    }
-
-    if (innerTagName != null || outerTagName != null) {
-      if (devWarningsTagName && !devWarningsTagName.has(instance)) {
-        devWarningsTagName.add(instance);
-        console.warn('The innerTagName and outerTagName props have been deprecated. ' + 'Please use the innerElementType and outerElementType props instead.');
-      }
-    }
-
-    if (children == null) {
-      throw Error('An invalid "children" prop has been specified. ' + 'Value should be a React component. ' + ("\"" + (children === null ? 'null' : _typeof(children)) + "\" was specified."));
-    }
-
-    switch (direction) {
-      case 'ltr':
-      case 'rtl':
-        // Valid values
-        break;
-
-      default:
-        throw Error('An invalid "direction" prop has been specified. ' + 'Value should be either "ltr" or "rtl". ' + ("\"" + direction + "\" was specified."));
-    }
-
-    if (typeof width !== 'number') {
-      throw Error('An invalid "width" prop has been specified. ' + 'Grids must specify a number for width. ' + ("\"" + (width === null ? 'null' : _typeof(width)) + "\" was specified."));
-    }
-
-    if (typeof height !== 'number') {
-      throw Error('An invalid "height" prop has been specified. ' + 'Grids must specify a number for height. ' + ("\"" + (height === null ? 'null' : _typeof(height)) + "\" was specified."));
-    }
-  }
-};
-
-var DEFAULT_ESTIMATED_ITEM_SIZE = 50;
-
-var getEstimatedTotalHeight = function getEstimatedTotalHeight(_ref, _ref2) {
-  var rowCount = _ref.rowCount;
-  var rowMetadataMap = _ref2.rowMetadataMap,
-      estimatedRowHeight = _ref2.estimatedRowHeight,
-      lastMeasuredRowIndex = _ref2.lastMeasuredRowIndex;
-  var totalSizeOfMeasuredRows = 0; // Edge case check for when the number of items decreases while a scroll is in progress.
-  // https://github.com/bvaughn/react-window/pull/138
-
-  if (lastMeasuredRowIndex >= rowCount) {
-    lastMeasuredRowIndex = rowCount - 1;
-  }
-
-  if (lastMeasuredRowIndex >= 0) {
-    var itemMetadata = rowMetadataMap[lastMeasuredRowIndex];
-    totalSizeOfMeasuredRows = itemMetadata.offset + itemMetadata.size;
-  }
-
-  var numUnmeasuredItems = rowCount - lastMeasuredRowIndex - 1;
-  var totalSizeOfUnmeasuredItems = numUnmeasuredItems * estimatedRowHeight;
-  return totalSizeOfMeasuredRows + totalSizeOfUnmeasuredItems;
-};
-
-var getEstimatedTotalWidth = function getEstimatedTotalWidth(_ref3, _ref4) {
-  var columnCount = _ref3.columnCount;
-  var columnMetadataMap = _ref4.columnMetadataMap,
-      estimatedColumnWidth = _ref4.estimatedColumnWidth,
-      lastMeasuredColumnIndex = _ref4.lastMeasuredColumnIndex;
-  var totalSizeOfMeasuredRows = 0; // Edge case check for when the number of items decreases while a scroll is in progress.
-  // https://github.com/bvaughn/react-window/pull/138
-
-  if (lastMeasuredColumnIndex >= columnCount) {
-    lastMeasuredColumnIndex = columnCount - 1;
-  }
-
-  if (lastMeasuredColumnIndex >= 0) {
-    var itemMetadata = columnMetadataMap[lastMeasuredColumnIndex];
-    totalSizeOfMeasuredRows = itemMetadata.offset + itemMetadata.size;
-  }
-
-  var numUnmeasuredItems = columnCount - lastMeasuredColumnIndex - 1;
-  var totalSizeOfUnmeasuredItems = numUnmeasuredItems * estimatedColumnWidth;
-  return totalSizeOfMeasuredRows + totalSizeOfUnmeasuredItems;
-};
-
-var getItemMetadata = function getItemMetadata(itemType, props, index, instanceProps) {
-  var itemMetadataMap, itemSize, lastMeasuredIndex;
-
-  if (itemType === 'column') {
-    itemMetadataMap = instanceProps.columnMetadataMap;
-    itemSize = props.columnWidth;
-    lastMeasuredIndex = instanceProps.lastMeasuredColumnIndex;
-  } else {
-    itemMetadataMap = instanceProps.rowMetadataMap;
-    itemSize = props.rowHeight;
-    lastMeasuredIndex = instanceProps.lastMeasuredRowIndex;
-  }
-
-  if (index > lastMeasuredIndex) {
-    var offset = 0;
-
-    if (lastMeasuredIndex >= 0) {
-      var itemMetadata = itemMetadataMap[lastMeasuredIndex];
-      offset = itemMetadata.offset + itemMetadata.size;
-    }
-
-    for (var i = lastMeasuredIndex + 1; i <= index; i++) {
-      var size = itemSize(i);
-      itemMetadataMap[i] = {
-        offset: offset,
-        size: size
-      };
-      offset += size;
-    }
-
-    if (itemType === 'column') {
-      instanceProps.lastMeasuredColumnIndex = index;
-    } else {
-      instanceProps.lastMeasuredRowIndex = index;
-    }
-  }
-
-  return itemMetadataMap[index];
-};
-
-var findNearestItem = function findNearestItem(itemType, props, instanceProps, offset) {
-  var itemMetadataMap, lastMeasuredIndex;
-
-  if (itemType === 'column') {
-    itemMetadataMap = instanceProps.columnMetadataMap;
-    lastMeasuredIndex = instanceProps.lastMeasuredColumnIndex;
-  } else {
-    itemMetadataMap = instanceProps.rowMetadataMap;
-    lastMeasuredIndex = instanceProps.lastMeasuredRowIndex;
-  }
-
-  var lastMeasuredItemOffset = lastMeasuredIndex > 0 ? itemMetadataMap[lastMeasuredIndex].offset : 0;
-
-  if (lastMeasuredItemOffset >= offset) {
-    // If we've already measured items within this range just use a binary search as it's faster.
-    return findNearestItemBinarySearch(itemType, props, instanceProps, lastMeasuredIndex, 0, offset);
-  } else {
-    // If we haven't yet measured this high, fallback to an exponential search with an inner binary search.
-    // The exponential search avoids pre-computing sizes for the full set of items as a binary search would.
-    // The overall complexity for this approach is O(log n).
-    return findNearestItemExponentialSearch(itemType, props, instanceProps, Math.max(0, lastMeasuredIndex), offset);
-  }
-};
-
-var findNearestItemBinarySearch = function findNearestItemBinarySearch(itemType, props, instanceProps, high, low, offset) {
-  while (low <= high) {
-    var middle = low + Math.floor((high - low) / 2);
-    var currentOffset = getItemMetadata(itemType, props, middle, instanceProps).offset;
-
-    if (currentOffset === offset) {
-      return middle;
-    } else if (currentOffset < offset) {
-      low = middle + 1;
-    } else if (currentOffset > offset) {
-      high = middle - 1;
-    }
-  }
-
-  if (low > 0) {
-    return low - 1;
-  } else {
-    return 0;
-  }
-};
-
-var findNearestItemExponentialSearch = function findNearestItemExponentialSearch(itemType, props, instanceProps, index, offset) {
-  var itemCount = itemType === 'column' ? props.columnCount : props.rowCount;
-  var interval = 1;
-
-  while (index < itemCount && getItemMetadata(itemType, props, index, instanceProps).offset < offset) {
-    index += interval;
-    interval *= 2;
-  }
-
-  return findNearestItemBinarySearch(itemType, props, instanceProps, Math.min(index, itemCount - 1), Math.floor(index / 2), offset);
-};
-
-var getOffsetForIndexAndAlignment = function getOffsetForIndexAndAlignment(itemType, props, index, align, scrollOffset, instanceProps, scrollbarSize) {
-  var size = itemType === 'column' ? props.width : props.height;
-  var itemMetadata = getItemMetadata(itemType, props, index, instanceProps); // Get estimated total size after ItemMetadata is computed,
-  // To ensure it reflects actual measurements instead of just estimates.
-
-  var estimatedTotalSize = itemType === 'column' ? getEstimatedTotalWidth(props, instanceProps) : getEstimatedTotalHeight(props, instanceProps);
-  var maxOffset = Math.max(0, Math.min(estimatedTotalSize - size, itemMetadata.offset));
-  var minOffset = Math.max(0, itemMetadata.offset - size + scrollbarSize + itemMetadata.size);
-
-  if (align === 'smart') {
-    if (scrollOffset >= minOffset - size && scrollOffset <= maxOffset + size) {
-      align = 'auto';
-    } else {
-      align = 'center';
-    }
-  }
-
-  switch (align) {
-    case 'start':
-      return maxOffset;
-
-    case 'end':
-      return minOffset;
-
-    case 'center':
-      return Math.round(minOffset + (maxOffset - minOffset) / 2);
-
-    case 'auto':
-    default:
-      if (scrollOffset >= minOffset && scrollOffset <= maxOffset) {
-        return scrollOffset;
-      } else if (minOffset > maxOffset) {
-        // Because we only take into account the scrollbar size when calculating minOffset
-        // this value can be larger than maxOffset when at the end of the list
-        return minOffset;
-      } else if (scrollOffset < minOffset) {
-        return minOffset;
-      } else {
-        return maxOffset;
-      }
-
-  }
-};
-
-var VariableSizeGrid =
-/*#__PURE__*/
-createGridComponent({
-  getColumnOffset: function getColumnOffset(props, index, instanceProps) {
-    return getItemMetadata('column', props, index, instanceProps).offset;
-  },
-  getColumnStartIndexForOffset: function getColumnStartIndexForOffset(props, scrollLeft, instanceProps) {
-    return findNearestItem('column', props, instanceProps, scrollLeft);
-  },
-  getColumnStopIndexForStartIndex: function getColumnStopIndexForStartIndex(props, startIndex, scrollLeft, instanceProps) {
-    var columnCount = props.columnCount,
-        width = props.width;
-    var itemMetadata = getItemMetadata('column', props, startIndex, instanceProps);
-    var maxOffset = scrollLeft + width;
-    var offset = itemMetadata.offset + itemMetadata.size;
-    var stopIndex = startIndex;
-
-    while (stopIndex < columnCount - 1 && offset < maxOffset) {
-      stopIndex++;
-      offset += getItemMetadata('column', props, stopIndex, instanceProps).size;
-    }
-
-    return stopIndex;
-  },
-  getColumnWidth: function getColumnWidth(props, index, instanceProps) {
-    return instanceProps.columnMetadataMap[index].size;
-  },
-  getEstimatedTotalHeight: getEstimatedTotalHeight,
-  getEstimatedTotalWidth: getEstimatedTotalWidth,
-  getOffsetForColumnAndAlignment: function getOffsetForColumnAndAlignment(props, index, align, scrollOffset, instanceProps, scrollbarSize) {
-    return getOffsetForIndexAndAlignment('column', props, index, align, scrollOffset, instanceProps, scrollbarSize);
-  },
-  getOffsetForRowAndAlignment: function getOffsetForRowAndAlignment(props, index, align, scrollOffset, instanceProps, scrollbarSize) {
-    return getOffsetForIndexAndAlignment('row', props, index, align, scrollOffset, instanceProps, scrollbarSize);
-  },
-  getRowOffset: function getRowOffset(props, index, instanceProps) {
-    return getItemMetadata('row', props, index, instanceProps).offset;
-  },
-  getRowHeight: function getRowHeight(props, index, instanceProps) {
-    return instanceProps.rowMetadataMap[index].size;
-  },
-  getRowStartIndexForOffset: function getRowStartIndexForOffset(props, scrollTop, instanceProps) {
-    return findNearestItem('row', props, instanceProps, scrollTop);
-  },
-  getRowStopIndexForStartIndex: function getRowStopIndexForStartIndex(props, startIndex, scrollTop, instanceProps) {
-    var rowCount = props.rowCount,
-        height = props.height;
-    var itemMetadata = getItemMetadata('row', props, startIndex, instanceProps);
-    var maxOffset = scrollTop + height;
-    var offset = itemMetadata.offset + itemMetadata.size;
-    var stopIndex = startIndex;
-
-    while (stopIndex < rowCount - 1 && offset < maxOffset) {
-      stopIndex++;
-      offset += getItemMetadata('row', props, stopIndex, instanceProps).size;
-    }
-
-    return stopIndex;
-  },
-  initInstanceProps: function initInstanceProps(props, instance) {
-    var _ref5 = props,
-        estimatedColumnWidth = _ref5.estimatedColumnWidth,
-        estimatedRowHeight = _ref5.estimatedRowHeight;
-    var instanceProps = {
-      columnMetadataMap: {},
-      estimatedColumnWidth: estimatedColumnWidth || DEFAULT_ESTIMATED_ITEM_SIZE,
-      estimatedRowHeight: estimatedRowHeight || DEFAULT_ESTIMATED_ITEM_SIZE,
-      lastMeasuredColumnIndex: -1,
-      lastMeasuredRowIndex: -1,
-      rowMetadataMap: {}
-    };
-
-    instance.resetAfterColumnIndex = function (columnIndex, shouldForceUpdate) {
-      if (shouldForceUpdate === void 0) {
-        shouldForceUpdate = true;
-      }
-
-      instance.resetAfterIndices({
-        columnIndex: columnIndex,
-        shouldForceUpdate: shouldForceUpdate
-      });
-    };
-
-    instance.resetAfterRowIndex = function (rowIndex, shouldForceUpdate) {
-      if (shouldForceUpdate === void 0) {
-        shouldForceUpdate = true;
-      }
-
-      instance.resetAfterIndices({
-        rowIndex: rowIndex,
-        shouldForceUpdate: shouldForceUpdate
-      });
-    };
-
-    instance.resetAfterIndices = function (_ref6) {
-      var columnIndex = _ref6.columnIndex,
-          rowIndex = _ref6.rowIndex,
-          _ref6$shouldForceUpda = _ref6.shouldForceUpdate,
-          shouldForceUpdate = _ref6$shouldForceUpda === void 0 ? true : _ref6$shouldForceUpda;
-
-      if (typeof columnIndex === 'number') {
-        instanceProps.lastMeasuredColumnIndex = Math.min(instanceProps.lastMeasuredColumnIndex, columnIndex - 1);
-      }
-
-      if (typeof rowIndex === 'number') {
-        instanceProps.lastMeasuredRowIndex = Math.min(instanceProps.lastMeasuredRowIndex, rowIndex - 1);
-      } // We could potentially optimize further by only evicting styles after this index,
-      // But since styles are only cached while scrolling is in progress-
-      // It seems an unnecessary optimization.
-      // It's unlikely that resetAfterIndex() will be called while a user is scrolling.
-
-
-      instance._getItemStyleCache(-1);
-
-      if (shouldForceUpdate) {
-        instance.forceUpdate();
-      }
-    };
-
-    return instanceProps;
-  },
-  shouldResetStyleCacheOnItemSizeChange: false,
-  validateProps: function validateProps(_ref7) {
-    var columnWidth = _ref7.columnWidth,
-        rowHeight = _ref7.rowHeight;
-
-    if ("development" !== 'production') {
-      if (typeof columnWidth !== 'function') {
-        throw Error('An invalid "columnWidth" prop has been specified. ' + 'Value should be a function. ' + ("\"" + (columnWidth === null ? 'null' : _typeof(columnWidth)) + "\" was specified."));
-      } else if (typeof rowHeight !== 'function') {
-        throw Error('An invalid "rowHeight" prop has been specified. ' + 'Value should be a function. ' + ("\"" + (rowHeight === null ? 'null' : _typeof(rowHeight)) + "\" was specified."));
-      }
-    }
-  }
-});
-exports.VariableSizeGrid = VariableSizeGrid;
-var IS_SCROLLING_DEBOUNCE_INTERVAL$1 = 150;
-
-var defaultItemKey$1 = function defaultItemKey(index, data) {
-  return index;
-}; // In DEV mode, this Set helps us only log a warning once per component instance.
-// This avoids spamming the console every time a render happens.
-
-
-var devWarningsDirection = null;
-var devWarningsTagName$1 = null;
-
-if ("development" !== 'production') {
-  if (typeof window !== 'undefined' && typeof window.WeakSet !== 'undefined') {
-    devWarningsDirection =
-    /*#__PURE__*/
-    new WeakSet();
-    devWarningsTagName$1 =
-    /*#__PURE__*/
-    new WeakSet();
-  }
-}
-
-function createListComponent(_ref) {
-  var _class, _temp;
-
-  var getItemOffset = _ref.getItemOffset,
-      getEstimatedTotalSize = _ref.getEstimatedTotalSize,
-      getItemSize = _ref.getItemSize,
-      getOffsetForIndexAndAlignment = _ref.getOffsetForIndexAndAlignment,
-      getStartIndexForOffset = _ref.getStartIndexForOffset,
-      getStopIndexForStartIndex = _ref.getStopIndexForStartIndex,
-      initInstanceProps = _ref.initInstanceProps,
-      shouldResetStyleCacheOnItemSizeChange = _ref.shouldResetStyleCacheOnItemSizeChange,
-      validateProps = _ref.validateProps;
-  return _temp = _class =
-  /*#__PURE__*/
-  function (_PureComponent) {
-    (0, _inheritsLoose2.default)(List, _PureComponent); // Always use explicit constructor for React components.
-    // It produces less code after transpilation. (#26)
-    // eslint-disable-next-line no-useless-constructor
-
-    function List(props) {
-      var _this;
-
-      _this = _PureComponent.call(this, props) || this;
-      _this._instanceProps = initInstanceProps(_this.props, (0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)));
-      _this._outerRef = void 0;
-      _this._resetIsScrollingTimeoutId = null;
-      _this.state = {
-        instance: (0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)),
-        isScrolling: false,
-        scrollDirection: 'forward',
-        scrollOffset: typeof _this.props.initialScrollOffset === 'number' ? _this.props.initialScrollOffset : 0,
-        scrollUpdateWasRequested: false
-      };
-      _this._callOnItemsRendered = void 0;
-      _this._callOnItemsRendered = (0, _memoizeOne.default)(function (overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex) {
-        return _this.props.onItemsRendered({
-          overscanStartIndex: overscanStartIndex,
-          overscanStopIndex: overscanStopIndex,
-          visibleStartIndex: visibleStartIndex,
-          visibleStopIndex: visibleStopIndex
-        });
-      });
-      _this._callOnScroll = void 0;
-      _this._callOnScroll = (0, _memoizeOne.default)(function (scrollDirection, scrollOffset, scrollUpdateWasRequested) {
-        return _this.props.onScroll({
-          scrollDirection: scrollDirection,
-          scrollOffset: scrollOffset,
-          scrollUpdateWasRequested: scrollUpdateWasRequested
-        });
-      });
-      _this._getItemStyle = void 0;
-
-      _this._getItemStyle = function (index) {
-        var _this$props = _this.props,
-            direction = _this$props.direction,
-            itemSize = _this$props.itemSize,
-            layout = _this$props.layout;
-
-        var itemStyleCache = _this._getItemStyleCache(shouldResetStyleCacheOnItemSizeChange && itemSize, shouldResetStyleCacheOnItemSizeChange && layout, shouldResetStyleCacheOnItemSizeChange && direction);
-
-        var style;
-
-        if (itemStyleCache.hasOwnProperty(index)) {
-          style = itemStyleCache[index];
-        } else {
-          var _style;
-
-          var _offset = getItemOffset(_this.props, index, _this._instanceProps);
-
-          var size = getItemSize(_this.props, index, _this._instanceProps); // TODO Deprecate direction "horizontal"
-
-          var isHorizontal = direction === 'horizontal' || layout === 'horizontal';
-          itemStyleCache[index] = style = (_style = {
-            position: 'absolute'
-          }, _style[direction === 'rtl' ? 'right' : 'left'] = isHorizontal ? _offset : 0, _style.top = !isHorizontal ? _offset : 0, _style.height = !isHorizontal ? size : '100%', _style.width = isHorizontal ? size : '100%', _style);
-        }
-
-        return style;
-      };
-
-      _this._getItemStyleCache = void 0;
-      _this._getItemStyleCache = (0, _memoizeOne.default)(function (_, __, ___) {
-        return {};
-      });
-
-      _this._onScrollHorizontal = function (event) {
-        var _event$currentTarget = event.currentTarget,
-            clientWidth = _event$currentTarget.clientWidth,
-            scrollLeft = _event$currentTarget.scrollLeft,
-            scrollWidth = _event$currentTarget.scrollWidth;
-
-        _this.setState(function (prevState) {
-          if (prevState.scrollOffset === scrollLeft) {
-            // Scroll position may have been updated by cDM/cDU,
-            // In which case we don't need to trigger another render,
-            // And we don't want to update state.isScrolling.
-            return null;
-          }
-
-          var direction = _this.props.direction;
-          var scrollOffset = scrollLeft;
-
-          if (direction === 'rtl') {
-            // TRICKY According to the spec, scrollLeft should be negative for RTL aligned elements.
-            // This is not the case for all browsers though (e.g. Chrome reports values as positive, measured relative to the left).
-            // It's also easier for this component if we convert offsets to the same format as they would be in for ltr.
-            // So the simplest solution is to determine which browser behavior we're dealing with, and convert based on it.
-            switch (getRTLOffsetType()) {
-              case 'negative':
-                scrollOffset = -scrollLeft;
-                break;
-
-              case 'positive-descending':
-                scrollOffset = scrollWidth - clientWidth - scrollLeft;
-                break;
-            }
-          } // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
-
-
-          scrollOffset = Math.max(0, Math.min(scrollOffset, scrollWidth - clientWidth));
-          return {
-            isScrolling: true,
-            scrollDirection: prevState.scrollOffset < scrollLeft ? 'forward' : 'backward',
-            scrollOffset: scrollOffset,
-            scrollUpdateWasRequested: false
-          };
-        }, _this._resetIsScrollingDebounced);
-      };
-
-      _this._onScrollVertical = function (event) {
-        var _event$currentTarget2 = event.currentTarget,
-            clientHeight = _event$currentTarget2.clientHeight,
-            scrollHeight = _event$currentTarget2.scrollHeight,
-            scrollTop = _event$currentTarget2.scrollTop;
-
-        _this.setState(function (prevState) {
-          if (prevState.scrollOffset === scrollTop) {
-            // Scroll position may have been updated by cDM/cDU,
-            // In which case we don't need to trigger another render,
-            // And we don't want to update state.isScrolling.
-            return null;
-          } // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
-
-
-          var scrollOffset = Math.max(0, Math.min(scrollTop, scrollHeight - clientHeight));
-          return {
-            isScrolling: true,
-            scrollDirection: prevState.scrollOffset < scrollOffset ? 'forward' : 'backward',
-            scrollOffset: scrollOffset,
-            scrollUpdateWasRequested: false
-          };
-        }, _this._resetIsScrollingDebounced);
-      };
-
-      _this._outerRefSetter = function (ref) {
-        var outerRef = _this.props.outerRef;
-        _this._outerRef = ref;
-
-        if (typeof outerRef === 'function') {
-          outerRef(ref);
-        } else if (outerRef != null && _typeof(outerRef) === 'object' && outerRef.hasOwnProperty('current')) {
-          outerRef.current = ref;
-        }
-      };
-
-      _this._resetIsScrollingDebounced = function () {
-        if (_this._resetIsScrollingTimeoutId !== null) {
-          cancelTimeout(_this._resetIsScrollingTimeoutId);
-        }
-
-        _this._resetIsScrollingTimeoutId = requestTimeout(_this._resetIsScrolling, IS_SCROLLING_DEBOUNCE_INTERVAL$1);
-      };
-
-      _this._resetIsScrolling = function () {
-        _this._resetIsScrollingTimeoutId = null;
-
-        _this.setState({
-          isScrolling: false
-        }, function () {
-          // Clear style cache after state update has been committed.
-          // This way we don't break pure sCU for items that don't use isScrolling param.
-          _this._getItemStyleCache(-1, null);
-        });
-      };
-
-      return _this;
-    }
-
-    List.getDerivedStateFromProps = function getDerivedStateFromProps(nextProps, prevState) {
-      validateSharedProps$1(nextProps, prevState);
-      validateProps(nextProps);
-      return null;
-    };
-
-    var _proto = List.prototype;
-
-    _proto.scrollTo = function scrollTo(scrollOffset) {
-      scrollOffset = Math.max(0, scrollOffset);
-      this.setState(function (prevState) {
-        if (prevState.scrollOffset === scrollOffset) {
-          return null;
-        }
-
-        return {
-          scrollDirection: prevState.scrollOffset < scrollOffset ? 'forward' : 'backward',
-          scrollOffset: scrollOffset,
-          scrollUpdateWasRequested: true
-        };
-      }, this._resetIsScrollingDebounced);
-    };
-
-    _proto.scrollToItem = function scrollToItem(index, align) {
-      if (align === void 0) {
-        align = 'auto';
-      }
-
-      var itemCount = this.props.itemCount;
-      var scrollOffset = this.state.scrollOffset;
-      index = Math.max(0, Math.min(index, itemCount - 1));
-      this.scrollTo(getOffsetForIndexAndAlignment(this.props, index, align, scrollOffset, this._instanceProps));
-    };
-
-    _proto.componentDidMount = function componentDidMount() {
-      var _this$props2 = this.props,
-          direction = _this$props2.direction,
-          initialScrollOffset = _this$props2.initialScrollOffset,
-          layout = _this$props2.layout;
-
-      if (typeof initialScrollOffset === 'number' && this._outerRef != null) {
-        var outerRef = this._outerRef; // TODO Deprecate direction "horizontal"
-
-        if (direction === 'horizontal' || layout === 'horizontal') {
-          outerRef.scrollLeft = initialScrollOffset;
-        } else {
-          outerRef.scrollTop = initialScrollOffset;
-        }
-      }
-
-      this._callPropsCallbacks();
-    };
-
-    _proto.componentDidUpdate = function componentDidUpdate() {
-      var _this$props3 = this.props,
-          direction = _this$props3.direction,
-          layout = _this$props3.layout;
-      var _this$state = this.state,
-          scrollOffset = _this$state.scrollOffset,
-          scrollUpdateWasRequested = _this$state.scrollUpdateWasRequested;
-
-      if (scrollUpdateWasRequested && this._outerRef != null) {
-        var outerRef = this._outerRef; // TODO Deprecate direction "horizontal"
-
-        if (direction === 'horizontal' || layout === 'horizontal') {
-          if (direction === 'rtl') {
-            // TRICKY According to the spec, scrollLeft should be negative for RTL aligned elements.
-            // This is not the case for all browsers though (e.g. Chrome reports values as positive, measured relative to the left).
-            // So we need to determine which browser behavior we're dealing with, and mimic it.
-            switch (getRTLOffsetType()) {
-              case 'negative':
-                outerRef.scrollLeft = -scrollOffset;
-                break;
-
-              case 'positive-ascending':
-                outerRef.scrollLeft = scrollOffset;
-                break;
-
-              default:
-                var clientWidth = outerRef.clientWidth,
-                    scrollWidth = outerRef.scrollWidth;
-                outerRef.scrollLeft = scrollWidth - clientWidth - scrollOffset;
-                break;
-            }
-          } else {
-            outerRef.scrollLeft = scrollOffset;
-          }
-        } else {
-          outerRef.scrollTop = scrollOffset;
-        }
-      }
-
-      this._callPropsCallbacks();
-    };
-
-    _proto.componentWillUnmount = function componentWillUnmount() {
-      if (this._resetIsScrollingTimeoutId !== null) {
-        cancelTimeout(this._resetIsScrollingTimeoutId);
-      }
-    };
-
-    _proto.render = function render() {
-      var _this$props4 = this.props,
-          children = _this$props4.children,
-          className = _this$props4.className,
-          direction = _this$props4.direction,
-          height = _this$props4.height,
-          innerRef = _this$props4.innerRef,
-          innerElementType = _this$props4.innerElementType,
-          innerTagName = _this$props4.innerTagName,
-          itemCount = _this$props4.itemCount,
-          itemData = _this$props4.itemData,
-          _this$props4$itemKey = _this$props4.itemKey,
-          itemKey = _this$props4$itemKey === void 0 ? defaultItemKey$1 : _this$props4$itemKey,
-          layout = _this$props4.layout,
-          outerElementType = _this$props4.outerElementType,
-          outerTagName = _this$props4.outerTagName,
-          style = _this$props4.style,
-          useIsScrolling = _this$props4.useIsScrolling,
-          width = _this$props4.width;
-      var isScrolling = this.state.isScrolling; // TODO Deprecate direction "horizontal"
-
-      var isHorizontal = direction === 'horizontal' || layout === 'horizontal';
-      var onScroll = isHorizontal ? this._onScrollHorizontal : this._onScrollVertical;
-
-      var _this$_getRangeToRend = this._getRangeToRender(),
-          startIndex = _this$_getRangeToRend[0],
-          stopIndex = _this$_getRangeToRend[1];
-
-      var items = [];
-
-      if (itemCount > 0) {
-        for (var _index = startIndex; _index <= stopIndex; _index++) {
-          items.push((0, _react.createElement)(children, {
-            data: itemData,
-            key: itemKey(_index, itemData),
-            index: _index,
-            isScrolling: useIsScrolling ? isScrolling : undefined,
-            style: this._getItemStyle(_index)
-          }));
-        }
-      } // Read this value AFTER items have been created,
-      // So their actual sizes (if variable) are taken into consideration.
-
-
-      var estimatedTotalSize = getEstimatedTotalSize(this.props, this._instanceProps);
-      return (0, _react.createElement)(outerElementType || outerTagName || 'div', {
-        className: className,
-        onScroll: onScroll,
-        ref: this._outerRefSetter,
-        style: (0, _extends2.default)({
-          position: 'relative',
-          height: height,
-          width: width,
-          overflow: 'auto',
-          WebkitOverflowScrolling: 'touch',
-          willChange: 'transform',
-          direction: direction
-        }, style)
-      }, (0, _react.createElement)(innerElementType || innerTagName || 'div', {
-        children: items,
-        ref: innerRef,
-        style: {
-          height: isHorizontal ? '100%' : estimatedTotalSize,
-          pointerEvents: isScrolling ? 'none' : undefined,
-          width: isHorizontal ? estimatedTotalSize : '100%'
-        }
-      }));
-    };
-
-    _proto._callPropsCallbacks = function _callPropsCallbacks() {
-      if (typeof this.props.onItemsRendered === 'function') {
-        var itemCount = this.props.itemCount;
-
-        if (itemCount > 0) {
-          var _this$_getRangeToRend2 = this._getRangeToRender(),
-              _overscanStartIndex = _this$_getRangeToRend2[0],
-              _overscanStopIndex = _this$_getRangeToRend2[1],
-              _visibleStartIndex = _this$_getRangeToRend2[2],
-              _visibleStopIndex = _this$_getRangeToRend2[3];
-
-          this._callOnItemsRendered(_overscanStartIndex, _overscanStopIndex, _visibleStartIndex, _visibleStopIndex);
-        }
-      }
-
-      if (typeof this.props.onScroll === 'function') {
-        var _this$state2 = this.state,
-            _scrollDirection = _this$state2.scrollDirection,
-            _scrollOffset = _this$state2.scrollOffset,
-            _scrollUpdateWasRequested = _this$state2.scrollUpdateWasRequested;
-
-        this._callOnScroll(_scrollDirection, _scrollOffset, _scrollUpdateWasRequested);
-      }
-    }; // Lazily create and cache item styles while scrolling,
-    // So that pure component sCU will prevent re-renders.
-    // We maintain this cache, and pass a style prop rather than index,
-    // So that List can clear cached styles and force item re-render if necessary.
-
-
-    _proto._getRangeToRender = function _getRangeToRender() {
-      var _this$props5 = this.props,
-          itemCount = _this$props5.itemCount,
-          overscanCount = _this$props5.overscanCount;
-      var _this$state3 = this.state,
-          isScrolling = _this$state3.isScrolling,
-          scrollDirection = _this$state3.scrollDirection,
-          scrollOffset = _this$state3.scrollOffset;
-
-      if (itemCount === 0) {
-        return [0, 0, 0, 0];
-      }
-
-      var startIndex = getStartIndexForOffset(this.props, scrollOffset, this._instanceProps);
-      var stopIndex = getStopIndexForStartIndex(this.props, startIndex, scrollOffset, this._instanceProps); // Overscan by one item in each direction so that tab/focus works.
-      // If there isn't at least one extra item, tab loops back around.
-
-      var overscanBackward = !isScrolling || scrollDirection === 'backward' ? Math.max(1, overscanCount) : 1;
-      var overscanForward = !isScrolling || scrollDirection === 'forward' ? Math.max(1, overscanCount) : 1;
-      return [Math.max(0, startIndex - overscanBackward), Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)), startIndex, stopIndex];
-    };
-
-    return List;
-  }(_react.PureComponent), _class.defaultProps = {
-    direction: 'ltr',
-    itemData: undefined,
-    layout: 'vertical',
-    overscanCount: 2,
-    useIsScrolling: false
-  }, _temp;
-} // NOTE: I considered further wrapping individual items with a pure ListItem component.
-// This would avoid ever calling the render function for the same index more than once,
-// But it would also add the overhead of a lot of components/fibers.
-// I assume people already do this (render function returning a class component),
-// So my doing it would just unnecessarily double the wrappers.
-
-
-var validateSharedProps$1 = function validateSharedProps(_ref2, _ref3) {
-  var children = _ref2.children,
-      direction = _ref2.direction,
-      height = _ref2.height,
-      layout = _ref2.layout,
-      innerTagName = _ref2.innerTagName,
-      outerTagName = _ref2.outerTagName,
-      width = _ref2.width;
-  var instance = _ref3.instance;
-
-  if ("development" !== 'production') {
-    if (innerTagName != null || outerTagName != null) {
-      if (devWarningsTagName$1 && !devWarningsTagName$1.has(instance)) {
-        devWarningsTagName$1.add(instance);
-        console.warn('The innerTagName and outerTagName props have been deprecated. ' + 'Please use the innerElementType and outerElementType props instead.');
-      }
-    } // TODO Deprecate direction "horizontal"
-
-
-    var isHorizontal = direction === 'horizontal' || layout === 'horizontal';
-
-    switch (direction) {
-      case 'horizontal':
-      case 'vertical':
-        if (devWarningsDirection && !devWarningsDirection.has(instance)) {
-          devWarningsDirection.add(instance);
-          console.warn('The direction prop should be either "ltr" (default) or "rtl". ' + 'Please use the layout prop to specify "vertical" (default) or "horizontal" orientation.');
-        }
-
-        break;
-
-      case 'ltr':
-      case 'rtl':
-        // Valid values
-        break;
-
-      default:
-        throw Error('An invalid "direction" prop has been specified. ' + 'Value should be either "ltr" or "rtl". ' + ("\"" + direction + "\" was specified."));
-    }
-
-    switch (layout) {
-      case 'horizontal':
-      case 'vertical':
-        // Valid values
-        break;
-
-      default:
-        throw Error('An invalid "layout" prop has been specified. ' + 'Value should be either "horizontal" or "vertical". ' + ("\"" + layout + "\" was specified."));
-    }
-
-    if (children == null) {
-      throw Error('An invalid "children" prop has been specified. ' + 'Value should be a React component. ' + ("\"" + (children === null ? 'null' : _typeof(children)) + "\" was specified."));
-    }
-
-    if (isHorizontal && typeof width !== 'number') {
-      throw Error('An invalid "width" prop has been specified. ' + 'Horizontal lists must specify a number for width. ' + ("\"" + (width === null ? 'null' : _typeof(width)) + "\" was specified."));
-    } else if (!isHorizontal && typeof height !== 'number') {
-      throw Error('An invalid "height" prop has been specified. ' + 'Vertical lists must specify a number for height. ' + ("\"" + (height === null ? 'null' : _typeof(height)) + "\" was specified."));
-    }
-  }
-};
-
-var DEFAULT_ESTIMATED_ITEM_SIZE$1 = 50;
-
-var getItemMetadata$1 = function getItemMetadata(props, index, instanceProps) {
-  var _ref = props,
-      itemSize = _ref.itemSize;
-  var itemMetadataMap = instanceProps.itemMetadataMap,
-      lastMeasuredIndex = instanceProps.lastMeasuredIndex;
-
-  if (index > lastMeasuredIndex) {
-    var offset = 0;
-
-    if (lastMeasuredIndex >= 0) {
-      var itemMetadata = itemMetadataMap[lastMeasuredIndex];
-      offset = itemMetadata.offset + itemMetadata.size;
-    }
-
-    for (var i = lastMeasuredIndex + 1; i <= index; i++) {
-      var size = itemSize(i);
-      itemMetadataMap[i] = {
-        offset: offset,
-        size: size
-      };
-      offset += size;
-    }
-
-    instanceProps.lastMeasuredIndex = index;
-  }
-
-  return itemMetadataMap[index];
-};
-
-var findNearestItem$1 = function findNearestItem(props, instanceProps, offset) {
-  var itemMetadataMap = instanceProps.itemMetadataMap,
-      lastMeasuredIndex = instanceProps.lastMeasuredIndex;
-  var lastMeasuredItemOffset = lastMeasuredIndex > 0 ? itemMetadataMap[lastMeasuredIndex].offset : 0;
-
-  if (lastMeasuredItemOffset >= offset) {
-    // If we've already measured items within this range just use a binary search as it's faster.
-    return findNearestItemBinarySearch$1(props, instanceProps, lastMeasuredIndex, 0, offset);
-  } else {
-    // If we haven't yet measured this high, fallback to an exponential search with an inner binary search.
-    // The exponential search avoids pre-computing sizes for the full set of items as a binary search would.
-    // The overall complexity for this approach is O(log n).
-    return findNearestItemExponentialSearch$1(props, instanceProps, Math.max(0, lastMeasuredIndex), offset);
-  }
-};
-
-var findNearestItemBinarySearch$1 = function findNearestItemBinarySearch(props, instanceProps, high, low, offset) {
-  while (low <= high) {
-    var middle = low + Math.floor((high - low) / 2);
-    var currentOffset = getItemMetadata$1(props, middle, instanceProps).offset;
-
-    if (currentOffset === offset) {
-      return middle;
-    } else if (currentOffset < offset) {
-      low = middle + 1;
-    } else if (currentOffset > offset) {
-      high = middle - 1;
-    }
-  }
-
-  if (low > 0) {
-    return low - 1;
-  } else {
-    return 0;
-  }
-};
-
-var findNearestItemExponentialSearch$1 = function findNearestItemExponentialSearch(props, instanceProps, index, offset) {
-  var itemCount = props.itemCount;
-  var interval = 1;
-
-  while (index < itemCount && getItemMetadata$1(props, index, instanceProps).offset < offset) {
-    index += interval;
-    interval *= 2;
-  }
-
-  return findNearestItemBinarySearch$1(props, instanceProps, Math.min(index, itemCount - 1), Math.floor(index / 2), offset);
-};
-
-var getEstimatedTotalSize = function getEstimatedTotalSize(_ref2, _ref3) {
-  var itemCount = _ref2.itemCount;
-  var itemMetadataMap = _ref3.itemMetadataMap,
-      estimatedItemSize = _ref3.estimatedItemSize,
-      lastMeasuredIndex = _ref3.lastMeasuredIndex;
-  var totalSizeOfMeasuredItems = 0; // Edge case check for when the number of items decreases while a scroll is in progress.
-  // https://github.com/bvaughn/react-window/pull/138
-
-  if (lastMeasuredIndex >= itemCount) {
-    lastMeasuredIndex = itemCount - 1;
-  }
-
-  if (lastMeasuredIndex >= 0) {
-    var itemMetadata = itemMetadataMap[lastMeasuredIndex];
-    totalSizeOfMeasuredItems = itemMetadata.offset + itemMetadata.size;
-  }
-
-  var numUnmeasuredItems = itemCount - lastMeasuredIndex - 1;
-  var totalSizeOfUnmeasuredItems = numUnmeasuredItems * estimatedItemSize;
-  return totalSizeOfMeasuredItems + totalSizeOfUnmeasuredItems;
-};
-
-var VariableSizeList =
-/*#__PURE__*/
-createListComponent({
-  getItemOffset: function getItemOffset(props, index, instanceProps) {
-    return getItemMetadata$1(props, index, instanceProps).offset;
-  },
-  getItemSize: function getItemSize(props, index, instanceProps) {
-    return instanceProps.itemMetadataMap[index].size;
-  },
-  getEstimatedTotalSize: getEstimatedTotalSize,
-  getOffsetForIndexAndAlignment: function getOffsetForIndexAndAlignment(props, index, align, scrollOffset, instanceProps) {
-    var direction = props.direction,
-        height = props.height,
-        layout = props.layout,
-        width = props.width; // TODO Deprecate direction "horizontal"
-
-    var isHorizontal = direction === 'horizontal' || layout === 'horizontal';
-    var size = isHorizontal ? width : height;
-    var itemMetadata = getItemMetadata$1(props, index, instanceProps); // Get estimated total size after ItemMetadata is computed,
-    // To ensure it reflects actual measurements instead of just estimates.
-
-    var estimatedTotalSize = getEstimatedTotalSize(props, instanceProps);
-    var maxOffset = Math.max(0, Math.min(estimatedTotalSize - size, itemMetadata.offset));
-    var minOffset = Math.max(0, itemMetadata.offset - size + itemMetadata.size);
-
-    if (align === 'smart') {
-      if (scrollOffset >= minOffset - size && scrollOffset <= maxOffset + size) {
-        align = 'auto';
-      } else {
-        align = 'center';
-      }
-    }
-
-    switch (align) {
-      case 'start':
-        return maxOffset;
-
-      case 'end':
-        return minOffset;
-
-      case 'center':
-        return Math.round(minOffset + (maxOffset - minOffset) / 2);
-
-      case 'auto':
-      default:
-        if (scrollOffset >= minOffset && scrollOffset <= maxOffset) {
-          return scrollOffset;
-        } else if (scrollOffset < minOffset) {
-          return minOffset;
-        } else {
-          return maxOffset;
-        }
-
-    }
-  },
-  getStartIndexForOffset: function getStartIndexForOffset(props, offset, instanceProps) {
-    return findNearestItem$1(props, instanceProps, offset);
-  },
-  getStopIndexForStartIndex: function getStopIndexForStartIndex(props, startIndex, scrollOffset, instanceProps) {
-    var direction = props.direction,
-        height = props.height,
-        itemCount = props.itemCount,
-        layout = props.layout,
-        width = props.width; // TODO Deprecate direction "horizontal"
-
-    var isHorizontal = direction === 'horizontal' || layout === 'horizontal';
-    var size = isHorizontal ? width : height;
-    var itemMetadata = getItemMetadata$1(props, startIndex, instanceProps);
-    var maxOffset = scrollOffset + size;
-    var offset = itemMetadata.offset + itemMetadata.size;
-    var stopIndex = startIndex;
-
-    while (stopIndex < itemCount - 1 && offset < maxOffset) {
-      stopIndex++;
-      offset += getItemMetadata$1(props, stopIndex, instanceProps).size;
-    }
-
-    return stopIndex;
-  },
-  initInstanceProps: function initInstanceProps(props, instance) {
-    var _ref4 = props,
-        estimatedItemSize = _ref4.estimatedItemSize;
-    var instanceProps = {
-      itemMetadataMap: {},
-      estimatedItemSize: estimatedItemSize || DEFAULT_ESTIMATED_ITEM_SIZE$1,
-      lastMeasuredIndex: -1
-    };
-
-    instance.resetAfterIndex = function (index, shouldForceUpdate) {
-      if (shouldForceUpdate === void 0) {
-        shouldForceUpdate = true;
-      }
-
-      instanceProps.lastMeasuredIndex = Math.min(instanceProps.lastMeasuredIndex, index - 1); // We could potentially optimize further by only evicting styles after this index,
-      // But since styles are only cached while scrolling is in progress-
-      // It seems an unnecessary optimization.
-      // It's unlikely that resetAfterIndex() will be called while a user is scrolling.
-
-      instance._getItemStyleCache(-1);
-
-      if (shouldForceUpdate) {
-        instance.forceUpdate();
-      }
-    };
-
-    return instanceProps;
-  },
-  shouldResetStyleCacheOnItemSizeChange: false,
-  validateProps: function validateProps(_ref5) {
-    var itemSize = _ref5.itemSize;
-
-    if ("development" !== 'production') {
-      if (typeof itemSize !== 'function') {
-        throw Error('An invalid "itemSize" prop has been specified. ' + 'Value should be a function. ' + ("\"" + (itemSize === null ? 'null' : _typeof(itemSize)) + "\" was specified."));
-      }
-    }
-  }
-});
-exports.VariableSizeList = VariableSizeList;
-var FixedSizeGrid =
-/*#__PURE__*/
-createGridComponent({
-  getColumnOffset: function getColumnOffset(_ref, index) {
-    var columnWidth = _ref.columnWidth;
-    return index * columnWidth;
-  },
-  getColumnWidth: function getColumnWidth(_ref2, index) {
-    var columnWidth = _ref2.columnWidth;
-    return columnWidth;
-  },
-  getRowOffset: function getRowOffset(_ref3, index) {
-    var rowHeight = _ref3.rowHeight;
-    return index * rowHeight;
-  },
-  getRowHeight: function getRowHeight(_ref4, index) {
-    var rowHeight = _ref4.rowHeight;
-    return rowHeight;
-  },
-  getEstimatedTotalHeight: function getEstimatedTotalHeight(_ref5) {
-    var rowCount = _ref5.rowCount,
-        rowHeight = _ref5.rowHeight;
-    return rowHeight * rowCount;
-  },
-  getEstimatedTotalWidth: function getEstimatedTotalWidth(_ref6) {
-    var columnCount = _ref6.columnCount,
-        columnWidth = _ref6.columnWidth;
-    return columnWidth * columnCount;
-  },
-  getOffsetForColumnAndAlignment: function getOffsetForColumnAndAlignment(_ref7, columnIndex, align, scrollLeft, instanceProps, scrollbarSize) {
-    var columnCount = _ref7.columnCount,
-        columnWidth = _ref7.columnWidth,
-        width = _ref7.width;
-    var lastColumnOffset = Math.max(0, columnCount * columnWidth - width);
-    var maxOffset = Math.min(lastColumnOffset, columnIndex * columnWidth);
-    var minOffset = Math.max(0, columnIndex * columnWidth - width + scrollbarSize + columnWidth);
-
-    if (align === 'smart') {
-      if (scrollLeft >= minOffset - width && scrollLeft <= maxOffset + width) {
-        align = 'auto';
-      } else {
-        align = 'center';
-      }
-    }
-
-    switch (align) {
-      case 'start':
-        return maxOffset;
-
-      case 'end':
-        return minOffset;
-
-      case 'center':
-        // "Centered" offset is usually the average of the min and max.
-        // But near the edges of the list, this doesn't hold true.
-        var middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2);
-
-        if (middleOffset < Math.ceil(width / 2)) {
-          return 0; // near the beginning
-        } else if (middleOffset > lastColumnOffset + Math.floor(width / 2)) {
-          return lastColumnOffset; // near the end
-        } else {
-          return middleOffset;
-        }
-
-      case 'auto':
-      default:
-        if (scrollLeft >= minOffset && scrollLeft <= maxOffset) {
-          return scrollLeft;
-        } else if (minOffset > maxOffset) {
-          // Because we only take into account the scrollbar size when calculating minOffset
-          // this value can be larger than maxOffset when at the end of the list
-          return minOffset;
-        } else if (scrollLeft < minOffset) {
-          return minOffset;
-        } else {
-          return maxOffset;
-        }
-
-    }
-  },
-  getOffsetForRowAndAlignment: function getOffsetForRowAndAlignment(_ref8, rowIndex, align, scrollTop, instanceProps, scrollbarSize) {
-    var rowHeight = _ref8.rowHeight,
-        height = _ref8.height,
-        rowCount = _ref8.rowCount;
-    var lastRowOffset = Math.max(0, rowCount * rowHeight - height);
-    var maxOffset = Math.min(lastRowOffset, rowIndex * rowHeight);
-    var minOffset = Math.max(0, rowIndex * rowHeight - height + scrollbarSize + rowHeight);
-
-    if (align === 'smart') {
-      if (scrollTop >= minOffset - height && scrollTop <= maxOffset + height) {
-        align = 'auto';
-      } else {
-        align = 'center';
-      }
-    }
-
-    switch (align) {
-      case 'start':
-        return maxOffset;
-
-      case 'end':
-        return minOffset;
-
-      case 'center':
-        // "Centered" offset is usually the average of the min and max.
-        // But near the edges of the list, this doesn't hold true.
-        var middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2);
-
-        if (middleOffset < Math.ceil(height / 2)) {
-          return 0; // near the beginning
-        } else if (middleOffset > lastRowOffset + Math.floor(height / 2)) {
-          return lastRowOffset; // near the end
-        } else {
-          return middleOffset;
-        }
-
-      case 'auto':
-      default:
-        if (scrollTop >= minOffset && scrollTop <= maxOffset) {
-          return scrollTop;
-        } else if (minOffset > maxOffset) {
-          // Because we only take into account the scrollbar size when calculating minOffset
-          // this value can be larger than maxOffset when at the end of the list
-          return minOffset;
-        } else if (scrollTop < minOffset) {
-          return minOffset;
-        } else {
-          return maxOffset;
-        }
-
-    }
-  },
-  getColumnStartIndexForOffset: function getColumnStartIndexForOffset(_ref9, scrollLeft) {
-    var columnWidth = _ref9.columnWidth,
-        columnCount = _ref9.columnCount;
-    return Math.max(0, Math.min(columnCount - 1, Math.floor(scrollLeft / columnWidth)));
-  },
-  getColumnStopIndexForStartIndex: function getColumnStopIndexForStartIndex(_ref10, startIndex, scrollLeft) {
-    var columnWidth = _ref10.columnWidth,
-        columnCount = _ref10.columnCount,
-        width = _ref10.width;
-    var left = startIndex * columnWidth;
-    var numVisibleColumns = Math.ceil((width + scrollLeft - left) / columnWidth);
-    return Math.max(0, Math.min(columnCount - 1, startIndex + numVisibleColumns - 1 // -1 is because stop index is inclusive
-    ));
-  },
-  getRowStartIndexForOffset: function getRowStartIndexForOffset(_ref11, scrollTop) {
-    var rowHeight = _ref11.rowHeight,
-        rowCount = _ref11.rowCount;
-    return Math.max(0, Math.min(rowCount - 1, Math.floor(scrollTop / rowHeight)));
-  },
-  getRowStopIndexForStartIndex: function getRowStopIndexForStartIndex(_ref12, startIndex, scrollTop) {
-    var rowHeight = _ref12.rowHeight,
-        rowCount = _ref12.rowCount,
-        height = _ref12.height;
-    var top = startIndex * rowHeight;
-    var numVisibleRows = Math.ceil((height + scrollTop - top) / rowHeight);
-    return Math.max(0, Math.min(rowCount - 1, startIndex + numVisibleRows - 1 // -1 is because stop index is inclusive
-    ));
-  },
-  initInstanceProps: function initInstanceProps(props) {// Noop
-  },
-  shouldResetStyleCacheOnItemSizeChange: true,
-  validateProps: function validateProps(_ref13) {
-    var columnWidth = _ref13.columnWidth,
-        rowHeight = _ref13.rowHeight;
-
-    if ("development" !== 'production') {
-      if (typeof columnWidth !== 'number') {
-        throw Error('An invalid "columnWidth" prop has been specified. ' + 'Value should be a number. ' + ("\"" + (columnWidth === null ? 'null' : _typeof(columnWidth)) + "\" was specified."));
-      }
-
-      if (typeof rowHeight !== 'number') {
-        throw Error('An invalid "rowHeight" prop has been specified. ' + 'Value should be a number. ' + ("\"" + (rowHeight === null ? 'null' : _typeof(rowHeight)) + "\" was specified."));
-      }
-    }
-  }
-});
-exports.FixedSizeGrid = FixedSizeGrid;
-var FixedSizeList =
-/*#__PURE__*/
-createListComponent({
-  getItemOffset: function getItemOffset(_ref, index) {
-    var itemSize = _ref.itemSize;
-    return index * itemSize;
-  },
-  getItemSize: function getItemSize(_ref2, index) {
-    var itemSize = _ref2.itemSize;
-    return itemSize;
-  },
-  getEstimatedTotalSize: function getEstimatedTotalSize(_ref3) {
-    var itemCount = _ref3.itemCount,
-        itemSize = _ref3.itemSize;
-    return itemSize * itemCount;
-  },
-  getOffsetForIndexAndAlignment: function getOffsetForIndexAndAlignment(_ref4, index, align, scrollOffset) {
-    var direction = _ref4.direction,
-        height = _ref4.height,
-        itemCount = _ref4.itemCount,
-        itemSize = _ref4.itemSize,
-        layout = _ref4.layout,
-        width = _ref4.width; // TODO Deprecate direction "horizontal"
-
-    var isHorizontal = direction === 'horizontal' || layout === 'horizontal';
-    var size = isHorizontal ? width : height;
-    var lastItemOffset = Math.max(0, itemCount * itemSize - size);
-    var maxOffset = Math.min(lastItemOffset, index * itemSize);
-    var minOffset = Math.max(0, index * itemSize - size + itemSize);
-
-    if (align === 'smart') {
-      if (scrollOffset >= minOffset - size && scrollOffset <= maxOffset + size) {
-        align = 'auto';
-      } else {
-        align = 'center';
-      }
-    }
-
-    switch (align) {
-      case 'start':
-        return maxOffset;
-
-      case 'end':
-        return minOffset;
-
-      case 'center':
-        {
-          // "Centered" offset is usually the average of the min and max.
-          // But near the edges of the list, this doesn't hold true.
-          var middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2);
-
-          if (middleOffset < Math.ceil(size / 2)) {
-            return 0; // near the beginning
-          } else if (middleOffset > lastItemOffset + Math.floor(size / 2)) {
-            return lastItemOffset; // near the end
-          } else {
-            return middleOffset;
-          }
-        }
-
-      case 'auto':
-      default:
-        if (scrollOffset >= minOffset && scrollOffset <= maxOffset) {
-          return scrollOffset;
-        } else if (scrollOffset < minOffset) {
-          return minOffset;
-        } else {
-          return maxOffset;
-        }
-
-    }
-  },
-  getStartIndexForOffset: function getStartIndexForOffset(_ref5, offset) {
-    var itemCount = _ref5.itemCount,
-        itemSize = _ref5.itemSize;
-    return Math.max(0, Math.min(itemCount - 1, Math.floor(offset / itemSize)));
-  },
-  getStopIndexForStartIndex: function getStopIndexForStartIndex(_ref6, startIndex, scrollOffset) {
-    var direction = _ref6.direction,
-        height = _ref6.height,
-        itemCount = _ref6.itemCount,
-        itemSize = _ref6.itemSize,
-        layout = _ref6.layout,
-        width = _ref6.width; // TODO Deprecate direction "horizontal"
-
-    var isHorizontal = direction === 'horizontal' || layout === 'horizontal';
-    var offset = startIndex * itemSize;
-    var size = isHorizontal ? width : height;
-    var numVisibleItems = Math.ceil((size + scrollOffset - offset) / itemSize);
-    return Math.max(0, Math.min(itemCount - 1, startIndex + numVisibleItems - 1 // -1 is because stop index is inclusive
-    ));
-  },
-  initInstanceProps: function initInstanceProps(props) {// Noop
-  },
-  shouldResetStyleCacheOnItemSizeChange: true,
-  validateProps: function validateProps(_ref7) {
-    var itemSize = _ref7.itemSize;
-
-    if ("development" !== 'production') {
-      if (typeof itemSize !== 'number') {
-        throw Error('An invalid "itemSize" prop has been specified. ' + 'Value should be a number. ' + ("\"" + (itemSize === null ? 'null' : _typeof(itemSize)) + "\" was specified."));
-      }
-    }
-  }
-}); // Pulled from react-compat
-// https://github.com/developit/preact-compat/blob/7c5de00e7c85e2ffd011bf3af02899b63f699d3a/src/index.js#L349
-
-exports.FixedSizeList = FixedSizeList;
-
-function shallowDiffers(prev, next) {
-  for (var attribute in prev) {
-    if (!(attribute in next)) {
-      return true;
-    }
-  }
-
-  for (var _attribute in next) {
-    if (prev[_attribute] !== next[_attribute]) {
-      return true;
-    }
-  }
-
-  return false;
-} // It knows to compare individual style props and ignore the wrapper object.
-// See https://reactjs.org/docs/react-api.html#reactmemo
-
-
-function areEqual(prevProps, nextProps) {
-  var prevStyle = prevProps.style,
-      prevRest = (0, _objectWithoutPropertiesLoose2.default)(prevProps, ["style"]);
-  var nextStyle = nextProps.style,
-      nextRest = (0, _objectWithoutPropertiesLoose2.default)(nextProps, ["style"]);
-  return !shallowDiffers(prevStyle, nextStyle) && !shallowDiffers(prevRest, nextRest);
-} // It knows to compare individual style props and ignore the wrapper object.
-// See https://reactjs.org/docs/react-component.html#shouldcomponentupdate
-
-
-function shouldComponentUpdate(nextProps, nextState) {
-  return !areEqual(this.props, nextProps) || shallowDiffers(this.state, nextState);
-}
-},{"@babel/runtime/helpers/esm/extends":"../../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/inheritsLoose":"../../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","@babel/runtime/helpers/esm/assertThisInitialized":"../../node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js","memoize-one":"../../node_modules/memoize-one/dist/memoize-one.esm.js","react":"../../node_modules/react/index.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js"}],"../../src/label.tsx":[function(require,module,exports) {
-"use strict";
-
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n    overflow: hidden;\n    white-space: nowrap;\n    text-overflow: ellipsis;\n    user-select: none;\n    box-sizing: border-box;\n"]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var tslib_1 = require("tslib");
-
-var styled_components_1 = tslib_1.__importDefault(require("styled-components"));
-
-exports.SelectLabel = styled_components_1.default.span(_templateObject());
-},{"tslib":"../../node_modules/tslib/tslib.es6.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js"}],"../../src/utils.ts":[function(require,module,exports) {
+},{"./factory":"../../node_modules/lodash-decorators/factory.js","./after":"../../node_modules/lodash-decorators/after.js","./afterAll":"../../node_modules/lodash-decorators/afterAll.js","./ary":"../../node_modules/lodash-decorators/ary.js","./attempt":"../../node_modules/lodash-decorators/attempt.js","./before":"../../node_modules/lodash-decorators/before.js","./beforeAll":"../../node_modules/lodash-decorators/beforeAll.js","./bind":"../../node_modules/lodash-decorators/bind.js","./bindAll":"../../node_modules/lodash-decorators/bindAll.js","./curry":"../../node_modules/lodash-decorators/curry.js","./curryAll":"../../node_modules/lodash-decorators/curryAll.js","./curryRight":"../../node_modules/lodash-decorators/curryRight.js","./curryRightAll":"../../node_modules/lodash-decorators/curryRightAll.js","./debounce":"../../node_modules/lodash-decorators/debounce.js","./debounceAll":"../../node_modules/lodash-decorators/debounceAll.js","./defer":"../../node_modules/lodash-decorators/defer.js","./delay":"../../node_modules/lodash-decorators/delay.js","./flip":"../../node_modules/lodash-decorators/flip.js","./flow":"../../node_modules/lodash-decorators/flow.js","./flowRight":"../../node_modules/lodash-decorators/flowRight.js","./memoize":"../../node_modules/lodash-decorators/memoize.js","./memoizeAll":"../../node_modules/lodash-decorators/memoizeAll.js","./mixin":"../../node_modules/lodash-decorators/mixin.js","./negate":"../../node_modules/lodash-decorators/negate.js","./once":"../../node_modules/lodash-decorators/once.js","./overArgs":"../../node_modules/lodash-decorators/overArgs.js","./partial":"../../node_modules/lodash-decorators/partial.js","./partialRight":"../../node_modules/lodash-decorators/partialRight.js","./rearg":"../../node_modules/lodash-decorators/rearg.js","./rest":"../../node_modules/lodash-decorators/rest.js","./spread":"../../node_modules/lodash-decorators/spread.js","./tap":"../../node_modules/lodash-decorators/tap.js","./throttle":"../../node_modules/lodash-decorators/throttle.js","./throttleAll":"../../node_modules/lodash-decorators/throttleAll.js","./unary":"../../node_modules/lodash-decorators/unary.js","./wrap":"../../node_modules/lodash-decorators/wrap.js"}],"../../src/utils.ts":[function(require,module,exports) {
 "use strict";
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -44257,12 +44257,12 @@ function getValueOptions(options, value, multi, equalCompareProp) {
     }
   }).sort(function (optionA, optionB) {
     if (isArray(value) && multi) {
-      var a = value.reduce(function (memo, val, i) {
-        return equal(optionA.value, val, equalCompareProp) ? i : memo;
-      }, -1);
-      var b = value.reduce(function (memo, val, i) {
-        return equal(optionB.value, val, equalCompareProp) ? i : memo;
-      }, -1);
+      var a = value.findIndex(function (val) {
+        return equal(optionA.value, val, equalCompareProp);
+      });
+      var b = value.findIndex(function (val) {
+        return equal(optionB.value, val, equalCompareProp);
+      });
       return a < b ? -1 : a > b ? 1 : 0;
     } else {
       return 0;
@@ -45539,8 +45539,26 @@ exports.Value = Value;
 },{"tslib":"../../node_modules/tslib/tslib.es6.js","lodash-decorators":"../../node_modules/lodash-decorators/index.js","react":"../../node_modules/react/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js","./label":"../../src/label.tsx","./utils":"../../src/utils.ts","./value-component-multi":"../../src/value-component-multi.tsx","./value-component-single":"../../src/value-component-single.tsx"}],"../../src/index.tsx":[function(require,module,exports) {
 "use strict";
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["\n                      pointer-events: none;\n                      z-index: auto;\n                  "]);
+  var data = _taggedTemplateLiteral(["\n                  pointer-events: none;\n                  z-index: auto;\n              "]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -45550,7 +45568,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["\n                      z-index: 1;\n                  "]);
+  var data = _taggedTemplateLiteral(["\n                  z-index: 1;\n              "]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -45560,7 +45578,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n        display: block;\n        opacity: 0;\n        position: absolute;\n        right: 0;\n        top: 0;\n        width: 100%;\n        height: 100%;\n        ", ";\n    "]);
+  var data = _taggedTemplateLiteral(["\n    display: block;\n    opacity: 0;\n    position: absolute;\n    right: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    ", ";\n"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -45570,7 +45588,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n        display: flex;\n        position: relative;\n        cursor: default;\n        width: 100%;\n        box-sizing: border-box;\n        pointer-events: ", ";\n        opacity: ", ";\n        user-select: none;\n    "]);
+  var data = _taggedTemplateLiteral(["\n    display: flex;\n    position: relative;\n    cursor: default;\n    width: 100%;\n    box-sizing: border-box;\n    pointer-events: ", ";\n    opacity: ", ";\n    user-select: none;\n"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -45581,41 +45599,11 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-var _a, _b, _c, _d, _e;
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
 var tslib_1 = require("tslib");
-
-var lodash_decorators_1 = require("lodash-decorators");
 
 var React = tslib_1.__importStar(require("react"));
 
@@ -45659,727 +45647,561 @@ exports.ValueComponentMulti = value_component_multi_1.ValueComponentMulti;
 var value_component_single_1 = require("./value-component-single");
 
 exports.ValueComponentSingle = value_component_single_1.ValueComponentSingle;
-
-var Select =
-/*#__PURE__*/
-function (_React$PureComponent) {
-  _inherits(Select, _React$PureComponent);
-
-  function Select(props) {
-    var _this;
-
-    _classCallCheck(this, Select);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Select).call(this, props));
-    _this.container = null;
-    _this.nativeSelect = React.createRef();
-    _this.state = {
-      open: false,
-      blindText: ''
-    };
-    return _this;
-  }
-
-  _createClass(Select, [{
-    key: "optionIsCreatable",
-    value: function optionIsCreatable(option) {
-      return this.props.creatable && option.creatable && Boolean(this.props.onCreate && this.state.search);
-    }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(_, prevState) {
-      if (this.state.blindText && prevState.blindText !== this.state.blindText) {
-        this.handleBlindTextUpdate();
-      }
-    }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      this.removeDocumentListener();
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var Container = Select.Container;
-      var _this$props = this.props,
-          className = _this$props.className,
-          options = _this$props.options,
-          creatable = _this$props.creatable,
-          clearable = _this$props.clearable,
-          placeholder = _this$props.placeholder,
-          value = _this$props.value,
-          disabled = _this$props.disabled,
-          error = _this$props.error,
-          menuComponent = _this$props.menuComponent,
-          labelComponent = _this$props.labelComponent,
-          optionComponent = _this$props.optionComponent,
-          valueComponentSingle = _this$props.valueComponentSingle,
-          valueComponentMulti = _this$props.valueComponentMulti,
-          arrowComponent = _this$props.arrowComponent,
-          clearComponent = _this$props.clearComponent,
-          hideSelectedOptions = _this$props.hideSelectedOptions,
-          equalCompareProp = _this$props.equalCompareProp,
-          multi = _this$props.multi,
-          native = _this$props.native,
-          emptyText = _this$props.emptyText,
-          rowHeight = _this$props.rowHeight,
-          menuWidth = _this$props.menuWidth,
-          menuHeight = _this$props.menuHeight,
-          keepSearchOnBlur = _this$props.keepSearchOnBlur;
-      var _this$state = this.state,
-          open = _this$state.open,
-          search = _this$state.search,
-          selectedIndex = _this$state.selectedIndex,
-          focused = _this$state.focused;
-      var searchable = this.props.searchable || creatable;
-
-      if (this.props.children) {
-        return this.renderChildren();
-      }
-
-      var classNames = ['react-slct', className, open && 'open', error && 'has-error'].filter(function (c) {
-        return Boolean(c);
-      });
-      return React.createElement(Container, {
-        className: classNames.join(' '),
-        disabled: disabled,
-        ref: this.onContainerRef,
-        "data-role": this.props['data-role'],
-        onKeyUp: this.onKeyUp,
-        onKeyDown: this.onKeyDown
-      }, this.renderNativeSelect(), React.createElement(value_1.Value, {
-        clearable: clearable,
-        searchable: searchable,
-        open: open,
-        disabled: disabled,
-        multi: multi,
-        mobile: native,
-        focused: focused,
-        options: options,
-        placeholder: placeholder,
-        error: error,
-        value: value,
-        search: search,
-        keepSearchOnBlur: keepSearchOnBlur,
-        equalCompareProp: equalCompareProp,
-        labelComponent: labelComponent,
-        valueComponentSingle: valueComponentSingle,
-        valueComponentMulti: valueComponentMulti,
-        arrowComponent: arrowComponent,
-        clearComponent: clearComponent,
-        valueIconComponent: this.props.valueIconComponent,
-        onClear: this.onClear,
-        onClick: this.toggleMenu,
-        onSearch: this.onSearch,
-        onSearchFocus: this.onSearchFocus,
-        onSearchBlur: this.onSearchBlur,
-        onOptionRemove: this.onOptionRemove
-      }), React.createElement(menu_1.Menu, {
-        open: open,
-        options: this.options,
-        value: value,
-        multi: multi,
-        error: error,
-        search: search,
-        selectedIndex: selectedIndex,
-        menuComponent: menuComponent,
-        labelComponent: labelComponent,
-        optionComponent: optionComponent,
-        hideSelectedOptions: hideSelectedOptions,
-        equalCompareProp: equalCompareProp,
-        emptyText: emptyText,
-        rowHeight: rowHeight,
-        menuWidth: menuWidth,
-        menuHeight: menuHeight,
-        onSelect: this.onOptionSelect
-      }));
-    }
-  }, {
-    key: "renderNativeSelect",
-    value: function renderNativeSelect() {
-      var _this2 = this;
-
-      var NativeSelect = Select.NativeSelect;
-      var _this$props2 = this.props,
-          native = _this$props2.native,
-          placeholder = _this$props2.placeholder,
-          multi = _this$props2.multi,
-          required = _this$props2.required,
-          disabled = _this$props2.disabled;
-      var dataRole = this.props['data-role'] ? "select-".concat(this.props['data-role']) : undefined;
-      var clearable = this.props.clearable && native;
-      var value = utils_1.isArray(this.props.value) && multi ? this.props.value.map(this.findOptionIndex) : this.findOptionIndex(this.props.value || '');
-      var propDisabled = disabled !== undefined ? disabled : required ? false : !native;
-      return React.createElement(NativeSelect, {
-        ref: this.nativeSelect,
-        multiple: multi,
-        value: value,
-        disabled: propDisabled,
-        required: required,
-        native: native,
-        tabIndex: -1,
-        "data-role": dataRole,
-        onChange: this.onChangeNativeSelect
-      }, React.createElement("option", {
-        value: "",
-        disabled: !clearable
-      }, placeholder), this.options.map(function (option, i) {
-        return React.createElement("option", {
-          key: utils_1.toKey(option.value, _this2.props.equalCompareProp),
-          value: "".concat(i),
-          disabled: option.disabled
-        }, option.label);
-      }));
-    }
-  }, {
-    key: "renderChildren",
-    value: function renderChildren() {
-      var _this3 = this;
-
-      var _this$props3 = this.props,
-          options = _this$props3.options,
-          placeholder = _this$props3.placeholder,
-          multi = _this$props3.multi,
-          children = _this$props3.children;
-      var _this$state2 = this.state,
-          open = _this$state2.open,
-          search = _this$state2.search;
-      var valueOptions = utils_1.getValueOptions(options || [], this.props.value, this.props.multi, this.props.equalCompareProp);
-      var value = !multi ? this.props.value : valueOptions.map(function (option) {
-        return option.value;
-      });
-      var showPlaceholder = !search && (utils_1.isArray(value) && multi ? value.length === 0 : value === undefined || value === null);
-
-      if (!children) {
-        return null;
-      }
-
-      return children({
-        options: this.options,
-        open: open,
-        value: value,
-        MenuContainer: menu_container_1.MenuContainer,
-        placeholder: showPlaceholder ? placeholder : undefined,
-        onToggle: function onToggle() {
-          return _this3.toggleMenu();
-        },
-        onClose: function onClose() {
-          return _this3.closeMenu(value);
-        },
-        onOpen: function onOpen() {
-          return _this3.openMenu();
-        },
-        onRef: function onRef(ref) {
-          return _this3.container = ref;
-        }
-      });
-    }
-  }, {
-    key: "toggleMenu",
-    value: function toggleMenu() {
-      var open = !this.state.open;
-
-      if (open) {
-        this.openMenu();
-      } else {
-        this.closeMenu(this.props.value);
-      }
-    }
-  }, {
-    key: "openMenu",
-    value: function openMenu() {
-      var _this4 = this;
-
-      var selectedIndex = this.props.hideSelectedOptions ? undefined : this.options.findIndex(function (option) {
-        return utils_1.equal(option.value, _this4.props.value, _this4.props.equalCompareProp);
-      });
-      var keepSearchOnBlur = this.props.keepSearchOnBlur && !this.props.value;
-      this.setState({
-        open: true,
-        search: keepSearchOnBlur ? this.state.search : undefined,
-        selectedIndex: selectedIndex
-      }, function () {
-        if (_this4.props.onOpen) {
-          _this4.props.onOpen();
-        }
-
-        _this4.addDocumentListener();
-      });
-    }
-  }, {
-    key: "closeMenu",
-    value: function closeMenu(value) {
-      var _this5 = this;
-
-      var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
-      var keepSearchOnBlur = this.props.keepSearchOnBlur && !value;
-      this.removeDocumentListener();
-      this.setState({
-        open: false,
-        search: keepSearchOnBlur ? this.state.search : undefined,
-        selectedIndex: undefined
-      }, function () {
-        if (_this5.props.onClose) {
-          _this5.props.onClose();
-        }
-
-        callback();
-      });
-    }
-  }, {
-    key: "createOption",
-    value: function createOption(value, cb) {
-      var onCreate = this.props.onCreate;
-
-      if (onCreate) {
-        this.closeMenu(value, function () {
-          onCreate(value);
-
-          if (cb) {
-            cb();
-          }
-        });
-      }
-    }
-  }, {
-    key: "addDocumentListener",
-    value: function addDocumentListener() {
-      this.removeDocumentListener();
-
-      if (this.document) {
-        this.document.addEventListener('click', this.onDocumentClick);
-      }
-    }
-  }, {
-    key: "removeDocumentListener",
-    value: function removeDocumentListener() {
-      if (this.document) {
-        this.document.removeEventListener('click', this.onDocumentClick);
-      }
-    }
-  }, {
-    key: "cleanBlindText",
-    value: function cleanBlindText() {
-      var _this6 = this;
-
-      this.blindTextTimeout = setTimeout(function () {
-        return _this6.setState({
-          blindText: ''
-        });
-      }, 700);
-    }
-  }, {
-    key: "findOptionIndex",
-    value: function findOptionIndex(val) {
-      var _this7 = this;
-
-      var index = this.options.findIndex(function (option) {
-        return option.value === val;
-      });
-
-      if (index === -1) {
-        if (_typeof(val) === 'object') {
-          index = this.options.findIndex(function (option) {
-            return utils_1.equal(option.value, val, _this7.props.equalCompareProp);
-          });
-        }
-
-        if (index === -1) {
-          return '';
-        }
-      }
-
-      return String(index);
-    }
-  }, {
-    key: "onChangeNativeSelect",
-    value: function onChangeNativeSelect(e) {
-      var _this8 = this;
-
-      var _this$props4 = this.props,
-          onChange = _this$props4.onChange,
-          multi = _this$props4.multi;
-      var currentTarget = e.currentTarget;
-
-      if (onChange) {
-        if (currentTarget.value === '') {
-          this.onClear();
-        } else {
-          var values = Array.from(currentTarget.selectedOptions).map(function (htmlOption) {
-            return _this8.options[htmlOption.index - 1].value;
-          });
-
-          if (multi) {
-            onChange(values);
-          } else {
-            onChange(values[0]);
-          }
-        }
-      }
-    }
-  }, {
-    key: "onSearchFocus",
-    value: function onSearchFocus() {
-      var _this$state3 = this.state,
-          open = _this$state3.open,
-          focused = _this$state3.focused;
-
-      if (!open && !focused && !this.props.native) {
-        this.openMenu();
-      }
-
-      this.setState({
-        focused: true
-      });
-    }
-  }, {
-    key: "onSearchBlur",
-    value: function onSearchBlur() {
-      this.setState({
-        focused: false
-      });
-    }
-  }, {
-    key: "onOptionSelect",
-    value: function onOptionSelect(value, option) {
-      var _this9 = this;
-
-      var current = this.nativeSelect.current;
-      var _this$props5 = this.props,
-          multi = _this$props5.multi,
-          onChange = _this$props5.onChange,
-          creatable = _this$props5.creatable;
-      var optionWasCreated = false;
-
-      var selectOnNative = function selectOnNative() {
-        if (current) {
-          current.value = utils_1.isArray(value) && multi ? value.map(_this9.findOptionIndex) : _this9.findOptionIndex(value);
-        }
-
-        _this9.setState({
-          focused: true
-        }, function () {
-          return _this9.closeMenu(value, function () {
-            return onChange && onChange(value, option);
-          });
-        });
-      };
-
-      if (creatable) {
-        var createValue = function createValue(val) {
-          var option = _this9.options.find(function (option) {
-            return _this9.optionIsCreatable(option) && option.value === val;
-          });
-
-          if (option) {
-            optionWasCreated = true;
-
-            _this9.createOption(option.value, selectOnNative);
-          }
-        };
-
-        if (utils_1.isArray(value) && multi) {
-          value.map(createValue);
-        } else {
-          createValue(value);
-        }
-      }
-
-      if (!optionWasCreated) {
-        selectOnNative();
-      }
-    }
-  }, {
-    key: "onOptionRemove",
-    value: function onOptionRemove(value) {
-      var _this10 = this;
-
-      if (utils_1.isArray(this.props.value) && this.props.multi) {
-        var values = this.props.value.filter(function (val) {
-          return !utils_1.equal(val, value, _this10.props.equalCompareProp);
-        });
-        this.onOptionSelect(values);
-      }
-    }
-  }, {
-    key: "onClear",
-    value: function onClear() {
-      this.onOptionSelect(this.props.multi ? [] : undefined);
-    }
-  }, {
-    key: "onSearch",
-    value: function onSearch(search) {
-      var _this11 = this;
-
-      this.setState({
-        search: search,
-        open: true
-      }, function () {
-        if (_this11.options.length === 1 || _this11.props.creatable && search) {
-          _this11.setState({
-            selectedIndex: 0
-          });
-        } else {
-          _this11.setState({
-            selectedIndex: undefined
-          });
-        }
-
-        if (_this11.props.onSearch) {
-          _this11.props.onSearch(search);
-        }
-      });
-    }
-  }, {
-    key: "onDocumentClick",
-    value: function onDocumentClick(e) {
-      var target = e.target;
-
-      if (target.closest('.react-slct-menu')) {
-        return;
-      }
-
-      if (this.container && !this.container.contains(target)) {
-        this.closeMenu(this.props.value);
-      }
-    }
-  }, {
-    key: "onKeyDown",
-    value: function onKeyDown(_ref) {
-      var keyCode = _ref.keyCode;
-      var _this$props6 = this.props,
-          searchable = _this$props6.searchable,
-          creatable = _this$props6.creatable;
-
-      switch (keyCode) {
-        case utils_1.keys.TAB:
-          if (this.state.open) {
-            this.closeMenu(this.props.value);
-          }
-
-          break;
-      }
-
-      if (!searchable && !creatable) {
-        this.handleBlindText(keyCode);
-      }
-    }
-  }, {
-    key: "onKeyUp",
-    value: function onKeyUp(_ref2) {
-      var keyCode = _ref2.keyCode;
-      var _this$state4 = this.state,
-          search = _this$state4.search,
-          open = _this$state4.open;
-      var _this$props7 = this.props,
-          value = _this$props7.value,
-          multi = _this$props7.multi;
-      var selectedIndex = this.state.selectedIndex;
-
-      switch (keyCode) {
-        case utils_1.keys.ARROW_UP:
-          if (open) {
-            if (selectedIndex !== undefined) {
-              selectedIndex = selectedIndex - 1;
-
-              if (selectedIndex < 0) {
-                selectedIndex = this.options.length - 1;
-              }
-            }
-
-            this.setState({
-              selectedIndex: selectedIndex
-            });
-          } else {
-            this.openMenu();
-          }
-
-          break;
-
-        case utils_1.keys.ARROW_DOWN:
-          if (open) {
-            if (selectedIndex === undefined || selectedIndex === this.options.length - 1) {
-              selectedIndex = 0;
-            } else {
-              selectedIndex = selectedIndex + 1;
-            }
-
-            this.setState({
-              selectedIndex: selectedIndex
-            });
-          } else {
-            this.openMenu();
-          }
-
-          break;
-
-        case utils_1.keys.ENTER:
-          if (this.state.selectedIndex === 0 && this.optionIsCreatable(this.options[0])) {
-            this.createOption(search);
-          } else if (selectedIndex !== undefined && this.options[selectedIndex]) {
-            var option = this.options[selectedIndex];
-            var newValue = option.value;
-            this.onOptionSelect(utils_1.isArray(value) && multi ? [].concat(_toConsumableArray(value), [newValue]) : newValue, option);
-          }
-
-          break;
-
-        case utils_1.keys.ESC:
-          if (open) {
-            this.closeMenu(value);
-          }
-
-          break;
-      }
-    }
-  }, {
-    key: "handleBlindText",
-    value: function handleBlindText(keyCode) {
-      var blindText = this.state.blindText;
-
-      if (keyCode === utils_1.keys.BACKSPACE && blindText.length) {
-        clearTimeout(this.blindTextTimeout);
-        this.setState({
-          blindText: blindText.slice(0, blindText.length - 1)
-        }, this.cleanBlindText);
-      } else if (keyCode === utils_1.keys.SPACE) {
-        clearTimeout(this.blindTextTimeout);
-        this.setState({
-          blindText: blindText + ' '
-        }, this.cleanBlindText);
-      } else {
-        var key = String.fromCodePoint(keyCode);
-
-        if (/\w/.test(key)) {
-          clearTimeout(this.blindTextTimeout);
-          this.setState({
-            blindText: blindText + key
-          }, this.cleanBlindText);
-        }
-      }
-    }
-  }, {
-    key: "onContainerRef",
-    value: function onContainerRef(el) {
-      this.container = el;
-    }
-  }, {
-    key: "handleBlindTextUpdate",
-    value: function handleBlindTextUpdate() {
-      var _this$state5 = this.state,
-          open = _this$state5.open,
-          blindText = _this$state5.blindText;
-      var multi = this.props.multi;
-
-      if (open) {
-        var selectedIndex = this.options.findIndex(function (option) {
-          return option.label.toLowerCase().startsWith(blindText.toLowerCase());
-        });
-
-        if (selectedIndex >= 0) {
-          this.setState({
-            selectedIndex: selectedIndex
-          });
-        }
-      } else if (!multi) {
-        if (blindText) {
-          var option = this.options.find(function (option) {
-            return option.label.toLowerCase().startsWith(blindText.toLowerCase());
-          });
-
-          if (option) {
-            this.onOptionSelect(option.value, option);
-          }
-        } else {
-          this.onOptionSelect(undefined);
-        }
-      }
-    }
-  }, {
-    key: "options",
-    get: function get() {
-      var search = this.state.search;
-      var _this$props8 = this.props,
-          creatable = _this$props8.creatable,
-          creatableText = _this$props8.creatableText;
-      var options = this.props.options || [];
-      var showCreate = creatable && !options.some(function (option) {
-        var value = option.value,
-            label = option.label; // @ts-ignore
-
-        return value === search || label === search;
-      });
-
-      if (search) {
-        options = options.filter(function (option) {
-          return utils_1.replaceUmlauts(option.label).toLowerCase().includes(utils_1.replaceUmlauts(search).toLowerCase());
-        });
-      }
-
-      if (showCreate && search) {
-        var label = creatableText ? typeof creatableText === 'string' ? creatableText : creatableText(search) : "Create \"".concat(search, "\"");
-        options = [{
-          label: label,
-          value: search,
-          creatable: true
-        }].concat(_toConsumableArray(options));
-      }
-
-      return options;
-    }
-  }, {
-    key: "document",
-    get: function get() {
-      return utils_1.getDocument();
-    }
-  }]);
-
-  return Select;
-}(React.PureComponent);
-
-Select.Container = styled_components_1.default.div(_templateObject(), function (props) {
+var Container = styled_components_1.default.div(_templateObject(), function (props) {
   return props.disabled ? 'none' : 'auto';
 }, function (props) {
   return props.disabled ? 0.75 : 1;
 });
-Select.NativeSelect = styled_components_1.default.select(_templateObject2(), function (props) {
+var NativeSelect = styled_components_1.default.select(_templateObject2(), function (props) {
   return props.native ? styled_components_1.css(_templateObject3()) : styled_components_1.css(_templateObject4());
 });
 
-tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", []), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "toggleMenu", null);
+function SelectImpl(props, ref) {
+  var _React$useState = React.useState(false),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      open = _React$useState2[0],
+      setOpen = _React$useState2[1];
 
-tslib_1.__decorate([lodash_decorators_1.debounce(0), tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", []), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "openMenu", null);
+  var _React$useState3 = React.useState(''),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      blindText = _React$useState4[0],
+      setBlindText = _React$useState4[1];
 
-tslib_1.__decorate([lodash_decorators_1.debounce(0), tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [Object, Object]), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "closeMenu", null);
+  var _React$useState5 = React.useState(undefined),
+      _React$useState6 = _slicedToArray(_React$useState5, 2),
+      selectedIndex = _React$useState6[0],
+      setSelectedIndex = _React$useState6[1];
 
-tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", []), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "cleanBlindText", null);
+  var _React$useState7 = React.useState(undefined),
+      _React$useState8 = _slicedToArray(_React$useState7, 2),
+      search = _React$useState8[0],
+      setSearch = _React$useState8[1];
 
-tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [Object]), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "findOptionIndex", null);
+  var _React$useState9 = React.useState(false),
+      _React$useState10 = _slicedToArray(_React$useState9, 2),
+      focused = _React$useState10[0],
+      setFocused = _React$useState10[1];
 
-tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof React !== "undefined" && React.SyntheticEvent) === "function" ? _a : Object]), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onChangeNativeSelect", null);
+  var blindTextTimeout = React.useRef(0);
+  var staticFunctions = React.useRef({
+    close: function close() {
+      return closeMenu(getValue());
+    },
+    open: openMenu
+  });
+  var nativeSelect = React.useRef(null);
+  var className = props.className,
+      creatable = props.creatable,
+      clearable = props.clearable,
+      placeholder = props.placeholder,
+      value = props.value,
+      disabled = props.disabled,
+      error = props.error,
+      menuComponent = props.menuComponent,
+      labelComponent = props.labelComponent,
+      optionComponent = props.optionComponent,
+      valueComponentSingle = props.valueComponentSingle,
+      valueComponentMulti = props.valueComponentMulti,
+      arrowComponent = props.arrowComponent,
+      clearComponent = props.clearComponent,
+      hideSelectedOptions = props.hideSelectedOptions,
+      equalCompareProp = props.equalCompareProp,
+      multi = props.multi,
+      native = props.native,
+      emptyText = props.emptyText,
+      rowHeight = props.rowHeight,
+      menuWidth = props.menuWidth,
+      menuHeight = props.menuHeight,
+      keepSearchOnBlur = props.keepSearchOnBlur,
+      required = props.required,
+      creatableText = props.creatableText;
+  var searchable = props.searchable || creatable;
+  var document = utils_1.getDocument();
+  var options = getOptions();
+  React.useEffect(function () {
+    if (blindText) {
+      handleBlindTextUpdate();
+    }
+  }, [blindText]);
+  React.useEffect(function () {
+    var _a;
 
-tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", []), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onSearchFocus", null);
+    (_a = props.control) === null || _a === void 0 ? void 0 : _a.call(props, {
+      close: function close() {
+        return closeMenu(getValue());
+      },
+      open: openMenu
+    });
+  }, [props.control]);
 
-tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", []), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onSearchBlur", null);
+  function getOptions() {
+    var newOptions = props.options || [];
+    var showCreate = creatable && !newOptions.some(function (option) {
+      var value = option.value,
+          label = option.label;
+      return typeof value === 'string' && value === search || label === search;
+    });
 
-tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [Object, typeof (_b = typeof typings_1.Option !== "undefined" && typings_1.Option) === "function" ? _b : Object]), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onOptionSelect", null);
+    if (search) {
+      newOptions = newOptions.filter(function (option) {
+        return utils_1.replaceUmlauts(option.label).toLowerCase().includes(utils_1.replaceUmlauts(search).toLowerCase());
+      });
+    }
 
-tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [Object]), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onOptionRemove", null);
+    if (showCreate && search) {
+      var label = creatableText ? typeof creatableText === 'string' ? creatableText : creatableText(search) : "Create \"".concat(search, "\"");
+      newOptions = [{
+        label: label,
+        value: search,
+        creatable: true
+      }].concat(_toConsumableArray(newOptions));
+    }
 
-tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", []), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onClear", null);
+    return newOptions;
+  }
 
-tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [String]), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onSearch", null);
+  function toggleMenu() {
+    var newOpen = !open;
 
-tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [Object]), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onDocumentClick", null);
+    if (newOpen) {
+      openMenu();
+    } else {
+      closeMenu(props.value);
+    }
+  }
 
-tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [typeof (_c = typeof React !== "undefined" && React.KeyboardEvent) === "function" ? _c : Object]), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onKeyDown", null);
+  function openMenu() {
+    var _a;
 
-tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [typeof (_d = typeof React !== "undefined" && React.KeyboardEvent) === "function" ? _d : Object]), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onKeyUp", null);
+    var selectedIndex = props.hideSelectedOptions ? undefined : options.findIndex(function (option) {
+      return utils_1.equal(option.value, props.value, props.equalCompareProp);
+    });
+    var keepSearchOnBlur = props.keepSearchOnBlur && !props.value;
+    setOpen(true);
+    setSearch(keepSearchOnBlur ? search : undefined);
+    setSelectedIndex(selectedIndex);
+    (_a = props.onOpen) === null || _a === void 0 ? void 0 : _a.call(props);
+    addDocumentListener();
+  }
 
-tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [Object]), tslib_1.__metadata("design:returntype", void 0)], Select.prototype, "onContainerRef", null);
+  function closeMenu(value) {
+    var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
 
-exports.Select = Select;
-},{"tslib":"../../node_modules/tslib/tslib.es6.js","lodash-decorators":"../../node_modules/lodash-decorators/index.js","react":"../../node_modules/react/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js","./global-stylings":"../../src/global-stylings.tsx","./menu":"../../src/menu.tsx","./menu-container":"../../src/menu-container.tsx","./typings":"../../src/typings.ts","./utils":"../../src/utils.ts","./value":"../../src/value.tsx","./option":"../../src/option.tsx","./value-component-multi":"../../src/value-component-multi.tsx","./value-component-single":"../../src/value-component-single.tsx"}],"utils/options.ts":[function(require,module,exports) {
+    var _a;
+
+    var keepSearchOnBlur = props.keepSearchOnBlur && !value;
+    removeDocumentListener();
+    setOpen(false);
+    setSearch(keepSearchOnBlur ? search : undefined);
+    setSelectedIndex(undefined);
+    (_a = props.onClose) === null || _a === void 0 ? void 0 : _a.call(props);
+    callback();
+  }
+
+  function createOption(value, cb) {
+    if (props.onCreate) {
+      closeMenu(value, function () {
+        var _a;
+
+        (_a = props.onCreate) === null || _a === void 0 ? void 0 : _a.call(props, value);
+        cb === null || cb === void 0 ? void 0 : cb();
+      });
+    }
+  }
+
+  function addDocumentListener() {
+    removeDocumentListener();
+    document === null || document === void 0 ? void 0 : document.addEventListener('click', onDocumentClick);
+  }
+
+  function removeDocumentListener() {
+    document === null || document === void 0 ? void 0 : document.removeEventListener('click', onDocumentClick);
+  }
+
+  function cleanBlindText() {
+    blindTextTimeout.current = setTimeout(function () {
+      return setBlindText('');
+    }, 700);
+  }
+
+  function findOptionIndex(val) {
+    var index = options.findIndex(function (option) {
+      return option.value === val;
+    });
+
+    if (index === -1) {
+      if (_typeof(val) === 'object') {
+        index = options.findIndex(function (option) {
+          return utils_1.equal(option.value, val, props.equalCompareProp);
+        });
+      }
+
+      if (index === -1) {
+        return '';
+      }
+    }
+
+    return String(index);
+  }
+
+  function onChangeNativeSelect(e) {
+    var currentTarget = e.currentTarget;
+
+    if (props.onChange) {
+      if (currentTarget.value === '') {
+        onClear();
+      } else {
+        var values = Array.from(currentTarget.selectedOptions).map(function (htmlOption) {
+          return options[htmlOption.index - 1].value;
+        });
+
+        if (multi) {
+          props.onChange(values);
+        } else {
+          props.onChange(values[0]);
+        }
+      }
+    }
+  }
+
+  function onSearchFocus() {
+    if (!open && !focused && !native) {
+      openMenu();
+    }
+
+    setFocused(true);
+  }
+
+  function onSearchBlur() {
+    setFocused(false);
+  }
+
+  function onOptionSelect(value, option) {
+    var current = nativeSelect.current;
+    var optionWasCreated = false;
+
+    var selectOnNative = function selectOnNative() {
+      if (current) {
+        current.value = utils_1.isArray(value) && multi ? value.map(findOptionIndex) : findOptionIndex(value);
+      }
+
+      setFocused(true);
+      closeMenu(value, function () {
+        var _a;
+
+        return (_a = props.onChange) === null || _a === void 0 ? void 0 : _a.call(props, value, option);
+      });
+    };
+
+    if (creatable) {
+      var createValue = function createValue(val) {
+        var option = options.find(function (option) {
+          return optionIsCreatable(option) && option.value === val;
+        });
+
+        if (option) {
+          optionWasCreated = true;
+          createOption(option.value, selectOnNative);
+        }
+      };
+
+      if (utils_1.isArray(value) && multi) {
+        value.map(createValue);
+      } else {
+        createValue(value);
+      }
+    }
+
+    if (!optionWasCreated) {
+      selectOnNative();
+    }
+  }
+
+  function onOptionRemove(value) {
+    if (utils_1.isArray(props.value) && props.multi) {
+      var values = props.value.filter(function (val) {
+        return !utils_1.equal(val, value, props.equalCompareProp);
+      });
+      onOptionSelect(values);
+    }
+  }
+
+  function onClear() {
+    onOptionSelect(props.multi ? [] : undefined);
+  }
+
+  function onSearch(search) {
+    var _a;
+
+    setSearch(search);
+    setOpen(true);
+
+    if (options.length === 1 || props.creatable && search) {
+      setSelectedIndex(0);
+    } else {
+      setSelectedIndex(undefined);
+    }
+
+    (_a = props.onSearch) === null || _a === void 0 ? void 0 : _a.call(props, search);
+  }
+
+  function optionIsCreatable(option) {
+    return creatable && option.creatable && Boolean(props.onCreate && search);
+  }
+
+  var onDocumentClick = React.useCallback(function (e) {
+    var _a;
+
+    var target = e.target;
+
+    if (target.closest('.react-slct-menu')) {
+      return;
+    }
+
+    if (_typeof(ref) === 'object' && !((_a = ref === null || ref === void 0 ? void 0 : ref.current) === null || _a === void 0 ? void 0 : _a.contains(target))) {
+      closeMenu(props.value);
+    }
+  }, []);
+
+  function onKeyDown(_ref) {
+    var keyCode = _ref.keyCode;
+
+    switch (keyCode) {
+      case utils_1.keys.TAB:
+        if (open) {
+          closeMenu(props.value);
+        }
+
+        break;
+    }
+
+    if (!searchable && !creatable) {
+      handleBlindText(keyCode);
+    }
+  }
+
+  function onKeyUp(_ref2) {
+    var keyCode = _ref2.keyCode;
+    var newSelectedIndex = selectedIndex;
+
+    switch (keyCode) {
+      case utils_1.keys.ARROW_UP:
+        if (open) {
+          if (newSelectedIndex !== undefined) {
+            newSelectedIndex = newSelectedIndex - 1;
+
+            if (newSelectedIndex < 0) {
+              newSelectedIndex = options.length - 1;
+            }
+          }
+
+          setSelectedIndex(newSelectedIndex);
+        } else {
+          openMenu();
+        }
+
+        break;
+
+      case utils_1.keys.ARROW_DOWN:
+        if (open) {
+          if (newSelectedIndex === undefined || newSelectedIndex === options.length - 1) {
+            newSelectedIndex = 0;
+          } else {
+            newSelectedIndex = newSelectedIndex + 1;
+          }
+
+          setSelectedIndex(newSelectedIndex);
+        } else {
+          openMenu();
+        }
+
+        break;
+
+      case utils_1.keys.ENTER:
+        if (selectedIndex === 0 && optionIsCreatable(options[0])) {
+          createOption(search);
+        } else if (newSelectedIndex !== undefined && options[newSelectedIndex]) {
+          var option = options[newSelectedIndex];
+          var newValue = option.value;
+          onOptionSelect(utils_1.isArray(value) && multi ? [].concat(_toConsumableArray(value), [newValue]) : newValue, option);
+        }
+
+        break;
+
+      case utils_1.keys.ESC:
+        if (open) {
+          closeMenu(value);
+        }
+
+        break;
+    }
+  }
+
+  function handleBlindText(keyCode) {
+    if (keyCode === utils_1.keys.BACKSPACE && blindText.length) {
+      clearTimeout(blindTextTimeout.current);
+      setBlindText(blindText.slice(0, blindText.length - 1));
+      cleanBlindText();
+    } else if (keyCode === utils_1.keys.SPACE) {
+      clearTimeout(blindTextTimeout.current);
+      setBlindText(blindText + ' ');
+      cleanBlindText();
+    } else {
+      var key = String.fromCodePoint(keyCode);
+
+      if (/\w/.test(key)) {
+        clearTimeout(blindTextTimeout.current);
+        setBlindText(blindText + key);
+        cleanBlindText();
+      }
+    }
+  }
+
+  function handleBlindTextUpdate() {
+    if (open) {
+      var newSelectedIndex = options.findIndex(function (option) {
+        return option.label.toLowerCase().startsWith(blindText.toLowerCase());
+      });
+
+      if (newSelectedIndex >= 0) {
+        setSelectedIndex(newSelectedIndex);
+      }
+    } else if (!multi) {
+      if (blindText) {
+        var option = options.find(function (option) {
+          return option.label.toLowerCase().startsWith(blindText.toLowerCase());
+        });
+
+        if (option) {
+          onOptionSelect(option.value, option);
+        }
+      } else {
+        onOptionSelect(undefined);
+      }
+    }
+  }
+
+  function getValue() {
+    var valueOptions = utils_1.getValueOptions(props.options || [], props.value, props.multi, props.equalCompareProp);
+    return !multi ? props.value : valueOptions.map(function (option) {
+      return option.value;
+    });
+  }
+
+  function renderChildren() {
+    var value = getValue();
+    var showPlaceholder = !search && (utils_1.isArray(value) && multi ? value.length === 0 : value === undefined || value === null);
+
+    if (!props.children) {
+      return null;
+    }
+
+    return props.children({
+      options: options,
+      open: open,
+      value: value,
+      MenuContainer: menu_container_1.MenuContainer,
+      placeholder: showPlaceholder ? placeholder : undefined,
+      onToggle: toggleMenu,
+      onClose: function onClose() {
+        return closeMenu(value);
+      },
+      onOpen: openMenu,
+      onRef: ref
+    });
+  }
+
+  function renderNativeSelect() {
+    var dataRole = props['data-role'] ? "select-".concat(props['data-role']) : undefined;
+    var clearable = props.clearable && native;
+    var value = utils_1.isArray(props.value) && multi ? props.value.map(findOptionIndex) : findOptionIndex(props.value || '');
+    var propDisabled = disabled !== undefined ? disabled : required ? false : !native;
+    return React.createElement(NativeSelect, {
+      ref: nativeSelect,
+      multiple: multi,
+      value: value,
+      disabled: propDisabled,
+      required: required,
+      native: native,
+      tabIndex: -1,
+      "data-role": dataRole,
+      onChange: onChangeNativeSelect
+    }, React.createElement("option", {
+      value: "",
+      disabled: !clearable
+    }, placeholder), options.map(function (option, i) {
+      return React.createElement("option", {
+        key: utils_1.toKey(option.value, props.equalCompareProp),
+        value: "".concat(i),
+        disabled: option.disabled
+      }, option.label);
+    }));
+  }
+
+  if (props.children) {
+    return renderChildren();
+  }
+
+  var classNames = ['react-slct', className, open && 'open', error && 'has-error'].filter(function (c) {
+    return Boolean(c);
+  });
+  return React.createElement(Container, {
+    className: classNames.join(' '),
+    disabled: disabled,
+    ref: ref,
+    "data-role": props['data-role'],
+    onKeyUp: onKeyUp,
+    onKeyDown: onKeyDown
+  }, renderNativeSelect(), React.createElement(value_1.Value, {
+    clearable: clearable,
+    searchable: searchable,
+    open: open,
+    disabled: disabled,
+    multi: multi,
+    mobile: native,
+    focused: focused,
+    options: props.options,
+    placeholder: placeholder,
+    error: error,
+    value: value,
+    search: search,
+    keepSearchOnBlur: keepSearchOnBlur,
+    equalCompareProp: equalCompareProp,
+    labelComponent: labelComponent,
+    valueComponentSingle: valueComponentSingle,
+    valueComponentMulti: valueComponentMulti,
+    arrowComponent: arrowComponent,
+    clearComponent: clearComponent,
+    valueIconComponent: props.valueIconComponent,
+    onClear: onClear,
+    onClick: toggleMenu,
+    onSearch: onSearch,
+    onSearchFocus: onSearchFocus,
+    onSearchBlur: onSearchBlur,
+    onOptionRemove: onOptionRemove
+  }), React.createElement(menu_1.Menu, {
+    open: open,
+    options: options,
+    value: value,
+    multi: multi,
+    error: error,
+    search: search,
+    selectedIndex: selectedIndex,
+    menuComponent: menuComponent,
+    labelComponent: labelComponent,
+    optionComponent: optionComponent,
+    hideSelectedOptions: hideSelectedOptions,
+    equalCompareProp: equalCompareProp,
+    emptyText: emptyText,
+    rowHeight: rowHeight,
+    menuWidth: menuWidth,
+    menuHeight: menuHeight,
+    onSelect: onOptionSelect
+  }));
+}
+
+exports.Select = React.forwardRef(SelectImpl);
+},{"tslib":"../../node_modules/tslib/tslib.es6.js","react":"../../node_modules/react/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js","./global-stylings":"../../src/global-stylings.tsx","./menu":"../../src/menu.tsx","./menu-container":"../../src/menu-container.tsx","./typings":"../../src/typings.ts","./utils":"../../src/utils.ts","./value":"../../src/value.tsx","./option":"../../src/option.tsx","./value-component-multi":"../../src/value-component-multi.tsx","./value-component-single":"../../src/value-component-single.tsx"}],"utils/options.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -46598,7 +46420,7 @@ var Options = _styledComponents.default.div(_templateObject4());
 
 var Option = _styledComponents.default.div(_templateObject5());
 
-var ArrowButton = _styledComponents.default.button(_templateObject6());
+var ArrowButton = _styledComponents.default.div(_templateObject6());
 
 var Headless =
 /*#__PURE__*/
@@ -46638,7 +46460,9 @@ function (_React$Component) {
           ref: onRef
         }, React.createElement(Value, {
           onClick: onToggle
-        }, placeholder && React.createElement(Placeholder, null, placeholder), value && !Array.isArray(value) && React.createElement("div", null, value.id, ". ", value.value), React.createElement(ArrowButton, null, open ? '▲' : '▼')), open && React.createElement(MenuContainer, null, React.createElement(Options, null, options.map(function (option, i) {
+        }, placeholder && React.createElement(Placeholder, null, placeholder), value && !Array.isArray(value) && React.createElement("div", null, value.id, ". ", value.value), React.createElement(ArrowButton, {
+          tabIndex: -1
+        }, open ? '▲' : '▼')), open && React.createElement(MenuContainer, null, React.createElement(Options, null, options.map(function (option, i) {
           return React.createElement(Option, {
             key: i,
             onClick: function onClick(e) {
@@ -47243,7 +47067,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62291" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51590" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
