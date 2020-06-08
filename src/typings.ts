@@ -31,6 +31,7 @@ export interface SelectProps<T = any> {
     valueIconComponent?: ReactComponent;
     'data-role'?: string;
     keepSearchOnBlur?: boolean;
+    control?: (instance: SelectStaticFunctions) => void;
     children?(config: {
         value?: T | T[];
         options: Option[];
@@ -40,8 +41,10 @@ export interface SelectProps<T = any> {
         onToggle(): void;
         onClose(): void;
         onOpen(): void;
-        onRef(el: HTMLDivElement | null): void;
-    }): React.ReactNode;
+        onRef?:
+            | ((instance: HTMLDivElement) => void)
+            | React.Ref<HTMLDivElement>;
+    }): JSX.Element | null;
     creatableText?: (value: string) => string | string;
     onChange?(value: T extends any[] ? T[] : T, option?: Option<T>): void;
     onCreate?(value: string): void;
@@ -50,15 +53,9 @@ export interface SelectProps<T = any> {
     onClose?(): void;
 }
 
-export interface SelectState {
-    open: boolean;
-    /** current search-value */
-    search?: string;
-    /** currently selected option-index */
-    selectedIndex?: number;
-    /** blindText is set when typing in a non-searchable text */
-    blindText: string;
-    focused?: boolean;
+export interface SelectStaticFunctions {
+    open(): void;
+    close(): void;
 }
 
 export interface Option<T = any> {
@@ -107,7 +104,7 @@ export interface OptionComponentProps<T = any> {
     selected?: boolean;
     height?: number;
     labelComponent: SelectProps['labelComponent'];
-    search: SelectState['search'];
+    search?: string;
     onSelect(value: T, option?: Option<T>): void;
 }
 

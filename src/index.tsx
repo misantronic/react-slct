@@ -1,4 +1,3 @@
-import { bind, debounce } from 'lodash-decorators';
 import * as React from 'react';
 import styled, { css } from 'styled-components';
 import './global-stylings';
@@ -8,8 +7,7 @@ import {
     LabelComponentProps,
     MenuComponentProps,
     Option,
-    SelectProps,
-    SelectState
+    SelectProps
 } from './typings';
 import {
     equal,
@@ -38,72 +36,107 @@ export {
     keys
 };
 
-export class Select<T = any> extends React.PureComponent<
-    SelectProps<T>,
-    SelectState
-> {
-    private static Container = styled.div`
-        display: flex;
-        position: relative;
-        cursor: default;
-        width: 100%;
-        box-sizing: border-box;
-        pointer-events: ${(props: { disabled?: boolean }) =>
-            props.disabled ? 'none' : 'auto'};
-        opacity: ${(props: { disabled?: boolean }) =>
-            props.disabled ? 0.75 : 1};
-        user-select: none;
-    `;
+const Container = styled.div`
+    display: flex;
+    position: relative;
+    cursor: default;
+    width: 100%;
+    box-sizing: border-box;
+    pointer-events: ${(props: { disabled?: boolean }) =>
+        props.disabled ? 'none' : 'auto'};
+    opacity: ${(props: { disabled?: boolean }) => (props.disabled ? 0.75 : 1)};
+    user-select: none;
+`;
 
-    private static NativeSelect = styled.select`
-        display: block;
-        opacity: 0;
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        ${(props: { native?: boolean }) =>
-            props.native
-                ? css`
-                      z-index: 1;
-                  `
-                : css`
-                      pointer-events: none;
-                      z-index: auto;
-                  `};
-    `;
+const NativeSelect = styled.select`
+    display: block;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    ${(props: { native?: boolean }) =>
+        props.native
+            ? css`
+                  z-index: 1;
+              `
+            : css`
+                  pointer-events: none;
+                  z-index: auto;
+              `};
+`;
 
-    private nativeSelect: React.RefObject<HTMLSelectElement>;
-    private container: HTMLDivElement | null = null;
-    private blindTextTimeout!: number;
+function SelectImpl<T = any>(
+    props: SelectProps<T>,
+    ref: React.Ref<HTMLDivElement>
+): JSX.Element | null {
+    const [open, setOpen] = React.useState(false);
+    const [blindText, setBlindText] = React.useState('');
+    const [selectedIndex, setSelectedIndex] = React.useState<
+        number | undefined
+    >(undefined);
+    const [search, setSearch] = React.useState<string | undefined>(undefined);
+    const [focused, setFocused] = React.useState(false);
+    const blindTextTimeout = React.useRef(0);
+    const nativeSelect = React.useRef<HTMLSelectElement>(null);
 
-    constructor(props: SelectProps) {
-        super(props);
+    const {
+        className,
+        creatable,
+        clearable,
+        placeholder,
+        value,
+        disabled,
+        error,
+        menuComponent,
+        labelComponent,
+        optionComponent,
+        valueComponentSingle,
+        valueComponentMulti,
+        arrowComponent,
+        clearComponent,
+        hideSelectedOptions,
+        equalCompareProp,
+        multi,
+        native,
+        emptyText,
+        rowHeight,
+        menuWidth,
+        menuHeight,
+        keepSearchOnBlur,
+        required,
+        creatableText
+    } = props;
+    const searchable = props.searchable || creatable;
+    const document = getDocument();
+    const options = getOptions();
 
-        this.nativeSelect = React.createRef();
+    React.useEffect(() => {
+        if (blindText) {
+            handleBlindTextUpdate();
+        }
+    }, [blindText]);
 
-        this.state = {
-            open: false,
-            blindText: ''
-        };
-    }
+    React.useEffect(() => {
+        props.control?.({ close: () => closeMenu(getValue()), open: openMenu });
+    }, [props.control]);
 
-    private get options(): Option<T>[] {
-        const { search } = this.state;
-        const { creatable, creatableText } = this.props;
-        let options = this.props.options || [];
+    function getOptions(): Option<T>[] {
+        let newOptions = props.options || [];
         const showCreate =
             creatable &&
-            !options.some((option) => {
+            !newOptions.some((option) => {
                 const { value, label } = option;
 
-                // @ts-ignore
-                return value === search || label === search;
+                return (
+                    (typeof value === 'string' && value === search) ||
+                    label === search
+                );
             });
 
         if (search) {
-            options = options.filter((option) =>
+            newOptions = newOptions.filter((option) =>
                 replaceUmlauts(option.label)
                     .toLowerCase()
                     .includes(replaceUmlauts(search).toLowerCase())
@@ -117,330 +150,87 @@ export class Select<T = any> extends React.PureComponent<
                     : creatableText(search)
                 : `Create "${search}"`;
 
-            options = [
+            newOptions = [
                 {
                     label,
                     value: search as any,
                     creatable: true
                 },
-                ...options
+                ...newOptions
             ];
         }
 
-        return options;
+        return newOptions;
     }
 
-    private get document() {
-        return getDocument();
-    }
+    function toggleMenu(): void {
+        const newOpen = !open;
 
-    private optionIsCreatable(option: Option<T>): boolean {
-        return (
-            this.props.creatable &&
-            option.creatable &&
-            Boolean(this.props.onCreate && this.state.search)
-        );
-    }
-
-    public componentDidUpdate(_, prevState: SelectState): void {
-        if (
-            this.state.blindText &&
-            prevState.blindText !== this.state.blindText
-        ) {
-            this.handleBlindTextUpdate();
-        }
-    }
-
-    public componentWillUnmount(): void {
-        this.removeDocumentListener();
-    }
-
-    public render(): React.ReactNode {
-        const { Container } = Select;
-        const {
-            className,
-            options,
-            creatable,
-            clearable,
-            placeholder,
-            value,
-            disabled,
-            error,
-            menuComponent,
-            labelComponent,
-            optionComponent,
-            valueComponentSingle,
-            valueComponentMulti,
-            arrowComponent,
-            clearComponent,
-            hideSelectedOptions,
-            equalCompareProp,
-            multi,
-            native,
-            emptyText,
-            rowHeight,
-            menuWidth,
-            menuHeight,
-            keepSearchOnBlur
-        } = this.props;
-        const { open, search, selectedIndex, focused } = this.state;
-        const searchable = this.props.searchable || creatable;
-
-        if (this.props.children) {
-            return this.renderChildren();
-        }
-
-        const classNames = [
-            'react-slct',
-            className,
-            open && 'open',
-            error && 'has-error'
-        ].filter((c) => Boolean(c));
-
-        return (
-            <Container
-                className={classNames.join(' ')}
-                disabled={disabled}
-                ref={this.onContainerRef as any}
-                data-role={this.props['data-role']}
-                onKeyUp={this.onKeyUp}
-                onKeyDown={this.onKeyDown}
-            >
-                {this.renderNativeSelect()}
-                <Value
-                    clearable={clearable}
-                    searchable={searchable}
-                    open={open}
-                    disabled={disabled}
-                    multi={multi}
-                    mobile={native}
-                    focused={focused}
-                    options={options}
-                    placeholder={placeholder}
-                    error={error}
-                    value={value}
-                    search={search}
-                    keepSearchOnBlur={keepSearchOnBlur}
-                    equalCompareProp={equalCompareProp}
-                    labelComponent={labelComponent}
-                    valueComponentSingle={valueComponentSingle}
-                    valueComponentMulti={valueComponentMulti}
-                    arrowComponent={arrowComponent}
-                    clearComponent={clearComponent}
-                    valueIconComponent={this.props.valueIconComponent}
-                    onClear={this.onClear}
-                    onClick={this.toggleMenu}
-                    onSearch={this.onSearch}
-                    onSearchFocus={this.onSearchFocus}
-                    onSearchBlur={this.onSearchBlur}
-                    onOptionRemove={this.onOptionRemove}
-                />
-                <Menu
-                    open={open}
-                    options={this.options}
-                    value={value}
-                    multi={multi}
-                    error={error}
-                    search={search}
-                    selectedIndex={selectedIndex}
-                    menuComponent={menuComponent}
-                    labelComponent={labelComponent}
-                    optionComponent={optionComponent}
-                    hideSelectedOptions={hideSelectedOptions}
-                    equalCompareProp={equalCompareProp}
-                    emptyText={emptyText}
-                    rowHeight={rowHeight}
-                    menuWidth={menuWidth}
-                    menuHeight={menuHeight}
-                    onSelect={this.onOptionSelect}
-                />
-            </Container>
-        );
-    }
-
-    private renderNativeSelect(): React.ReactNode {
-        const { NativeSelect } = Select;
-        const { native, placeholder, multi, required, disabled } = this.props;
-        const dataRole = this.props['data-role']
-            ? `select-${this.props['data-role']}`
-            : undefined;
-        const clearable = this.props.clearable && native;
-        const value =
-            isArray(this.props.value) && multi
-                ? this.props.value.map(this.findOptionIndex)
-                : this.findOptionIndex(this.props.value || '');
-        const propDisabled =
-            disabled !== undefined ? disabled : required ? false : !native;
-
-        return (
-            <NativeSelect
-                ref={this.nativeSelect as any}
-                multiple={multi}
-                value={value}
-                disabled={propDisabled}
-                required={required}
-                native={native}
-                tabIndex={-1}
-                data-role={dataRole}
-                onChange={this.onChangeNativeSelect}
-            >
-                <option value="" disabled={!clearable}>
-                    {placeholder}
-                </option>
-                {this.options.map((option, i) => (
-                    <option
-                        key={toKey(option.value, this.props.equalCompareProp)}
-                        value={`${i}`}
-                        disabled={option.disabled}
-                    >
-                        {option.label}
-                    </option>
-                ))}
-            </NativeSelect>
-        );
-    }
-
-    private renderChildren(): React.ReactNode {
-        const { options, placeholder, multi, children } = this.props;
-        const { open, search } = this.state;
-        const valueOptions = getValueOptions(
-            options || [],
-            this.props.value,
-            this.props.multi,
-            this.props.equalCompareProp
-        );
-        const value: T | T[] | undefined = !multi
-            ? this.props.value
-            : valueOptions.map((option) => option.value);
-        const showPlaceholder =
-            !search &&
-            (isArray(value) && multi
-                ? value.length === 0
-                : value === undefined || value === null);
-
-        if (!children) {
-            return null;
-        }
-
-        return children({
-            options: this.options,
-            open,
-            value,
-            MenuContainer,
-            placeholder: showPlaceholder ? placeholder : undefined,
-            onToggle: () => this.toggleMenu(),
-            onClose: () => this.closeMenu(value),
-            onOpen: () => this.openMenu(),
-            onRef: (ref) => (this.container = ref)
-        });
-    }
-
-    @bind
-    private toggleMenu(): void {
-        const open = !this.state.open;
-
-        if (open) {
-            this.openMenu();
+        if (newOpen) {
+            openMenu();
         } else {
-            this.closeMenu(this.props.value);
+            closeMenu(props.value);
         }
     }
 
-    @debounce(0)
-    private openMenu(): void {
-        const selectedIndex = this.props.hideSelectedOptions
+    function openMenu(): void {
+        const selectedIndex = props.hideSelectedOptions
             ? undefined
-            : this.options.findIndex((option) =>
-                  equal(
-                      option.value,
-                      this.props.value,
-                      this.props.equalCompareProp
-                  )
+            : options.findIndex((option) =>
+                  equal(option.value, props.value, props.equalCompareProp)
               );
-        const keepSearchOnBlur =
-            this.props.keepSearchOnBlur && !this.props.value;
+        const keepSearchOnBlur = props.keepSearchOnBlur && !props.value;
 
-        this.setState(
-            {
-                open: true,
-                search: keepSearchOnBlur ? this.state.search : undefined,
-                selectedIndex
-            },
-            () => {
-                if (this.props.onOpen) {
-                    this.props.onOpen();
-                }
+        setOpen(true);
+        setSearch(keepSearchOnBlur ? search : undefined);
+        setSelectedIndex(selectedIndex);
+        props.onOpen?.();
 
-                this.addDocumentListener();
-            }
-        );
+        addDocumentListener();
     }
 
-    @debounce(0)
-    private closeMenu(value: any | any[], callback = () => {}): void {
-        const keepSearchOnBlur = this.props.keepSearchOnBlur && !value;
+    function closeMenu(value: any | any[], callback = () => {}): void {
+        const keepSearchOnBlur = props.keepSearchOnBlur && !value;
 
-        this.removeDocumentListener();
-        this.setState(
-            {
-                open: false,
-                search: keepSearchOnBlur ? this.state.search : undefined,
-                selectedIndex: undefined
-            },
-            () => {
-                if (this.props.onClose) {
-                    this.props.onClose();
-                }
+        removeDocumentListener();
+        setOpen(false);
+        setSearch(keepSearchOnBlur ? search : undefined);
+        setSelectedIndex(undefined);
+        props.onClose?.();
 
-                callback();
-            }
-        );
+        callback();
     }
 
-    private createOption(value: string, cb?: () => void): void {
-        const { onCreate } = this.props;
-
-        if (onCreate) {
-            this.closeMenu(value, () => {
-                onCreate(value);
-
-                if (cb) {
-                    cb();
-                }
+    function createOption(value: string, cb?: () => void): void {
+        if (props.onCreate) {
+            closeMenu(value, () => {
+                props.onCreate?.(value);
+                cb?.();
             });
         }
     }
 
-    private addDocumentListener(): void {
-        this.removeDocumentListener();
+    function addDocumentListener(): void {
+        removeDocumentListener();
 
-        if (this.document) {
-            this.document.addEventListener('click', this.onDocumentClick);
-        }
+        document?.addEventListener('click', onDocumentClick);
     }
 
-    private removeDocumentListener(): void {
-        if (this.document) {
-            this.document.removeEventListener('click', this.onDocumentClick);
-        }
+    function removeDocumentListener(): void {
+        document?.removeEventListener('click', onDocumentClick);
     }
 
-    @bind
-    private cleanBlindText(): void {
-        this.blindTextTimeout = setTimeout(
-            () => this.setState({ blindText: '' }),
-            700
-        );
+    function cleanBlindText(): void {
+        blindTextTimeout.current = setTimeout(() => setBlindText(''), 700);
     }
 
-    @bind
-    private findOptionIndex(val: any) {
-        let index = this.options.findIndex((option) => option.value === val);
+    function findOptionIndex(val: any) {
+        let index = options.findIndex((option) => option.value === val);
 
         if (index === -1) {
             if (typeof val === 'object') {
-                index = this.options.findIndex((option) =>
-                    equal(option.value, val, this.props.equalCompareProp)
+                index = options.findIndex((option) =>
+                    equal(option.value, val, props.equalCompareProp)
                 );
             }
 
@@ -452,75 +242,64 @@ export class Select<T = any> extends React.PureComponent<
         return String(index);
     }
 
-    @bind
-    private onChangeNativeSelect(
-        e: React.SyntheticEvent<HTMLSelectElement>
-    ): void {
-        const { onChange, multi } = this.props;
+    function onChangeNativeSelect(e: React.SyntheticEvent<HTMLSelectElement>) {
         const { currentTarget } = e;
 
-        if (onChange) {
+        if (props.onChange) {
             if (currentTarget.value === '') {
-                this.onClear();
+                onClear();
             } else {
                 const values = Array.from(currentTarget.selectedOptions).map(
-                    (htmlOption) => this.options[htmlOption.index - 1].value
+                    (htmlOption) => options[htmlOption.index - 1].value
                 );
 
                 if (multi) {
-                    onChange(values as any);
+                    props.onChange(values as any);
                 } else {
-                    onChange(values[0] as any);
+                    props.onChange(values[0] as any);
                 }
             }
         }
     }
 
-    @bind
-    private onSearchFocus(): void {
-        const { open, focused } = this.state;
-
-        if (!open && !focused && !this.props.native) {
-            this.openMenu();
+    function onSearchFocus() {
+        if (!open && !focused && !native) {
+            openMenu();
         }
 
-        this.setState({ focused: true });
+        setFocused(true);
     }
 
-    @bind
-    private onSearchBlur(): void {
-        this.setState({ focused: false });
+    function onSearchBlur() {
+        setFocused(false);
     }
 
-    @bind
-    private onOptionSelect(value: any | any[], option?: Option<T>): void {
-        const { current } = this.nativeSelect;
-        const { multi, onChange, creatable } = this.props;
+    function onOptionSelect(value: any | any[], option?: Option<T>): void {
+        const { current } = nativeSelect;
         let optionWasCreated = false;
 
         const selectOnNative = () => {
             if (current) {
                 current.value =
                     isArray(value) && multi
-                        ? (value.map(this.findOptionIndex) as any)
-                        : this.findOptionIndex(value);
+                        ? (value.map(findOptionIndex) as any)
+                        : findOptionIndex(value);
             }
 
-            this.setState({ focused: true }, () =>
-                this.closeMenu(value, () => onChange && onChange(value, option))
-            );
+            setFocused(true);
+            closeMenu(value, () => props.onChange?.(value, option));
         };
 
         if (creatable) {
             const createValue = (val: any) => {
-                const option = this.options.find(
+                const option = options.find(
                     (option) =>
-                        this.optionIsCreatable(option) && option.value === val
+                        optionIsCreatable(option) && option.value === val
                 );
 
                 if (option) {
                     optionWasCreated = true;
-                    this.createOption(option.value as any, selectOnNative);
+                    createOption(option.value as any, selectOnNative);
                 }
             };
 
@@ -536,119 +315,111 @@ export class Select<T = any> extends React.PureComponent<
         }
     }
 
-    @bind
-    private onOptionRemove(value: any): void {
-        if (isArray(this.props.value) && this.props.multi) {
-            const values = this.props.value.filter(
-                (val) => !equal(val, value, this.props.equalCompareProp)
+    function onOptionRemove(value: any): void {
+        if (isArray(props.value) && props.multi) {
+            const values = props.value.filter(
+                (val) => !equal(val, value, props.equalCompareProp)
             );
 
-            this.onOptionSelect(values);
+            onOptionSelect(values);
         }
     }
 
-    @bind
-    private onClear(): void {
-        this.onOptionSelect(this.props.multi ? [] : undefined);
+    function onClear() {
+        onOptionSelect(props.multi ? [] : undefined);
     }
 
-    @bind
-    private onSearch(search: string): void {
-        this.setState({ search, open: true }, () => {
-            if (this.options.length === 1 || (this.props.creatable && search)) {
-                this.setState({ selectedIndex: 0 });
-            } else {
-                this.setState({ selectedIndex: undefined });
-            }
+    function onSearch(search: string): void {
+        setSearch(search);
+        setOpen(true);
 
-            if (this.props.onSearch) {
-                this.props.onSearch(search);
-            }
-        });
+        if (options.length === 1 || (props.creatable && search)) {
+            setSelectedIndex(0);
+        } else {
+            setSelectedIndex(undefined);
+        }
+
+        props.onSearch?.(search);
     }
 
-    @bind
-    private onDocumentClick(e): void {
+    function optionIsCreatable(option: Option<T>): boolean {
+        return (
+            creatable && option.creatable && Boolean(props.onCreate && search)
+        );
+    }
+
+    const onDocumentClick = React.useCallback((e) => {
         const { target } = e;
 
         if (target.closest('.react-slct-menu')) {
             return;
         }
 
-        if (this.container && !this.container.contains(target)) {
-            this.closeMenu(this.props.value);
+        if (typeof ref === 'object' && !ref?.current?.contains(target)) {
+            closeMenu(props.value);
         }
-    }
+    }, []);
 
-    @bind
-    private onKeyDown({ keyCode }: React.KeyboardEvent): void {
-        const { searchable, creatable } = this.props;
-
+    function onKeyDown({ keyCode }: React.KeyboardEvent): void {
         switch (keyCode) {
             case keys.TAB:
-                if (this.state.open) {
-                    this.closeMenu(this.props.value);
+                if (open) {
+                    closeMenu(props.value);
                 }
                 break;
         }
 
         if (!searchable && !creatable) {
-            this.handleBlindText(keyCode);
+            handleBlindText(keyCode);
         }
     }
 
-    @bind
-    private onKeyUp({ keyCode }: React.KeyboardEvent): void {
-        const { search, open } = this.state;
-        const { value, multi } = this.props;
-        let selectedIndex = this.state.selectedIndex;
+    function onKeyUp({ keyCode }: React.KeyboardEvent): void {
+        let newSelectedIndex = selectedIndex;
 
         switch (keyCode) {
             case keys.ARROW_UP:
                 if (open) {
-                    if (selectedIndex !== undefined) {
-                        selectedIndex = selectedIndex - 1;
+                    if (newSelectedIndex !== undefined) {
+                        newSelectedIndex = newSelectedIndex - 1;
 
-                        if (selectedIndex < 0) {
-                            selectedIndex = this.options.length - 1;
+                        if (newSelectedIndex < 0) {
+                            newSelectedIndex = options.length - 1;
                         }
                     }
 
-                    this.setState({ selectedIndex });
+                    setSelectedIndex(newSelectedIndex);
                 } else {
-                    this.openMenu();
+                    openMenu();
                 }
                 break;
             case keys.ARROW_DOWN:
                 if (open) {
                     if (
-                        selectedIndex === undefined ||
-                        selectedIndex === this.options.length - 1
+                        newSelectedIndex === undefined ||
+                        newSelectedIndex === options.length - 1
                     ) {
-                        selectedIndex = 0;
+                        newSelectedIndex = 0;
                     } else {
-                        selectedIndex = selectedIndex + 1;
+                        newSelectedIndex = newSelectedIndex + 1;
                     }
 
-                    this.setState({ selectedIndex });
+                    setSelectedIndex(newSelectedIndex);
                 } else {
-                    this.openMenu();
+                    openMenu();
                 }
                 break;
             case keys.ENTER:
-                if (
-                    this.state.selectedIndex === 0 &&
-                    this.optionIsCreatable(this.options[0])
-                ) {
-                    this.createOption(search!);
+                if (selectedIndex === 0 && optionIsCreatable(options[0])) {
+                    createOption(search!);
                 } else if (
-                    selectedIndex !== undefined &&
-                    this.options[selectedIndex]
+                    newSelectedIndex !== undefined &&
+                    options[newSelectedIndex]
                 ) {
-                    const option = this.options[selectedIndex];
+                    const option = options[newSelectedIndex];
                     const newValue = option.value;
 
-                    this.onOptionSelect(
+                    onOptionSelect(
                         isArray(value) && multi
                             ? [...value, newValue]
                             : newValue,
@@ -658,80 +429,210 @@ export class Select<T = any> extends React.PureComponent<
                 break;
             case keys.ESC:
                 if (open) {
-                    this.closeMenu(value);
+                    closeMenu(value);
                 }
                 break;
         }
     }
 
-    private handleBlindText(keyCode: number): void {
-        const { blindText } = this.state;
-
+    function handleBlindText(keyCode: number): void {
         if (keyCode === keys.BACKSPACE && blindText.length) {
-            clearTimeout(this.blindTextTimeout);
+            clearTimeout(blindTextTimeout.current);
 
-            this.setState(
-                {
-                    blindText: blindText.slice(0, blindText.length - 1)
-                },
-                this.cleanBlindText
-            );
+            setBlindText(blindText.slice(0, blindText.length - 1));
+            cleanBlindText();
         } else if (keyCode === keys.SPACE) {
-            clearTimeout(this.blindTextTimeout);
+            clearTimeout(blindTextTimeout.current);
 
-            this.setState(
-                {
-                    blindText: blindText + ' '
-                },
-                this.cleanBlindText
-            );
+            setBlindText(blindText + ' ');
+            cleanBlindText();
         } else {
             const key = String.fromCodePoint(keyCode);
 
             if (/\w/.test(key)) {
-                clearTimeout(this.blindTextTimeout);
+                clearTimeout(blindTextTimeout.current);
 
-                this.setState(
-                    {
-                        blindText: blindText + key
-                    },
-                    this.cleanBlindText
-                );
+                setBlindText(blindText + key);
+                cleanBlindText();
             }
         }
     }
 
-    @bind
-    private onContainerRef(el: HTMLDivElement | null): void {
-        this.container = el;
-    }
-
-    private handleBlindTextUpdate(): void {
-        const { open, blindText } = this.state;
-        const { multi } = this.props;
-
+    function handleBlindTextUpdate(): void {
         if (open) {
-            const selectedIndex = this.options.findIndex((option) =>
+            const newSelectedIndex = options.findIndex((option) =>
                 option.label.toLowerCase().startsWith(blindText.toLowerCase())
             );
 
-            if (selectedIndex >= 0) {
-                this.setState({ selectedIndex });
+            if (newSelectedIndex >= 0) {
+                setSelectedIndex(newSelectedIndex);
             }
         } else if (!multi) {
             if (blindText) {
-                const option = this.options.find((option) =>
+                const option = options.find((option) =>
                     option.label
                         .toLowerCase()
                         .startsWith(blindText.toLowerCase())
                 );
 
                 if (option) {
-                    this.onOptionSelect(option.value, option);
+                    onOptionSelect(option.value, option);
                 }
             } else {
-                this.onOptionSelect(undefined);
+                onOptionSelect(undefined);
             }
         }
     }
+
+    function getValue(): T | T[] | undefined {
+        const valueOptions = getValueOptions(
+            props.options || [],
+            props.value,
+            props.multi,
+            props.equalCompareProp
+        );
+        return !multi
+            ? props.value
+            : valueOptions.map((option) => option.value);
+    }
+
+    function renderChildren(): JSX.Element | null {
+        const value = getValue();
+        const showPlaceholder =
+            !search &&
+            (isArray(value) && multi
+                ? value.length === 0
+                : value === undefined || value === null);
+
+        if (!props.children) {
+            return null;
+        }
+
+        return props.children({
+            options,
+            open,
+            value,
+            MenuContainer,
+            placeholder: showPlaceholder ? placeholder : undefined,
+            onToggle: toggleMenu,
+            onClose: () => closeMenu(value),
+            onOpen: openMenu,
+            onRef: ref
+        });
+    }
+
+    function renderNativeSelect(): React.ReactNode {
+        const dataRole = props['data-role']
+            ? `select-${props['data-role']}`
+            : undefined;
+        const clearable = props.clearable && native;
+        const value =
+            isArray(props.value) && multi
+                ? props.value.map(findOptionIndex)
+                : findOptionIndex(props.value || '');
+        const propDisabled =
+            disabled !== undefined ? disabled : required ? false : !native;
+
+        return (
+            <NativeSelect
+                ref={nativeSelect as any}
+                multiple={multi}
+                value={value}
+                disabled={propDisabled}
+                required={required}
+                native={native}
+                tabIndex={-1}
+                data-role={dataRole}
+                onChange={onChangeNativeSelect}
+            >
+                <option value="" disabled={!clearable}>
+                    {placeholder}
+                </option>
+                {options.map((option, i) => (
+                    <option
+                        key={toKey(option.value, props.equalCompareProp)}
+                        value={`${i}`}
+                        disabled={option.disabled}
+                    >
+                        {option.label}
+                    </option>
+                ))}
+            </NativeSelect>
+        );
+    }
+
+    if (props.children) {
+        return renderChildren();
+    }
+
+    const classNames = [
+        'react-slct',
+        className,
+        open && 'open',
+        error && 'has-error'
+    ].filter((c) => Boolean(c));
+
+    return (
+        <Container
+            className={classNames.join(' ')}
+            disabled={disabled}
+            ref={ref}
+            data-role={props['data-role']}
+            onKeyUp={onKeyUp}
+            onKeyDown={onKeyDown}
+        >
+            {renderNativeSelect()}
+            <Value
+                clearable={clearable}
+                searchable={searchable}
+                open={open}
+                disabled={disabled}
+                multi={multi}
+                mobile={native}
+                focused={focused}
+                options={props.options}
+                placeholder={placeholder}
+                error={error}
+                value={value}
+                search={search}
+                keepSearchOnBlur={keepSearchOnBlur}
+                equalCompareProp={equalCompareProp}
+                labelComponent={labelComponent}
+                valueComponentSingle={valueComponentSingle}
+                valueComponentMulti={valueComponentMulti}
+                arrowComponent={arrowComponent}
+                clearComponent={clearComponent}
+                valueIconComponent={props.valueIconComponent}
+                onClear={onClear}
+                onClick={toggleMenu}
+                onSearch={onSearch}
+                onSearchFocus={onSearchFocus}
+                onSearchBlur={onSearchBlur}
+                onOptionRemove={onOptionRemove}
+            />
+            <Menu
+                open={open}
+                options={options}
+                value={value}
+                multi={multi}
+                error={error}
+                search={search}
+                selectedIndex={selectedIndex}
+                menuComponent={menuComponent}
+                labelComponent={labelComponent}
+                optionComponent={optionComponent}
+                hideSelectedOptions={hideSelectedOptions}
+                equalCompareProp={equalCompareProp}
+                emptyText={emptyText}
+                rowHeight={rowHeight}
+                menuWidth={menuWidth}
+                menuHeight={menuHeight}
+                onSelect={onOptionSelect}
+            />
+        </Container>
+    );
 }
+
+export const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
+    SelectImpl
+);
