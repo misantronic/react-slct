@@ -60,8 +60,15 @@ function SelectImpl(props, ref) {
         }
     }, [blindText]);
     React.useEffect(() => {
-        var _a;
-        (_a = props.control) === null || _a === void 0 ? void 0 : _a.call(props, { close: () => closeMenu(getValue()), open: openMenu });
+        if (props.control) {
+            const ref = { close: () => closeMenu(getValue()), open: openMenu };
+            if (props.control instanceof Function) {
+                props.control(ref);
+            }
+            else if (props.control instanceof Object) {
+                props.control.current = ref;
+            }
+        }
     }, [props.control]);
     function getOptions() {
         let newOptions = props.options || [];
