@@ -120,7 +120,15 @@ function SelectImpl<T = any>(
     }, [blindText]);
 
     React.useEffect(() => {
-        props.control?.({ close: () => closeMenu(getValue()), open: openMenu });
+        if (props.control) {
+            const ref = { close: () => closeMenu(getValue()), open: openMenu };
+
+            if (props.control instanceof Function) {
+                props.control(ref);
+            } else if (props.control instanceof Object) {
+                props.control.current = ref;
+            }
+        }
     }, [props.control]);
 
     function getOptions(): Option<T>[] {
