@@ -539,8 +539,7 @@ function SelectImpl<T = any>(
             isArray(props.value) && multi
                 ? props.value.map(findOptionIndex)
                 : findOptionIndex(props.value || '');
-        const propDisabled =
-            disabled !== undefined ? disabled : required ? false : !native;
+        const propDisabled = disabled ? disabled : required ? false : !native;
 
         return (
             <NativeSelect
