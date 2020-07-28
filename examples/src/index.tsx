@@ -127,6 +127,10 @@ render(
             <Single placeholder="Errored select..." error />
             <Code>{code(`error`)}</Code>
         </Example>
+         <Example>
+            <Single placeholder="Simple select with explicit disabled={false}" disabled={false} />
+            <Code>{code(`onChange={value => ...}`)}</Code>
+        </Example>
 
         <br />
         <br />
