@@ -293,6 +293,19 @@ render(
         <Example>
             <Headless />
         </Example>
+
+        <br />
+        <br />
+
+        <h2>Native</h2>
+
+        <Example>
+            <Single native placeholder="choose from native select..."/>
+        </Example>
+
+        <Example>
+            <Single native disabled placeholder="disabled native select"/>
+        </Example>
     </App>,
     document.getElementById('app')
 );
