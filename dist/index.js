@@ -394,7 +394,7 @@ function SelectImpl(props, ref) {
         const value = utils_1.isArray(props.value) && multi
             ? props.value.map(findOptionIndex)
             : findOptionIndex(props.value || '');
-        const propDisabled = disabled !== undefined ? disabled : required ? false : !native;
+        const propDisabled = disabled ? disabled : required ? false : !native;
         return (React.createElement(NativeSelect, { ref: nativeSelect, multiple: multi, value: value, disabled: propDisabled, required: required, native: native, tabIndex: -1, "data-role": dataRole, onChange: onChangeNativeSelect },
             React.createElement("option", { value: "", disabled: !clearable }, placeholder),
             options.map((option, i) => (React.createElement("option", { key: utils_1.toKey(option.value, props.equalCompareProp), value: `${i}`, disabled: option.disabled }, option.label)))));
