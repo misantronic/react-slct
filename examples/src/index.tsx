@@ -300,7 +300,7 @@ render(
         <br />
         <br />
 
-        <h2>⛺ Native</h2>
+        <h2>🏹 Native</h2>
 
         <Example>
             <Single native placeholder="Choose from native select..." />
