@@ -127,8 +127,11 @@ render(
             <Single placeholder="Errored select..." error />
             <Code>{code(`error`)}</Code>
         </Example>
-         <Example>
-            <Single placeholder="Simple select with explicit disabled={false}" disabled={false} />
+        <Example>
+            <Single
+                placeholder="Simple select with explicit disabled={false}"
+                disabled={false}
+            />
             <Code>{code(`onChange={value => ...}`)}</Code>
         </Example>
 
@@ -297,14 +300,14 @@ render(
         <br />
         <br />
 
-        <h2>Native</h2>
+        <h2>⛺ Native</h2>
 
         <Example>
-            <Single native placeholder="choose from native select..."/>
+            <Single native placeholder="Choose from native select..." />
         </Example>
 
         <Example>
-            <Single native disabled placeholder="disabled native select"/>
+            <Single native disabled placeholder="Disabled native select..." />
         </Example>
     </App>,
     document.getElementById('app')

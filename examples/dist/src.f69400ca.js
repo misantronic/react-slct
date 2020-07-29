@@ -45639,6 +45639,7 @@ var typings_2 = require("./typings");
 exports.OptionComponentProps = typings_2.OptionComponentProps;
 exports.ValueComponentMultiProps = typings_2.ValueComponentMultiProps;
 exports.ValueComponentSingleProps = typings_2.ValueComponentSingleProps;
+exports.SelectStaticControl = typings_2.SelectStaticControl;
 
 var value_component_multi_1 = require("./value-component-multi");
 
@@ -45683,12 +45684,6 @@ function SelectImpl(props, ref) {
       setFocused = _React$useState10[1];
 
   var blindTextTimeout = React.useRef(0);
-  var staticFunctions = React.useRef({
-    close: function close() {
-      return closeMenu(getValue());
-    },
-    open: openMenu
-  });
   var nativeSelect = React.useRef(null);
   var className = props.className,
       creatable = props.creatable,
@@ -45724,14 +45719,20 @@ function SelectImpl(props, ref) {
     }
   }, [blindText]);
   React.useEffect(function () {
-    var _a;
+    if (props.control) {
+      var _ref = {
+        close: function close() {
+          return closeMenu(getValue());
+        },
+        open: openMenu
+      };
 
-    (_a = props.control) === null || _a === void 0 ? void 0 : _a.call(props, {
-      close: function close() {
-        return closeMenu(getValue());
-      },
-      open: openMenu
-    });
+      if (props.control instanceof Function) {
+        props.control(_ref);
+      } else if (props.control instanceof Object) {
+        props.control.current = _ref;
+      }
+    }
   }, [props.control]);
 
   function getOptions() {
@@ -45963,8 +45964,8 @@ function SelectImpl(props, ref) {
     }
   }, []);
 
-  function onKeyDown(_ref) {
-    var keyCode = _ref.keyCode;
+  function onKeyDown(_ref2) {
+    var keyCode = _ref2.keyCode;
 
     switch (keyCode) {
       case utils_1.keys.TAB:
@@ -45980,8 +45981,8 @@ function SelectImpl(props, ref) {
     }
   }
 
-  function onKeyUp(_ref2) {
-    var keyCode = _ref2.keyCode;
+  function onKeyUp(_ref3) {
+    var keyCode = _ref3.keyCode;
     var newSelectedIndex = selectedIndex;
 
     switch (keyCode) {
@@ -46115,7 +46116,7 @@ function SelectImpl(props, ref) {
     var dataRole = props['data-role'] ? "select-".concat(props['data-role']) : undefined;
     var clearable = props.clearable && native;
     var value = utils_1.isArray(props.value) && multi ? props.value.map(findOptionIndex) : findOptionIndex(props.value || '');
-    var propDisabled = disabled !== undefined ? disabled : required ? false : !native;
+    var propDisabled = disabled ? disabled : required ? false : !native;
     return React.createElement(NativeSelect, {
       ref: nativeSelect,
       multiple: multi,
@@ -47002,7 +47003,10 @@ var code = function code() {
 }), React.createElement(_code.Code, null, code("disabled", "onChange={value => ...}"))), React.createElement(Example, null, React.createElement(_single.Single, {
   placeholder: "Errored select...",
   error: true
-}), React.createElement(_code.Code, null, code("error"))), React.createElement("br", null), React.createElement("br", null), React.createElement("h2", null, "\uD83D\uDC6F Multi"), React.createElement(Example, null, React.createElement(_multi.Multi, {
+}), React.createElement(_code.Code, null, code("error"))), React.createElement(Example, null, React.createElement(_single.Single, {
+  placeholder: "Simple select with explicit disabled={false}",
+  disabled: false
+}), React.createElement(_code.Code, null, code("onChange={value => ...}"))), React.createElement("br", null), React.createElement("br", null), React.createElement("h2", null, "\uD83D\uDC6F Multi"), React.createElement(Example, null, React.createElement(_multi.Multi, {
   placeholder: "Simple multi select..."
 }), React.createElement(_code.Code, null, code("multi", "onChange={values => ...}"))), React.createElement(Example, null, React.createElement(_multi.Multi, {
   searchable: true,
@@ -47038,7 +47042,14 @@ var code = function code() {
 }), React.createElement(_code.Code, null, "const optionComponent = (props: OptionComponentProps) => (\n    <CustomOptionComponent onClick={() => props.onSelect(props.value)}>\n        {props.icon} {props.label}\n    </CustomOptionComponent>\n);\n\n", code("optionComponent={optionComponent}", "onChange={value => ...}"))), React.createElement(Example, null, React.createElement(_single.Single, {
   placeholder: "Custom menuComponent...",
   menuComponent: menuComponent
-}), React.createElement(_code.Code, null, "const menuComponent = (props: MenuComponentProps) => (\n    <div style={{ border: '1px solid #ccc', padding: 10 }}>\n        {props.options.map((option, i) => (\n            <div key={i}>\n                <button\n                    onClick={() => props.onSelect(option.value)}\n                    style={{ width: '100%' }}\n                >\n                    {option.icon} {option.label}\n                </button>\n            </div>\n        ))}\n    </div>\n);\n\n", code("menuComponent={menuComponent}", "onChange={value => ...}"))), React.createElement("br", null), React.createElement("br", null), React.createElement("h2", null, "\uD83C\uDFCE Headless"), React.createElement(Example, null, React.createElement(_headless.Headless, null))), document.getElementById('app'));
+}), React.createElement(_code.Code, null, "const menuComponent = (props: MenuComponentProps) => (\n    <div style={{ border: '1px solid #ccc', padding: 10 }}>\n        {props.options.map((option, i) => (\n            <div key={i}>\n                <button\n                    onClick={() => props.onSelect(option.value)}\n                    style={{ width: '100%' }}\n                >\n                    {option.icon} {option.label}\n                </button>\n            </div>\n        ))}\n    </div>\n);\n\n", code("menuComponent={menuComponent}", "onChange={value => ...}"))), React.createElement("br", null), React.createElement("br", null), React.createElement("h2", null, "\uD83C\uDFCE Headless"), React.createElement(Example, null, React.createElement(_headless.Headless, null)), React.createElement("br", null), React.createElement("br", null), React.createElement("h2", null, "\u26FA Native"), React.createElement(Example, null, React.createElement(_single.Single, {
+  native: true,
+  placeholder: "Choose from native select..."
+})), React.createElement(Example, null, React.createElement(_single.Single, {
+  native: true,
+  disabled: true,
+  placeholder: "Disabled native select..."
+}))), document.getElementById('app'));
 },{"react":"../../node_modules/react/index.js","react-dom":"../../node_modules/react-dom/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js","./components/headless":"components/headless.tsx","./components/single":"components/single.tsx","./components/multi":"components/multi.tsx","./components/code":"components/code.tsx","./utils/options":"utils/options.ts"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -47067,7 +47078,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51590" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63488" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
