@@ -44591,6 +44591,8 @@ function (_React$PureComponent) {
   }, {
     key: "style",
     get: function get() {
+      var _a;
+
       var window = this.window;
       var _this$props2 = this.props,
           menuLeft = _this$props2.menuLeft,
@@ -44599,14 +44601,14 @@ function (_React$PureComponent) {
       var _this$state2 = this.state,
           menuOverlay = _this$state2.menuOverlay,
           menuWrapper = _this$state2.menuWrapper;
-      var menuHeight = this.props.menuHeight || (menuWrapper ? menuWrapper.height : 'auto');
-      var width = menuWidth || (menuOverlay ? menuOverlay.width : 'auto');
-      var height = menuHeight || (menuWrapper ? menuWrapper.height : 'auto');
-      var top = menuTop !== undefined ? menuTop : getContainerTop({
+      var menuHeight = this.props.menuHeight || (menuWrapper === null || menuWrapper === void 0 ? void 0 : menuWrapper.height) || 'auto';
+      var width = menuWidth || (menuOverlay === null || menuOverlay === void 0 ? void 0 : menuOverlay.width) || 'auto';
+      var height = menuHeight || (menuWrapper === null || menuWrapper === void 0 ? void 0 : menuWrapper.height) || 'auto';
+      var top = menuTop !== null && menuTop !== void 0 ? menuTop : getContainerTop({
         rect: menuOverlay,
         menuHeight: height
       });
-      var left = menuLeft !== undefined ? menuLeft : menuOverlay ? menuOverlay.left : 0;
+      var left = (_a = menuLeft !== null && menuLeft !== void 0 ? menuLeft : menuOverlay === null || menuOverlay === void 0 ? void 0 : menuOverlay.left) !== null && _a !== void 0 ? _a : 0;
 
       if (window) {
         var numWidth = Number(width);
@@ -47078,7 +47080,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63488" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52419" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

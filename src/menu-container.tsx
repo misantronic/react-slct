@@ -130,24 +130,16 @@ export class MenuContainer extends React.PureComponent<
         const { menuLeft, menuTop, menuWidth } = this.props;
         const { menuOverlay, menuWrapper } = this.state;
         const menuHeight =
-            this.props.menuHeight ||
-            (menuWrapper ? menuWrapper.height : 'auto');
-        let width = menuWidth || (menuOverlay ? menuOverlay.width : 'auto');
-        const height =
-            menuHeight || (menuWrapper ? menuWrapper.height : 'auto');
+            this.props.menuHeight || menuWrapper?.height || 'auto';
+        let width = menuWidth || menuOverlay?.width || 'auto';
+        const height = menuHeight || menuWrapper?.height || 'auto';
         const top =
-            menuTop !== undefined
-                ? menuTop
-                : getContainerTop({
-                      rect: menuOverlay,
-                      menuHeight: height
-                  });
-        let left =
-            menuLeft !== undefined
-                ? menuLeft
-                : menuOverlay
-                ? menuOverlay.left
-                : 0;
+            menuTop ??
+            getContainerTop({
+                rect: menuOverlay,
+                menuHeight: height
+            });
+        let left = menuLeft ?? menuOverlay?.left ?? 0;
 
         if (window) {
             const numWidth = Number(width);
@@ -202,7 +194,7 @@ export class MenuContainer extends React.PureComponent<
     public render(): React.ReactNode {
         const { error, onClick, children } = this.props;
         const className = ['react-slct-menu', this.props.className]
-            .filter(c => c)
+            .filter((c) => c)
             .join(' ');
 
         return (
