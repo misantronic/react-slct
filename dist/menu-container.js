@@ -1,7 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const lodash_decorators_1 = require("lodash-decorators");
 const React = require("react");
 const react_dom_1 = require("react-dom");
 const styled_components_1 = require("styled-components");
@@ -62,48 +60,82 @@ const MenuWrapper = styled_components_1.default.div `
         }
     }
 `;
-class MenuContainer extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-    get menuOverlayRect() {
-        if (this.menuOverlay) {
-            const clientRect = this.menuOverlay.getBoundingClientRect();
-            return {
+function MenuContainer(props) {
+    const { error, onClick, children } = props;
+    const className = ['react-slct-menu', props.className]
+        .filter((c) => c)
+        .join(' ');
+    const document = utils_1.getDocument();
+    const window = utils_1.getWindow();
+    const menuOverlay = React.useRef(null);
+    const menuWrapper = React.useRef(null);
+    const [menuOverlayRect, setMenuOverlayRect] = React.useState();
+    const [menuWrapperRect, setMenuWrapperRect] = React.useState();
+    function calcMenuOverlay() {
+        if (menuOverlay.current) {
+            const clientRect = menuOverlay.current.getBoundingClientRect();
+            setMenuOverlayRect({
                 left: Math.round(clientRect.left),
                 top: Math.round(clientRect.top),
                 width: Math.round(clientRect.width),
                 height: Math.round(clientRect.height)
-            };
+            });
         }
-        return undefined;
     }
-    get menuWrapperRect() {
-        if (this.menuWrapper) {
-            const clientRect = this.menuWrapper.getBoundingClientRect();
-            return {
+    function calcMenuWrapper() {
+        if (menuWrapper.current) {
+            const clientRect = menuWrapper.current.getBoundingClientRect();
+            setMenuWrapperRect({
                 left: Math.round(clientRect.left),
                 top: Math.round(clientRect.top),
                 width: Math.round(clientRect.width),
                 height: Math.round(clientRect.height)
-            };
+            });
         }
-        return undefined;
     }
-    get style() {
+    React.useEffect(calcMenuOverlay, [menuOverlay.current]);
+    React.useEffect(() => {
         var _a;
-        const { window } = this;
-        const { menuLeft, menuTop, menuWidth } = this.props;
-        const { menuOverlay, menuWrapper } = this.state;
-        const menuHeight = this.props.menuHeight || (menuWrapper === null || menuWrapper === void 0 ? void 0 : menuWrapper.height) || 'auto';
-        let width = menuWidth || (menuOverlay === null || menuOverlay === void 0 ? void 0 : menuOverlay.width) || 'auto';
-        const height = menuHeight || (menuWrapper === null || menuWrapper === void 0 ? void 0 : menuWrapper.height) || 'auto';
+        calcMenuWrapper();
+        if (menuWrapper.current) {
+            (_a = props.onRef) === null || _a === void 0 ? void 0 : _a.call(props, menuWrapper.current);
+        }
+    }, [menuWrapper.current]);
+    React.useEffect(() => {
+        var _a;
+        (_a = props.onRect) === null || _a === void 0 ? void 0 : _a.call(props, menuOverlayRect, menuWrapperRect);
+    }, [menuOverlayRect, menuWrapperRect]);
+    React.useEffect(() => {
+        window === null || window === void 0 ? void 0 : window.addEventListener('scroll', onViewportChange, true);
+        window === null || window === void 0 ? void 0 : window.addEventListener('resize', onViewportChange, true);
+        function allowRectChange(e) {
+            if (e.target.closest && !e.target.closest('.react-slct-menu')) {
+                return false;
+            }
+            return true;
+        }
+        function onViewportChange(e) {
+            if (allowRectChange(e)) {
+                calcMenuOverlay();
+                calcMenuWrapper();
+            }
+        }
+        return () => {
+            window === null || window === void 0 ? void 0 : window.removeEventListener('resize', onViewportChange, true);
+            window === null || window === void 0 ? void 0 : window.removeEventListener('scroll', onViewportChange, true);
+        };
+    }, []);
+    const style = (() => {
+        var _a;
+        const { menuLeft, menuTop, menuWidth } = props;
+        const menuHeight = props.menuHeight || (menuWrapperRect === null || menuWrapperRect === void 0 ? void 0 : menuWrapperRect.height) || 'auto';
+        let width = menuWidth || (menuOverlayRect === null || menuOverlayRect === void 0 ? void 0 : menuOverlayRect.width) || 'auto';
+        const height = menuHeight || (menuWrapperRect === null || menuWrapperRect === void 0 ? void 0 : menuWrapperRect.height) || 'auto';
         const top = menuTop !== null && menuTop !== void 0 ? menuTop : getContainerTop({
-            rect: menuOverlay,
+            rect: menuOverlayRect,
             menuHeight: height
         });
-        let left = (_a = menuLeft !== null && menuLeft !== void 0 ? menuLeft : menuOverlay === null || menuOverlay === void 0 ? void 0 : menuOverlay.left) !== null && _a !== void 0 ? _a : 0;
+        let left = (_a = menuLeft !== null && menuLeft !== void 0 ? menuLeft : menuOverlayRect === null || menuOverlayRect === void 0 ? void 0 : menuOverlayRect.left) !== null && _a !== void 0 ? _a : 0;
         if (window) {
             const numWidth = Number(width);
             if (numWidth > window.innerWidth) {
@@ -113,102 +145,14 @@ class MenuContainer extends React.PureComponent {
                 left = Math.max(10, window.innerWidth - numWidth - 20);
             }
         }
-        return { top, left, width, height };
-    }
-    get window() {
-        return utils_1.getWindow();
-    }
-    get document() {
-        return utils_1.getDocument();
-    }
-    componentDidMount() {
-        this.addListener();
-    }
-    componentDidUpdate(_, prevState) {
-        const { menuOverlay, menuWrapper } = this.state;
-        if (this.props.onRect) {
-            if (prevState.menuOverlay !== menuOverlay ||
-                prevState.menuWrapper !== menuWrapper) {
-                this.props.onRect(menuOverlay, menuWrapper);
-            }
+        if (left && top) {
+            return { top, left, width, height };
         }
-    }
-    componentWillUnmount() {
-        this.removeListener();
-    }
-    render() {
-        const { error, onClick, children } = this.props;
-        const className = ['react-slct-menu', this.props.className]
-            .filter((c) => c)
-            .join(' ');
-        return (React.createElement(MenuOverlay, { ref: this.onMenuOverlay }, this.document
-            ? react_dom_1.createPortal(React.createElement(MenuWrapper, { "data-role": "menu", className: className, error: error, ref: this.onMenuWrapper, onClick: onClick, rect: this.state.menuOverlay, style: this.style }, children), this.document.body)
-            : null));
-    }
-    addListener() {
-        if (this.window) {
-            this.window.addEventListener('scroll', this.onViewportChange, true);
-            this.window.addEventListener('resize', this.onViewportChange, true);
-        }
-    }
-    removeListener() {
-        if (this.window) {
-            this.window.removeEventListener('resize', this.onViewportChange, true);
-            this.window.removeEventListener('scroll', this.onViewportChange, true);
-        }
-    }
-    allowRectChange(e) {
-        if (e.target.closest && !e.target.closest('.react-slct-menu')) {
-            return false;
-        }
-        return true;
-    }
-    onViewportChange(e) {
-        if (this.allowRectChange(e)) {
-            this.setState({
-                menuOverlay: this.menuOverlayRect,
-                menuWrapper: this.menuWrapperRect
-            });
-        }
-    }
-    onMenuOverlay(el) {
-        this.menuOverlay = el;
-        if (this.menuOverlay) {
-            this.setState({
-                menuOverlay: this.menuOverlayRect
-            });
-        }
-    }
-    onMenuWrapper(el) {
-        if (el && this.props.onRef) {
-            this.props.onRef(el);
-        }
-        this.menuWrapper = el;
-        if (this.menuWrapper) {
-            this.setState({
-                menuWrapper: this.menuWrapperRect
-            });
-        }
-    }
+        return undefined;
+    })();
+    return (React.createElement(MenuOverlay, { ref: menuOverlay }, document && style
+        ? react_dom_1.createPortal(React.createElement(MenuWrapper, { "data-role": "menu", className: className, error: error, ref: menuWrapper, onClick: onClick, rect: menuOverlayRect, style: style }, children), document.body)
+        : null));
 }
-tslib_1.__decorate([
-    lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
-], MenuContainer.prototype, "onViewportChange", null);
-tslib_1.__decorate([
-    lodash_decorators_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
-], MenuContainer.prototype, "onMenuOverlay", null);
-tslib_1.__decorate([
-    lodash_decorators_1.bind,
-    lodash_decorators_1.debounce(16),
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
-], MenuContainer.prototype, "onMenuWrapper", null);
 exports.MenuContainer = MenuContainer;
 //# sourceMappingURL=menu-container.js.map

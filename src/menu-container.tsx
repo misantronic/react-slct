@@ -1,14 +1,8 @@
-import { bind, debounce } from 'lodash-decorators';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import { MenuContainerProps, Rect } from './typings';
 import { getDocument, getWindow, getWindowInnerHeight } from './utils';
-
-export interface MenuContainerState {
-    menuOverlay?: Rect;
-    menuWrapper?: Rect;
-}
 
 interface MenuWrapperProps {
     rect?: Rect;
@@ -88,58 +82,95 @@ const MenuWrapper = styled.div`
     }
 `;
 
-export class MenuContainer extends React.PureComponent<
-    MenuContainerProps,
-    MenuContainerState
-> {
-    private menuOverlay?: HTMLDivElement | null;
-    private menuWrapper?: HTMLDivElement | null;
+export function MenuContainer(props: MenuContainerProps) {
+    const { error, onClick, children } = props;
+    const className = ['react-slct-menu', props.className]
+        .filter((c) => c)
+        .join(' ');
+    const document = getDocument();
+    const window = getWindow();
+    const menuOverlay = React.useRef<HTMLDivElement | null>(null);
+    const menuWrapper = React.useRef<HTMLDivElement | null>(null);
+    const [menuOverlayRect, setMenuOverlayRect] = React.useState<Rect>();
+    const [menuWrapperRect, setMenuWrapperRect] = React.useState<Rect>();
 
-    private get menuOverlayRect(): Rect | undefined {
-        if (this.menuOverlay) {
-            const clientRect = this.menuOverlay.getBoundingClientRect();
+    function calcMenuOverlay() {
+        if (menuOverlay.current) {
+            const clientRect = menuOverlay.current.getBoundingClientRect();
 
-            return {
+            setMenuOverlayRect({
                 left: Math.round(clientRect.left),
                 top: Math.round(clientRect.top),
                 width: Math.round(clientRect.width),
                 height: Math.round(clientRect.height)
-            };
+            });
         }
-
-        return undefined;
     }
 
-    private get menuWrapperRect(): Rect | undefined {
-        if (this.menuWrapper) {
-            const clientRect = this.menuWrapper.getBoundingClientRect();
+    function calcMenuWrapper() {
+        if (menuWrapper.current) {
+            const clientRect = menuWrapper.current.getBoundingClientRect();
 
-            return {
+            setMenuWrapperRect({
                 left: Math.round(clientRect.left),
                 top: Math.round(clientRect.top),
                 width: Math.round(clientRect.width),
                 height: Math.round(clientRect.height)
-            };
+            });
         }
-
-        return undefined;
     }
 
-    private get style(): Rect {
-        const { window } = this;
-        const { menuLeft, menuTop, menuWidth } = this.props;
-        const { menuOverlay, menuWrapper } = this.state;
+    React.useEffect(calcMenuOverlay, [menuOverlay.current]);
+    React.useEffect(() => {
+        calcMenuWrapper();
+
+        if (menuWrapper.current) {
+            props.onRef?.(menuWrapper.current);
+        }
+    }, [menuWrapper.current]);
+
+    React.useEffect(() => {
+        props.onRect?.(menuOverlayRect, menuWrapperRect);
+    }, [menuOverlayRect, menuWrapperRect]);
+
+    React.useEffect(() => {
+        window?.addEventListener('scroll', onViewportChange, true);
+        window?.addEventListener('resize', onViewportChange, true);
+
+        function allowRectChange(e) {
+            if (e.target.closest && !e.target.closest('.react-slct-menu')) {
+                return false;
+            }
+
+            return true;
+        }
+
+        function onViewportChange(e: Event) {
+            if (allowRectChange(e)) {
+                calcMenuOverlay();
+                calcMenuWrapper();
+            }
+        }
+
+        return () => {
+            window?.removeEventListener('resize', onViewportChange, true);
+            window?.removeEventListener('scroll', onViewportChange, true);
+        };
+    }, []);
+
+    const style = (() => {
+        const { menuLeft, menuTop, menuWidth } = props;
         const menuHeight =
-            this.props.menuHeight || menuWrapper?.height || 'auto';
-        let width = menuWidth || menuOverlay?.width || 'auto';
-        const height = menuHeight || menuWrapper?.height || 'auto';
+            props.menuHeight || menuWrapperRect?.height || 'auto';
+        let width = menuWidth || menuOverlayRect?.width || 'auto';
+        const height = menuHeight || menuWrapperRect?.height || 'auto';
         const top =
             menuTop ??
             getContainerTop({
-                rect: menuOverlay,
+                rect: menuOverlayRect,
                 menuHeight: height
             });
-        let left = menuLeft ?? menuOverlay?.left ?? 0;
+        let left = menuLeft ?? menuOverlayRect?.left ?? 0;
 
         if (window) {
             const numWidth = Number(width);
@@ -153,136 +184,31 @@ export class MenuContainer extends React.PureComponent<
             }
         }
 
-        return { top, left, width, height };
-    }
-
-    private get window() {
-        return getWindow();
-    }
-
-    private get document() {
-        return getDocument();
-    }
-
-    constructor(props: MenuContainerProps) {
-        super(props);
-
-        this.state = {};
-    }
-
-    public componentDidMount(): void {
-        this.addListener();
-    }
-
-    public componentDidUpdate(_: any, prevState: MenuContainerState): void {
-        const { menuOverlay, menuWrapper } = this.state;
-
-        if (this.props.onRect) {
-            if (
-                prevState.menuOverlay !== menuOverlay ||
-                prevState.menuWrapper !== menuWrapper
-            ) {
-                this.props.onRect(menuOverlay, menuWrapper);
-            }
-        }
-    }
-
-    public componentWillUnmount(): void {
-        this.removeListener();
-    }
-
-    public render(): React.ReactNode {
-        const { error, onClick, children } = this.props;
-        const className = ['react-slct-menu', this.props.className]
-            .filter((c) => c)
-            .join(' ');
-
-        return (
-            <MenuOverlay ref={this.onMenuOverlay}>
-                {this.document
-                    ? createPortal(
-                          <MenuWrapper
-                              data-role="menu"
-                              className={className}
-                              error={error}
-                              ref={this.onMenuWrapper}
-                              onClick={onClick}
-                              rect={this.state.menuOverlay}
-                              style={this.style}
-                          >
-                              {children}
-                          </MenuWrapper>,
-                          this.document.body
-                      )
-                    : null}
-            </MenuOverlay>
-        );
-    }
-
-    private addListener(): void {
-        if (this.window) {
-            this.window.addEventListener('scroll', this.onViewportChange, true);
-            this.window.addEventListener('resize', this.onViewportChange, true);
-        }
-    }
-
-    private removeListener(): void {
-        if (this.window) {
-            this.window.removeEventListener(
-                'resize',
-                this.onViewportChange,
-                true
-            );
-            this.window.removeEventListener(
-                'scroll',
-                this.onViewportChange,
-                true
-            );
-        }
-    }
-
-    private allowRectChange(e): boolean {
-        if (e.target.closest && !e.target.closest('.react-slct-menu')) {
-            return false;
+        if (left && top) {
+            return { top, left, width, height };
         }
 
-        return true;
-    }
+        return undefined;
+    })();
 
-    @bind
-    private onViewportChange(e): void {
-        if (this.allowRectChange(e)) {
-            this.setState({
-                menuOverlay: this.menuOverlayRect,
-                menuWrapper: this.menuWrapperRect
-            });
-        }
-    }
-
-    @bind
-    private onMenuOverlay(el: HTMLDivElement | null): void {
-        this.menuOverlay = el;
-
-        if (this.menuOverlay) {
-            this.setState({
-                menuOverlay: this.menuOverlayRect
-            });
-        }
-    }
-
-    @bind
-    @debounce(16)
-    private onMenuWrapper(el: HTMLDivElement | null): void {
-        if (el && this.props.onRef) {
-            this.props.onRef(el);
-        }
-
-        this.menuWrapper = el;
-
-        if (this.menuWrapper) {
-            this.setState({
-                menuWrapper: this.menuWrapperRect
-            });
-        }
-    }
+    return (
+        <MenuOverlay ref={menuOverlay}>
+            {document && style
+                ? createPortal(
+                      <MenuWrapper
+                          data-role="menu"
+                          className={className}
+                          error={error}
+                          ref={menuWrapper}
+                          onClick={onClick}
+                          rect={menuOverlayRect}
+                          style={style}
+                      >
+                          {children}
+                      </MenuWrapper>,
+                      document.body
+                  )
+                : null}
+        </MenuOverlay>
+    );
 }

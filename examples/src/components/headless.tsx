@@ -89,7 +89,7 @@ export class Headless extends React.Component<{}, HeadlessState> {
                                     {value.id}. {value.value}
                                 </div>
                             )}
-                            <ArrowButton tabIndex={-1}>
+                            <ArrowButton tabIndex={-1} style={{ height: 15 }}>
                                 {open ? '▲' : '▼'}
                             </ArrowButton>
                         </Value>

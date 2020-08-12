@@ -34322,7 +34322,388 @@ var tslib_1 = require("tslib");
 var styled_components_1 = tslib_1.__importDefault(require("styled-components"));
 
 exports.SelectLabel = styled_components_1.default.span(_templateObject());
-},{"tslib":"../../node_modules/tslib/tslib.es6.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js"}],"../../node_modules/lodash-decorators/factory/DecoratorConfig.js":[function(require,module,exports) {
+},{"tslib":"../../node_modules/tslib/tslib.es6.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js"}],"../../src/utils.ts":[function(require,module,exports) {
+"use strict";
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function toKey(value) {
+  var equalCompareProp = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'id';
+
+  if (typeof value === 'string') {
+    return value;
+  }
+
+  if (value && _typeof(value) === 'object') {
+    var jsonObject = value.toJSON ? value.toJSON() : value;
+
+    if (equalCompareProp && jsonObject[equalCompareProp]) {
+      return jsonObject[equalCompareProp];
+    }
+
+    return JSON.stringify(jsonObject);
+  }
+
+  return JSON.stringify(value);
+}
+
+exports.toKey = toKey;
+
+function equal(valueA, valueB) {
+  var equalCompareProp = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'id';
+
+  if (valueA === valueB) {
+    return true;
+  }
+
+  if (!valueA || !valueB) {
+    return false;
+  }
+
+  if (_typeof(valueA) === 'object' && _typeof(valueB) === 'object') {
+    if (equalCompareProp && valueA[equalCompareProp] !== undefined && valueA[equalCompareProp] !== null && valueB[equalCompareProp] !== undefined && valueB[equalCompareProp] !== null && valueA[equalCompareProp] === valueB[equalCompareProp]) {
+      return true;
+    }
+
+    if (valueA.toJSON && valueB.toJSON) {
+      return JSON.stringify(valueA.toJSON()) === JSON.stringify(valueB.toJSON());
+    }
+
+    return JSON.stringify(valueA) === JSON.stringify(valueB);
+  }
+
+  return false;
+}
+
+exports.equal = equal;
+
+function replaceUmlauts(str) {
+  return str.replace('Ü', 'u').replace('Ö', 'o').replace('Ä', 'a').replace('ü', 'u').replace('ä', 'a').replace('ö', 'o');
+}
+
+exports.replaceUmlauts = replaceUmlauts;
+
+function getValueOptions(options, value, multi, equalCompareProp) {
+  return options.slice().filter(function (option) {
+    if (isArray(value) && multi) {
+      return value.some(function (val) {
+        return equal(option.value, val, equalCompareProp);
+      });
+    } else {
+      return equal(option.value, value, equalCompareProp);
+    }
+  }).sort(function (optionA, optionB) {
+    if (isArray(value) && multi) {
+      var a = value.findIndex(function (val) {
+        return equal(optionA.value, val, equalCompareProp);
+      });
+      var b = value.findIndex(function (val) {
+        return equal(optionB.value, val, equalCompareProp);
+      });
+      return a < b ? -1 : a > b ? 1 : 0;
+    } else {
+      return 0;
+    }
+  });
+}
+
+exports.getValueOptions = getValueOptions;
+
+function isArray(val) {
+  if (Array.isArray(val)) {
+    return true;
+  } // this is just a workaround for potential observable arrays
+
+
+  if (val && val.map) {
+    return true;
+  }
+
+  return false;
+}
+
+exports.isArray = isArray;
+
+function getDocument() {
+  if (typeof document !== 'undefined') {
+    return document;
+  }
+
+  return undefined;
+}
+
+exports.getDocument = getDocument;
+
+function getWindow() {
+  if (typeof window !== 'undefined') {
+    return window;
+  }
+
+  return undefined;
+}
+
+exports.getWindow = getWindow;
+
+function getWindowInnerHeight() {
+  var defaultHeight = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 700;
+  var window = getWindow();
+
+  if (window) {
+    return window.innerHeight;
+  }
+
+  return defaultHeight;
+}
+
+exports.getWindowInnerHeight = getWindowInnerHeight;
+exports.keys = {
+  ARROW_UP: 38,
+  ARROW_DOWN: 40,
+  ENTER: 13,
+  TAB: 9,
+  ESC: 27,
+  BACKSPACE: 8,
+  SPACE: 32
+};
+},{}],"../../src/menu-container.tsx":[function(require,module,exports) {
+"use strict";
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n    position: fixed;\n    z-index: 9999;\n    background: #fff;\n    box-sizing: border-box;\n    box-shadow: ", ";\n\n    .react-slct-menu-list {\n        box-sizing: border-box;\n        border-width: 1px;\n        border-style: solid;\n        border-color: ", ";\n        background-color: #fff;\n\n        &:focus {\n            outline: none;\n        }\n    }\n"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n    width: 100%;\n    height: 100%;\n    position: absolute;\n    left: 0;\n    top: 0;\n    pointer-events: none;\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var tslib_1 = require("tslib");
+
+var React = tslib_1.__importStar(require("react"));
+
+var react_dom_1 = require("react-dom");
+
+var styled_components_1 = tslib_1.__importDefault(require("styled-components"));
+
+var utils_1 = require("./utils");
+
+function menuPosition(_ref) {
+  var rect = _ref.rect,
+      _ref$menuHeight = _ref.menuHeight,
+      menuHeight = _ref$menuHeight === void 0 ? 186 : _ref$menuHeight;
+
+  if (!rect) {
+    return 'bottom';
+  }
+
+  var height = rect.height;
+
+  if (height === 'auto' || menuHeight === 'auto') {
+    return 'bottom';
+  }
+
+  if (rect.top + height + menuHeight <= utils_1.getWindowInnerHeight()) {
+    return 'bottom';
+  }
+
+  return 'top';
+}
+
+function getContainerTop(props) {
+  var rect = props.rect;
+
+  if (!rect) {
+    return 0;
+  }
+
+  var menuHeight = props.menuHeight !== 'auto' && props.menuHeight || 186;
+  var height = rect.height === 'auto' ? 32 : rect.height;
+
+  switch (menuPosition(props)) {
+    case 'top':
+      return rect.top - menuHeight + 1;
+
+    case 'bottom':
+      return rect.top + height - 1;
+  }
+}
+
+var MenuOverlay = styled_components_1.default.div(_templateObject());
+var MenuWrapper = styled_components_1.default.div(_templateObject2(), function (props) {
+  return menuPosition(props) === 'bottom' ? '0 2px 5px rgba(0, 0, 0, 0.1)' : '0 -2px 5px rgba(0, 0, 0, 0.1)';
+}, function (props) {
+  return props.error ? 'var(--react-slct-error-color)' : '#ccc';
+});
+
+function MenuContainer(props) {
+  var error = props.error,
+      onClick = props.onClick,
+      children = props.children;
+  var className = ['react-slct-menu', props.className].filter(function (c) {
+    return c;
+  }).join(' ');
+  var document = utils_1.getDocument();
+  var window = utils_1.getWindow();
+  var menuOverlay = React.useRef(null);
+  var menuWrapper = React.useRef(null);
+
+  var _React$useState = React.useState(),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      menuOverlayRect = _React$useState2[0],
+      setMenuOverlayRect = _React$useState2[1];
+
+  var _React$useState3 = React.useState(),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      menuWrapperRect = _React$useState4[0],
+      setMenuWrapperRect = _React$useState4[1];
+
+  function calcMenuOverlay() {
+    if (menuOverlay.current) {
+      var clientRect = menuOverlay.current.getBoundingClientRect();
+      setMenuOverlayRect({
+        left: Math.round(clientRect.left),
+        top: Math.round(clientRect.top),
+        width: Math.round(clientRect.width),
+        height: Math.round(clientRect.height)
+      });
+    }
+  }
+
+  function calcMenuWrapper() {
+    if (menuWrapper.current) {
+      var clientRect = menuWrapper.current.getBoundingClientRect();
+      setMenuWrapperRect({
+        left: Math.round(clientRect.left),
+        top: Math.round(clientRect.top),
+        width: Math.round(clientRect.width),
+        height: Math.round(clientRect.height)
+      });
+    }
+  }
+
+  React.useEffect(calcMenuOverlay, [menuOverlay.current]);
+  React.useEffect(function () {
+    var _a;
+
+    calcMenuWrapper();
+
+    if (menuWrapper.current) {
+      (_a = props.onRef) === null || _a === void 0 ? void 0 : _a.call(props, menuWrapper.current);
+    }
+  }, [menuWrapper.current]);
+  React.useEffect(function () {
+    var _a;
+
+    (_a = props.onRect) === null || _a === void 0 ? void 0 : _a.call(props, menuOverlayRect, menuWrapperRect);
+  }, [menuOverlayRect, menuWrapperRect]);
+  React.useEffect(function () {
+    window === null || window === void 0 ? void 0 : window.addEventListener('scroll', onViewportChange, true);
+    window === null || window === void 0 ? void 0 : window.addEventListener('resize', onViewportChange, true);
+
+    function allowRectChange(e) {
+      if (e.target.closest && !e.target.closest('.react-slct-menu')) {
+        return false;
+      }
+
+      return true;
+    }
+
+    function onViewportChange(e) {
+      if (allowRectChange(e)) {
+        calcMenuOverlay();
+        calcMenuWrapper();
+      }
+    }
+
+    return function () {
+      window === null || window === void 0 ? void 0 : window.removeEventListener('resize', onViewportChange, true);
+      window === null || window === void 0 ? void 0 : window.removeEventListener('scroll', onViewportChange, true);
+    };
+  }, []);
+
+  var style = function () {
+    var _a;
+
+    var menuLeft = props.menuLeft,
+        menuTop = props.menuTop,
+        menuWidth = props.menuWidth;
+    var menuHeight = props.menuHeight || (menuWrapperRect === null || menuWrapperRect === void 0 ? void 0 : menuWrapperRect.height) || 'auto';
+    var width = menuWidth || (menuOverlayRect === null || menuOverlayRect === void 0 ? void 0 : menuOverlayRect.width) || 'auto';
+    var height = menuHeight || (menuWrapperRect === null || menuWrapperRect === void 0 ? void 0 : menuWrapperRect.height) || 'auto';
+    var top = menuTop !== null && menuTop !== void 0 ? menuTop : getContainerTop({
+      rect: menuOverlayRect,
+      menuHeight: height
+    });
+    var left = (_a = menuLeft !== null && menuLeft !== void 0 ? menuLeft : menuOverlayRect === null || menuOverlayRect === void 0 ? void 0 : menuOverlayRect.left) !== null && _a !== void 0 ? _a : 0;
+
+    if (window) {
+      var numWidth = Number(width);
+
+      if (numWidth > window.innerWidth) {
+        width = window.innerWidth - 20;
+      }
+
+      if (left + numWidth > window.innerWidth) {
+        left = Math.max(10, window.innerWidth - numWidth - 20);
+      }
+    }
+
+    if (left && top) {
+      return {
+        top: top,
+        left: left,
+        width: width,
+        height: height
+      };
+    }
+
+    return undefined;
+  }();
+
+  return React.createElement(MenuOverlay, {
+    ref: menuOverlay
+  }, document && style ? react_dom_1.createPortal(React.createElement(MenuWrapper, {
+    "data-role": "menu",
+    className: className,
+    error: error,
+    ref: menuWrapper,
+    onClick: onClick,
+    rect: menuOverlayRect,
+    style: style
+  }, children), document.body) : null);
+}
+
+exports.MenuContainer = MenuContainer;
+},{"tslib":"../../node_modules/tslib/tslib.es6.js","react":"../../node_modules/react/index.js","react-dom":"../../node_modules/react-dom/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js","./utils":"../../src/utils.ts"}],"../../node_modules/lodash-decorators/factory/DecoratorConfig.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -44181,477 +44562,7 @@ __export(require("./throttleAll"));
 __export(require("./unary"));
 
 __export(require("./wrap"));
-},{"./factory":"../../node_modules/lodash-decorators/factory.js","./after":"../../node_modules/lodash-decorators/after.js","./afterAll":"../../node_modules/lodash-decorators/afterAll.js","./ary":"../../node_modules/lodash-decorators/ary.js","./attempt":"../../node_modules/lodash-decorators/attempt.js","./before":"../../node_modules/lodash-decorators/before.js","./beforeAll":"../../node_modules/lodash-decorators/beforeAll.js","./bind":"../../node_modules/lodash-decorators/bind.js","./bindAll":"../../node_modules/lodash-decorators/bindAll.js","./curry":"../../node_modules/lodash-decorators/curry.js","./curryAll":"../../node_modules/lodash-decorators/curryAll.js","./curryRight":"../../node_modules/lodash-decorators/curryRight.js","./curryRightAll":"../../node_modules/lodash-decorators/curryRightAll.js","./debounce":"../../node_modules/lodash-decorators/debounce.js","./debounceAll":"../../node_modules/lodash-decorators/debounceAll.js","./defer":"../../node_modules/lodash-decorators/defer.js","./delay":"../../node_modules/lodash-decorators/delay.js","./flip":"../../node_modules/lodash-decorators/flip.js","./flow":"../../node_modules/lodash-decorators/flow.js","./flowRight":"../../node_modules/lodash-decorators/flowRight.js","./memoize":"../../node_modules/lodash-decorators/memoize.js","./memoizeAll":"../../node_modules/lodash-decorators/memoizeAll.js","./mixin":"../../node_modules/lodash-decorators/mixin.js","./negate":"../../node_modules/lodash-decorators/negate.js","./once":"../../node_modules/lodash-decorators/once.js","./overArgs":"../../node_modules/lodash-decorators/overArgs.js","./partial":"../../node_modules/lodash-decorators/partial.js","./partialRight":"../../node_modules/lodash-decorators/partialRight.js","./rearg":"../../node_modules/lodash-decorators/rearg.js","./rest":"../../node_modules/lodash-decorators/rest.js","./spread":"../../node_modules/lodash-decorators/spread.js","./tap":"../../node_modules/lodash-decorators/tap.js","./throttle":"../../node_modules/lodash-decorators/throttle.js","./throttleAll":"../../node_modules/lodash-decorators/throttleAll.js","./unary":"../../node_modules/lodash-decorators/unary.js","./wrap":"../../node_modules/lodash-decorators/wrap.js"}],"../../src/utils.ts":[function(require,module,exports) {
-"use strict";
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-function toKey(value) {
-  var equalCompareProp = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'id';
-
-  if (typeof value === 'string') {
-    return value;
-  }
-
-  if (value && _typeof(value) === 'object') {
-    var jsonObject = value.toJSON ? value.toJSON() : value;
-
-    if (equalCompareProp && jsonObject[equalCompareProp]) {
-      return jsonObject[equalCompareProp];
-    }
-
-    return JSON.stringify(jsonObject);
-  }
-
-  return JSON.stringify(value);
-}
-
-exports.toKey = toKey;
-
-function equal(valueA, valueB) {
-  var equalCompareProp = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'id';
-
-  if (valueA === valueB) {
-    return true;
-  }
-
-  if (!valueA || !valueB) {
-    return false;
-  }
-
-  if (_typeof(valueA) === 'object' && _typeof(valueB) === 'object') {
-    if (equalCompareProp && valueA[equalCompareProp] !== undefined && valueA[equalCompareProp] !== null && valueB[equalCompareProp] !== undefined && valueB[equalCompareProp] !== null && valueA[equalCompareProp] === valueB[equalCompareProp]) {
-      return true;
-    }
-
-    if (valueA.toJSON && valueB.toJSON) {
-      return JSON.stringify(valueA.toJSON()) === JSON.stringify(valueB.toJSON());
-    }
-
-    return JSON.stringify(valueA) === JSON.stringify(valueB);
-  }
-
-  return false;
-}
-
-exports.equal = equal;
-
-function replaceUmlauts(str) {
-  return str.replace('Ü', 'u').replace('Ö', 'o').replace('Ä', 'a').replace('ü', 'u').replace('ä', 'a').replace('ö', 'o');
-}
-
-exports.replaceUmlauts = replaceUmlauts;
-
-function getValueOptions(options, value, multi, equalCompareProp) {
-  return options.slice().filter(function (option) {
-    if (isArray(value) && multi) {
-      return value.some(function (val) {
-        return equal(option.value, val, equalCompareProp);
-      });
-    } else {
-      return equal(option.value, value, equalCompareProp);
-    }
-  }).sort(function (optionA, optionB) {
-    if (isArray(value) && multi) {
-      var a = value.findIndex(function (val) {
-        return equal(optionA.value, val, equalCompareProp);
-      });
-      var b = value.findIndex(function (val) {
-        return equal(optionB.value, val, equalCompareProp);
-      });
-      return a < b ? -1 : a > b ? 1 : 0;
-    } else {
-      return 0;
-    }
-  });
-}
-
-exports.getValueOptions = getValueOptions;
-
-function isArray(val) {
-  if (Array.isArray(val)) {
-    return true;
-  } // this is just a workaround for potential observable arrays
-
-
-  if (val && val.map) {
-    return true;
-  }
-
-  return false;
-}
-
-exports.isArray = isArray;
-
-function getDocument() {
-  if (typeof document !== 'undefined') {
-    return document;
-  }
-
-  return undefined;
-}
-
-exports.getDocument = getDocument;
-
-function getWindow() {
-  if (typeof window !== 'undefined') {
-    return window;
-  }
-
-  return undefined;
-}
-
-exports.getWindow = getWindow;
-
-function getWindowInnerHeight() {
-  var defaultHeight = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 700;
-  var window = getWindow();
-
-  if (window) {
-    return window.innerHeight;
-  }
-
-  return defaultHeight;
-}
-
-exports.getWindowInnerHeight = getWindowInnerHeight;
-exports.keys = {
-  ARROW_UP: 38,
-  ARROW_DOWN: 40,
-  ENTER: 13,
-  TAB: 9,
-  ESC: 27,
-  BACKSPACE: 8,
-  SPACE: 32
-};
-},{}],"../../src/menu-container.tsx":[function(require,module,exports) {
-"use strict";
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n    position: fixed;\n    z-index: 9999;\n    background: #fff;\n    box-sizing: border-box;\n    box-shadow: ", ";\n\n    .react-slct-menu-list {\n        box-sizing: border-box;\n        border-width: 1px;\n        border-style: solid;\n        border-color: ", ";\n        background-color: #fff;\n\n        &:focus {\n            outline: none;\n        }\n    }\n"]);
-
-  _templateObject2 = function _templateObject2() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n    width: 100%;\n    height: 100%;\n    position: absolute;\n    left: 0;\n    top: 0;\n    pointer-events: none;\n"]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-var _a, _b;
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var tslib_1 = require("tslib");
-
-var lodash_decorators_1 = require("lodash-decorators");
-
-var React = tslib_1.__importStar(require("react"));
-
-var react_dom_1 = require("react-dom");
-
-var styled_components_1 = tslib_1.__importDefault(require("styled-components"));
-
-var utils_1 = require("./utils");
-
-function menuPosition(_ref) {
-  var rect = _ref.rect,
-      _ref$menuHeight = _ref.menuHeight,
-      menuHeight = _ref$menuHeight === void 0 ? 186 : _ref$menuHeight;
-
-  if (!rect) {
-    return 'bottom';
-  }
-
-  var height = rect.height;
-
-  if (height === 'auto' || menuHeight === 'auto') {
-    return 'bottom';
-  }
-
-  if (rect.top + height + menuHeight <= utils_1.getWindowInnerHeight()) {
-    return 'bottom';
-  }
-
-  return 'top';
-}
-
-function getContainerTop(props) {
-  var rect = props.rect;
-
-  if (!rect) {
-    return 0;
-  }
-
-  var menuHeight = props.menuHeight !== 'auto' && props.menuHeight || 186;
-  var height = rect.height === 'auto' ? 32 : rect.height;
-
-  switch (menuPosition(props)) {
-    case 'top':
-      return rect.top - menuHeight + 1;
-
-    case 'bottom':
-      return rect.top + height - 1;
-  }
-}
-
-var MenuOverlay = styled_components_1.default.div(_templateObject());
-var MenuWrapper = styled_components_1.default.div(_templateObject2(), function (props) {
-  return menuPosition(props) === 'bottom' ? '0 2px 5px rgba(0, 0, 0, 0.1)' : '0 -2px 5px rgba(0, 0, 0, 0.1)';
-}, function (props) {
-  return props.error ? 'var(--react-slct-error-color)' : '#ccc';
-});
-
-var MenuContainer =
-/*#__PURE__*/
-function (_React$PureComponent) {
-  _inherits(MenuContainer, _React$PureComponent);
-
-  function MenuContainer(props) {
-    var _this;
-
-    _classCallCheck(this, MenuContainer);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MenuContainer).call(this, props));
-    _this.state = {};
-    return _this;
-  }
-
-  _createClass(MenuContainer, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.addListener();
-    }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(_, prevState) {
-      var _this$state = this.state,
-          menuOverlay = _this$state.menuOverlay,
-          menuWrapper = _this$state.menuWrapper;
-
-      if (this.props.onRect) {
-        if (prevState.menuOverlay !== menuOverlay || prevState.menuWrapper !== menuWrapper) {
-          this.props.onRect(menuOverlay, menuWrapper);
-        }
-      }
-    }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      this.removeListener();
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          error = _this$props.error,
-          onClick = _this$props.onClick,
-          children = _this$props.children;
-      var className = ['react-slct-menu', this.props.className].filter(function (c) {
-        return c;
-      }).join(' ');
-      return React.createElement(MenuOverlay, {
-        ref: this.onMenuOverlay
-      }, this.document ? react_dom_1.createPortal(React.createElement(MenuWrapper, {
-        "data-role": "menu",
-        className: className,
-        error: error,
-        ref: this.onMenuWrapper,
-        onClick: onClick,
-        rect: this.state.menuOverlay,
-        style: this.style
-      }, children), this.document.body) : null);
-    }
-  }, {
-    key: "addListener",
-    value: function addListener() {
-      if (this.window) {
-        this.window.addEventListener('scroll', this.onViewportChange, true);
-        this.window.addEventListener('resize', this.onViewportChange, true);
-      }
-    }
-  }, {
-    key: "removeListener",
-    value: function removeListener() {
-      if (this.window) {
-        this.window.removeEventListener('resize', this.onViewportChange, true);
-        this.window.removeEventListener('scroll', this.onViewportChange, true);
-      }
-    }
-  }, {
-    key: "allowRectChange",
-    value: function allowRectChange(e) {
-      if (e.target.closest && !e.target.closest('.react-slct-menu')) {
-        return false;
-      }
-
-      return true;
-    }
-  }, {
-    key: "onViewportChange",
-    value: function onViewportChange(e) {
-      if (this.allowRectChange(e)) {
-        this.setState({
-          menuOverlay: this.menuOverlayRect,
-          menuWrapper: this.menuWrapperRect
-        });
-      }
-    }
-  }, {
-    key: "onMenuOverlay",
-    value: function onMenuOverlay(el) {
-      this.menuOverlay = el;
-
-      if (this.menuOverlay) {
-        this.setState({
-          menuOverlay: this.menuOverlayRect
-        });
-      }
-    }
-  }, {
-    key: "onMenuWrapper",
-    value: function onMenuWrapper(el) {
-      if (el && this.props.onRef) {
-        this.props.onRef(el);
-      }
-
-      this.menuWrapper = el;
-
-      if (this.menuWrapper) {
-        this.setState({
-          menuWrapper: this.menuWrapperRect
-        });
-      }
-    }
-  }, {
-    key: "menuOverlayRect",
-    get: function get() {
-      if (this.menuOverlay) {
-        var clientRect = this.menuOverlay.getBoundingClientRect();
-        return {
-          left: Math.round(clientRect.left),
-          top: Math.round(clientRect.top),
-          width: Math.round(clientRect.width),
-          height: Math.round(clientRect.height)
-        };
-      }
-
-      return undefined;
-    }
-  }, {
-    key: "menuWrapperRect",
-    get: function get() {
-      if (this.menuWrapper) {
-        var clientRect = this.menuWrapper.getBoundingClientRect();
-        return {
-          left: Math.round(clientRect.left),
-          top: Math.round(clientRect.top),
-          width: Math.round(clientRect.width),
-          height: Math.round(clientRect.height)
-        };
-      }
-
-      return undefined;
-    }
-  }, {
-    key: "style",
-    get: function get() {
-      var _a;
-
-      var window = this.window;
-      var _this$props2 = this.props,
-          menuLeft = _this$props2.menuLeft,
-          menuTop = _this$props2.menuTop,
-          menuWidth = _this$props2.menuWidth;
-      var _this$state2 = this.state,
-          menuOverlay = _this$state2.menuOverlay,
-          menuWrapper = _this$state2.menuWrapper;
-      var menuHeight = this.props.menuHeight || (menuWrapper === null || menuWrapper === void 0 ? void 0 : menuWrapper.height) || 'auto';
-      var width = menuWidth || (menuOverlay === null || menuOverlay === void 0 ? void 0 : menuOverlay.width) || 'auto';
-      var height = menuHeight || (menuWrapper === null || menuWrapper === void 0 ? void 0 : menuWrapper.height) || 'auto';
-      var top = menuTop !== null && menuTop !== void 0 ? menuTop : getContainerTop({
-        rect: menuOverlay,
-        menuHeight: height
-      });
-      var left = (_a = menuLeft !== null && menuLeft !== void 0 ? menuLeft : menuOverlay === null || menuOverlay === void 0 ? void 0 : menuOverlay.left) !== null && _a !== void 0 ? _a : 0;
-
-      if (window) {
-        var numWidth = Number(width);
-
-        if (numWidth > window.innerWidth) {
-          width = window.innerWidth - 20;
-        }
-
-        if (left + numWidth > window.innerWidth) {
-          left = Math.max(10, window.innerWidth - numWidth - 20);
-        }
-      }
-
-      return {
-        top: top,
-        left: left,
-        width: width,
-        height: height
-      };
-    }
-  }, {
-    key: "window",
-    get: function get() {
-      return utils_1.getWindow();
-    }
-  }, {
-    key: "document",
-    get: function get() {
-      return utils_1.getDocument();
-    }
-  }]);
-
-  return MenuContainer;
-}(React.PureComponent);
-
-tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [Object]), tslib_1.__metadata("design:returntype", void 0)], MenuContainer.prototype, "onViewportChange", null);
-
-tslib_1.__decorate([lodash_decorators_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [Object]), tslib_1.__metadata("design:returntype", void 0)], MenuContainer.prototype, "onMenuOverlay", null);
-
-tslib_1.__decorate([lodash_decorators_1.bind, lodash_decorators_1.debounce(16), tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [Object]), tslib_1.__metadata("design:returntype", void 0)], MenuContainer.prototype, "onMenuWrapper", null);
-
-exports.MenuContainer = MenuContainer;
-},{"tslib":"../../node_modules/tslib/tslib.es6.js","lodash-decorators":"../../node_modules/lodash-decorators/index.js","react":"../../node_modules/react/index.js","react-dom":"../../node_modules/react-dom/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js","./utils":"../../src/utils.ts"}],"../../src/option.tsx":[function(require,module,exports) {
+},{"./factory":"../../node_modules/lodash-decorators/factory.js","./after":"../../node_modules/lodash-decorators/after.js","./afterAll":"../../node_modules/lodash-decorators/afterAll.js","./ary":"../../node_modules/lodash-decorators/ary.js","./attempt":"../../node_modules/lodash-decorators/attempt.js","./before":"../../node_modules/lodash-decorators/before.js","./beforeAll":"../../node_modules/lodash-decorators/beforeAll.js","./bind":"../../node_modules/lodash-decorators/bind.js","./bindAll":"../../node_modules/lodash-decorators/bindAll.js","./curry":"../../node_modules/lodash-decorators/curry.js","./curryAll":"../../node_modules/lodash-decorators/curryAll.js","./curryRight":"../../node_modules/lodash-decorators/curryRight.js","./curryRightAll":"../../node_modules/lodash-decorators/curryRightAll.js","./debounce":"../../node_modules/lodash-decorators/debounce.js","./debounceAll":"../../node_modules/lodash-decorators/debounceAll.js","./defer":"../../node_modules/lodash-decorators/defer.js","./delay":"../../node_modules/lodash-decorators/delay.js","./flip":"../../node_modules/lodash-decorators/flip.js","./flow":"../../node_modules/lodash-decorators/flow.js","./flowRight":"../../node_modules/lodash-decorators/flowRight.js","./memoize":"../../node_modules/lodash-decorators/memoize.js","./memoizeAll":"../../node_modules/lodash-decorators/memoizeAll.js","./mixin":"../../node_modules/lodash-decorators/mixin.js","./negate":"../../node_modules/lodash-decorators/negate.js","./once":"../../node_modules/lodash-decorators/once.js","./overArgs":"../../node_modules/lodash-decorators/overArgs.js","./partial":"../../node_modules/lodash-decorators/partial.js","./partialRight":"../../node_modules/lodash-decorators/partialRight.js","./rearg":"../../node_modules/lodash-decorators/rearg.js","./rest":"../../node_modules/lodash-decorators/rest.js","./spread":"../../node_modules/lodash-decorators/spread.js","./tap":"../../node_modules/lodash-decorators/tap.js","./throttle":"../../node_modules/lodash-decorators/throttle.js","./throttleAll":"../../node_modules/lodash-decorators/throttleAll.js","./unary":"../../node_modules/lodash-decorators/unary.js","./wrap":"../../node_modules/lodash-decorators/wrap.js"}],"../../src/option.tsx":[function(require,module,exports) {
 "use strict";
 
 function _templateObject() {
@@ -46464,7 +46375,10 @@ function (_React$Component) {
         }, React.createElement(Value, {
           onClick: onToggle
         }, placeholder && React.createElement(Placeholder, null, placeholder), value && !Array.isArray(value) && React.createElement("div", null, value.id, ". ", value.value), React.createElement(ArrowButton, {
-          tabIndex: -1
+          tabIndex: -1,
+          style: {
+            height: 15
+          }
         }, open ? '▲' : '▼')), open && React.createElement(MenuContainer, null, React.createElement(Options, null, options.map(function (option, i) {
           return React.createElement(Option, {
             key: i,
@@ -47080,7 +46994,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52419" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60629" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
