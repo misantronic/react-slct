@@ -92,24 +92,18 @@ class MenuContainer extends React.PureComponent {
         return undefined;
     }
     get style() {
+        var _a;
         const { window } = this;
         const { menuLeft, menuTop, menuWidth } = this.props;
         const { menuOverlay, menuWrapper } = this.state;
-        const menuHeight = this.props.menuHeight ||
-            (menuWrapper ? menuWrapper.height : 'auto');
-        let width = menuWidth || (menuOverlay ? menuOverlay.width : 'auto');
-        const height = menuHeight || (menuWrapper ? menuWrapper.height : 'auto');
-        const top = menuTop !== undefined
-            ? menuTop
-            : getContainerTop({
-                rect: menuOverlay,
-                menuHeight: height
-            });
-        let left = menuLeft !== undefined
-            ? menuLeft
-            : menuOverlay
-                ? menuOverlay.left
-                : 0;
+        const menuHeight = this.props.menuHeight || (menuWrapper === null || menuWrapper === void 0 ? void 0 : menuWrapper.height) || 'auto';
+        let width = menuWidth || (menuOverlay === null || menuOverlay === void 0 ? void 0 : menuOverlay.width) || 'auto';
+        const height = menuHeight || (menuWrapper === null || menuWrapper === void 0 ? void 0 : menuWrapper.height) || 'auto';
+        const top = menuTop !== null && menuTop !== void 0 ? menuTop : getContainerTop({
+            rect: menuOverlay,
+            menuHeight: height
+        });
+        let left = (_a = menuLeft !== null && menuLeft !== void 0 ? menuLeft : menuOverlay === null || menuOverlay === void 0 ? void 0 : menuOverlay.left) !== null && _a !== void 0 ? _a : 0;
         if (window) {
             const numWidth = Number(width);
             if (numWidth > window.innerWidth) {
@@ -145,7 +139,7 @@ class MenuContainer extends React.PureComponent {
     render() {
         const { error, onClick, children } = this.props;
         const className = ['react-slct-menu', this.props.className]
-            .filter(c => c)
+            .filter((c) => c)
             .join(' ');
         return (React.createElement(MenuOverlay, { ref: this.onMenuOverlay }, this.document
             ? react_dom_1.createPortal(React.createElement(MenuWrapper, { "data-role": "menu", className: className, error: error, ref: this.onMenuWrapper, onClick: onClick, rect: this.state.menuOverlay, style: this.style }, children), this.document.body)
