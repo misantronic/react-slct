@@ -34655,10 +34655,10 @@ function MenuContainer(props) {
 
     var menuLeft = props.menuLeft,
         menuTop = props.menuTop,
-        menuWidth = props.menuWidth;
-    var menuHeight = props.menuHeight || (menuWrapperRect === null || menuWrapperRect === void 0 ? void 0 : menuWrapperRect.height) || 'auto';
-    var width = menuWidth || (menuOverlayRect === null || menuOverlayRect === void 0 ? void 0 : menuOverlayRect.width) || 'auto';
-    var height = menuHeight || (menuWrapperRect === null || menuWrapperRect === void 0 ? void 0 : menuWrapperRect.height) || 'auto';
+        menuWidth = props.menuWidth,
+        menuHeight = props.menuHeight;
+    var width = menuWidth && menuWidth !== 'auto' ? menuWidth : (menuOverlayRect === null || menuOverlayRect === void 0 ? void 0 : menuOverlayRect.width) || 'auto';
+    var height = menuHeight && menuHeight !== 'auto' ? menuHeight : (menuWrapperRect === null || menuWrapperRect === void 0 ? void 0 : menuWrapperRect.height) || 'auto';
     var top = menuTop !== null && menuTop !== void 0 ? menuTop : getContainerTop({
       rect: menuOverlayRect,
       menuHeight: height
@@ -46994,7 +46994,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60629" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60937" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

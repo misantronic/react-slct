@@ -159,11 +159,15 @@ export function MenuContainer(props: MenuContainerProps) {
     }, []);
 
     const style = (() => {
-        const { menuLeft, menuTop, menuWidth } = props;
-        const menuHeight =
-            props.menuHeight || menuWrapperRect?.height || 'auto';
-        let width = menuWidth || menuOverlayRect?.width || 'auto';
-        const height = menuHeight || menuWrapperRect?.height || 'auto';
+        const { menuLeft, menuTop, menuWidth, menuHeight } = props;
+        let width =
+            menuWidth && menuWidth !== 'auto'
+                ? menuWidth
+                : menuOverlayRect?.width || 'auto';
+        const height =
+            menuHeight && menuHeight !== 'auto'
+                ? menuHeight
+                : menuWrapperRect?.height || 'auto';
         const top =
             menuTop ??
             getContainerTop({

@@ -127,10 +127,13 @@ function MenuContainer(props) {
     }, []);
     const style = (() => {
         var _a;
-        const { menuLeft, menuTop, menuWidth } = props;
-        const menuHeight = props.menuHeight || (menuWrapperRect === null || menuWrapperRect === void 0 ? void 0 : menuWrapperRect.height) || 'auto';
-        let width = menuWidth || (menuOverlayRect === null || menuOverlayRect === void 0 ? void 0 : menuOverlayRect.width) || 'auto';
-        const height = menuHeight || (menuWrapperRect === null || menuWrapperRect === void 0 ? void 0 : menuWrapperRect.height) || 'auto';
+        const { menuLeft, menuTop, menuWidth, menuHeight } = props;
+        let width = menuWidth && menuWidth !== 'auto'
+            ? menuWidth
+            : (menuOverlayRect === null || menuOverlayRect === void 0 ? void 0 : menuOverlayRect.width) || 'auto';
+        const height = menuHeight && menuHeight !== 'auto'
+            ? menuHeight
+            : (menuWrapperRect === null || menuWrapperRect === void 0 ? void 0 : menuWrapperRect.height) || 'auto';
         const top = menuTop !== null && menuTop !== void 0 ? menuTop : getContainerTop({
             rect: menuOverlayRect,
             menuHeight: height
