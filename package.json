@@ -39,7 +39,7 @@
         "fuse-box": "^3.7.1",
         "object-assign": "^4.1.1",
         "parcel-bundler": "^1.12.4",
-        "prettier": "^2.0.4",
+        "prettier": "^2.1.0",
         "react": ">= 16.13.1",
         "react-dom": ">= 16.13.0",
         "styled-components": "^5.1.1",
