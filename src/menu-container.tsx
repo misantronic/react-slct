@@ -33,6 +33,7 @@ function menuPosition({
 
 function getContainerTop(props: MenuWrapperProps): number {
     const { rect } = props;
+    const window = getWindow();
 
     if (!rect) {
         return 0;
@@ -40,12 +41,13 @@ function getContainerTop(props: MenuWrapperProps): number {
 
     const menuHeight = (props.menuHeight !== 'auto' && props.menuHeight) || 186;
     const height = rect.height === 'auto' ? 32 : rect.height;
+    const scrollY = window?.scrollY ?? 0;
 
     switch (menuPosition(props)) {
         case 'top':
-            return rect.top - menuHeight + 1;
+            return rect.top - menuHeight + 1 + scrollY;
         case 'bottom':
-            return rect.top + height - 1;
+            return rect.top + height - 1 + scrollY;
     }
 }
 
@@ -58,8 +60,10 @@ const MenuOverlay = styled.div`
     pointer-events: none;
 `;
 
+// position this container fixed is not working well on mobile-devices
+// @see https://medium.com/@im_rahul/safari-and-position-fixed-978122be5f29
 const MenuWrapper = styled.div`
-    position: fixed;
+    position: absolute;
     z-index: 9999;
     background: #fff;
     box-sizing: border-box;
