@@ -19,17 +19,20 @@ function menuPosition({ rect, menuHeight = 186 }) {
     return 'top';
 }
 function getContainerTop(props) {
+    var _a;
     const { rect } = props;
+    const window = utils_1.getWindow();
     if (!rect) {
         return 0;
     }
     const menuHeight = (props.menuHeight !== 'auto' && props.menuHeight) || 186;
     const height = rect.height === 'auto' ? 32 : rect.height;
+    const scrollY = (_a = window === null || window === void 0 ? void 0 : window.scrollY) !== null && _a !== void 0 ? _a : 0;
     switch (menuPosition(props)) {
         case 'top':
-            return rect.top - menuHeight + 1;
+            return rect.top - menuHeight + 1 + scrollY;
         case 'bottom':
-            return rect.top + height - 1;
+            return rect.top + height - 1 + scrollY;
     }
 }
 const MenuOverlay = styled_components_1.default.div `
@@ -41,7 +44,7 @@ const MenuOverlay = styled_components_1.default.div `
     pointer-events: none;
 `;
 const MenuWrapper = styled_components_1.default.div `
-    position: fixed;
+    position: absolute;
     z-index: 9999;
     background: #fff;
     box-sizing: border-box;
