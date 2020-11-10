@@ -135,7 +135,7 @@ export function getWindowInnerHeight(defaultHeight = 700): number {
     const window = getWindow();
 
     if (window) {
-        return window.innerHeight;
+        return window.visualViewport?.height ?? window.innerHeight;
     }
 
     return defaultHeight;
