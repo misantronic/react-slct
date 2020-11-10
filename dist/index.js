@@ -1,20 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Select = exports.keys = exports.Menu = exports.ValueComponentSingle = exports.ValueComponentMulti = exports.OptionComponent = void 0;
 const React = require("react");
 const styled_components_1 = require("styled-components");
 require("./global-stylings");
 const menu_1 = require("./menu");
-exports.Menu = menu_1.Menu;
+Object.defineProperty(exports, "Menu", { enumerable: true, get: function () { return menu_1.Menu; } });
 const menu_container_1 = require("./menu-container");
 const utils_1 = require("./utils");
-exports.keys = utils_1.keys;
+Object.defineProperty(exports, "keys", { enumerable: true, get: function () { return utils_1.keys; } });
 const value_1 = require("./value");
 var option_1 = require("./option");
-exports.OptionComponent = option_1.OptionComponent;
+Object.defineProperty(exports, "OptionComponent", { enumerable: true, get: function () { return option_1.OptionComponent; } });
 var value_component_multi_1 = require("./value-component-multi");
-exports.ValueComponentMulti = value_component_multi_1.ValueComponentMulti;
+Object.defineProperty(exports, "ValueComponentMulti", { enumerable: true, get: function () { return value_component_multi_1.ValueComponentMulti; } });
 var value_component_single_1 = require("./value-component-single");
-exports.ValueComponentSingle = value_component_single_1.ValueComponentSingle;
+Object.defineProperty(exports, "ValueComponentSingle", { enumerable: true, get: function () { return value_component_single_1.ValueComponentSingle; } });
 const Container = styled_components_1.default.div `
     display: flex;
     position: relative;

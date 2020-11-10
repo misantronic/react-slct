@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ValueComponentSingle = void 0;
 const React = require("react");
 const label_1 = require("./label");
 exports.ValueComponentSingle = React.memo((props) => {

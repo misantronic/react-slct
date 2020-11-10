@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SelectLabel = void 0;
 const styled_components_1 = require("styled-components");
 exports.SelectLabel = styled_components_1.default.span `
     overflow: hidden;

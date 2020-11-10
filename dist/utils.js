@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.keys = exports.getWindowInnerHeight = exports.getWindow = exports.getDocument = exports.isArray = exports.getValueOptions = exports.replaceUmlauts = exports.equal = exports.toKey = void 0;
 function toKey(value, equalCompareProp = 'id') {
     if (typeof value === 'string') {
         return value;
@@ -98,9 +99,10 @@ function getWindow() {
 }
 exports.getWindow = getWindow;
 function getWindowInnerHeight(defaultHeight = 700) {
+    var _a, _b;
     const window = getWindow();
     if (window) {
-        return window.innerHeight;
+        return (_b = (_a = window.visualViewport) === null || _a === void 0 ? void 0 : _a.height) !== null && _b !== void 0 ? _b : window.innerHeight;
     }
     return defaultHeight;
 }
