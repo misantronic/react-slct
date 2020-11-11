@@ -43,6 +43,8 @@ const MenuOverlay = styled_components_1.default.div `
     top: 0;
     pointer-events: none;
 `;
+// position this container fixed is not working well on mobile-devices
+// @see https://medium.com/@im_rahul/safari-and-position-fixed-978122be5f29
 const MenuWrapper = styled_components_1.default.div `
     position: absolute;
     z-index: 9999;

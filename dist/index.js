@@ -44,6 +44,9 @@ const NativeSelect = styled_components_1.default.select `
               `};
 `;
 function SelectImpl(props, ref) {
+    if (!ref) {
+        ref = React.useRef(null);
+    }
     const [open, setOpen] = React.useState(false);
     const [blindText, setBlindText] = React.useState('');
     const [selectedIndex, setSelectedIndex] = React.useState(undefined);
