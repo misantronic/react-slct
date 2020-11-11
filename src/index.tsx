@@ -70,8 +70,12 @@ const NativeSelect = styled.select`
 
 function SelectImpl<T = any>(
     props: SelectProps<T>,
-    ref: React.Ref<HTMLDivElement>
+    ref: React.Ref<HTMLDivElement> | null
 ): JSX.Element | null {
+    if(!ref) {
+        ref = React.useRef<HTMLDivElement>(null)
+    }
+
     const [open, setOpen] = React.useState(false);
     const [blindText, setBlindText] = React.useState('');
     const [selectedIndex, setSelectedIndex] = React.useState<
