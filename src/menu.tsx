@@ -37,9 +37,9 @@ export function Menu(props: MenuComponentProps) {
         isArray(props.value) && multi ? props.value : [props.value];
     const options = React.useMemo(
         () =>
-            (props.options || []).filter(option => {
+            (props.options || []).filter((option) => {
                 if (hideSelectedOptions) {
-                    const selected = currentValue.some(val =>
+                    const selected = currentValue.some((val) =>
                         equal(val, option.value, props.equalCompareProp)
                     );
 
@@ -58,12 +58,15 @@ export function Menu(props: MenuComponentProps) {
         ]
     );
     const [rect, setRect] = useState<Rect>();
+    const [style, setStyle] = useState<Rect>();
     const list = useRef<FixedSizeList>(null);
     const width = menuWidth || (rect && rect.width !== 'auto' ? rect.width : 0);
-    const height = Math.min(
+    const assumedHeight = Math.min(
         Math.max(options.length * rowHeight, rowHeight) + 2,
         menuHeight || 185
     );
+    const actualHeight =
+        (style?.height !== 'auto' && style?.height) || assumedHeight;
 
     useEffect(() => {
         if (
@@ -75,18 +78,19 @@ export function Menu(props: MenuComponentProps) {
             list.current.scrollToItem(selectedIndex, 'center');
         }
     }, [open]);
+
     const itemData = React.useMemo(() => {
         return {
             ...props,
             options,
             onSelect: (value: any, option: Option) => {
                 if (isArray(props.value) && props.multi) {
-                    const found = props.value.some(item =>
+                    const found = props.value.some((item) =>
                         equal(item, value, props.equalCompareProp)
                     );
                     const values = found
                         ? props.value.filter(
-                              item =>
+                              (item) =>
                                   !equal(item, value, props.equalCompareProp)
                           )
                         : Array.from(new Set([...props.value, value]));
@@ -107,7 +111,7 @@ export function Menu(props: MenuComponentProps) {
         props.value
     ]);
 
-    function renderList(width: number, height: number, rowHeight: number) {
+    function renderList() {
         const MenuContent = props.menuComponent;
         const itemCount = options.length;
 
@@ -123,8 +127,8 @@ export function Menu(props: MenuComponentProps) {
             <FixedSizeList
                 className="react-slct-menu-list"
                 ref={list}
-                width={width}
-                height={height}
+                width="100%"
+                height={actualHeight}
                 itemSize={rowHeight}
                 itemCount={itemCount}
                 itemData={itemData}
@@ -138,10 +142,11 @@ export function Menu(props: MenuComponentProps) {
         <MenuContainer
             error={error}
             menuWidth={width}
-            menuHeight={height}
-            onRect={rect => setRect(rect)}
+            menuHeight={assumedHeight}
+            onRect={setRect}
+            onStyle={setStyle}
         >
-            {renderList(width, height, rowHeight)}
+            {renderList()}
         </MenuContainer>
     ) : null;
 }

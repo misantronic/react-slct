@@ -98,6 +98,53 @@ export function MenuContainer(props: MenuContainerProps) {
     const [menuOverlayRect, setMenuOverlayRect] = React.useState<Rect>();
     const [menuWrapperRect, setMenuWrapperRect] = React.useState<Rect>();
 
+    const style = React.useMemo<Rect>(() => {
+        const { menuLeft, menuTop, menuWidth, menuHeight } = props;
+        let width =
+            menuWidth && menuWidth !== 'auto'
+                ? menuWidth
+                : menuOverlayRect?.width || 'auto';
+        let height =
+            menuHeight && menuHeight !== 'auto'
+                ? menuHeight
+                : menuWrapperRect?.height || 'auto';
+        let top =
+            menuTop ??
+            getContainerTop({
+                rect: menuOverlayRect,
+                menuHeight: height
+            });
+        let left = menuLeft ?? menuOverlayRect?.left ?? 0;
+
+        if (window) {
+            const numWidth = Number(width);
+
+            if (numWidth > window.innerWidth) {
+                width = window.innerWidth - 20;
+            }
+
+            if (left + numWidth > window.innerWidth) {
+                left = Math.max(10, window.innerWidth - numWidth - 20);
+            }
+        }
+
+        if (top < 0) {
+            if (height !== 'auto') {
+                height += top;
+                top = 0;
+            }
+        }
+
+        return { top, left, width, height };
+    }, [
+        props.menuLeft,
+        props.menuTop,
+        props.menuWidth,
+        props.menuHeight,
+        menuOverlayRect,
+        menuWrapperRect
+    ]);
+
     function calcMenuOverlay() {
         if (menuOverlay.current) {
             const clientRect = menuOverlay.current.getBoundingClientRect();
@@ -125,6 +172,7 @@ export function MenuContainer(props: MenuContainerProps) {
     }
 
     React.useEffect(calcMenuOverlay, [menuOverlay.current]);
+
     React.useEffect(() => {
         calcMenuWrapper();
 
@@ -162,42 +210,11 @@ export function MenuContainer(props: MenuContainerProps) {
         };
     }, []);
 
-    const style = (() => {
-        const { menuLeft, menuTop, menuWidth, menuHeight } = props;
-        let width =
-            menuWidth && menuWidth !== 'auto'
-                ? menuWidth
-                : menuOverlayRect?.width || 'auto';
-        const height =
-            menuHeight && menuHeight !== 'auto'
-                ? menuHeight
-                : menuWrapperRect?.height || 'auto';
-        const top =
-            menuTop ??
-            getContainerTop({
-                rect: menuOverlayRect,
-                menuHeight: height
-            });
-        let left = menuLeft ?? menuOverlayRect?.left ?? 0;
-
-        if (window) {
-            const numWidth = Number(width);
-
-            if (numWidth > window.innerWidth) {
-                width = window.innerWidth - 20;
-            }
-
-            if (left + numWidth > window.innerWidth) {
-                left = Math.max(10, window.innerWidth - numWidth - 20);
-            }
+    React.useEffect(() => {
+        if (style) {
+            props.onStyle?.(style);
         }
-
-        if (left && top) {
-            return { top, left, width, height };
-        }
-
-        return undefined;
-    })();
+    }, [style]);
 
     return (
         <MenuOverlay ref={menuOverlay}>

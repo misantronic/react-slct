@@ -94,6 +94,7 @@ export interface MenuContainerProps {
     error?: boolean;
     children?: React.ReactNode;
     onRect?(menuOverlay?: Rect, menuWrapper?: Rect): void;
+    onStyle?(style: Rect): void;
     onRef?(el: HTMLDivElement | null): void;
     onClick?(el: React.MouseEvent<HTMLDivElement>): void;
 }
