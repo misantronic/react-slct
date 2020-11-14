@@ -1,9 +1,10 @@
 import { bind } from 'lodash-decorators';
 import * as React from 'react';
 import styled, { css } from 'styled-components';
+import { ReactSlctColors } from './config';
 import { SelectLabel } from './label';
-import { keys, getValueOptions, getWindow, toKey } from './utils';
-import { SelectProps, Option } from './typings';
+import { Option, SelectProps } from './typings';
+import { getValueOptions, getWindow, keys, toKey } from './utils';
 import { ValueComponentMulti } from './value-component-multi';
 import { ValueComponentSingle } from './value-component-single';
 
@@ -90,7 +91,7 @@ const ValueContainer = styled.div`
     border-width: 1px;
     border-style: solid;
     border-color: ${(props: ValueContainerProps) =>
-        props.error ? 'var(--react-slct-error-color)' : '#ccc'};
+        props.error ? ReactSlctColors.error : '#ccc'};
     z-index: 0;
     box-sizing: border-box;
     max-width: 100%;

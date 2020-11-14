@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
+import { ReactSlctColors } from './config';
 import { MenuContainerProps, Rect } from './typings';
 import { getDocument, getWindow, getWindowInnerHeight } from './utils';
 
@@ -80,7 +81,7 @@ const MenuWrapper = styled.div`
         border-width: 1px;
         border-style: solid;
         border-color: ${(props: MenuWrapperProps) =>
-            props.error ? 'var(--react-slct-error-color)' : '#ccc'};
+            props.error ? ReactSlctColors.error : '#ccc'};
         background-color: #fff;
 
         &:focus {

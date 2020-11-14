@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
-import './global-stylings';
 import { Menu } from './menu';
 import { MenuContainer } from './menu-container';
 import {
@@ -28,6 +27,7 @@ export {
 } from './typings';
 export { ValueComponentMulti } from './value-component-multi';
 export { ValueComponentSingle } from './value-component-single';
+export * from './config';
 export {
     SelectProps,
     Menu,
@@ -72,8 +72,8 @@ function SelectImpl<T = any>(
     props: SelectProps<T>,
     ref: React.Ref<HTMLDivElement> | null
 ): JSX.Element | null {
-    if(!ref) {
-        ref = React.useRef<HTMLDivElement>(null)
+    if (!ref) {
+        ref = React.useRef<HTMLDivElement>(null);
     }
 
     const [open, setOpen] = React.useState(false);
