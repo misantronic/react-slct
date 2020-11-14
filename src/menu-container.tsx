@@ -24,7 +24,10 @@ function menuPosition({
         return 'bottom';
     }
 
-    if (rect.top + height + menuHeight <= getWindowInnerHeight()) {
+    if (
+        rect.top + height + menuHeight <= getWindowInnerHeight() ||
+        rect.top < menuHeight / 2
+    ) {
         return 'bottom';
     }
 
