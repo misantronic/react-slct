@@ -77,6 +77,44 @@ function MenuContainer(props) {
     const menuWrapper = React.useRef(null);
     const [menuOverlayRect, setMenuOverlayRect] = React.useState();
     const [menuWrapperRect, setMenuWrapperRect] = React.useState();
+    const style = React.useMemo(() => {
+        var _a;
+        const { menuLeft, menuTop, menuWidth, menuHeight } = props;
+        let width = menuWidth && menuWidth !== 'auto'
+            ? menuWidth
+            : (menuOverlayRect === null || menuOverlayRect === void 0 ? void 0 : menuOverlayRect.width) || 'auto';
+        let height = menuHeight && menuHeight !== 'auto'
+            ? menuHeight
+            : (menuWrapperRect === null || menuWrapperRect === void 0 ? void 0 : menuWrapperRect.height) || 'auto';
+        let top = menuTop !== null && menuTop !== void 0 ? menuTop : getContainerTop({
+            rect: menuOverlayRect,
+            menuHeight: height
+        });
+        let left = (_a = menuLeft !== null && menuLeft !== void 0 ? menuLeft : menuOverlayRect === null || menuOverlayRect === void 0 ? void 0 : menuOverlayRect.left) !== null && _a !== void 0 ? _a : 0;
+        if (window) {
+            const numWidth = Number(width);
+            if (numWidth > window.innerWidth) {
+                width = window.innerWidth - 20;
+            }
+            if (left + numWidth > window.innerWidth) {
+                left = Math.max(10, window.innerWidth - numWidth - 20);
+            }
+        }
+        if (top < 0) {
+            if (height !== 'auto') {
+                height += top;
+                top = 0;
+            }
+        }
+        return { top, left, width, height };
+    }, [
+        props.menuLeft,
+        props.menuTop,
+        props.menuWidth,
+        props.menuHeight,
+        menuOverlayRect,
+        menuWrapperRect
+    ]);
     function calcMenuOverlay() {
         if (menuOverlay.current) {
             const clientRect = menuOverlay.current.getBoundingClientRect();
@@ -131,34 +169,12 @@ function MenuContainer(props) {
             window === null || window === void 0 ? void 0 : window.removeEventListener('scroll', onViewportChange, true);
         };
     }, []);
-    const style = (() => {
+    React.useEffect(() => {
         var _a;
-        const { menuLeft, menuTop, menuWidth, menuHeight } = props;
-        let width = menuWidth && menuWidth !== 'auto'
-            ? menuWidth
-            : (menuOverlayRect === null || menuOverlayRect === void 0 ? void 0 : menuOverlayRect.width) || 'auto';
-        const height = menuHeight && menuHeight !== 'auto'
-            ? menuHeight
-            : (menuWrapperRect === null || menuWrapperRect === void 0 ? void 0 : menuWrapperRect.height) || 'auto';
-        const top = menuTop !== null && menuTop !== void 0 ? menuTop : getContainerTop({
-            rect: menuOverlayRect,
-            menuHeight: height
-        });
-        let left = (_a = menuLeft !== null && menuLeft !== void 0 ? menuLeft : menuOverlayRect === null || menuOverlayRect === void 0 ? void 0 : menuOverlayRect.left) !== null && _a !== void 0 ? _a : 0;
-        if (window) {
-            const numWidth = Number(width);
-            if (numWidth > window.innerWidth) {
-                width = window.innerWidth - 20;
-            }
-            if (left + numWidth > window.innerWidth) {
-                left = Math.max(10, window.innerWidth - numWidth - 20);
-            }
+        if (style) {
+            (_a = props.onStyle) === null || _a === void 0 ? void 0 : _a.call(props, style);
         }
-        if (left && top) {
-            return { top, left, width, height };
-        }
-        return undefined;
-    })();
+    }, [style]);
     return (React.createElement(MenuOverlay, { ref: menuOverlay }, document && style
         ? react_dom_1.createPortal(React.createElement(MenuWrapper, { "data-role": "menu", className: className, error: error, ref: menuWrapper, onClick: onClick, rect: menuOverlayRect, style: style }, children), document.body)
         : null));

@@ -20,9 +20,9 @@ const Empty = (props) => (React.createElement(EmptyOptionItem, null,
 function Menu(props) {
     const { rowHeight = 32, selectedIndex, open, error, menuWidth, menuHeight, multi, hideSelectedOptions } = props;
     const currentValue = utils_1.isArray(props.value) && multi ? props.value : [props.value];
-    const options = React.useMemo(() => (props.options || []).filter(option => {
+    const options = React.useMemo(() => (props.options || []).filter((option) => {
         if (hideSelectedOptions) {
-            const selected = currentValue.some(val => utils_1.equal(val, option.value, props.equalCompareProp));
+            const selected = currentValue.some((val) => utils_1.equal(val, option.value, props.equalCompareProp));
             if (selected) {
                 return false;
             }
@@ -35,9 +35,11 @@ function Menu(props) {
         currentValue
     ]);
     const [rect, setRect] = react_1.useState();
+    const [style, setStyle] = react_1.useState();
     const list = react_1.useRef(null);
     const width = menuWidth || (rect && rect.width !== 'auto' ? rect.width : 0);
-    const height = Math.min(Math.max(options.length * rowHeight, rowHeight) + 2, menuHeight || 185);
+    const assumedHeight = Math.min(Math.max(options.length * rowHeight, rowHeight) + 2, menuHeight || 185);
+    const actualHeight = ((style === null || style === void 0 ? void 0 : style.height) !== 'auto' && (style === null || style === void 0 ? void 0 : style.height)) || assumedHeight;
     react_1.useEffect(() => {
         if (open &&
             list.current &&
@@ -49,9 +51,9 @@ function Menu(props) {
     const itemData = React.useMemo(() => {
         return Object.assign(Object.assign({}, props), { options, onSelect: (value, option) => {
                 if (utils_1.isArray(props.value) && props.multi) {
-                    const found = props.value.some(item => utils_1.equal(item, value, props.equalCompareProp));
+                    const found = props.value.some((item) => utils_1.equal(item, value, props.equalCompareProp));
                     const values = found
-                        ? props.value.filter(item => !utils_1.equal(item, value, props.equalCompareProp))
+                        ? props.value.filter((item) => !utils_1.equal(item, value, props.equalCompareProp))
                         : Array.from(new Set([...props.value, value]));
                     props.onSelect(values, option);
                 }
@@ -68,7 +70,7 @@ function Menu(props) {
         props.optionComponent,
         props.value
     ]);
-    function renderList(width, height, rowHeight) {
+    function renderList() {
         const MenuContent = props.menuComponent;
         const itemCount = options.length;
         if (MenuContent) {
@@ -77,9 +79,9 @@ function Menu(props) {
         if (itemCount === 0) {
             return React.createElement(Empty, { emptyText: props.emptyText });
         }
-        return (React.createElement(react_window_1.FixedSizeList, { className: "react-slct-menu-list", ref: list, width: width, height: height, itemSize: rowHeight, itemCount: itemCount, itemData: itemData }, menu_row_1.MenuRow));
+        return (React.createElement(react_window_1.FixedSizeList, { className: "react-slct-menu-list", ref: list, width: "100%", height: actualHeight, itemSize: rowHeight, itemCount: itemCount, itemData: itemData }, menu_row_1.MenuRow));
     }
-    return open ? (React.createElement(menu_container_1.MenuContainer, { error: error, menuWidth: width, menuHeight: height, onRect: rect => setRect(rect) }, renderList(width, height, rowHeight))) : null;
+    return open ? (React.createElement(menu_container_1.MenuContainer, { error: error, menuWidth: width, menuHeight: assumedHeight, onRect: setRect, onStyle: setStyle }, renderList())) : null;
 }
 exports.Menu = Menu;
 //# sourceMappingURL=menu.js.map
