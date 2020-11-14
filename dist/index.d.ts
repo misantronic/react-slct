@@ -1,5 +1,4 @@
 import * as React from 'react';
-import './global-stylings';
 import { Menu } from './menu';
 import { LabelComponentProps, MenuComponentProps, Option, SelectProps } from './typings';
 import { keys } from './utils';
@@ -7,5 +6,6 @@ export { OptionComponent } from './option';
 export { OptionComponentProps, ValueComponentMultiProps, ValueComponentSingleProps, SelectStaticControl } from './typings';
 export { ValueComponentMulti } from './value-component-multi';
 export { ValueComponentSingle } from './value-component-single';
+export * from './config';
 export { SelectProps, Menu, MenuComponentProps, LabelComponentProps, Option, keys };
 export declare const Select: React.ForwardRefExoticComponent<SelectProps<any> & React.RefAttributes<HTMLDivElement>>;

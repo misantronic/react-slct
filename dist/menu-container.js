@@ -4,6 +4,7 @@ exports.MenuContainer = void 0;
 const React = require("react");
 const react_dom_1 = require("react-dom");
 const styled_components_1 = require("styled-components");
+const config_1 = require("./config");
 const utils_1 = require("./utils");
 function menuPosition({ rect, menuHeight = 186 }) {
     if (!rect) {
@@ -13,7 +14,8 @@ function menuPosition({ rect, menuHeight = 186 }) {
     if (height === 'auto' || menuHeight === 'auto') {
         return 'bottom';
     }
-    if (rect.top + height + menuHeight <= utils_1.getWindowInnerHeight()) {
+    if (rect.top + height + menuHeight <= utils_1.getWindowInnerHeight() ||
+        rect.top < menuHeight / 2) {
         return 'bottom';
     }
     return 'top';
@@ -58,7 +60,7 @@ const MenuWrapper = styled_components_1.default.div `
         box-sizing: border-box;
         border-width: 1px;
         border-style: solid;
-        border-color: ${(props) => props.error ? 'var(--react-slct-error-color)' : '#ccc'};
+        border-color: ${(props) => props.error ? config_1.ReactSlctColors.error : '#ccc'};
         background-color: #fff;
 
         &:focus {

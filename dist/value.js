@@ -5,6 +5,7 @@ const tslib_1 = require("tslib");
 const lodash_decorators_1 = require("lodash-decorators");
 const React = require("react");
 const styled_components_1 = require("styled-components");
+const config_1 = require("./config");
 const label_1 = require("./label");
 const utils_1 = require("./utils");
 const value_component_multi_1 = require("./value-component-multi");
@@ -43,7 +44,7 @@ const ValueContainer = styled_components_1.default.div `
     cursor: default;
     border-width: 1px;
     border-style: solid;
-    border-color: ${(props) => props.error ? 'var(--react-slct-error-color)' : '#ccc'};
+    border-color: ${(props) => props.error ? config_1.ReactSlctColors.error : '#ccc'};
     z-index: 0;
     box-sizing: border-box;
     max-width: 100%;

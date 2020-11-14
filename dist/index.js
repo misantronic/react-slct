@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Select = exports.keys = exports.Menu = exports.ValueComponentSingle = exports.ValueComponentMulti = exports.OptionComponent = void 0;
+const tslib_1 = require("tslib");
 const React = require("react");
 const styled_components_1 = require("styled-components");
-require("./global-stylings");
 const menu_1 = require("./menu");
 Object.defineProperty(exports, "Menu", { enumerable: true, get: function () { return menu_1.Menu; } });
 const menu_container_1 = require("./menu-container");
@@ -16,6 +16,7 @@ var value_component_multi_1 = require("./value-component-multi");
 Object.defineProperty(exports, "ValueComponentMulti", { enumerable: true, get: function () { return value_component_multi_1.ValueComponentMulti; } });
 var value_component_single_1 = require("./value-component-single");
 Object.defineProperty(exports, "ValueComponentSingle", { enumerable: true, get: function () { return value_component_single_1.ValueComponentSingle; } });
+tslib_1.__exportStar(require("./config"), exports);
 const Container = styled_components_1.default.div `
     display: flex;
     position: relative;
