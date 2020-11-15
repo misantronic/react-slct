@@ -25,7 +25,7 @@ const Button = styled_components_1.default.button `
 `;
 const ArrowButton = styled_components_1.default(Button) `
     font-size: 12px;
-    color: #ccc;
+    color: ${() => config_1.ReactSlctColors.border};
     transform: translateY(2px);
 
     &:hover {
@@ -44,7 +44,7 @@ const ValueContainer = styled_components_1.default.div `
     cursor: default;
     border-width: 1px;
     border-style: solid;
-    border-color: ${(props) => props.error ? config_1.ReactSlctColors.error : '#ccc'};
+    border-color: ${(props) => props.error ? config_1.ReactSlctColors.error : config_1.ReactSlctColors.border};
     z-index: 0;
     box-sizing: border-box;
     max-width: 100%;
@@ -73,7 +73,7 @@ const ClearButton = styled_components_1.default(Button) `
     margin-right: 6px;
 `;
 const ClearContainer = styled_components_1.default.span `
-    color: #ccc;
+    color: ${() => config_1.ReactSlctColors.border};
 
     &:hover {
         color: #333;

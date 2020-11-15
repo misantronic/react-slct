@@ -5,6 +5,7 @@ const React = require("react");
 const react_1 = require("react");
 const react_window_1 = require("react-window");
 const styled_components_1 = require("styled-components");
+const config_1 = require("./config");
 const label_1 = require("./label");
 const menu_container_1 = require("./menu-container");
 const menu_row_1 = require("./menu-row");
@@ -12,7 +13,7 @@ const option_1 = require("./option");
 const utils_1 = require("./utils");
 const EmptyOptionItem = styled_components_1.default(option_1.OptionComponent.OptionItem) `
     height: 100%;
-    border: 1px solid #ccc;
+    border: 1px solid ${() => config_1.ReactSlctColors.border};
 `;
 const Empty = (props) => (React.createElement(EmptyOptionItem, null,
     React.createElement(label_1.SelectLabel, null,

@@ -81,7 +81,7 @@ const MenuWrapper = styled.div`
         border-width: 1px;
         border-style: solid;
         border-color: ${(props: MenuWrapperProps) =>
-            props.error ? ReactSlctColors.error : '#ccc'};
+            props.error ? ReactSlctColors.error : ReactSlctColors.border};
         background-color: #fff;
 
         &:focus {

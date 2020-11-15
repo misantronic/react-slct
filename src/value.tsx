@@ -69,7 +69,7 @@ const Button = styled.button`
 
 const ArrowButton = styled(Button)`
     font-size: 12px;
-    color: #ccc;
+    color: ${() => ReactSlctColors.border};
     transform: translateY(2px);
 
     &:hover {
@@ -91,7 +91,7 @@ const ValueContainer = styled.div`
     border-width: 1px;
     border-style: solid;
     border-color: ${(props: ValueContainerProps) =>
-        props.error ? ReactSlctColors.error : '#ccc'};
+        props.error ? ReactSlctColors.error : ReactSlctColors.border};
     z-index: 0;
     box-sizing: border-box;
     max-width: 100%;
@@ -128,7 +128,7 @@ const ClearButton = styled(Button)`
 `;
 
 const ClearContainer = styled.span`
-    color: #ccc;
+    color: ${() => ReactSlctColors.border};
 
     &:hover {
         color: #333;

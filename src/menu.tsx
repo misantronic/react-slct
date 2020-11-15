@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { FixedSizeList } from 'react-window';
 import styled from 'styled-components';
+import { ReactSlctColors } from './config';
 import { SelectLabel } from './label';
 import { MenuContainer } from './menu-container';
 import { MenuRow } from './menu-row';
@@ -11,7 +12,7 @@ import { equal, isArray } from './utils';
 
 const EmptyOptionItem = styled(OptionComponent.OptionItem)`
     height: 100%;
-    border: 1px solid #ccc;
+    border: 1px solid ${() => ReactSlctColors.border};
 `;
 
 const Empty = (props: { emptyText?: string }) => (

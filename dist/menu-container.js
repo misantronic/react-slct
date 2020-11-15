@@ -60,7 +60,7 @@ const MenuWrapper = styled_components_1.default.div `
         box-sizing: border-box;
         border-width: 1px;
         border-style: solid;
-        border-color: ${(props) => props.error ? config_1.ReactSlctColors.error : '#ccc'};
+        border-color: ${(props) => props.error ? config_1.ReactSlctColors.error : config_1.ReactSlctColors.border};
         background-color: #fff;
 
         &:focus {
