@@ -78,7 +78,7 @@ export function Menu(props: MenuComponentProps) {
         ) {
             list.current.scrollToItem(selectedIndex, 'center');
         }
-    }, [open]);
+    }, [open, selectedIndex]);
 
     const itemData = React.useMemo(() => {
         return {
