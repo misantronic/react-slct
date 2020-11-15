@@ -48,7 +48,7 @@ function Menu(props) {
             selectedIndex !== -1) {
             list.current.scrollToItem(selectedIndex, 'center');
         }
-    }, [open]);
+    }, [open, selectedIndex]);
     const itemData = React.useMemo(() => {
         return Object.assign(Object.assign({}, props), { options, onSelect: (value, option) => {
                 if (utils_1.isArray(props.value) && props.multi) {
