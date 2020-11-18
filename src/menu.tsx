@@ -31,6 +31,7 @@ export function Menu(props: MenuComponentProps) {
         error,
         menuWidth,
         menuHeight,
+        menuPosition,
         multi,
         hideSelectedOptions
     } = props;
@@ -144,6 +145,7 @@ export function Menu(props: MenuComponentProps) {
             error={error}
             menuWidth={width}
             menuHeight={assumedHeight}
+            menuPosition={menuPosition}
             onRect={setRect}
             onStyle={setStyle}
         >

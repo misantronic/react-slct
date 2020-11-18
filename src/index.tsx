@@ -109,6 +109,7 @@ function SelectImpl<T = any>(
         rowHeight,
         menuWidth,
         menuHeight,
+        menuPosition,
         keepSearchOnBlur,
         required,
         creatableText
@@ -639,6 +640,7 @@ function SelectImpl<T = any>(
                 rowHeight={rowHeight}
                 menuWidth={menuWidth}
                 menuHeight={menuHeight}
+                menuPosition={menuPosition}
                 onSelect={onOptionSelect}
             />
         </Container>

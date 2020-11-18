@@ -8,10 +8,11 @@ import { getDocument, getWindow, getWindowInnerHeight } from './utils';
 interface MenuWrapperProps {
     rect?: Rect;
     menuHeight?: MenuContainerProps['menuHeight'];
+    menuPosition?: MenuContainerProps['menuPosition'];
     error?: boolean;
 }
 
-function menuPosition({
+function getMenuPosition({
     rect,
     menuHeight = 186
 }: MenuWrapperProps): 'top' | 'bottom' {
@@ -46,8 +47,9 @@ function getContainerTop(props: MenuWrapperProps): number {
     const menuHeight = (props.menuHeight !== 'auto' && props.menuHeight) || 186;
     const height = rect.height === 'auto' ? 32 : rect.height;
     const scrollY = window?.scrollY ?? 0;
+    const menuPosition = props.menuPosition || getMenuPosition(props);
 
-    switch (menuPosition(props)) {
+    switch (menuPosition) {
         case 'top':
             return rect.top - menuHeight + 1 + scrollY;
         case 'bottom':
@@ -72,7 +74,7 @@ const MenuWrapper = styled.div`
     background: #fff;
     box-sizing: border-box;
     box-shadow: ${(props: MenuWrapperProps) =>
-        menuPosition(props) === 'bottom'
+        getMenuPosition(props) === 'bottom'
             ? '0 2px 5px rgba(0, 0, 0, 0.1)'
             : '0 -2px 5px rgba(0, 0, 0, 0.1)'};
 
@@ -116,7 +118,8 @@ export function MenuContainer(props: MenuContainerProps) {
             menuTop ??
             getContainerTop({
                 rect: menuOverlayRect,
-                menuHeight: height
+                menuHeight: height,
+                menuPosition: props.menuPosition
             });
         let left = menuLeft ?? menuOverlayRect?.left ?? 0;
 

@@ -19,6 +19,7 @@ export interface SelectProps<T = any> {
     rowHeight?: number;
     menuWidth?: number;
     menuHeight?: number;
+    menuPosition?: 'top' | 'bottom';
     hideSelectedOptions?: boolean;
     equalCompareProp?: string | null;
     arrowComponent?: ReactComponent<{ open: boolean }>;
@@ -76,6 +77,7 @@ export interface MenuComponentProps<T = any> {
     rowHeight: SelectProps['rowHeight'];
     menuWidth: SelectProps['menuHeight'];
     menuHeight: SelectProps['menuHeight'];
+    menuPosition: SelectProps['menuPosition'];
     hideSelectedOptions: SelectProps['hideSelectedOptions'];
     equalCompareProp: SelectProps['equalCompareProp'];
     error: SelectProps['error'];
@@ -91,6 +93,7 @@ export interface MenuContainerProps {
     menuTop?: number;
     menuWidth?: RectSize;
     menuHeight?: RectSize;
+    menuPosition?: SelectProps['menuPosition'];
     error?: boolean;
     children?: React.ReactNode;
     onRect?(menuOverlay?: Rect, menuWrapper?: Rect): void;
