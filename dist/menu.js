@@ -19,7 +19,7 @@ const Empty = (props) => (React.createElement(EmptyOptionItem, null,
     React.createElement(label_1.SelectLabel, null,
         React.createElement("i", null, props.emptyText || 'No results'))));
 function Menu(props) {
-    const { rowHeight = 32, selectedIndex, open, error, menuWidth, menuHeight, multi, hideSelectedOptions } = props;
+    const { rowHeight = 32, selectedIndex, open, error, menuWidth, menuHeight, menuPosition, multi, hideSelectedOptions } = props;
     const currentValue = utils_1.isArray(props.value) && multi ? props.value : [props.value];
     const options = React.useMemo(() => (props.options || []).filter((option) => {
         if (hideSelectedOptions) {
@@ -82,7 +82,7 @@ function Menu(props) {
         }
         return (React.createElement(react_window_1.FixedSizeList, { className: "react-slct-menu-list", ref: list, width: "100%", height: actualHeight, itemSize: rowHeight, itemCount: itemCount, itemData: itemData }, menu_row_1.MenuRow));
     }
-    return open ? (React.createElement(menu_container_1.MenuContainer, { error: error, menuWidth: width, menuHeight: assumedHeight, onRect: setRect, onStyle: setStyle }, renderList())) : null;
+    return open ? (React.createElement(menu_container_1.MenuContainer, { error: error, menuWidth: width, menuHeight: assumedHeight, menuPosition: menuPosition, onRect: setRect, onStyle: setStyle }, renderList())) : null;
 }
 exports.Menu = Menu;
 //# sourceMappingURL=menu.js.map

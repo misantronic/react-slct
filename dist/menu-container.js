@@ -6,7 +6,7 @@ const react_dom_1 = require("react-dom");
 const styled_components_1 = require("styled-components");
 const config_1 = require("./config");
 const utils_1 = require("./utils");
-function menuPosition({ rect, menuHeight = 186 }) {
+function getMenuPosition({ rect, menuHeight = 186 }) {
     if (!rect) {
         return 'bottom';
     }
@@ -30,7 +30,8 @@ function getContainerTop(props) {
     const menuHeight = (props.menuHeight !== 'auto' && props.menuHeight) || 186;
     const height = rect.height === 'auto' ? 32 : rect.height;
     const scrollY = (_a = window === null || window === void 0 ? void 0 : window.scrollY) !== null && _a !== void 0 ? _a : 0;
-    switch (menuPosition(props)) {
+    const menuPosition = props.menuPosition || getMenuPosition(props);
+    switch (menuPosition) {
         case 'top':
             return rect.top - menuHeight + 1 + scrollY;
         case 'bottom':
@@ -52,7 +53,7 @@ const MenuWrapper = styled_components_1.default.div `
     z-index: 9999;
     background: #fff;
     box-sizing: border-box;
-    box-shadow: ${(props) => menuPosition(props) === 'bottom'
+    box-shadow: ${(props) => getMenuPosition(props) === 'bottom'
     ? '0 2px 5px rgba(0, 0, 0, 0.1)'
     : '0 -2px 5px rgba(0, 0, 0, 0.1)'};
 
@@ -90,7 +91,8 @@ function MenuContainer(props) {
             : (menuWrapperRect === null || menuWrapperRect === void 0 ? void 0 : menuWrapperRect.height) || 'auto';
         let top = menuTop !== null && menuTop !== void 0 ? menuTop : getContainerTop({
             rect: menuOverlayRect,
-            menuHeight: height
+            menuHeight: height,
+            menuPosition: props.menuPosition
         });
         let left = (_a = menuLeft !== null && menuLeft !== void 0 ? menuLeft : menuOverlayRect === null || menuOverlayRect === void 0 ? void 0 : menuOverlayRect.left) !== null && _a !== void 0 ? _a : 0;
         if (window) {
