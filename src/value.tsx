@@ -1,4 +1,4 @@
-import { bind } from 'lodash-decorators';
+import { bind } from 'decko';
 import * as React from 'react';
 import styled, { css } from 'styled-components';
 import { ReactSlctColors } from './config';

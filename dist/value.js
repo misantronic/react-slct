@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Value = void 0;
 const tslib_1 = require("tslib");
-const lodash_decorators_1 = require("lodash-decorators");
+const decko_1 = require("decko");
 const React = require("react");
 const styled_components_1 = require("styled-components");
 const config_1 = require("./config");
@@ -213,31 +213,31 @@ class Value extends React.PureComponent {
     }
 }
 tslib_1.__decorate([
-    lodash_decorators_1.bind,
+    decko_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], Value.prototype, "blur", null);
 tslib_1.__decorate([
-    lodash_decorators_1.bind,
+    decko_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], Value.prototype, "onClick", null);
 tslib_1.__decorate([
-    lodash_decorators_1.bind,
+    decko_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Value.prototype, "onClear", null);
 tslib_1.__decorate([
-    lodash_decorators_1.bind,
+    decko_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], Value.prototype, "onSearch", null);
 tslib_1.__decorate([
-    lodash_decorators_1.bind,
+    decko_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)

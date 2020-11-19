@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ValueComponentMulti = void 0;
 const tslib_1 = require("tslib");
-const lodash_decorators_1 = require("lodash-decorators");
+const decko_1 = require("decko");
 const React = require("react");
 const styled_components_1 = require("styled-components");
 const label_1 = require("./label");
@@ -39,7 +39,7 @@ Remove.StyledRemove = styled_components_1.default.button `
         }
     `;
 tslib_1.__decorate([
-    lodash_decorators_1.bind,
+    decko_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", [Object]),
     tslib_1.__metadata("design:returntype", void 0)
@@ -50,7 +50,7 @@ class ValueComponentMulti extends React.PureComponent {
         const { option, labelComponent, onRemove } = this.props;
         const Label = (labelComponent || label_1.SelectLabel);
         const className = ['value-multi', this.props.className]
-            .filter(c => Boolean(c))
+            .filter((c) => Boolean(c))
             .join(' ');
         return (React.createElement(TagContainer, { className: className },
             React.createElement(Remove, { value: option.value, onClick: onRemove }, "\u00D7"),

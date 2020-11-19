@@ -1,4 +1,4 @@
-import { bind } from 'lodash-decorators';
+import { bind } from 'decko';
 import * as React from 'react';
 import styled from 'styled-components';
 import { ValueComponentMultiProps } from './typings';
@@ -81,7 +81,7 @@ export class ValueComponentMulti<T = any> extends React.PureComponent<
         const { option, labelComponent, onRemove } = this.props;
         const Label = (labelComponent || SelectLabel) as any;
         const className = ['value-multi', this.props.className]
-            .filter(c => Boolean(c))
+            .filter((c) => Boolean(c))
             .join(' ');
 
         return (

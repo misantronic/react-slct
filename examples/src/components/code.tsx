@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { bind } from 'lodash-decorators';
+import { bind } from 'decko';
 
 interface CodeProps {
     children: string | string[];

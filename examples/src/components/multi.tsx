@@ -1,4 +1,4 @@
-import { bind } from 'lodash-decorators';
+import { bind } from 'decko';
 import * as React from 'react';
 import { Select, SelectProps, Option } from '../../../src';
 import { options } from '../utils/options';

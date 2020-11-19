@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OptionComponent = void 0;
 const tslib_1 = require("tslib");
-const lodash_decorators_1 = require("lodash-decorators");
+const decko_1 = require("decko");
 const React = require("react");
 const styled_components_1 = require("styled-components");
 const label_1 = require("./label");
@@ -16,7 +16,7 @@ class OptionComponent extends React.PureComponent {
             this.props.className,
             selected ? 'selected' : null,
             active ? 'active' : null
-        ].filter(v => Boolean(v));
+        ].filter((v) => Boolean(v));
         return (React.createElement(OptionItem, { "data-role": "option", className: className.join(' '), selected: selected, active: active, height: height, onClick: this.onClick },
             React.createElement(Label, Object.assign({ type: "option", active: active }, option), option.label)));
     }
@@ -41,7 +41,7 @@ OptionComponent.OptionItem = styled_components_1.default.div `
         }
     `;
 tslib_1.__decorate([
-    lodash_decorators_1.bind,
+    decko_1.bind,
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)

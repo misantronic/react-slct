@@ -1,4 +1,4 @@
-import { bind } from 'lodash-decorators';
+import { bind } from 'decko';
 import * as React from 'react';
 import styled from 'styled-components';
 import { SelectLabel } from './label';
@@ -39,7 +39,7 @@ export class OptionComponent extends React.PureComponent<OptionComponentProps> {
             this.props.className,
             selected ? 'selected' : null,
             active ? 'active' : null
-        ].filter(v => Boolean(v));
+        ].filter((v) => Boolean(v));
 
         return (
             <OptionItem
