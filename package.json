@@ -33,7 +33,7 @@
     },
     "devDependencies": {
         "@types/react": "^17.0.0",
-        "@types/react-dom": "^16.9.9",
+        "@types/react-dom": "^17.0.0",
         "@types/react-window": "^1.8.2",
         "@types/styled-components": "^5.1.4",
         "fuse-box": "^3.7.1",
