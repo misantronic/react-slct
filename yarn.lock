@@ -979,13 +979,6 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-native@*":
-  version "0.63.33"
-  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.63.33.tgz#cd7123a872fcda8f2563c324ff7d35fc91d86d81"
-  integrity sha512-bqRtJI4EwiV3OTc9pHjmtE/ZIOLYi9KbrnMWyJIb90Z7+eXKPimKPTBU1oDVNdw8CXkDCrZaengvvdu2JMvjtg==
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-window@^1.8.2":
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/@types/react-window/-/react-window-1.8.2.tgz#a5a6b2762ce73ffaab7911ee1397cf645f2459fe"
@@ -1007,14 +1000,13 @@
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.1.tgz#18845205e86ff0038517aab7a18a62a6b9f71275"
   integrity sha512-EaCxbanVeyxDRTQBkdLb3Bvl/HK7PBK6UJjsSixB0iHKoWxE5uu2Q/DgtpOhPIojN0Zl1whvOd7PoHs2P0s5eA==
 
-"@types/styled-components@^5.1.4":
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/@types/styled-components/-/styled-components-5.1.4.tgz#11f167dbde268635c66adc89b5a5db2e69d75384"
-  integrity sha512-78f5Zuy0v/LTQNOYfpH+CINHpchzMMmAt9amY2YNtSgsk1TmlKm8L2Wijss/mtTrsUAVTm2CdGB8VOM65vA8xg==
+"@types/styled-components@^5.1.9":
+  version "5.1.9"
+  resolved "https://registry.yarnpkg.com/@types/styled-components/-/styled-components-5.1.9.tgz#00d3d84b501420521c4db727e3c195459f87a6cf"
+  integrity sha512-kbEG6YlwK8rucITpKEr6pA4Ho9KSQHUUOzZ9lY3va1mtcjvS3D0wDciFyHEiNHKLL/npZCKDQJqm0x44sPO9oA==
   dependencies:
     "@types/hoist-non-react-statics" "*"
     "@types/react" "*"
-    "@types/react-native" "*"
     csstype "^3.0.2"
 
 abab@^2.0.0:
