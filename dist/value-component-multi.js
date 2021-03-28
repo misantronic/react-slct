@@ -1,19 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ValueComponentMulti = void 0;
-const tslib_1 = require("tslib");
-const decko_1 = require("decko");
 const React = require("react");
 const styled_components_1 = require("styled-components");
 const label_1 = require("./label");
 class Remove extends React.PureComponent {
+    constructor() {
+        super(...arguments);
+        this.onClick = (e) => {
+            e.stopPropagation();
+            this.props.onClick(this.props.value);
+        };
+    }
     render() {
         const { StyledRemove } = Remove;
         return (React.createElement(StyledRemove, { className: "remove", type: "button", tabIndex: -1, onClick: this.onClick }, "\u00D7"));
-    }
-    onClick(e) {
-        e.stopPropagation();
-        this.props.onClick(this.props.value);
     }
 }
 Remove.StyledRemove = styled_components_1.default.button `
@@ -38,12 +39,6 @@ Remove.StyledRemove = styled_components_1.default.button `
             outline: none;
         }
     `;
-tslib_1.__decorate([
-    decko_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
-], Remove.prototype, "onClick", null);
 class ValueComponentMulti extends React.PureComponent {
     render() {
         const { TagContainer } = ValueComponentMulti;

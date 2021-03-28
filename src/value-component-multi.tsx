@@ -1,4 +1,3 @@
-import { bind } from 'decko';
 import * as React from 'react';
 import styled from 'styled-components';
 import { ValueComponentMultiProps } from './typings';
@@ -48,12 +47,11 @@ class Remove extends React.PureComponent<RemoveProps> {
         );
     }
 
-    @bind
-    private onClick(e: React.SyntheticEvent<HTMLButtonElement>): void {
+    private onClick = (e: React.SyntheticEvent<HTMLButtonElement>) => {
         e.stopPropagation();
 
         this.props.onClick(this.props.value);
-    }
+    };
 }
 
 export class ValueComponentMulti<T = any> extends React.PureComponent<

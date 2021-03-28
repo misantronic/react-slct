@@ -1,4 +1,3 @@
-import { bind } from 'decko';
 import * as React from 'react';
 import styled, { css } from 'styled-components';
 import { ReactSlctColors } from './config';
@@ -358,39 +357,34 @@ export class Value extends React.PureComponent<ValueProps> {
         }
     }
 
-    @bind
-    private blur(): void {
+    private blur = () => {
         if (this.search.current) {
             this.search.current.blur();
         }
-    }
+    };
 
-    @bind
-    private onClick(): void {
+    private onClick = () => {
         if (!this.props.disabled) {
             this.focus();
             this.props.onClick();
         }
-    }
+    };
 
-    @bind
-    private onClear(e: React.SyntheticEvent<HTMLButtonElement>): void {
+    private onClear = (e: React.SyntheticEvent<HTMLButtonElement>) => {
         e.stopPropagation();
 
         this.props.onClear();
-    }
+    };
 
-    @bind
-    private onSearch(e: React.KeyboardEvent<HTMLSpanElement>) {
+    private onSearch = (e: React.KeyboardEvent<HTMLSpanElement>) => {
         if (this.props.searchable) {
             this.props.onSearch(e.currentTarget.innerText.trim());
         } else {
             e.preventDefault();
         }
-    }
+    };
 
-    @bind
-    private onKeyDown(e: React.KeyboardEvent<HTMLSpanElement>) {
+    private onKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
         const { searchable } = this.props;
 
         if (e.metaKey) {
@@ -405,5 +399,5 @@ export class Value extends React.PureComponent<ValueProps> {
         ) {
             e.preventDefault();
         }
-    }
+    };
 }

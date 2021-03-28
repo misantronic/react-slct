@@ -1,8 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Value = void 0;
-const tslib_1 = require("tslib");
-const decko_1 = require("decko");
 const React = require("react");
 const styled_components_1 = require("styled-components");
 const config_1 = require("./config");
@@ -103,6 +101,41 @@ const Search = styled_components_1.default.span `
 class Value extends React.PureComponent {
     constructor(props) {
         super(props);
+        this.blur = () => {
+            if (this.search.current) {
+                this.search.current.blur();
+            }
+        };
+        this.onClick = () => {
+            if (!this.props.disabled) {
+                this.focus();
+                this.props.onClick();
+            }
+        };
+        this.onClear = (e) => {
+            e.stopPropagation();
+            this.props.onClear();
+        };
+        this.onSearch = (e) => {
+            if (this.props.searchable) {
+                this.props.onSearch(e.currentTarget.innerText.trim());
+            }
+            else {
+                e.preventDefault();
+            }
+        };
+        this.onKeyDown = (e) => {
+            const { searchable } = this.props;
+            if (e.metaKey) {
+                return;
+            }
+            if ((!searchable && e.keyCode !== utils_1.keys.TAB) ||
+                e.keyCode === utils_1.keys.ENTER ||
+                e.keyCode === utils_1.keys.ARROW_UP ||
+                e.keyCode === utils_1.keys.ARROW_DOWN) {
+                e.preventDefault();
+            }
+        };
         this.search = React.createRef();
         const window = utils_1.getWindow();
         if (window) {
@@ -176,71 +209,6 @@ class Value extends React.PureComponent {
             }
         }
     }
-    blur() {
-        if (this.search.current) {
-            this.search.current.blur();
-        }
-    }
-    onClick() {
-        if (!this.props.disabled) {
-            this.focus();
-            this.props.onClick();
-        }
-    }
-    onClear(e) {
-        e.stopPropagation();
-        this.props.onClear();
-    }
-    onSearch(e) {
-        if (this.props.searchable) {
-            this.props.onSearch(e.currentTarget.innerText.trim());
-        }
-        else {
-            e.preventDefault();
-        }
-    }
-    onKeyDown(e) {
-        const { searchable } = this.props;
-        if (e.metaKey) {
-            return;
-        }
-        if ((!searchable && e.keyCode !== utils_1.keys.TAB) ||
-            e.keyCode === utils_1.keys.ENTER ||
-            e.keyCode === utils_1.keys.ARROW_UP ||
-            e.keyCode === utils_1.keys.ARROW_DOWN) {
-            e.preventDefault();
-        }
-    }
 }
-tslib_1.__decorate([
-    decko_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", []),
-    tslib_1.__metadata("design:returntype", void 0)
-], Value.prototype, "blur", null);
-tslib_1.__decorate([
-    decko_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", []),
-    tslib_1.__metadata("design:returntype", void 0)
-], Value.prototype, "onClick", null);
-tslib_1.__decorate([
-    decko_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
-], Value.prototype, "onClear", null);
-tslib_1.__decorate([
-    decko_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
-], Value.prototype, "onSearch", null);
-tslib_1.__decorate([
-    decko_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
-], Value.prototype, "onKeyDown", null);
 exports.Value = Value;
 //# sourceMappingURL=value.js.map

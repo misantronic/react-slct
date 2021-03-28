@@ -1,4 +1,3 @@
-import { bind } from 'decko';
 import * as React from 'react';
 import styled from 'styled-components';
 import { SelectLabel } from './label';
@@ -57,8 +56,7 @@ export class OptionComponent extends React.PureComponent<OptionComponentProps> {
         );
     }
 
-    @bind
-    private onClick(): void {
+    private onClick = () => {
         this.props.onSelect(this.props.option.value, this.props.option);
-    }
+    };
 }

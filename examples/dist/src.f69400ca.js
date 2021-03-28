@@ -214,7 +214,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
   return to;
 };
 },{}],"../../node_modules/react/cjs/react.development.js":[function(require,module,exports) {
-/** @license React v17.0.1
+/** @license React v17.0.2
  * react.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -231,7 +231,7 @@ if ("development" !== "production") {
     var _assign = require('object-assign'); // TODO: this is special because it gets imported during build.
 
 
-    var ReactVersion = '17.0.1'; // ATTENTION
+    var ReactVersion = '17.0.2'; // ATTENTION
     // When adding new symbols to this file,
     // Please consider also adding to 'react-devtools-shared/src/backend/ReactSymbols'
     // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
@@ -2506,7 +2506,7 @@ if ("development" === 'production') {
   module.exports = require('./cjs/react.development.js');
 }
 },{"./cjs/react.development.js":"../../node_modules/react/cjs/react.development.js"}],"../../node_modules/scheduler/cjs/scheduler.development.js":[function(require,module,exports) {
-/** @license React v0.20.1
+/** @license React v0.20.2
  * scheduler.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -2521,7 +2521,7 @@ if ("development" !== "production") {
     'use strict';
 
     var enableSchedulerDebugging = false;
-    var enableProfiling = true;
+    var enableProfiling = false;
     var requestHostCallback;
     var requestHostTimeout;
     var cancelHostTimeout;
@@ -2793,179 +2793,13 @@ if ("development" !== "production") {
     } // TODO: Use symbols?
 
 
-    var NoPriority = 0;
     var ImmediatePriority = 1;
     var UserBlockingPriority = 2;
     var NormalPriority = 3;
     var LowPriority = 4;
     var IdlePriority = 5;
-    var runIdCounter = 0;
-    var mainThreadIdCounter = 0;
-    var profilingStateSize = 4;
-    var sharedProfilingBuffer = // $FlowFixMe Flow doesn't know about SharedArrayBuffer
-    typeof SharedArrayBuffer === 'function' ? new SharedArrayBuffer(profilingStateSize * Int32Array.BYTES_PER_ELEMENT) : // $FlowFixMe Flow doesn't know about ArrayBuffer
-    typeof ArrayBuffer === 'function' ? new ArrayBuffer(profilingStateSize * Int32Array.BYTES_PER_ELEMENT) : null // Don't crash the init path on IE9
-    ;
-    var profilingState = sharedProfilingBuffer !== null ? new Int32Array(sharedProfilingBuffer) : []; // We can't read this but it helps save bytes for null checks
 
-    var PRIORITY = 0;
-    var CURRENT_TASK_ID = 1;
-    var CURRENT_RUN_ID = 2;
-    var QUEUE_SIZE = 3;
-    {
-      profilingState[PRIORITY] = NoPriority; // This is maintained with a counter, because the size of the priority queue
-      // array might include canceled tasks.
-
-      profilingState[QUEUE_SIZE] = 0;
-      profilingState[CURRENT_TASK_ID] = 0;
-    } // Bytes per element is 4
-
-    var INITIAL_EVENT_LOG_SIZE = 131072;
-    var MAX_EVENT_LOG_SIZE = 524288; // Equivalent to 2 megabytes
-
-    var eventLogSize = 0;
-    var eventLogBuffer = null;
-    var eventLog = null;
-    var eventLogIndex = 0;
-    var TaskStartEvent = 1;
-    var TaskCompleteEvent = 2;
-    var TaskErrorEvent = 3;
-    var TaskCancelEvent = 4;
-    var TaskRunEvent = 5;
-    var TaskYieldEvent = 6;
-    var SchedulerSuspendEvent = 7;
-    var SchedulerResumeEvent = 8;
-
-    function logEvent(entries) {
-      if (eventLog !== null) {
-        var offset = eventLogIndex;
-        eventLogIndex += entries.length;
-
-        if (eventLogIndex + 1 > eventLogSize) {
-          eventLogSize *= 2;
-
-          if (eventLogSize > MAX_EVENT_LOG_SIZE) {
-            // Using console['error'] to evade Babel and ESLint
-            console['error']("Scheduler Profiling: Event log exceeded maximum size. Don't " + 'forget to call `stopLoggingProfilingEvents()`.');
-            stopLoggingProfilingEvents();
-            return;
-          }
-
-          var newEventLog = new Int32Array(eventLogSize * 4);
-          newEventLog.set(eventLog);
-          eventLogBuffer = newEventLog.buffer;
-          eventLog = newEventLog;
-        }
-
-        eventLog.set(entries, offset);
-      }
-    }
-
-    function startLoggingProfilingEvents() {
-      eventLogSize = INITIAL_EVENT_LOG_SIZE;
-      eventLogBuffer = new ArrayBuffer(eventLogSize * 4);
-      eventLog = new Int32Array(eventLogBuffer);
-      eventLogIndex = 0;
-    }
-
-    function stopLoggingProfilingEvents() {
-      var buffer = eventLogBuffer;
-      eventLogSize = 0;
-      eventLogBuffer = null;
-      eventLog = null;
-      eventLogIndex = 0;
-      return buffer;
-    }
-
-    function markTaskStart(task, ms) {
-      {
-        profilingState[QUEUE_SIZE]++;
-
-        if (eventLog !== null) {
-          // performance.now returns a float, representing milliseconds. When the
-          // event is logged, it's coerced to an int. Convert to microseconds to
-          // maintain extra degrees of precision.
-          logEvent([TaskStartEvent, ms * 1000, task.id, task.priorityLevel]);
-        }
-      }
-    }
-
-    function markTaskCompleted(task, ms) {
-      {
-        profilingState[PRIORITY] = NoPriority;
-        profilingState[CURRENT_TASK_ID] = 0;
-        profilingState[QUEUE_SIZE]--;
-
-        if (eventLog !== null) {
-          logEvent([TaskCompleteEvent, ms * 1000, task.id]);
-        }
-      }
-    }
-
-    function markTaskCanceled(task, ms) {
-      {
-        profilingState[QUEUE_SIZE]--;
-
-        if (eventLog !== null) {
-          logEvent([TaskCancelEvent, ms * 1000, task.id]);
-        }
-      }
-    }
-
-    function markTaskErrored(task, ms) {
-      {
-        profilingState[PRIORITY] = NoPriority;
-        profilingState[CURRENT_TASK_ID] = 0;
-        profilingState[QUEUE_SIZE]--;
-
-        if (eventLog !== null) {
-          logEvent([TaskErrorEvent, ms * 1000, task.id]);
-        }
-      }
-    }
-
-    function markTaskRun(task, ms) {
-      {
-        runIdCounter++;
-        profilingState[PRIORITY] = task.priorityLevel;
-        profilingState[CURRENT_TASK_ID] = task.id;
-        profilingState[CURRENT_RUN_ID] = runIdCounter;
-
-        if (eventLog !== null) {
-          logEvent([TaskRunEvent, ms * 1000, task.id, runIdCounter]);
-        }
-      }
-    }
-
-    function markTaskYield(task, ms) {
-      {
-        profilingState[PRIORITY] = NoPriority;
-        profilingState[CURRENT_TASK_ID] = 0;
-        profilingState[CURRENT_RUN_ID] = 0;
-
-        if (eventLog !== null) {
-          logEvent([TaskYieldEvent, ms * 1000, task.id, runIdCounter]);
-        }
-      }
-    }
-
-    function markSchedulerSuspended(ms) {
-      {
-        mainThreadIdCounter++;
-
-        if (eventLog !== null) {
-          logEvent([SchedulerSuspendEvent, ms * 1000, mainThreadIdCounter]);
-        }
-      }
-    }
-
-    function markSchedulerUnsuspended(ms) {
-      {
-        if (eventLog !== null) {
-          logEvent([SchedulerResumeEvent, ms * 1000, mainThreadIdCounter]);
-        }
-      }
-    }
+    function markTaskErrored(task, ms) {}
     /* eslint-disable no-var */
     // Math.pow(2, 30) - 1
     // 0b111111111111111111111111111111
@@ -3006,10 +2840,6 @@ if ("development" !== "production") {
           pop(timerQueue);
           timer.sortIndex = timer.expirationTime;
           push(taskQueue, timer);
-          {
-            markTaskStart(timer, currentTime);
-            timer.isQueued = true;
-          }
         } else {
           // Remaining timers are pending.
           return;
@@ -3038,10 +2868,6 @@ if ("development" !== "production") {
     }
 
     function flushWork(hasTimeRemaining, initialTime) {
-      {
-        markSchedulerUnsuspended(initialTime);
-      } // We'll need a host callback the next time work is scheduled.
-
       isHostCallbackScheduled = false;
 
       if (isHostTimeoutScheduled) {
@@ -3074,11 +2900,6 @@ if ("development" !== "production") {
         currentTask = null;
         currentPriorityLevel = previousPriorityLevel;
         isPerformingWork = false;
-        {
-          var _currentTime = exports.unstable_now();
-
-          markSchedulerSuspended(_currentTime);
-        }
       }
     }
 
@@ -3099,19 +2920,12 @@ if ("development" !== "production") {
           currentTask.callback = null;
           currentPriorityLevel = currentTask.priorityLevel;
           var didUserCallbackTimeout = currentTask.expirationTime <= currentTime;
-          markTaskRun(currentTask, currentTime);
           var continuationCallback = callback(didUserCallbackTimeout);
           currentTime = exports.unstable_now();
 
           if (typeof continuationCallback === 'function') {
             currentTask.callback = continuationCallback;
-            markTaskYield(currentTask, currentTime);
           } else {
-            {
-              markTaskCompleted(currentTask, currentTime);
-              currentTask.isQueued = false;
-            }
-
             if (currentTask === peek(taskQueue)) {
               pop(taskQueue);
             }
@@ -3254,9 +3068,6 @@ if ("development" !== "production") {
         expirationTime: expirationTime,
         sortIndex: -1
       };
-      {
-        newTask.isQueued = false;
-      }
 
       if (startTime > currentTime) {
         // This is a delayed task.
@@ -3277,12 +3088,7 @@ if ("development" !== "production") {
         }
       } else {
         newTask.sortIndex = expirationTime;
-        push(taskQueue, newTask);
-        {
-          markTaskStart(newTask, currentTime);
-          newTask.isQueued = true;
-        } // Schedule a host callback, if needed. If we're already performing work,
-        // wait until the next time we yield.
+        push(taskQueue, newTask); // wait until the next time we yield.
 
         if (!isHostCallbackScheduled && !isPerformingWork) {
           isHostCallbackScheduled = true;
@@ -3307,16 +3113,8 @@ if ("development" !== "production") {
     }
 
     function unstable_cancelCallback(task) {
-      {
-        if (task.isQueued) {
-          var currentTime = exports.unstable_now();
-          markTaskCanceled(task, currentTime);
-          task.isQueued = false;
-        }
-      } // Null out the callback to indicate the task has been canceled. (Can't
       // remove from the queue because you can't remove arbitrary nodes from an
       // array based heap, only the first one.)
-
       task.callback = null;
     }
 
@@ -3325,11 +3123,7 @@ if ("development" !== "production") {
     }
 
     var unstable_requestPaint = requestPaint;
-    var unstable_Profiling = {
-      startLoggingProfilingEvents: startLoggingProfilingEvents,
-      stopLoggingProfilingEvents: stopLoggingProfilingEvents,
-      sharedProfilingBuffer: sharedProfilingBuffer
-    };
+    var unstable_Profiling = null;
     exports.unstable_IdlePriority = IdlePriority;
     exports.unstable_ImmediatePriority = ImmediatePriority;
     exports.unstable_LowPriority = LowPriority;
@@ -3357,7 +3151,7 @@ if ("development" === 'production') {
   module.exports = require('./cjs/scheduler.development.js');
 }
 },{"./cjs/scheduler.development.js":"../../node_modules/scheduler/cjs/scheduler.development.js"}],"../../node_modules/scheduler/cjs/scheduler-tracing.development.js":[function(require,module,exports) {
-/** @license React v0.20.1
+/** @license React v0.20.2
  * scheduler-tracing.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -3713,7 +3507,7 @@ if ("development" === 'production') {
   module.exports = require('./cjs/scheduler-tracing.development.js');
 }
 },{"./cjs/scheduler-tracing.development.js":"../../node_modules/scheduler/cjs/scheduler-tracing.development.js"}],"../../node_modules/react-dom/cjs/react-dom.development.js":[function(require,module,exports) {
-/** @license React v17.0.1
+/** @license React v17.0.2
  * react-dom.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -15113,7 +14907,7 @@ if ("development" !== "production") {
     } // TODO: this is special because it gets imported during build.
 
 
-    var ReactVersion = '17.0.1';
+    var ReactVersion = '17.0.2';
     var NoMode = 0;
     var StrictMode = 1; // TODO: Remove BlockingMode and ConcurrentMode by reading from the root
     // tag instead
@@ -35148,13 +34942,7 @@ function MenuContainer(props) {
 }
 
 exports.MenuContainer = MenuContainer;
-},{"tslib":"../../node_modules/tslib/tslib.es6.js","react":"../../node_modules/react/index.js","react-dom":"../../node_modules/react-dom/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js","./config":"../../src/config.ts","./utils":"../../src/utils.ts"}],"../../node_modules/decko/dist/decko.js":[function(require,module,exports) {
-var define;
-var global = arguments[3];
-(function(global,factory){if(typeof define === 'function' && define.amd){define(['exports'],factory);}else if(typeof exports !== 'undefined'){factory(exports);}else {var mod={exports:{}};factory(mod.exports);global.decko = mod.exports;}})(this,function(exports){'use strict';exports.__esModule = true;var EMPTY={};var HOP=Object.prototype.hasOwnProperty;var fns={memoize:function memoize(fn){var opt=arguments.length <= 1 || arguments[1] === undefined?EMPTY:arguments[1];var cache=opt.cache || {};return function(){for(var _len=arguments.length,a=Array(_len),_key=0;_key < _len;_key++) {a[_key] = arguments[_key];}var k=String(a[0]);if(opt.caseSensitive === false)k = k.toLowerCase();return HOP.call(cache,k)?cache[k]:cache[k] = fn.apply(this,a);};},debounce:function debounce(fn,opts){if(typeof opts === 'function'){var p=fn;fn = opts;opts = p;}var delay=opts && opts.delay || opts || 0,args=undefined,context=undefined,timer=undefined;return function(){for(var _len2=arguments.length,a=Array(_len2),_key2=0;_key2 < _len2;_key2++) {a[_key2] = arguments[_key2];}args = a;context = this;if(!timer)timer = setTimeout(function(){fn.apply(context,args);args = context = timer = null;},delay);};},bind:function bind(target,key,_ref){var fn=_ref.value;return {configurable:true,get:function get(){var value=fn.bind(this);Object.defineProperty(this,key,{value:value,configurable:true,writable:true});return value;}};}};var memoize=multiMethod(fns.memoize),debounce=multiMethod(fns.debounce),bind=multiMethod(function(f,c){return f.bind(c);},function(){return fns.bind;});exports.memoize = memoize;exports.debounce = debounce;exports.bind = bind;exports['default'] = {memoize:memoize,debounce:debounce,bind:bind};function multiMethod(inner,deco){deco = deco || inner.decorate || decorator(inner);var d=deco();return function(){for(var _len3=arguments.length,args=Array(_len3),_key3=0;_key3 < _len3;_key3++) {args[_key3] = arguments[_key3];}var l=args.length;return (l < 2?deco:l > 2?d:inner).apply(undefined,args);};}function decorator(fn){return function(opt){return typeof opt === 'function'?fn(opt):function(target,key,desc){desc.value = fn(desc.value,opt,target,key,desc);};};}});
-
-
-},{}],"../../src/option.tsx":[function(require,module,exports) {
+},{"tslib":"../../node_modules/tslib/tslib.es6.js","react":"../../node_modules/react/index.js","react-dom":"../../node_modules/react-dom/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js","./config":"../../src/config.ts","./utils":"../../src/utils.ts"}],"../../src/option.tsx":[function(require,module,exports) {
 "use strict";
 
 function _templateObject() {
@@ -35198,8 +34986,6 @@ exports.OptionComponent = void 0;
 
 var tslib_1 = require("tslib");
 
-var decko_1 = require("decko");
-
 var React = tslib_1.__importStar(require("react"));
 
 var styled_components_1 = tslib_1.__importDefault(require("styled-components"));
@@ -35212,9 +34998,17 @@ var OptionComponent = /*#__PURE__*/function (_React$PureComponent) {
   var _super = _createSuper(OptionComponent);
 
   function OptionComponent() {
+    var _this;
+
     _classCallCheck(this, OptionComponent);
 
-    return _super.apply(this, arguments);
+    _this = _super.apply(this, arguments);
+
+    _this.onClick = function () {
+      _this.props.onSelect(_this.props.option.value, _this.props.option);
+    };
+
+    return _this;
   }
 
   _createClass(OptionComponent, [{
@@ -35243,16 +35037,12 @@ var OptionComponent = /*#__PURE__*/function (_React$PureComponent) {
         active: active
       }, option), option.label));
     }
-  }, {
-    key: "onClick",
-    value: function onClick() {
-      this.props.onSelect(this.props.option.value, this.props.option);
-    }
   }]);
 
   return OptionComponent;
 }(React.PureComponent);
 
+exports.OptionComponent = OptionComponent;
 OptionComponent.OptionItem = styled_components_1.default.div(_templateObject(), function (props) {
   return props.height || 32;
 }, function (props) {
@@ -35260,11 +35050,7 @@ OptionComponent.OptionItem = styled_components_1.default.div(_templateObject(), 
 }, function (props) {
   return props.active ? '#ddd' : '#eee';
 });
-
-tslib_1.__decorate([decko_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", []), tslib_1.__metadata("design:returntype", void 0)], OptionComponent.prototype, "onClick", null);
-
-exports.OptionComponent = OptionComponent;
-},{"tslib":"../../node_modules/tslib/tslib.es6.js","decko":"../../node_modules/decko/dist/decko.js","react":"../../node_modules/react/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js","./label":"../../src/label.tsx"}],"../../src/menu-row.tsx":[function(require,module,exports) {
+},{"tslib":"../../node_modules/tslib/tslib.es6.js","react":"../../node_modules/react/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js","./label":"../../src/label.tsx"}],"../../src/menu-row.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35540,16 +35326,12 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var _a;
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ValueComponentMulti = void 0;
 
 var tslib_1 = require("tslib");
-
-var decko_1 = require("decko");
 
 var React = tslib_1.__importStar(require("react"));
 
@@ -35563,9 +35345,19 @@ var Remove = /*#__PURE__*/function (_React$PureComponent) {
   var _super = _createSuper(Remove);
 
   function Remove() {
+    var _this;
+
     _classCallCheck(this, Remove);
 
-    return _super.apply(this, arguments);
+    _this = _super.apply(this, arguments);
+
+    _this.onClick = function (e) {
+      e.stopPropagation();
+
+      _this.props.onClick(_this.props.value);
+    };
+
+    return _this;
   }
 
   _createClass(Remove, [{
@@ -35579,20 +35371,12 @@ var Remove = /*#__PURE__*/function (_React$PureComponent) {
         onClick: this.onClick
       }, "\xD7");
     }
-  }, {
-    key: "onClick",
-    value: function onClick(e) {
-      e.stopPropagation();
-      this.props.onClick(this.props.value);
-    }
   }]);
 
   return Remove;
 }(React.PureComponent);
 
 Remove.StyledRemove = styled_components_1.default.button(_templateObject());
-
-tslib_1.__decorate([decko_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof React !== "undefined" && React.SyntheticEvent) === "function" ? _a : Object]), tslib_1.__metadata("design:returntype", void 0)], Remove.prototype, "onClick", null);
 
 var ValueComponentMulti = /*#__PURE__*/function (_React$PureComponent2) {
   _inherits(ValueComponentMulti, _React$PureComponent2);
@@ -35634,7 +35418,7 @@ var ValueComponentMulti = /*#__PURE__*/function (_React$PureComponent2) {
 
 exports.ValueComponentMulti = ValueComponentMulti;
 ValueComponentMulti.TagContainer = styled_components_1.default.div(_templateObject2());
-},{"tslib":"../../node_modules/tslib/tslib.es6.js","decko":"../../node_modules/decko/dist/decko.js","react":"../../node_modules/react/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js","./label":"../../src/label.tsx"}],"../../src/value-component-single.tsx":[function(require,module,exports) {
+},{"tslib":"../../node_modules/tslib/tslib.es6.js","react":"../../node_modules/react/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js","./label":"../../src/label.tsx"}],"../../src/value-component-single.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35796,16 +35580,12 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var _a, _b, _c;
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Value = void 0;
 
 var tslib_1 = require("tslib");
-
-var decko_1 = require("decko");
 
 var React = tslib_1.__importStar(require("react"));
 
@@ -35863,6 +35643,47 @@ var Value = /*#__PURE__*/function (_React$PureComponent) {
     _classCallCheck(this, Value);
 
     _this = _super.call(this, props);
+
+    _this.blur = function () {
+      if (_this.search.current) {
+        _this.search.current.blur();
+      }
+    };
+
+    _this.onClick = function () {
+      if (!_this.props.disabled) {
+        _this.focus();
+
+        _this.props.onClick();
+      }
+    };
+
+    _this.onClear = function (e) {
+      e.stopPropagation();
+
+      _this.props.onClear();
+    };
+
+    _this.onSearch = function (e) {
+      if (_this.props.searchable) {
+        _this.props.onSearch(e.currentTarget.innerText.trim());
+      } else {
+        e.preventDefault();
+      }
+    };
+
+    _this.onKeyDown = function (e) {
+      var searchable = _this.props.searchable;
+
+      if (e.metaKey) {
+        return;
+      }
+
+      if (!searchable && e.keyCode !== utils_1.keys.TAB || e.keyCode === utils_1.keys.ENTER || e.keyCode === utils_1.keys.ARROW_UP || e.keyCode === utils_1.keys.ARROW_DOWN) {
+        e.preventDefault();
+      }
+    };
+
     _this.search = React.createRef();
     var window = utils_1.getWindow();
 
@@ -36021,66 +35842,13 @@ var Value = /*#__PURE__*/function (_React$PureComponent) {
         }
       }
     }
-  }, {
-    key: "blur",
-    value: function blur() {
-      if (this.search.current) {
-        this.search.current.blur();
-      }
-    }
-  }, {
-    key: "onClick",
-    value: function onClick() {
-      if (!this.props.disabled) {
-        this.focus();
-        this.props.onClick();
-      }
-    }
-  }, {
-    key: "onClear",
-    value: function onClear(e) {
-      e.stopPropagation();
-      this.props.onClear();
-    }
-  }, {
-    key: "onSearch",
-    value: function onSearch(e) {
-      if (this.props.searchable) {
-        this.props.onSearch(e.currentTarget.innerText.trim());
-      } else {
-        e.preventDefault();
-      }
-    }
-  }, {
-    key: "onKeyDown",
-    value: function onKeyDown(e) {
-      var searchable = this.props.searchable;
-
-      if (e.metaKey) {
-        return;
-      }
-
-      if (!searchable && e.keyCode !== utils_1.keys.TAB || e.keyCode === utils_1.keys.ENTER || e.keyCode === utils_1.keys.ARROW_UP || e.keyCode === utils_1.keys.ARROW_DOWN) {
-        e.preventDefault();
-      }
-    }
   }]);
 
   return Value;
 }(React.PureComponent);
 
-tslib_1.__decorate([decko_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", []), tslib_1.__metadata("design:returntype", void 0)], Value.prototype, "blur", null);
-
-tslib_1.__decorate([decko_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", []), tslib_1.__metadata("design:returntype", void 0)], Value.prototype, "onClick", null);
-
-tslib_1.__decorate([decko_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof React !== "undefined" && React.SyntheticEvent) === "function" ? _a : Object]), tslib_1.__metadata("design:returntype", void 0)], Value.prototype, "onClear", null);
-
-tslib_1.__decorate([decko_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [typeof (_b = typeof React !== "undefined" && React.KeyboardEvent) === "function" ? _b : Object]), tslib_1.__metadata("design:returntype", void 0)], Value.prototype, "onSearch", null);
-
-tslib_1.__decorate([decko_1.bind, tslib_1.__metadata("design:type", Function), tslib_1.__metadata("design:paramtypes", [typeof (_c = typeof React !== "undefined" && React.KeyboardEvent) === "function" ? _c : Object]), tslib_1.__metadata("design:returntype", void 0)], Value.prototype, "onKeyDown", null);
-
 exports.Value = Value;
-},{"tslib":"../../node_modules/tslib/tslib.es6.js","decko":"../../node_modules/decko/dist/decko.js","react":"../../node_modules/react/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js","./config":"../../src/config.ts","./label":"../../src/label.tsx","./utils":"../../src/utils.ts","./value-component-multi":"../../src/value-component-multi.tsx","./value-component-single":"../../src/value-component-single.tsx"}],"../../src/index.tsx":[function(require,module,exports) {
+},{"tslib":"../../node_modules/tslib/tslib.es6.js","react":"../../node_modules/react/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js","./config":"../../src/config.ts","./label":"../../src/label.tsx","./utils":"../../src/utils.ts","./value-component-multi":"../../src/value-component-multi.tsx","./value-component-single":"../../src/value-component-single.tsx"}],"../../src/index.tsx":[function(require,module,exports) {
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -37111,7 +36879,13 @@ var Headless = /*#__PURE__*/function (_React$Component) {
 }(React.Component);
 
 exports.Headless = Headless;
-},{"react":"../../node_modules/react/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js","../../../src":"../../src/index.tsx","../utils/options":"utils/options.ts"}],"utils/browser.ts":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","styled-components":"../../node_modules/styled-components/dist/styled-components.browser.esm.js","../../../src":"../../src/index.tsx","../utils/options":"utils/options.ts"}],"../../node_modules/decko/dist/decko.js":[function(require,module,exports) {
+var define;
+var global = arguments[3];
+(function(global,factory){if(typeof define === 'function' && define.amd){define(['exports'],factory);}else if(typeof exports !== 'undefined'){factory(exports);}else {var mod={exports:{}};factory(mod.exports);global.decko = mod.exports;}})(this,function(exports){'use strict';exports.__esModule = true;var EMPTY={};var HOP=Object.prototype.hasOwnProperty;var fns={memoize:function memoize(fn){var opt=arguments.length <= 1 || arguments[1] === undefined?EMPTY:arguments[1];var cache=opt.cache || {};return function(){for(var _len=arguments.length,a=Array(_len),_key=0;_key < _len;_key++) {a[_key] = arguments[_key];}var k=String(a[0]);if(opt.caseSensitive === false)k = k.toLowerCase();return HOP.call(cache,k)?cache[k]:cache[k] = fn.apply(this,a);};},debounce:function debounce(fn,opts){if(typeof opts === 'function'){var p=fn;fn = opts;opts = p;}var delay=opts && opts.delay || opts || 0,args=undefined,context=undefined,timer=undefined;return function(){for(var _len2=arguments.length,a=Array(_len2),_key2=0;_key2 < _len2;_key2++) {a[_key2] = arguments[_key2];}args = a;context = this;if(!timer)timer = setTimeout(function(){fn.apply(context,args);args = context = timer = null;},delay);};},bind:function bind(target,key,_ref){var fn=_ref.value;return {configurable:true,get:function get(){var value=fn.bind(this);Object.defineProperty(this,key,{value:value,configurable:true,writable:true});return value;}};}};var memoize=multiMethod(fns.memoize),debounce=multiMethod(fns.debounce),bind=multiMethod(function(f,c){return f.bind(c);},function(){return fns.bind;});exports.memoize = memoize;exports.debounce = debounce;exports.bind = bind;exports['default'] = {memoize:memoize,debounce:debounce,bind:bind};function multiMethod(inner,deco){deco = deco || inner.decorate || decorator(inner);var d=deco();return function(){for(var _len3=arguments.length,args=Array(_len3),_key3=0;_key3 < _len3;_key3++) {args[_key3] = arguments[_key3];}var l=args.length;return (l < 2?deco:l > 2?d:inner).apply(undefined,args);};}function decorator(fn){return function(opt){return typeof opt === 'function'?fn(opt):function(target,key,desc){desc.value = fn(desc.value,opt,target,key,desc);};};}});
+
+
+},{}],"utils/browser.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37726,7 +37500,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62793" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63673" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

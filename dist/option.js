@@ -1,12 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OptionComponent = void 0;
-const tslib_1 = require("tslib");
-const decko_1 = require("decko");
 const React = require("react");
 const styled_components_1 = require("styled-components");
 const label_1 = require("./label");
 class OptionComponent extends React.PureComponent {
+    constructor() {
+        super(...arguments);
+        this.onClick = () => {
+            this.props.onSelect(this.props.option.value, this.props.option);
+        };
+    }
     render() {
         const { OptionItem } = OptionComponent;
         const { active, selected, labelComponent, option, height } = this.props;
@@ -20,10 +24,8 @@ class OptionComponent extends React.PureComponent {
         return (React.createElement(OptionItem, { "data-role": "option", className: className.join(' '), selected: selected, active: active, height: height, onClick: this.onClick },
             React.createElement(Label, Object.assign({ type: "option", active: active }, option), option.label)));
     }
-    onClick() {
-        this.props.onSelect(this.props.option.value, this.props.option);
-    }
 }
+exports.OptionComponent = OptionComponent;
 OptionComponent.OptionItem = styled_components_1.default.div `
         display: flex;
         align-items: center;
@@ -40,11 +42,4 @@ OptionComponent.OptionItem = styled_components_1.default.div `
             background-color: ${(props) => props.active ? '#ddd' : '#eee'};
         }
     `;
-tslib_1.__decorate([
-    decko_1.bind,
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", []),
-    tslib_1.__metadata("design:returntype", void 0)
-], OptionComponent.prototype, "onClick", null);
-exports.OptionComponent = OptionComponent;
 //# sourceMappingURL=option.js.map
