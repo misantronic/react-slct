@@ -1,4 +1,3 @@
-import { bind } from 'decko';
 import * as React from 'react';
 import { Select, SelectProps, Option } from '../../../src';
 import { options } from '../utils/options';
@@ -44,23 +43,20 @@ export class Multi extends React.PureComponent<Partial<SelectProps>, State> {
         );
     }
 
-    @bind
-    private onChange(value: string[]): void {
+    private onChange = (value: string[]) => {
         this.setState({ value });
-    }
+    };
 
-    @bind
-    private onCreate(value: string): void {
+    private onCreate = (value: string) => {
         this.setState(
             {
                 options: [...this.state.options, { label: value, value }]
             },
             () => this.onChange([...this.state.value, value])
         );
-    }
+    };
 
-    @bind
-    private onResize(): void {
+    private onResize = () => {
         this.setState({ native: isMobile.matches });
-    }
+    };
 }

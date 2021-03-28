@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { bind } from 'decko';
 
 interface CodeProps {
     children: string | string[];
@@ -56,8 +55,7 @@ export class Code extends React.PureComponent<CodeProps, CodeState> {
         );
     }
 
-    @bind
-    private onToggleSource(): void {
+    private onToggleSource = () => {
         this.setState({ show: !this.state.show });
-    }
+    };
 }
