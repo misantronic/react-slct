@@ -28,7 +28,6 @@
         "styled-components": ">= 4.x"
     },
     "dependencies": {
-        "decko": "^1.2.0",
         "react-window": "^1.8.5"
     },
     "devDependencies": {
