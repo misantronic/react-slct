@@ -102,15 +102,15 @@ export interface MenuContainerProps {
     onClick?(el: React.MouseEvent<HTMLDivElement>): void;
 }
 
-export interface OptionComponentProps<T = any> {
+export interface OptionComponentProps<T extends Option = any> {
     className?: string;
-    option: Option<T>;
+    option: T;
     active?: boolean;
     selected?: boolean;
     height?: number;
     labelComponent: SelectProps['labelComponent'];
     search?: string;
-    onSelect(value: T, option?: Option<T>): void;
+    onSelect(value: T['value'], option?: T): void;
 }
 
 export interface ValueComponentSingleProps<T = any> {
