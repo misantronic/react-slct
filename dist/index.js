@@ -23,7 +23,7 @@ const Container = styled_components_1.default.div `
     cursor: default;
     width: 100%;
     box-sizing: border-box;
-    pointer-events: ${(props) => props.disabled ? 'none' : 'auto'};
+    pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
     opacity: ${(props) => (props.disabled ? 0.75 : 1)};
     user-select: none;
 `;
@@ -36,10 +36,10 @@ const NativeSelect = styled_components_1.default.select `
     width: 100%;
     height: 100%;
     ${(props) => props.native
-    ? styled_components_1.css `
+    ? (0, styled_components_1.css) `
                   z-index: 1;
               `
-    : styled_components_1.css `
+    : (0, styled_components_1.css) `
                   pointer-events: none;
                   z-index: auto;
               `};
@@ -57,7 +57,7 @@ function SelectImpl(props, ref) {
     const nativeSelect = React.useRef(null);
     const { className, creatable, clearable, placeholder, value, disabled, error, menuComponent, labelComponent, optionComponent, valueComponentSingle, valueComponentMulti, arrowComponent, clearComponent, hideSelectedOptions, equalCompareProp, multi, native, emptyText, rowHeight, menuWidth, menuHeight, menuPosition, keepSearchOnBlur, required, creatableText } = props;
     const searchable = props.searchable || creatable;
-    const document = utils_1.getDocument();
+    const document = (0, utils_1.getDocument)();
     const options = getOptions();
     React.useEffect(() => {
         if (blindText) {
@@ -84,9 +84,9 @@ function SelectImpl(props, ref) {
                     label === search);
             });
         if (search) {
-            newOptions = newOptions.filter((option) => utils_1.replaceUmlauts(option.label)
+            newOptions = newOptions.filter((option) => (0, utils_1.replaceUmlauts)(option.label)
                 .toLowerCase()
-                .includes(utils_1.replaceUmlauts(search).toLowerCase()));
+                .includes((0, utils_1.replaceUmlauts)(search).toLowerCase()));
         }
         if (showCreate && search) {
             const label = creatableText
@@ -118,7 +118,7 @@ function SelectImpl(props, ref) {
         var _a;
         const selectedIndex = props.hideSelectedOptions
             ? undefined
-            : options.findIndex((option) => utils_1.equal(option.value, props.value, props.equalCompareProp));
+            : options.findIndex((option) => (0, utils_1.equal)(option.value, props.value, props.equalCompareProp));
         const keepSearchOnBlur = props.keepSearchOnBlur && !props.value;
         setOpen(true);
         setSearch(keepSearchOnBlur ? search : undefined);
@@ -159,7 +159,7 @@ function SelectImpl(props, ref) {
         let index = options.findIndex((option) => option.value === val);
         if (index === -1) {
             if (typeof val === 'object') {
-                index = options.findIndex((option) => utils_1.equal(option.value, val, props.equalCompareProp));
+                index = options.findIndex((option) => (0, utils_1.equal)(option.value, val, props.equalCompareProp));
             }
             if (index === -1) {
                 return '';
@@ -199,7 +199,7 @@ function SelectImpl(props, ref) {
         const selectOnNative = () => {
             if (current) {
                 current.value =
-                    utils_1.isArray(value) && multi
+                    (0, utils_1.isArray)(value) && multi
                         ? value.map(findOptionIndex)
                         : findOptionIndex(value);
             }
@@ -214,7 +214,7 @@ function SelectImpl(props, ref) {
                     createOption(option.value, selectOnNative);
                 }
             };
-            if (utils_1.isArray(value) && multi) {
+            if ((0, utils_1.isArray)(value) && multi) {
                 value.map(createValue);
             }
             else {
@@ -226,8 +226,8 @@ function SelectImpl(props, ref) {
         }
     }
     function onOptionRemove(value) {
-        if (utils_1.isArray(props.value) && props.multi) {
-            const values = props.value.filter((val) => !utils_1.equal(val, value, props.equalCompareProp));
+        if ((0, utils_1.isArray)(props.value) && props.multi) {
+            const values = props.value.filter((val) => !(0, utils_1.equal)(val, value, props.equalCompareProp));
             onOptionSelect(values);
         }
     }
@@ -311,7 +311,7 @@ function SelectImpl(props, ref) {
                     options[newSelectedIndex]) {
                     const option = options[newSelectedIndex];
                     const newValue = option.value;
-                    onOptionSelect(utils_1.isArray(value) && multi
+                    onOptionSelect((0, utils_1.isArray)(value) && multi
                         ? [...value, newValue]
                         : newValue, option);
                 }
@@ -365,7 +365,7 @@ function SelectImpl(props, ref) {
         }
     }
     function getValue() {
-        const valueOptions = utils_1.getValueOptions(props.options || [], props.value, props.multi, props.equalCompareProp);
+        const valueOptions = (0, utils_1.getValueOptions)(props.options || [], props.value, props.multi, props.equalCompareProp);
         return !multi
             ? props.value
             : valueOptions.map((option) => option.value);
@@ -373,7 +373,7 @@ function SelectImpl(props, ref) {
     function renderChildren() {
         const value = getValue();
         const showPlaceholder = !search &&
-            (utils_1.isArray(value) && multi
+            ((0, utils_1.isArray)(value) && multi
                 ? value.length === 0
                 : value === undefined || value === null);
         if (!props.children) {
@@ -396,13 +396,13 @@ function SelectImpl(props, ref) {
             ? `select-${props['data-role']}`
             : undefined;
         const clearable = props.clearable && native;
-        const value = utils_1.isArray(props.value) && multi
+        const value = (0, utils_1.isArray)(props.value) && multi
             ? props.value.map(findOptionIndex)
             : findOptionIndex(props.value || '');
         const propDisabled = disabled ? disabled : required ? false : !native;
         return (React.createElement(NativeSelect, { ref: nativeSelect, multiple: multi, value: value, disabled: propDisabled, required: required, native: native, tabIndex: -1, "data-role": dataRole, onChange: onChangeNativeSelect },
             React.createElement("option", { value: "", disabled: !clearable }, placeholder),
-            options.map((option, i) => (React.createElement("option", { key: utils_1.toKey(option.value, props.equalCompareProp), value: `${i}`, disabled: option.disabled }, option.label)))));
+            options.map((option, i) => (React.createElement("option", { key: (0, utils_1.toKey)(option.value, props.equalCompareProp), value: `${i}`, disabled: option.disabled }, option.label)))));
     }
     if (props.children) {
         return renderChildren();

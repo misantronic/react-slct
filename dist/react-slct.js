@@ -38,7 +38,7 @@ const Container = styled_components_1.default.div `
     cursor: default;
     width: 100%;
     box-sizing: border-box;
-    pointer-events: ${(props) => props.disabled ? 'none' : 'auto'};
+    pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
     opacity: ${(props) => (props.disabled ? 0.75 : 1)};
     user-select: none;
 `;
@@ -51,10 +51,10 @@ const NativeSelect = styled_components_1.default.select `
     width: 100%;
     height: 100%;
     ${(props) => props.native
-    ? styled_components_1.css `
+    ? (0, styled_components_1.css) `
                   z-index: 1;
               `
-    : styled_components_1.css `
+    : (0, styled_components_1.css) `
                   pointer-events: none;
                   z-index: auto;
               `};
@@ -72,7 +72,7 @@ function SelectImpl(props, ref) {
     const nativeSelect = React.useRef(null);
     const { className, creatable, clearable, placeholder, value, disabled, error, menuComponent, labelComponent, optionComponent, valueComponentSingle, valueComponentMulti, arrowComponent, clearComponent, hideSelectedOptions, equalCompareProp, multi, native, emptyText, rowHeight, menuWidth, menuHeight, menuPosition, keepSearchOnBlur, required, creatableText } = props;
     const searchable = props.searchable || creatable;
-    const document = utils_1.getDocument();
+    const document = (0, utils_1.getDocument)();
     const options = getOptions();
     React.useEffect(() => {
         if (blindText) {
@@ -99,9 +99,9 @@ function SelectImpl(props, ref) {
                     label === search);
             });
         if (search) {
-            newOptions = newOptions.filter((option) => utils_1.replaceUmlauts(option.label)
+            newOptions = newOptions.filter((option) => (0, utils_1.replaceUmlauts)(option.label)
                 .toLowerCase()
-                .includes(utils_1.replaceUmlauts(search).toLowerCase()));
+                .includes((0, utils_1.replaceUmlauts)(search).toLowerCase()));
         }
         if (showCreate && search) {
             const label = creatableText
@@ -133,7 +133,7 @@ function SelectImpl(props, ref) {
         var _a;
         const selectedIndex = props.hideSelectedOptions
             ? undefined
-            : options.findIndex((option) => utils_1.equal(option.value, props.value, props.equalCompareProp));
+            : options.findIndex((option) => (0, utils_1.equal)(option.value, props.value, props.equalCompareProp));
         const keepSearchOnBlur = props.keepSearchOnBlur && !props.value;
         setOpen(true);
         setSearch(keepSearchOnBlur ? search : undefined);
@@ -174,7 +174,7 @@ function SelectImpl(props, ref) {
         let index = options.findIndex((option) => option.value === val);
         if (index === -1) {
             if (typeof val === 'object') {
-                index = options.findIndex((option) => utils_1.equal(option.value, val, props.equalCompareProp));
+                index = options.findIndex((option) => (0, utils_1.equal)(option.value, val, props.equalCompareProp));
             }
             if (index === -1) {
                 return '';
@@ -214,7 +214,7 @@ function SelectImpl(props, ref) {
         const selectOnNative = () => {
             if (current) {
                 current.value =
-                    utils_1.isArray(value) && multi
+                    (0, utils_1.isArray)(value) && multi
                         ? value.map(findOptionIndex)
                         : findOptionIndex(value);
             }
@@ -229,7 +229,7 @@ function SelectImpl(props, ref) {
                     createOption(option.value, selectOnNative);
                 }
             };
-            if (utils_1.isArray(value) && multi) {
+            if ((0, utils_1.isArray)(value) && multi) {
                 value.map(createValue);
             }
             else {
@@ -241,8 +241,8 @@ function SelectImpl(props, ref) {
         }
     }
     function onOptionRemove(value) {
-        if (utils_1.isArray(props.value) && props.multi) {
-            const values = props.value.filter((val) => !utils_1.equal(val, value, props.equalCompareProp));
+        if ((0, utils_1.isArray)(props.value) && props.multi) {
+            const values = props.value.filter((val) => !(0, utils_1.equal)(val, value, props.equalCompareProp));
             onOptionSelect(values);
         }
     }
@@ -326,7 +326,7 @@ function SelectImpl(props, ref) {
                     options[newSelectedIndex]) {
                     const option = options[newSelectedIndex];
                     const newValue = option.value;
-                    onOptionSelect(utils_1.isArray(value) && multi
+                    onOptionSelect((0, utils_1.isArray)(value) && multi
                         ? [...value, newValue]
                         : newValue, option);
                 }
@@ -380,7 +380,7 @@ function SelectImpl(props, ref) {
         }
     }
     function getValue() {
-        const valueOptions = utils_1.getValueOptions(props.options || [], props.value, props.multi, props.equalCompareProp);
+        const valueOptions = (0, utils_1.getValueOptions)(props.options || [], props.value, props.multi, props.equalCompareProp);
         return !multi
             ? props.value
             : valueOptions.map((option) => option.value);
@@ -388,7 +388,7 @@ function SelectImpl(props, ref) {
     function renderChildren() {
         const value = getValue();
         const showPlaceholder = !search &&
-            (utils_1.isArray(value) && multi
+            ((0, utils_1.isArray)(value) && multi
                 ? value.length === 0
                 : value === undefined || value === null);
         if (!props.children) {
@@ -411,13 +411,13 @@ function SelectImpl(props, ref) {
             ? `select-${props['data-role']}`
             : undefined;
         const clearable = props.clearable && native;
-        const value = utils_1.isArray(props.value) && multi
+        const value = (0, utils_1.isArray)(props.value) && multi
             ? props.value.map(findOptionIndex)
             : findOptionIndex(props.value || '');
         const propDisabled = disabled ? disabled : required ? false : !native;
         return (React.createElement(NativeSelect, { ref: nativeSelect, multiple: multi, value: value, disabled: propDisabled, required: required, native: native, tabIndex: -1, "data-role": dataRole, onChange: onChangeNativeSelect },
             React.createElement("option", { value: "", disabled: !clearable }, placeholder),
-            options.map((option, i) => (React.createElement("option", { key: utils_1.toKey(option.value, props.equalCompareProp), value: `${i}`, disabled: option.disabled }, option.label)))));
+            options.map((option, i) => (React.createElement("option", { key: (0, utils_1.toKey)(option.value, props.equalCompareProp), value: `${i}`, disabled: option.disabled }, option.label)))));
     }
     if (props.children) {
         return renderChildren();
@@ -451,7 +451,7 @@ const menu_container_1 = require("./menu-container");
 const menu_row_1 = require("./menu-row");
 const option_1 = require("./option");
 const utils_1 = require("./utils");
-const EmptyOptionItem = styled_components_1.default(option_1.OptionComponent.OptionItem) `
+const EmptyOptionItem = (0, styled_components_1.default)(option_1.OptionComponent.OptionItem) `
     height: 100%;
     border: 1px solid ${() => config_1.ReactSlctColors.border};
 `;
@@ -460,10 +460,10 @@ const Empty = (props) => (React.createElement(EmptyOptionItem, null,
         React.createElement("i", null, props.emptyText || 'No results'))));
 function Menu(props) {
     const { rowHeight = 32, selectedIndex, open, error, menuWidth, menuHeight, menuPosition, multi, hideSelectedOptions } = props;
-    const currentValue = utils_1.isArray(props.value) && multi ? props.value : [props.value];
+    const currentValue = (0, utils_1.isArray)(props.value) && multi ? props.value : [props.value];
     const options = React.useMemo(() => (props.options || []).filter((option) => {
         if (hideSelectedOptions) {
-            const selected = currentValue.some((val) => utils_1.equal(val, option.value, props.equalCompareProp));
+            const selected = currentValue.some((val) => (0, utils_1.equal)(val, option.value, props.equalCompareProp));
             if (selected) {
                 return false;
             }
@@ -475,13 +475,13 @@ function Menu(props) {
         hideSelectedOptions,
         currentValue
     ]);
-    const [rect, setRect] = react_1.useState();
-    const [style, setStyle] = react_1.useState();
-    const list = react_1.useRef(null);
+    const [rect, setRect] = (0, react_1.useState)();
+    const [style, setStyle] = (0, react_1.useState)();
+    const list = (0, react_1.useRef)(null);
     const width = menuWidth || (rect && rect.width !== 'auto' ? rect.width : 0);
     const assumedHeight = Math.min(Math.max(options.length * rowHeight, rowHeight) + 2, menuHeight || 185);
     const actualHeight = ((style === null || style === void 0 ? void 0 : style.height) !== 'auto' && (style === null || style === void 0 ? void 0 : style.height)) || assumedHeight;
-    react_1.useEffect(() => {
+    (0, react_1.useEffect)(() => {
         if (open &&
             list.current &&
             selectedIndex !== undefined &&
@@ -491,10 +491,10 @@ function Menu(props) {
     }, [open, selectedIndex]);
     const itemData = React.useMemo(() => {
         return Object.assign(Object.assign({}, props), { options, onSelect: (value, option) => {
-                if (utils_1.isArray(props.value) && props.multi) {
-                    const found = props.value.some((item) => utils_1.equal(item, value, props.equalCompareProp));
+                if ((0, utils_1.isArray)(props.value) && props.multi) {
+                    const found = props.value.some((item) => (0, utils_1.equal)(item, value, props.equalCompareProp));
                     const values = found
-                        ? props.value.filter((item) => !utils_1.equal(item, value, props.equalCompareProp))
+                        ? props.value.filter((item) => !(0, utils_1.equal)(item, value, props.equalCompareProp))
                         : Array.from(new Set([...props.value, value]));
                     props.onSelect(values, option);
                 }
@@ -571,7 +571,7 @@ function getMenuPosition({ rect, menuHeight = 186 }) {
     if (height === 'auto' || menuHeight === 'auto') {
         return 'bottom';
     }
-    if (rect.top + height + menuHeight <= utils_1.getWindowInnerHeight() ||
+    if (rect.top + height + menuHeight <= (0, utils_1.getWindowInnerHeight)() ||
         rect.top < menuHeight / 2) {
         return 'bottom';
     }
@@ -580,7 +580,7 @@ function getMenuPosition({ rect, menuHeight = 186 }) {
 function getContainerTop(props) {
     var _a;
     const { rect } = props;
-    const window = utils_1.getWindow();
+    const window = (0, utils_1.getWindow)();
     if (!rect) {
         return 0;
     }
@@ -631,8 +631,8 @@ function MenuContainer(props) {
     const className = ['react-slct-menu', props.className]
         .filter((c) => c)
         .join(' ');
-    const document = utils_1.getDocument();
-    const window = utils_1.getWindow();
+    const document = (0, utils_1.getDocument)();
+    const window = (0, utils_1.getWindow)();
     const menuOverlay = React.useRef(null);
     const menuWrapper = React.useRef(null);
     const [menuOverlayRect, setMenuOverlayRect] = React.useState();
@@ -737,7 +737,7 @@ function MenuContainer(props) {
         }
     }, [style]);
     return (React.createElement(MenuOverlay, { ref: menuOverlay }, document && style
-        ? react_dom_1.createPortal(React.createElement(MenuWrapper, { "data-role": "menu", className: className, error: error, ref: menuWrapper, onClick: onClick, rect: menuOverlayRect, style: style }, children), document.body)
+        ? (0, react_dom_1.createPortal)(React.createElement(MenuWrapper, { "data-role": "menu", className: className, error: error, ref: menuWrapper, onClick: onClick, rect: menuOverlayRect, style: style }, children), document.body)
         : null));
 }
 exports.MenuContainer = MenuContainer;
@@ -937,7 +937,7 @@ ___scope___.file("typings.js", function(exports, require, module, __filename, __
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-//# sourceMappingURL=react-slct.js.map?tm=1658140418709
+//# sourceMappingURL=react-slct.js.map?tm=1694647282461
 });
 ___scope___.file("value.jsx", function(exports, require, module, __filename, __dirname){
 
@@ -964,7 +964,7 @@ const Button = styled_components_1.default.button `
         outline: none;
     }
 `;
-const ArrowButton = styled_components_1.default(Button) `
+const ArrowButton = (0, styled_components_1.default)(Button) `
     font-size: 12px;
     color: ${() => config_1.ReactSlctColors.border};
     transform: translateY(2px);
@@ -1007,10 +1007,10 @@ const ValueRight = styled_components_1.default.div `
     margin-left: 4px;
     box-sizing: border-box;
 `;
-const Placeholder = styled_components_1.default(label_1.SelectLabel) `
+const Placeholder = (0, styled_components_1.default)(label_1.SelectLabel) `
     color: #aaa;
 `;
-const ClearButton = styled_components_1.default(Button) `
+const ClearButton = (0, styled_components_1.default)(Button) `
     margin-right: 6px;
 `;
 const ClearContainer = styled_components_1.default.span `
@@ -1027,12 +1027,12 @@ const Search = styled_components_1.default.span `
     user-select: text;
 
     ${(props) => props.canSearch
-    ? styled_components_1.css `
+    ? (0, styled_components_1.css) `
                   opacity: 1;
                   position: relative;
                   left: 1px;
               `
-    : styled_components_1.css `
+    : (0, styled_components_1.css) `
                   position: absolute;
                   opacity: 0;
               `}
@@ -1080,7 +1080,7 @@ class Value extends React.PureComponent {
             }
         };
         this.search = React.createRef();
-        const window = utils_1.getWindow();
+        const window = (0, utils_1.getWindow)();
         if (window) {
             window.addEventListener('blur', this.blur);
         }
@@ -1098,7 +1098,7 @@ class Value extends React.PureComponent {
         const ArrowComponent = this.props.arrowComponent;
         const ClearComponent = this.props.clearComponent || ClearX;
         const ValueIconComponent = this.props.valueIconComponent;
-        const valueOptions = utils_1.getValueOptions(options, value, multi, equalCompareProp);
+        const valueOptions = (0, utils_1.getValueOptions)(options, value, multi, equalCompareProp);
         const showClearer = Boolean(clearable && valueOptions.length && !mobile);
         const searchAtStart = !multi || valueOptions.length === 0;
         const searchAtEnd = multi && valueOptions.length > 0;
@@ -1133,7 +1133,7 @@ class Value extends React.PureComponent {
         }
         const Single = valueComponentSingle || value_component_single_1.ValueComponentSingle;
         const Multi = (valueComponentMulti || value_component_multi_1.ValueComponentMulti);
-        return valueOptions.map((option) => multi ? (React.createElement(Multi, { key: utils_1.toKey(option.value, this.props.equalCompareProp), option: option, labelComponent: labelComponent, options: valueOptions, onRemove: this.props.onOptionRemove })) : (React.createElement(Single, { key: utils_1.toKey(option.value, this.props.equalCompareProp), option: option, labelComponent: labelComponent })));
+        return valueOptions.map((option) => multi ? (React.createElement(Multi, { key: (0, utils_1.toKey)(option.value, this.props.equalCompareProp), option: option, labelComponent: labelComponent, options: valueOptions, onRemove: this.props.onOptionRemove })) : (React.createElement(Single, { key: (0, utils_1.toKey)(option.value, this.props.equalCompareProp), option: option, labelComponent: labelComponent })));
     }
     focus() {
         const el = this.search.current;
@@ -1254,4 +1254,4 @@ FuseBox.import("default/index.jsx");
 FuseBox.main("default/index.jsx");
 })
 (function(e){function r(e){var r=e.charCodeAt(0),n=e.charCodeAt(1);if((m||58!==n)&&(r>=97&&r<=122||64===r)){if(64===r){var t=e.split("/"),i=t.splice(2,t.length).join("/");return[t[0]+"/"+t[1],i||void 0]}var o=e.indexOf("/");if(o===-1)return[e];var a=e.substring(0,o),f=e.substring(o+1);return[a,f]}}function n(e){return e.substring(0,e.lastIndexOf("/"))||"./"}function t(){for(var e=[],r=0;r<arguments.length;r++)e[r]=arguments[r];for(var n=[],t=0,i=arguments.length;t<i;t++)n=n.concat(arguments[t].split("/"));for(var o=[],t=0,i=n.length;t<i;t++){var a=n[t];a&&"."!==a&&(".."===a?o.pop():o.push(a))}return""===n[0]&&o.unshift(""),o.join("/")||(o.length?"/":".")}function i(e){var r=e.match(/\.(\w{1,})$/);return r&&r[1]?e:e+".js"}function o(e){if(m){var r,n=document,t=n.getElementsByTagName("head")[0];/\.css$/.test(e)?(r=n.createElement("link"),r.rel="stylesheet",r.type="text/css",r.href=e):(r=n.createElement("script"),r.type="text/javascript",r.src=e,r.async=!0),t.insertBefore(r,t.firstChild)}}function a(e,r){for(var n in e)e.hasOwnProperty(n)&&r(n,e[n])}function f(e){return{server:require(e)}}function u(e,n){var o=n.path||"./",a=n.pkg||"default",u=r(e);if(u&&(o="./",a=u[0],n.v&&n.v[a]&&(a=a+"@"+n.v[a]),e=u[1]),e)if(126===e.charCodeAt(0))e=e.slice(2,e.length),o="./";else if(!m&&(47===e.charCodeAt(0)||58===e.charCodeAt(1)))return f(e);var s=x[a];if(!s){if(m&&"electron"!==_.target)throw"Package not found "+a;return f(a+(e?"/"+e:""))}e=e?e:"./"+s.s.entry;var l,d=t(o,e),c=i(d),p=s.f[c];return!p&&c.indexOf("*")>-1&&(l=c),p||l||(c=t(d,"/","index.js"),p=s.f[c],p||"."!==d||(c=s.s&&s.s.entry||"index.js",p=s.f[c]),p||(c=d+".js",p=s.f[c]),p||(p=s.f[d+".jsx"]),p||(c=d+"/index.jsx",p=s.f[c])),{file:p,wildcard:l,pkgName:a,versions:s.v,filePath:d,validPath:c}}function s(e,r,n){if(void 0===n&&(n={}),!m)return r(/\.(js|json)$/.test(e)?h.require(e):"");if(n&&n.ajaxed===e)return console.error(e,"does not provide a module");var i=new XMLHttpRequest;i.onreadystatechange=function(){if(4==i.readyState)if(200==i.status){var n=i.getResponseHeader("Content-Type"),o=i.responseText;/json/.test(n)?o="module.exports = "+o:/javascript/.test(n)||(o="module.exports = "+JSON.stringify(o));var a=t("./",e);_.dynamic(a,o),r(_.import(e,{ajaxed:e}))}else console.error(e,"not found on request"),r(void 0)},i.open("GET",e,!0),i.send()}function l(e,r){var n=y[e];if(n)for(var t in n){var i=n[t].apply(null,r);if(i===!1)return!1}}function d(e){if(null!==e&&["function","object","array"].indexOf(typeof e)!==-1&&!e.hasOwnProperty("default"))return Object.isFrozen(e)?void(e.default=e):void Object.defineProperty(e,"default",{value:e,writable:!0,enumerable:!1})}function c(e,r){if(void 0===r&&(r={}),58===e.charCodeAt(4)||58===e.charCodeAt(5))return o(e);var t=u(e,r);if(t.server)return t.server;var i=t.file;if(t.wildcard){var a=new RegExp(t.wildcard.replace(/\*/g,"@").replace(/[.?*+^$[\]\\(){}|-]/g,"\\$&").replace(/@@/g,".*").replace(/@/g,"[a-z0-9$_-]+"),"i"),f=x[t.pkgName];if(f){var p={};for(var v in f.f)a.test(v)&&(p[v]=c(t.pkgName+"/"+v));return p}}if(!i){var g="function"==typeof r,y=l("async",[e,r]);if(y===!1)return;return s(e,function(e){return g?r(e):null},r)}var w=t.pkgName;if(i.locals&&i.locals.module)return i.locals.module.exports;var b=i.locals={},j=n(t.validPath);b.exports={},b.module={exports:b.exports},b.require=function(e,r){var n=c(e,{pkg:w,path:j,v:t.versions});return _.sdep&&d(n),n},m||!h.require.main?b.require.main={filename:"./",paths:[]}:b.require.main=h.require.main;var k=[b.module.exports,b.require,b.module,t.validPath,j,w];return l("before-import",k),i.fn.apply(k[0],k),l("after-import",k),b.module.exports}if(e.FuseBox)return e.FuseBox;var p="undefined"!=typeof ServiceWorkerGlobalScope,v="undefined"!=typeof WorkerGlobalScope,m="undefined"!=typeof window&&"undefined"!=typeof window.navigator||v||p,h=m?v||p?{}:window:global;m&&(h.global=v||p?{}:window),e=m&&"undefined"==typeof __fbx__dnm__?e:module.exports;var g=m?v||p?{}:window.__fsbx__=window.__fsbx__||{}:h.$fsbx=h.$fsbx||{};m||(h.require=require);var x=g.p=g.p||{},y=g.e=g.e||{},_=function(){function r(){}return r.global=function(e,r){return void 0===r?h[e]:void(h[e]=r)},r.import=function(e,r){return c(e,r)},r.on=function(e,r){y[e]=y[e]||[],y[e].push(r)},r.exists=function(e){try{var r=u(e,{});return void 0!==r.file}catch(e){return!1}},r.remove=function(e){var r=u(e,{}),n=x[r.pkgName];n&&n.f[r.validPath]&&delete n.f[r.validPath]},r.main=function(e){return this.mainFile=e,r.import(e,{})},r.expose=function(r){var n=function(n){var t=r[n].alias,i=c(r[n].pkg);"*"===t?a(i,function(r,n){return e[r]=n}):"object"==typeof t?a(t,function(r,n){return e[n]=i[r]}):e[t]=i};for(var t in r)n(t)},r.dynamic=function(r,n,t){this.pkg(t&&t.pkg||"default",{},function(t){t.file(r,function(r,t,i,o,a){var f=new Function("__fbx__dnm__","exports","require","module","__filename","__dirname","__root__",n);f(!0,r,t,i,o,a,e)})})},r.flush=function(e){var r=x.default;for(var n in r.f)e&&!e(n)||delete r.f[n].locals},r.pkg=function(e,r,n){if(x[e])return n(x[e].s);var t=x[e]={};return t.f={},t.v=r,t.s={file:function(e,r){return t.f[e]={fn:r}}},n(t.s)},r.addPlugin=function(e){this.plugins.push(e)},r.packages=x,r.isBrowser=m,r.isServer=!m,r.plugins=[],r}();return m||(h.FuseBox=_),e.FuseBox=_}(this))
-//# sourceMappingURL=react-slct.js.map?tm=1658140418709
+//# sourceMappingURL=react-slct.js.map?tm=1694647431396

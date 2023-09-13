@@ -1,3 +1,3 @@
-/// <reference types="react" />
+import * as React from 'react';
 import { MenuContainerProps } from './typings';
-export declare function MenuContainer(props: MenuContainerProps): JSX.Element;
+export declare function MenuContainer(props: MenuContainerProps): React.JSX.Element;

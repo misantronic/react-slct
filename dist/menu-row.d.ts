@@ -7,5 +7,5 @@ interface MenuRowProps {
     equalCompareProp?: string | null;
     data: MenuComponentProps;
 }
-export declare const MenuRow: React.MemoExoticComponent<({ index, style, data }: MenuRowProps) => JSX.Element>;
+export declare const MenuRow: React.MemoExoticComponent<({ index, style, data }: MenuRowProps) => React.JSX.Element>;
 export {};

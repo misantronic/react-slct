@@ -21,7 +21,7 @@ const Button = styled_components_1.default.button `
         outline: none;
     }
 `;
-const ArrowButton = styled_components_1.default(Button) `
+const ArrowButton = (0, styled_components_1.default)(Button) `
     font-size: 12px;
     color: ${() => config_1.ReactSlctColors.border};
     transform: translateY(2px);
@@ -64,10 +64,10 @@ const ValueRight = styled_components_1.default.div `
     margin-left: 4px;
     box-sizing: border-box;
 `;
-const Placeholder = styled_components_1.default(label_1.SelectLabel) `
+const Placeholder = (0, styled_components_1.default)(label_1.SelectLabel) `
     color: #aaa;
 `;
-const ClearButton = styled_components_1.default(Button) `
+const ClearButton = (0, styled_components_1.default)(Button) `
     margin-right: 6px;
 `;
 const ClearContainer = styled_components_1.default.span `
@@ -84,12 +84,12 @@ const Search = styled_components_1.default.span `
     user-select: text;
 
     ${(props) => props.canSearch
-    ? styled_components_1.css `
+    ? (0, styled_components_1.css) `
                   opacity: 1;
                   position: relative;
                   left: 1px;
               `
-    : styled_components_1.css `
+    : (0, styled_components_1.css) `
                   position: absolute;
                   opacity: 0;
               `}
@@ -137,7 +137,7 @@ class Value extends React.PureComponent {
             }
         };
         this.search = React.createRef();
-        const window = utils_1.getWindow();
+        const window = (0, utils_1.getWindow)();
         if (window) {
             window.addEventListener('blur', this.blur);
         }
@@ -155,7 +155,7 @@ class Value extends React.PureComponent {
         const ArrowComponent = this.props.arrowComponent;
         const ClearComponent = this.props.clearComponent || ClearX;
         const ValueIconComponent = this.props.valueIconComponent;
-        const valueOptions = utils_1.getValueOptions(options, value, multi, equalCompareProp);
+        const valueOptions = (0, utils_1.getValueOptions)(options, value, multi, equalCompareProp);
         const showClearer = Boolean(clearable && valueOptions.length && !mobile);
         const searchAtStart = !multi || valueOptions.length === 0;
         const searchAtEnd = multi && valueOptions.length > 0;
@@ -190,7 +190,7 @@ class Value extends React.PureComponent {
         }
         const Single = valueComponentSingle || value_component_single_1.ValueComponentSingle;
         const Multi = (valueComponentMulti || value_component_multi_1.ValueComponentMulti);
-        return valueOptions.map((option) => multi ? (React.createElement(Multi, { key: utils_1.toKey(option.value, this.props.equalCompareProp), option: option, labelComponent: labelComponent, options: valueOptions, onRemove: this.props.onOptionRemove })) : (React.createElement(Single, { key: utils_1.toKey(option.value, this.props.equalCompareProp), option: option, labelComponent: labelComponent })));
+        return valueOptions.map((option) => multi ? (React.createElement(Multi, { key: (0, utils_1.toKey)(option.value, this.props.equalCompareProp), option: option, labelComponent: labelComponent, options: valueOptions, onRemove: this.props.onOptionRemove })) : (React.createElement(Single, { key: (0, utils_1.toKey)(option.value, this.props.equalCompareProp), option: option, labelComponent: labelComponent })));
     }
     focus() {
         const el = this.search.current;

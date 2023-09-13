@@ -14,7 +14,7 @@ function getMenuPosition({ rect, menuHeight = 186 }) {
     if (height === 'auto' || menuHeight === 'auto') {
         return 'bottom';
     }
-    if (rect.top + height + menuHeight <= utils_1.getWindowInnerHeight() ||
+    if (rect.top + height + menuHeight <= (0, utils_1.getWindowInnerHeight)() ||
         rect.top < menuHeight / 2) {
         return 'bottom';
     }
@@ -23,7 +23,7 @@ function getMenuPosition({ rect, menuHeight = 186 }) {
 function getContainerTop(props) {
     var _a;
     const { rect } = props;
-    const window = utils_1.getWindow();
+    const window = (0, utils_1.getWindow)();
     if (!rect) {
         return 0;
     }
@@ -74,8 +74,8 @@ function MenuContainer(props) {
     const className = ['react-slct-menu', props.className]
         .filter((c) => c)
         .join(' ');
-    const document = utils_1.getDocument();
-    const window = utils_1.getWindow();
+    const document = (0, utils_1.getDocument)();
+    const window = (0, utils_1.getWindow)();
     const menuOverlay = React.useRef(null);
     const menuWrapper = React.useRef(null);
     const [menuOverlayRect, setMenuOverlayRect] = React.useState();
@@ -180,7 +180,7 @@ function MenuContainer(props) {
         }
     }, [style]);
     return (React.createElement(MenuOverlay, { ref: menuOverlay }, document && style
-        ? react_dom_1.createPortal(React.createElement(MenuWrapper, { "data-role": "menu", className: className, error: error, ref: menuWrapper, onClick: onClick, rect: menuOverlayRect, style: style }, children), document.body)
+        ? (0, react_dom_1.createPortal)(React.createElement(MenuWrapper, { "data-role": "menu", className: className, error: error, ref: menuWrapper, onClick: onClick, rect: menuOverlayRect, style: style }, children), document.body)
         : null));
 }
 exports.MenuContainer = MenuContainer;

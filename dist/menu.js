@@ -11,7 +11,7 @@ const menu_container_1 = require("./menu-container");
 const menu_row_1 = require("./menu-row");
 const option_1 = require("./option");
 const utils_1 = require("./utils");
-const EmptyOptionItem = styled_components_1.default(option_1.OptionComponent.OptionItem) `
+const EmptyOptionItem = (0, styled_components_1.default)(option_1.OptionComponent.OptionItem) `
     height: 100%;
     border: 1px solid ${() => config_1.ReactSlctColors.border};
 `;
@@ -20,10 +20,10 @@ const Empty = (props) => (React.createElement(EmptyOptionItem, null,
         React.createElement("i", null, props.emptyText || 'No results'))));
 function Menu(props) {
     const { rowHeight = 32, selectedIndex, open, error, menuWidth, menuHeight, menuPosition, multi, hideSelectedOptions } = props;
-    const currentValue = utils_1.isArray(props.value) && multi ? props.value : [props.value];
+    const currentValue = (0, utils_1.isArray)(props.value) && multi ? props.value : [props.value];
     const options = React.useMemo(() => (props.options || []).filter((option) => {
         if (hideSelectedOptions) {
-            const selected = currentValue.some((val) => utils_1.equal(val, option.value, props.equalCompareProp));
+            const selected = currentValue.some((val) => (0, utils_1.equal)(val, option.value, props.equalCompareProp));
             if (selected) {
                 return false;
             }
@@ -35,13 +35,13 @@ function Menu(props) {
         hideSelectedOptions,
         currentValue
     ]);
-    const [rect, setRect] = react_1.useState();
-    const [style, setStyle] = react_1.useState();
-    const list = react_1.useRef(null);
+    const [rect, setRect] = (0, react_1.useState)();
+    const [style, setStyle] = (0, react_1.useState)();
+    const list = (0, react_1.useRef)(null);
     const width = menuWidth || (rect && rect.width !== 'auto' ? rect.width : 0);
     const assumedHeight = Math.min(Math.max(options.length * rowHeight, rowHeight) + 2, menuHeight || 185);
     const actualHeight = ((style === null || style === void 0 ? void 0 : style.height) !== 'auto' && (style === null || style === void 0 ? void 0 : style.height)) || assumedHeight;
-    react_1.useEffect(() => {
+    (0, react_1.useEffect)(() => {
         if (open &&
             list.current &&
             selectedIndex !== undefined &&
@@ -51,10 +51,10 @@ function Menu(props) {
     }, [open, selectedIndex]);
     const itemData = React.useMemo(() => {
         return Object.assign(Object.assign({}, props), { options, onSelect: (value, option) => {
-                if (utils_1.isArray(props.value) && props.multi) {
-                    const found = props.value.some((item) => utils_1.equal(item, value, props.equalCompareProp));
+                if ((0, utils_1.isArray)(props.value) && props.multi) {
+                    const found = props.value.some((item) => (0, utils_1.equal)(item, value, props.equalCompareProp));
                     const values = found
-                        ? props.value.filter((item) => !utils_1.equal(item, value, props.equalCompareProp))
+                        ? props.value.filter((item) => !(0, utils_1.equal)(item, value, props.equalCompareProp))
                         : Array.from(new Set([...props.value, value]));
                     props.onSelect(values, option);
                 }

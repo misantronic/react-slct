@@ -6,7 +6,7 @@ interface OptionItemProps {
     height?: OptionComponentProps['height'];
 }
 export declare class OptionComponent extends React.PureComponent<OptionComponentProps> {
-    static OptionItem: import("styled-components").StyledComponent<"div", any, OptionItemProps, never>;
+    static OptionItem: import("styled-components").IStyledComponent<"web", import("styled-components/dist/types").Substitute<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, OptionItemProps>>;
     render(): React.ReactNode;
     private onClick;
 }

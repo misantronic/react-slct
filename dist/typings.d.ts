@@ -1,5 +1,5 @@
 /// <reference types="react" />
-declare type ReactComponent<P = {}> = React.ComponentClass<P> | React.StatelessComponent<P>;
+type ReactComponent<P = {}> = React.ComponentClass<P> | React.FunctionComponent<P>;
 export interface SelectProps<T = any> {
     className?: string;
     options?: Option<T>[];
@@ -114,11 +114,11 @@ export interface ValueComponentMultiProps<T = any> extends ValueComponentSingleP
     options: Option<T>[];
     onRemove(value: T): void;
 }
-export declare type LabelComponentProps<T = any> = Option<T> & {
+export type LabelComponentProps<T = any> = Option<T> & {
     active: boolean;
     type: 'value-single' | 'value-multi' | 'option';
 };
-declare type RectSize = number | 'auto';
+type RectSize = number | 'auto';
 export interface Rect {
     left: number;
     top: number;
