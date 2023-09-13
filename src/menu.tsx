@@ -135,7 +135,7 @@ export function Menu(props: MenuComponentProps) {
                 itemCount={itemCount}
                 itemData={itemData}
             >
-                {MenuRow}
+                {MenuRow as any}
             </FixedSizeList>
         );
     }

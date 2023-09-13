@@ -37,19 +37,18 @@ export {
     keys
 };
 
-const Container = styled.div`
+const Container = styled.div<{ disabled?: boolean }>`
     display: flex;
     position: relative;
     cursor: default;
     width: 100%;
     box-sizing: border-box;
-    pointer-events: ${(props: { disabled?: boolean }) =>
-        props.disabled ? 'none' : 'auto'};
-    opacity: ${(props: { disabled?: boolean }) => (props.disabled ? 0.75 : 1)};
+    pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
+    opacity: ${(props) => (props.disabled ? 0.75 : 1)};
     user-select: none;
 `;
 
-const NativeSelect = styled.select`
+const NativeSelect = styled.select<{ native?: boolean }>`
     display: block;
     opacity: 0;
     position: absolute;
@@ -57,7 +56,7 @@ const NativeSelect = styled.select`
     top: 0;
     width: 100%;
     height: 100%;
-    ${(props: { native?: boolean }) =>
+    ${(props) =>
         props.native
             ? css`
                   z-index: 1;

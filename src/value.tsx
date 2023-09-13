@@ -76,20 +76,20 @@ const ArrowButton = styled(Button)`
     }
 `;
 
-const ValueContainer = styled.div`
+const ValueContainer = styled.div<ValueContainerProps>`
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex: 1;
     min-height: 32px;
-    pointer-events: ${(props: ValueContainerProps) =>
+    pointer-events: ${(props) =>
         props.mobile || props.disabled ? 'none' : 'auto'};
     padding: 5px 10px;
     background: #fff;
     cursor: default;
     border-width: 1px;
     border-style: solid;
-    border-color: ${(props: ValueContainerProps) =>
+    border-color: ${(props) =>
         props.error ? ReactSlctColors.error : ReactSlctColors.border};
     z-index: 0;
     box-sizing: border-box;
@@ -98,11 +98,11 @@ const ValueContainer = styled.div`
         props.focused ? 'rgba(0, 0, 0, 0.15) 0 0 2px' : 'none'};
 `;
 
-const ValueLeft = styled.div`
+const ValueLeft = styled.div<ValueLeftProps>`
     display: flex;
     flex: 1;
     align-items: center;
-    flex-wrap: ${(props: ValueLeftProps) =>
+    flex-wrap: ${(props) =>
         props.multi && props.hasValue ? 'wrap' : 'nowrap'};
     user-select: none;
     min-width: 0;
@@ -136,12 +136,12 @@ const ClearContainer = styled.span`
 
 const ClearX = () => <ClearContainer>×</ClearContainer>;
 
-const Search = styled.span`
+const Search = styled.span<SearchProps>`
     min-width: 1px;
     margin-left: -1px;
     user-select: text;
 
-    ${(props: SearchProps) =>
+    ${(props) =>
         props.canSearch
             ? css`
                   opacity: 1;

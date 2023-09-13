@@ -68,12 +68,12 @@ const MenuOverlay = styled.div`
 
 // position this container fixed is not working well on mobile-devices
 // @see https://medium.com/@im_rahul/safari-and-position-fixed-978122be5f29
-const MenuWrapper = styled.div`
+const MenuWrapper = styled.div<MenuWrapperProps>`
     position: absolute;
     z-index: 9999;
     background: #fff;
     box-sizing: border-box;
-    box-shadow: ${(props: MenuWrapperProps) =>
+    box-shadow: ${(props) =>
         getMenuPosition(props) === 'bottom'
             ? '0 2px 5px rgba(0, 0, 0, 0.1)'
             : '0 -2px 5px rgba(0, 0, 0, 0.1)'};
@@ -82,7 +82,7 @@ const MenuWrapper = styled.div`
         box-sizing: border-box;
         border-width: 1px;
         border-style: solid;
-        border-color: ${(props: MenuWrapperProps) =>
+        border-color: ${(props) =>
             props.error ? ReactSlctColors.error : ReactSlctColors.border};
         background-color: #fff;
 

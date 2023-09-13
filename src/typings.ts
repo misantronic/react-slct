@@ -1,6 +1,6 @@
 type ReactComponent<P = {}> =
     | React.ComponentClass<P>
-    | React.StatelessComponent<P>;
+    | React.FunctionComponent<P>;
 
 export interface SelectProps<T = any> {
     className?: string;

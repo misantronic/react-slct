@@ -5,6 +5,7 @@ import { SelectLabel } from './label';
 
 interface RemoveProps<T = any> {
     value: T;
+    children?: React.ReactNode;
     onClick(value: T): void;
 }
 

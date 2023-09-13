@@ -10,12 +10,12 @@ interface OptionItemProps {
 }
 
 export class OptionComponent extends React.PureComponent<OptionComponentProps> {
-    public static OptionItem = styled.div`
+    public static OptionItem = styled.div<OptionItemProps>`
         display: flex;
         align-items: center;
         justify-content: space-between;
         flex: 1;
-        height: ${(props: OptionItemProps) => props.height || 32}px;
+        height: ${(props) => props.height || 32}px;
         padding: 0 10px;
         min-width: 0;
         cursor: pointer;
