@@ -142,7 +142,9 @@ export function MenuContainer(props: MenuContainerProps) {
             }
         }
 
-        return { top, left, width, height };
+        const visibility = top === 0 && left === 0 ? 'hidden' : undefined;
+
+        return { top, left, width, height, visibility };
     }, [
         props.menuLeft,
         props.menuTop,
