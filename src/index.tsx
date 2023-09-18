@@ -300,7 +300,11 @@ function SelectImpl<T = any>(
             }
 
             setFocused(true);
-            closeMenu(value, () => props.onChange?.(value, option));
+            if (props.keepMenuOnSelect) {
+                props.onChange?.(value, option);
+            } else {
+                closeMenu(value, () => props.onChange?.(value, option));
+            }
         };
 
         if (creatable) {

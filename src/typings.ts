@@ -32,6 +32,7 @@ export interface SelectProps<T = any> {
     valueIconComponent?: ReactComponent;
     'data-role'?: string;
     keepSearchOnBlur?: boolean;
+    keepMenuOnSelect?: boolean;
     control?: React.MutableRefObject<SelectStaticControl | undefined>;
     children?(config: {
         value?: T | T[];
