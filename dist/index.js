@@ -197,6 +197,7 @@ function SelectImpl(props, ref) {
         const { current } = nativeSelect;
         let optionWasCreated = false;
         const selectOnNative = () => {
+            var _a;
             if (current) {
                 current.value =
                     (0, utils_1.isArray)(value) && multi
@@ -204,7 +205,12 @@ function SelectImpl(props, ref) {
                         : findOptionIndex(value);
             }
             setFocused(true);
-            closeMenu(value, () => { var _a; return (_a = props.onChange) === null || _a === void 0 ? void 0 : _a.call(props, value, option); });
+            if (props.keepMenuOnSelect) {
+                (_a = props.onChange) === null || _a === void 0 ? void 0 : _a.call(props, value, option);
+            }
+            else {
+                closeMenu(value, () => { var _a; return (_a = props.onChange) === null || _a === void 0 ? void 0 : _a.call(props, value, option); });
+            }
         };
         if (creatable) {
             const createValue = (val) => {
