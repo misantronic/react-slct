@@ -367,7 +367,7 @@ function SelectImpl<T = any>(
             setSelectedIndex(undefined);
         }
 
-        props.onSearch?.(search);
+        props.onSearch?.(search, options);
     }
 
     function optionIsCreatable(option: Option<T>): boolean {

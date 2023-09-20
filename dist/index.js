@@ -258,7 +258,7 @@ function SelectImpl(props, ref) {
         else {
             setSelectedIndex(undefined);
         }
-        (_a = props.onSearch) === null || _a === void 0 ? void 0 : _a.call(props, search);
+        (_a = props.onSearch) === null || _a === void 0 ? void 0 : _a.call(props, search, options);
     }
     function optionIsCreatable(option) {
         return (creatable && option.creatable && Boolean(props.onCreate && search));

@@ -51,7 +51,7 @@ export interface SelectProps<T = any> {
     creatableText?: (value: string) => string | string;
     onChange?(value: T extends any[] ? T[] : T, option?: Option<T>): void;
     onCreate?(value: string): void;
-    onSearch?(value: string): void;
+    onSearch?(value: string, options: Option<T>[]): void;
     onOpen?(): void;
     onClose?(): void;
 }
