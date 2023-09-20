@@ -11,6 +11,7 @@ export interface SelectProps<T = any> {
     creatable?: boolean;
     clearable?: boolean;
     searchable?: boolean;
+    search?: string;
     disabled?: boolean;
     multi?: boolean;
     native?: boolean;

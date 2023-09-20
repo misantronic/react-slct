@@ -51,7 +51,7 @@ function SelectImpl(props, ref) {
     const [open, setOpen] = React.useState(false);
     const [blindText, setBlindText] = React.useState('');
     const [selectedIndex, setSelectedIndex] = React.useState(undefined);
-    const [search, setSearch] = React.useState(undefined);
+    const [search, setSearch] = React.useState(props.search);
     const [focused, setFocused] = React.useState(false);
     const blindTextTimeout = React.useRef(0);
     const nativeSelect = React.useRef(null);
@@ -64,6 +64,9 @@ function SelectImpl(props, ref) {
             handleBlindTextUpdate();
         }
     }, [blindText]);
+    React.useEffect(() => {
+        setSearch(props.search);
+    }, [props.search]);
     React.useEffect(() => {
         if (props.control) {
             const ref = { close: () => closeMenu(getValue()), open: openMenu };
@@ -121,7 +124,7 @@ function SelectImpl(props, ref) {
             : options.findIndex((option) => (0, utils_1.equal)(option.value, props.value, props.equalCompareProp));
         const keepSearchOnBlur = props.keepSearchOnBlur && !props.value;
         setOpen(true);
-        setSearch(keepSearchOnBlur ? search : undefined);
+        setSearch(keepSearchOnBlur || props.search ? search : undefined);
         setSelectedIndex(selectedIndex);
         (_a = props.onOpen) === null || _a === void 0 ? void 0 : _a.call(props);
         addDocumentListener();

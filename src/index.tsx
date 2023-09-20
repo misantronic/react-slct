@@ -80,7 +80,9 @@ function SelectImpl<T = any>(
     const [selectedIndex, setSelectedIndex] = React.useState<
         number | undefined
     >(undefined);
-    const [search, setSearch] = React.useState<string | undefined>(undefined);
+    const [search, setSearch] = React.useState<string | undefined>(
+        props.search
+    );
     const [focused, setFocused] = React.useState(false);
     const blindTextTimeout = React.useRef(0);
     const nativeSelect = React.useRef<HTMLSelectElement>(null);
@@ -122,6 +124,10 @@ function SelectImpl<T = any>(
             handleBlindTextUpdate();
         }
     }, [blindText]);
+
+    React.useEffect(() => {
+        setSearch(props.search);
+    }, [props.search]);
 
     React.useEffect(() => {
         if (props.control) {
@@ -195,7 +201,7 @@ function SelectImpl<T = any>(
         const keepSearchOnBlur = props.keepSearchOnBlur && !props.value;
 
         setOpen(true);
-        setSearch(keepSearchOnBlur ? search : undefined);
+        setSearch(keepSearchOnBlur || props.search ? search : undefined);
         setSelectedIndex(selectedIndex);
         props.onOpen?.();
 
