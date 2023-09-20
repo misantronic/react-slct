@@ -155,11 +155,16 @@ function SelectImpl<T = any>(
             });
 
         if (search) {
-            newOptions = newOptions.filter((option) =>
-                replaceUmlauts(option.label)
-                    .toLowerCase()
-                    .includes(replaceUmlauts(search).toLowerCase())
-            );
+            newOptions = newOptions.filter((option) => {
+                const label = replaceUmlauts(option.label).toLowerCase();
+                const searchVal = replaceUmlauts(search).toLowerCase();
+
+                if (option.expr) {
+                    return option.expr.test(searchVal);
+                }
+
+                return label.includes(searchVal);
+            });
         }
 
         if (showCreate && search) {

@@ -87,9 +87,14 @@ function SelectImpl(props, ref) {
                     label === search);
             });
         if (search) {
-            newOptions = newOptions.filter((option) => (0, utils_1.replaceUmlauts)(option.label)
-                .toLowerCase()
-                .includes((0, utils_1.replaceUmlauts)(search).toLowerCase()));
+            newOptions = newOptions.filter((option) => {
+                const label = (0, utils_1.replaceUmlauts)(option.label).toLowerCase();
+                const searchVal = (0, utils_1.replaceUmlauts)(search).toLowerCase();
+                if (option.expr) {
+                    return option.expr.test(searchVal);
+                }
+                return label.includes(searchVal);
+            });
         }
         if (showCreate && search) {
             const label = creatableText

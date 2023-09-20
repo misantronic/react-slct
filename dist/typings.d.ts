@@ -61,6 +61,8 @@ export interface Option<T = any> {
     value: T;
     disabled?: boolean;
     label: string;
+    /** match this expression when searching, else use `label`  */
+    expr?: RegExp;
     [key: string]: any;
 }
 export interface MenuComponentProps<T = any> {
