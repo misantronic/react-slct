@@ -68,6 +68,12 @@ function SelectImpl(props, ref) {
         setSearch(props.search);
     }, [props.search]);
     React.useEffect(() => {
+        var _a;
+        if (search !== undefined) {
+            (_a = props.onSearch) === null || _a === void 0 ? void 0 : _a.call(props, search, options);
+        }
+    }, [search]);
+    React.useEffect(() => {
         if (props.control) {
             const ref = { close: () => closeMenu(getValue()), open: openMenu };
             if (props.control instanceof Function) {

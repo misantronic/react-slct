@@ -130,6 +130,12 @@ function SelectImpl<T = any>(
     }, [props.search]);
 
     React.useEffect(() => {
+        if (search !== undefined) {
+            props.onSearch?.(search, options);
+        }
+    }, [search]);
+
+    React.useEffect(() => {
         if (props.control) {
             const ref = { close: () => closeMenu(getValue()), open: openMenu };
 
