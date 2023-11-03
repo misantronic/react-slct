@@ -23,7 +23,7 @@ function Menu(props) {
     const currentValue = (0, utils_1.isArray)(props.value) && multi ? props.value : [props.value];
     const options = React.useMemo(() => (props.options || []).filter((option) => {
         if (hideSelectedOptions) {
-            const selected = currentValue.some((val) => (0, utils_1.equal)(val, option.value, props.equalCompareProp));
+            const selected = currentValue.some((val) => (0, utils_1.equal)(val, option.value, props.equalCompareProp, props.equalCompareStrict));
             if (selected) {
                 return false;
             }
@@ -52,9 +52,9 @@ function Menu(props) {
     const itemData = React.useMemo(() => {
         return Object.assign(Object.assign({}, props), { options, onSelect: (value, option) => {
                 if ((0, utils_1.isArray)(props.value) && props.multi) {
-                    const found = props.value.some((item) => (0, utils_1.equal)(item, value, props.equalCompareProp));
+                    const found = props.value.some((item) => (0, utils_1.equal)(item, value, props.equalCompareProp, props.equalCompareStrict));
                     const values = found
-                        ? props.value.filter((item) => !(0, utils_1.equal)(item, value, props.equalCompareProp))
+                        ? props.value.filter((item) => !(0, utils_1.equal)(item, value, props.equalCompareProp, props.equalCompareStrict))
                         : Array.from(new Set([...props.value, value]));
                     props.onSelect(values, option);
                 }

@@ -15,9 +15,12 @@ function toKey(value, equalCompareProp = 'id') {
     return JSON.stringify(value);
 }
 exports.toKey = toKey;
-function equal(valueA, valueB, equalCompareProp = 'id') {
+function equal(valueA, valueB, equalCompareProp = 'id', strict = false) {
     if (valueA === valueB) {
         return true;
+    }
+    if (strict) {
+        return false;
     }
     if (!valueA || !valueB) {
         return false;
@@ -50,21 +53,21 @@ function replaceUmlauts(str) {
         .replace('ö', 'o');
 }
 exports.replaceUmlauts = replaceUmlauts;
-function getValueOptions(options, value, multi, equalCompareProp) {
+function getValueOptions(options, value, multi, equalCompareProp, strict = false) {
     return options
         .slice()
         .filter((option) => {
         if (isArray(value) && multi) {
-            return value.some((val) => equal(option.value, val, equalCompareProp));
+            return value.some((val) => equal(option.value, val, equalCompareProp, strict));
         }
         else {
-            return equal(option.value, value, equalCompareProp);
+            return equal(option.value, value, equalCompareProp, strict);
         }
     })
         .sort((optionA, optionB) => {
         if (isArray(value) && multi) {
-            const a = value.findIndex((val) => equal(optionA.value, val, equalCompareProp));
-            const b = value.findIndex((val) => equal(optionB.value, val, equalCompareProp));
+            const a = value.findIndex((val) => equal(optionA.value, val, equalCompareProp, strict));
+            const b = value.findIndex((val) => equal(optionB.value, val, equalCompareProp, strict));
             return a < b ? -1 : a > b ? 1 : 0;
         }
         else {

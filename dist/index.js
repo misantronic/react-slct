@@ -55,7 +55,7 @@ function SelectImpl(props, ref) {
     const [focused, setFocused] = React.useState(false);
     const blindTextTimeout = React.useRef(0);
     const nativeSelect = React.useRef(null);
-    const { className, creatable, clearable, placeholder, value, disabled, error, menuComponent, labelComponent, optionComponent, valueComponentSingle, valueComponentMulti, arrowComponent, clearComponent, hideSelectedOptions, equalCompareProp, multi, native, emptyText, rowHeight, menuWidth, menuHeight, menuPosition, keepSearchOnBlur, required, creatableText } = props;
+    const { className, creatable, clearable, placeholder, value, disabled, error, menuComponent, labelComponent, optionComponent, valueComponentSingle, valueComponentMulti, arrowComponent, clearComponent, hideSelectedOptions, equalCompareProp, equalCompareStrict, multi, native, emptyText, rowHeight, menuWidth, menuHeight, menuPosition, keepSearchOnBlur, required, creatableText } = props;
     const searchable = props.searchable || creatable;
     const document = (0, utils_1.getDocument)();
     const options = getOptions();
@@ -132,7 +132,7 @@ function SelectImpl(props, ref) {
         var _a;
         const selectedIndex = props.hideSelectedOptions
             ? undefined
-            : options.findIndex((option) => (0, utils_1.equal)(option.value, props.value, props.equalCompareProp));
+            : options.findIndex((option) => (0, utils_1.equal)(option.value, props.value, props.equalCompareProp, props.equalCompareStrict));
         const keepSearchOnBlur = props.keepSearchOnBlur && !props.value;
         setOpen(true);
         setSearch(keepSearchOnBlur || props.search ? search : undefined);
@@ -173,7 +173,7 @@ function SelectImpl(props, ref) {
         let index = options.findIndex((option) => option.value === val);
         if (index === -1) {
             if (typeof val === 'object') {
-                index = options.findIndex((option) => (0, utils_1.equal)(option.value, val, props.equalCompareProp));
+                index = options.findIndex((option) => (0, utils_1.equal)(option.value, val, props.equalCompareProp, props.equalCompareStrict));
             }
             if (index === -1) {
                 return '';
@@ -247,7 +247,7 @@ function SelectImpl(props, ref) {
     }
     function onOptionRemove(value) {
         if ((0, utils_1.isArray)(props.value) && props.multi) {
-            const values = props.value.filter((val) => !(0, utils_1.equal)(val, value, props.equalCompareProp));
+            const values = props.value.filter((val) => !(0, utils_1.equal)(val, value, props.equalCompareProp, props.equalCompareStrict));
             onOptionSelect(values);
         }
     }
@@ -385,7 +385,7 @@ function SelectImpl(props, ref) {
         }
     }
     function getValue() {
-        const valueOptions = (0, utils_1.getValueOptions)(props.options || [], props.value, props.multi, props.equalCompareProp);
+        const valueOptions = (0, utils_1.getValueOptions)(props.options || [], props.value, props.multi, props.equalCompareProp, props.equalCompareStrict);
         return !multi
             ? props.value
             : valueOptions.map((option) => option.value);
@@ -435,8 +435,8 @@ function SelectImpl(props, ref) {
     ].filter((c) => Boolean(c));
     return (React.createElement(Container, { className: classNames.join(' '), disabled: disabled, ref: ref, "data-role": props['data-role'], onKeyUp: onKeyUp, onKeyDown: onKeyDown },
         renderNativeSelect(),
-        React.createElement(value_1.Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: props.options, placeholder: placeholder, error: error, value: value, search: search, keepSearchOnBlur: keepSearchOnBlur, equalCompareProp: equalCompareProp, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, arrowComponent: arrowComponent, clearComponent: clearComponent, valueIconComponent: props.valueIconComponent, onClear: onClear, onClick: toggleMenu, onSearch: onSearch, onSearchFocus: onSearchFocus, onSearchBlur: onSearchBlur, onOptionRemove: onOptionRemove }),
-        React.createElement(menu_1.Menu, { open: open, options: options, value: value, multi: multi, error: error, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, hideSelectedOptions: hideSelectedOptions, equalCompareProp: equalCompareProp, emptyText: emptyText, rowHeight: rowHeight, menuWidth: menuWidth, menuHeight: menuHeight, menuPosition: menuPosition, onSelect: onOptionSelect })));
+        React.createElement(value_1.Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: props.options, placeholder: placeholder, error: error, value: value, search: search, keepSearchOnBlur: keepSearchOnBlur, equalCompareProp: equalCompareProp, equalCompareStrict: equalCompareStrict, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, arrowComponent: arrowComponent, clearComponent: clearComponent, valueIconComponent: props.valueIconComponent, onClear: onClear, onClick: toggleMenu, onSearch: onSearch, onSearchFocus: onSearchFocus, onSearchBlur: onSearchBlur, onOptionRemove: onOptionRemove }),
+        React.createElement(menu_1.Menu, { open: open, options: options, value: value, multi: multi, error: error, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, hideSelectedOptions: hideSelectedOptions, equalCompareProp: equalCompareProp, equalCompareStrict: equalCompareStrict, emptyText: emptyText, rowHeight: rowHeight, menuWidth: menuWidth, menuHeight: menuHeight, menuPosition: menuPosition, onSelect: onOptionSelect })));
 }
 exports.Select = React.forwardRef(SelectImpl);
 //# sourceMappingURL=index.js.map

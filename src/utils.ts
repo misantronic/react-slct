@@ -24,10 +24,15 @@ export function toKey(
 export function equal(
     valueA: any,
     valueB: any,
-    equalCompareProp: string | null = 'id'
+    equalCompareProp: string | null = 'id',
+    strict = false
 ) {
     if (valueA === valueB) {
         return true;
+    }
+
+    if (strict) {
+        return false;
     }
 
     if (!valueA || !valueB) {
@@ -73,26 +78,27 @@ export function getValueOptions(
     options: Option[],
     value: any,
     multi: boolean | undefined,
-    equalCompareProp?: string | null
+    equalCompareProp?: string | null,
+    strict = false
 ) {
     return options
         .slice()
         .filter((option) => {
             if (isArray(value) && multi) {
                 return value.some((val) =>
-                    equal(option.value, val, equalCompareProp)
+                    equal(option.value, val, equalCompareProp, strict)
                 );
             } else {
-                return equal(option.value, value, equalCompareProp);
+                return equal(option.value, value, equalCompareProp, strict);
             }
         })
         .sort((optionA, optionB) => {
             if (isArray(value) && multi) {
                 const a = value.findIndex((val) =>
-                    equal(optionA.value, val, equalCompareProp)
+                    equal(optionA.value, val, equalCompareProp, strict)
                 );
                 const b = value.findIndex((val) =>
-                    equal(optionB.value, val, equalCompareProp)
+                    equal(optionB.value, val, equalCompareProp, strict)
                 );
 
                 return a < b ? -1 : a > b ? 1 : 0;

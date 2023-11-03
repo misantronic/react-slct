@@ -21,6 +21,7 @@ export const MenuRow = memo(({ index, style, data }: MenuRowProps) => {
         rowHeight,
         search,
         equalCompareProp,
+        equalCompareStrict,
         multi,
         onSelect
     } = data;
@@ -35,8 +36,13 @@ export const MenuRow = memo(({ index, style, data }: MenuRowProps) => {
                 option={option}
                 labelComponent={labelComponent}
                 height={rowHeight}
-                active={currentValue.some(val =>
-                    equal(val, option.value, equalCompareProp)
+                active={currentValue.some((val) =>
+                    equal(
+                        val,
+                        option.value,
+                        equalCompareProp,
+                        equalCompareStrict
+                    )
                 )}
                 selected={selectedIndex === index}
                 search={search}

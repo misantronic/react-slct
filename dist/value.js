@@ -151,11 +151,11 @@ class Value extends React.PureComponent {
         }
     }
     render() {
-        const { options = [], value, disabled, clearable, open, mobile, multi, focused, equalCompareProp, error } = this.props;
+        const { options = [], value, disabled, clearable, open, mobile, multi, focused, equalCompareProp, equalCompareStrict, error } = this.props;
         const ArrowComponent = this.props.arrowComponent;
         const ClearComponent = this.props.clearComponent || ClearX;
         const ValueIconComponent = this.props.valueIconComponent;
-        const valueOptions = (0, utils_1.getValueOptions)(options, value, multi, equalCompareProp);
+        const valueOptions = (0, utils_1.getValueOptions)(options, value, multi, equalCompareProp, equalCompareStrict);
         const showClearer = Boolean(clearable && valueOptions.length && !mobile);
         const searchAtStart = !multi || valueOptions.length === 0;
         const searchAtEnd = multi && valueOptions.length > 0;

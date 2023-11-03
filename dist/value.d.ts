@@ -17,6 +17,7 @@ export interface ValueProps {
     disabled: SelectProps['disabled'];
     error: SelectProps['error'];
     equalCompareProp: SelectProps['equalCompareProp'];
+    equalCompareStrict: SelectProps['equalCompareStrict'];
     search?: string;
     keepSearchOnBlur?: boolean;
     open: boolean;

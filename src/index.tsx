@@ -104,6 +104,7 @@ function SelectImpl<T = any>(
         clearComponent,
         hideSelectedOptions,
         equalCompareProp,
+        equalCompareStrict,
         multi,
         native,
         emptyText,
@@ -207,7 +208,12 @@ function SelectImpl<T = any>(
         const selectedIndex = props.hideSelectedOptions
             ? undefined
             : options.findIndex((option) =>
-                  equal(option.value, props.value, props.equalCompareProp)
+                  equal(
+                      option.value,
+                      props.value,
+                      props.equalCompareProp,
+                      props.equalCompareStrict
+                  )
               );
         const keepSearchOnBlur = props.keepSearchOnBlur && !props.value;
 
@@ -260,7 +266,12 @@ function SelectImpl<T = any>(
         if (index === -1) {
             if (typeof val === 'object') {
                 index = options.findIndex((option) =>
-                    equal(option.value, val, props.equalCompareProp)
+                    equal(
+                        option.value,
+                        val,
+                        props.equalCompareProp,
+                        props.equalCompareStrict
+                    )
                 );
             }
 
@@ -352,7 +363,13 @@ function SelectImpl<T = any>(
     function onOptionRemove(value: any): void {
         if (isArray(props.value) && props.multi) {
             const values = props.value.filter(
-                (val) => !equal(val, value, props.equalCompareProp)
+                (val) =>
+                    !equal(
+                        val,
+                        value,
+                        props.equalCompareProp,
+                        props.equalCompareStrict
+                    )
             );
 
             onOptionSelect(values);
@@ -523,7 +540,8 @@ function SelectImpl<T = any>(
             props.options || [],
             props.value,
             props.multi,
-            props.equalCompareProp
+            props.equalCompareProp,
+            props.equalCompareStrict
         );
         return !multi
             ? props.value
@@ -630,6 +648,7 @@ function SelectImpl<T = any>(
                 search={search}
                 keepSearchOnBlur={keepSearchOnBlur}
                 equalCompareProp={equalCompareProp}
+                equalCompareStrict={equalCompareStrict}
                 labelComponent={labelComponent}
                 valueComponentSingle={valueComponentSingle}
                 valueComponentMulti={valueComponentMulti}
@@ -656,6 +675,7 @@ function SelectImpl<T = any>(
                 optionComponent={optionComponent}
                 hideSelectedOptions={hideSelectedOptions}
                 equalCompareProp={equalCompareProp}
+                equalCompareStrict={equalCompareStrict}
                 emptyText={emptyText}
                 rowHeight={rowHeight}
                 menuWidth={menuWidth}

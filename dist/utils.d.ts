@@ -1,8 +1,8 @@
 import { Option } from '.';
 export declare function toKey(value: any, equalCompareProp?: string | null): string | number;
-export declare function equal(valueA: any, valueB: any, equalCompareProp?: string | null): boolean;
+export declare function equal(valueA: any, valueB: any, equalCompareProp?: string | null, strict?: boolean): boolean;
 export declare function replaceUmlauts(str: string): string;
-export declare function getValueOptions(options: Option[], value: any, multi: boolean | undefined, equalCompareProp?: string | null): Option<any>[];
+export declare function getValueOptions(options: Option[], value: any, multi: boolean | undefined, equalCompareProp?: string | null, strict?: boolean): Option<any>[];
 export declare function isArray<T = any>(val: any): val is Array<T>;
 export declare function getDocument(): Document | undefined;
 export declare function getWindow(): Window | undefined;

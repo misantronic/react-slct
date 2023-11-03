@@ -23,6 +23,7 @@ export interface SelectProps<T = any> {
     menuPosition?: 'top' | 'bottom';
     hideSelectedOptions?: boolean;
     equalCompareProp?: string | null;
+    equalCompareStrict?: boolean;
     arrowComponent?: ReactComponent<{ open: boolean }>;
     clearComponent?: ReactComponent;
     menuComponent?: ReactComponent<MenuComponentProps>;
@@ -84,6 +85,7 @@ export interface MenuComponentProps<T = any> {
     menuPosition: SelectProps['menuPosition'];
     hideSelectedOptions: SelectProps['hideSelectedOptions'];
     equalCompareProp: SelectProps['equalCompareProp'];
+    equalCompareStrict: SelectProps['equalCompareStrict'];
     error: SelectProps['error'];
     selectedIndex?: number;
     open: boolean;
