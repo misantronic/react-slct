@@ -19,9 +19,6 @@ function equal(valueA, valueB, equalCompareProp = 'id', strict = false) {
     if (valueA === valueB) {
         return true;
     }
-    if (strict) {
-        return false;
-    }
     if (!valueA || !valueB) {
         return false;
     }
@@ -33,6 +30,9 @@ function equal(valueA, valueB, equalCompareProp = 'id', strict = false) {
             valueB[equalCompareProp] !== null &&
             valueA[equalCompareProp] === valueB[equalCompareProp]) {
             return true;
+        }
+        if (strict) {
+            return false;
         }
         if (valueA.toJSON && valueB.toJSON) {
             return (JSON.stringify(valueA.toJSON()) ===

@@ -31,10 +31,6 @@ export function equal(
         return true;
     }
 
-    if (strict) {
-        return false;
-    }
-
     if (!valueA || !valueB) {
         return false;
     }
@@ -49,6 +45,10 @@ export function equal(
             valueA[equalCompareProp] === valueB[equalCompareProp]
         ) {
             return true;
+        }
+
+        if (strict) {
+            return false;
         }
 
         if (valueA.toJSON && valueB.toJSON) {
