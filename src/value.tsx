@@ -50,7 +50,7 @@ interface ValueContainerProps {
 
 interface ValueLeftProps {
     multi?: 'true';
-    hasValue?: 'true';
+    hasvalue?: 'true';
 }
 
 const Button = styled.button`
@@ -104,12 +104,12 @@ const ValueLeft = styled.div<ValueLeftProps>`
     flex: 1;
     align-items: center;
     flex-wrap: ${(props) =>
-        props.multi && props.hasValue ? 'wrap' : 'nowrap'};
+        props.multi && props.hasvalue ? 'wrap' : 'nowrap'};
     user-select: none;
     min-width: 0;
     box-sizing: border-box;
     margin: ${(props: ValueLeftProps) =>
-        props.multi && props.hasValue ? '-2px -5px' : 0};
+        props.multi && props.hasvalue ? '-2px -5px' : 0};
 `;
 
 const ValueRight = styled.div`
@@ -227,7 +227,7 @@ export class Value extends React.PureComponent<ValueProps> {
                 <ValueLeft
                     className="value-left"
                     multi={multi ? 'true' : undefined}
-                    hasValue={!!valueOptions.length ? 'true' : undefined}
+                    hasvalue={!!valueOptions.length ? 'true' : undefined}
                 >
                     {ValueIconComponent && <ValueIconComponent />}
                     {searchAtStart && this.renderSearch()}

@@ -52,11 +52,11 @@ const ValueLeft = styled_components_1.default.div `
     display: flex;
     flex: 1;
     align-items: center;
-    flex-wrap: ${(props) => props.multi && props.hasValue ? 'wrap' : 'nowrap'};
+    flex-wrap: ${(props) => props.multi && props.hasvalue ? 'wrap' : 'nowrap'};
     user-select: none;
     min-width: 0;
     box-sizing: border-box;
-    margin: ${(props) => props.multi && props.hasValue ? '-2px -5px' : 0};
+    margin: ${(props) => props.multi && props.hasvalue ? '-2px -5px' : 0};
 `;
 const ValueRight = styled_components_1.default.div `
     display: flex;
@@ -160,7 +160,7 @@ class Value extends React.PureComponent {
         const searchAtStart = !multi || valueOptions.length === 0;
         const searchAtEnd = multi && valueOptions.length > 0;
         return (React.createElement(ValueContainer, { "data-role": "value", className: "react-slct-value", disabled: disabled, mobile: mobile ? 'true' : undefined, focused: focused ? 'true' : undefined, error: error ? 'true' : undefined, onClick: this.onClick },
-            React.createElement(ValueLeft, { className: "value-left", multi: multi ? 'true' : undefined, hasValue: !!valueOptions.length ? 'true' : undefined },
+            React.createElement(ValueLeft, { className: "value-left", multi: multi ? 'true' : undefined, hasvalue: !!valueOptions.length ? 'true' : undefined },
                 ValueIconComponent && React.createElement(ValueIconComponent, null),
                 searchAtStart && this.renderSearch(),
                 this.renderValues(valueOptions),
