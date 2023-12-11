@@ -63,7 +63,7 @@ export declare const SelectLabel: import("styled-components").IStyledComponent<"
     'aria-colindextext'?: string | undefined;
     'aria-colspan'?: number | undefined;
     'aria-controls'?: string | undefined;
-    'aria-current'?: boolean | "time" | "true" | "page" | "false" | "date" | "step" | "location" | undefined;
+    'aria-current'?: boolean | "true" | "time" | "page" | "false" | "date" | "step" | "location" | undefined;
     'aria-describedby'?: string | undefined;
     'aria-description'?: string | undefined;
     'aria-details'?: string | undefined;
@@ -73,7 +73,7 @@ export declare const SelectLabel: import("styled-components").IStyledComponent<"
     'aria-expanded'?: (boolean | "true" | "false") | undefined;
     'aria-flowto'?: string | undefined;
     'aria-grabbed'?: (boolean | "true" | "false") | undefined;
-    'aria-haspopup'?: boolean | "dialog" | "menu" | "true" | "listbox" | "grid" | "false" | "tree" | undefined;
+    'aria-haspopup'?: boolean | "true" | "dialog" | "menu" | "listbox" | "grid" | "false" | "tree" | undefined;
     'aria-hidden'?: (boolean | "true" | "false") | undefined;
     'aria-invalid'?: boolean | "true" | "false" | "grammar" | "spelling" | undefined;
     'aria-keyshortcuts'?: string | undefined;

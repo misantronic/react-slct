@@ -12,6 +12,8 @@ exports.MenuRow = (0, react_1.memo)(({ index, style, data }) => {
     const currentValue = (0, utils_1.isArray)(data.value) && multi ? data.value : [data.value];
     const Component = optionComponent || option_1.OptionComponent;
     return (React.createElement("div", { style: style },
-        React.createElement(Component, { option: option, labelComponent: labelComponent, height: rowHeight, active: currentValue.some((val) => (0, utils_1.equal)(val, option.value, equalCompareProp, equalCompareStrict)), selected: selectedIndex === index, search: search, onSelect: onSelect })));
+        React.createElement(Component, { option: option, labelComponent: labelComponent, height: rowHeight, active: currentValue.some((val) => (0, utils_1.equal)(val, option.value, equalCompareProp, equalCompareStrict))
+                ? 'true'
+                : undefined, selected: selectedIndex === index ? 'true' : undefined, search: search, onSelect: onSelect })));
 }, react_window_1.areEqual);
 //# sourceMappingURL=menu-row.js.map

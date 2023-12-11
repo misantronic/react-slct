@@ -104,8 +104,8 @@ export interface MenuContainerProps {
 export interface OptionComponentProps<T extends Option = any> {
     className?: string;
     option: T;
-    active?: boolean;
-    selected?: boolean;
+    active?: 'true';
+    selected?: 'true';
     height?: number;
     labelComponent: SelectProps['labelComponent'];
     search?: string;
