@@ -10,13 +10,13 @@ const menu_container_1 = require("./menu-container");
 const utils_1 = require("./utils");
 Object.defineProperty(exports, "keys", { enumerable: true, get: function () { return utils_1.keys; } });
 const value_1 = require("./value");
+tslib_1.__exportStar(require("./config"), exports);
 var option_1 = require("./option");
 Object.defineProperty(exports, "OptionComponent", { enumerable: true, get: function () { return option_1.OptionComponent; } });
 var value_component_multi_1 = require("./value-component-multi");
 Object.defineProperty(exports, "ValueComponentMulti", { enumerable: true, get: function () { return value_component_multi_1.ValueComponentMulti; } });
 var value_component_single_1 = require("./value-component-single");
 Object.defineProperty(exports, "ValueComponentSingle", { enumerable: true, get: function () { return value_component_single_1.ValueComponentSingle; } });
-tslib_1.__exportStar(require("./config"), exports);
 const Container = styled_components_1.default.div `
     display: flex;
     position: relative;
@@ -420,7 +420,7 @@ function SelectImpl(props, ref) {
             ? props.value.map(findOptionIndex)
             : findOptionIndex(props.value || '');
         const propDisabled = disabled ? disabled : required ? false : !native;
-        return (React.createElement(NativeSelect, { ref: nativeSelect, multiple: multi, value: value, disabled: propDisabled, required: required, native: native, tabIndex: -1, "data-role": dataRole, onChange: onChangeNativeSelect },
+        return (React.createElement(NativeSelect, { ref: nativeSelect, multiple: multi, value: value, disabled: propDisabled, required: required, native: native ? 'true' : undefined, tabIndex: -1, "data-role": dataRole, onChange: onChangeNativeSelect },
             React.createElement("option", { value: "", disabled: !clearable }, placeholder),
             options.map((option, i) => (React.createElement("option", { key: (0, utils_1.toKey)(option.value, props.equalCompareProp), value: `${i}`, disabled: option.disabled }, option.label)))));
     }
@@ -433,10 +433,11 @@ function SelectImpl(props, ref) {
         open && 'open',
         error && 'has-error'
     ].filter((c) => Boolean(c));
-    return (React.createElement(Container, { className: classNames.join(' '), disabled: disabled, ref: ref, "data-role": props['data-role'], onKeyUp: onKeyUp, onKeyDown: onKeyDown },
-        renderNativeSelect(),
-        React.createElement(value_1.Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: props.options, placeholder: placeholder, error: error, value: value, search: search, keepSearchOnBlur: keepSearchOnBlur, equalCompareProp: equalCompareProp, equalCompareStrict: equalCompareStrict, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, arrowComponent: arrowComponent, clearComponent: clearComponent, valueIconComponent: props.valueIconComponent, onClear: onClear, onClick: toggleMenu, onSearch: onSearch, onSearchFocus: onSearchFocus, onSearchBlur: onSearchBlur, onOptionRemove: onOptionRemove }),
-        React.createElement(menu_1.Menu, { open: open, options: options, value: value, multi: multi, error: error, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, hideSelectedOptions: hideSelectedOptions, equalCompareProp: equalCompareProp, equalCompareStrict: equalCompareStrict, emptyText: emptyText, rowHeight: rowHeight, menuWidth: menuWidth, menuHeight: menuHeight, menuPosition: menuPosition, onSelect: onOptionSelect })));
+    return (React.createElement(styled_components_1.StyleSheetManager, { shouldForwardProp: () => true },
+        React.createElement(Container, { className: classNames.join(' '), disabled: disabled, ref: ref, "data-role": props['data-role'], onKeyUp: onKeyUp, onKeyDown: onKeyDown },
+            renderNativeSelect(),
+            React.createElement(value_1.Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: props.options, placeholder: placeholder, error: error, value: value, search: search, keepSearchOnBlur: keepSearchOnBlur, equalCompareProp: equalCompareProp, equalCompareStrict: equalCompareStrict, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, arrowComponent: arrowComponent, clearComponent: clearComponent, valueIconComponent: props.valueIconComponent, onClear: onClear, onClick: toggleMenu, onSearch: onSearch, onSearchFocus: onSearchFocus, onSearchBlur: onSearchBlur, onOptionRemove: onOptionRemove }),
+            React.createElement(menu_1.Menu, { open: open, options: options, value: value, multi: multi, error: error, search: search, selectedIndex: selectedIndex, menuComponent: menuComponent, labelComponent: labelComponent, optionComponent: optionComponent, hideSelectedOptions: hideSelectedOptions, equalCompareProp: equalCompareProp, equalCompareStrict: equalCompareStrict, emptyText: emptyText, rowHeight: rowHeight, menuWidth: menuWidth, menuHeight: menuHeight, menuPosition: menuPosition, onSelect: onOptionSelect }))));
 }
 exports.Select = React.forwardRef(SelectImpl);
 //# sourceMappingURL=index.js.map

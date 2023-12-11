@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled, { css } from 'styled-components';
+import styled, { StyleSheetManager, css } from 'styled-components';
 import { Menu } from './menu';
 import { MenuContainer } from './menu-container';
 import {
@@ -18,22 +18,22 @@ import {
     toKey
 } from './utils';
 import { Value } from './value';
+export * from './config';
 export { OptionComponent } from './option';
 export {
     OptionComponentProps,
+    SelectStaticControl,
     ValueComponentMultiProps,
-    ValueComponentSingleProps,
-    SelectStaticControl
+    ValueComponentSingleProps
 } from './typings';
 export { ValueComponentMulti } from './value-component-multi';
 export { ValueComponentSingle } from './value-component-single';
-export * from './config';
 export {
-    SelectProps,
+    LabelComponentProps,
     Menu,
     MenuComponentProps,
-    LabelComponentProps,
     Option,
+    SelectProps,
     keys
 };
 
@@ -48,7 +48,7 @@ const Container = styled.div<{ disabled?: boolean }>`
     user-select: none;
 `;
 
-const NativeSelect = styled.select<{ native?: boolean }>`
+const NativeSelect = styled.select<{ native?: 'true' }>`
     display: block;
     opacity: 0;
     position: absolute;
@@ -591,7 +591,7 @@ function SelectImpl<T = any>(
                 value={value}
                 disabled={propDisabled}
                 required={required}
-                native={native}
+                native={native ? 'true' : undefined}
                 tabIndex={-1}
                 data-role={dataRole}
                 onChange={onChangeNativeSelect}
@@ -624,66 +624,68 @@ function SelectImpl<T = any>(
     ].filter((c) => Boolean(c));
 
     return (
-        <Container
-            className={classNames.join(' ')}
-            disabled={disabled}
-            ref={ref}
-            data-role={props['data-role']}
-            onKeyUp={onKeyUp}
-            onKeyDown={onKeyDown}
-        >
-            {renderNativeSelect()}
-            <Value
-                clearable={clearable}
-                searchable={searchable}
-                open={open}
+        <StyleSheetManager shouldForwardProp={() => true}>
+            <Container
+                className={classNames.join(' ')}
                 disabled={disabled}
-                multi={multi}
-                mobile={native}
-                focused={focused}
-                options={props.options}
-                placeholder={placeholder}
-                error={error}
-                value={value}
-                search={search}
-                keepSearchOnBlur={keepSearchOnBlur}
-                equalCompareProp={equalCompareProp}
-                equalCompareStrict={equalCompareStrict}
-                labelComponent={labelComponent}
-                valueComponentSingle={valueComponentSingle}
-                valueComponentMulti={valueComponentMulti}
-                arrowComponent={arrowComponent}
-                clearComponent={clearComponent}
-                valueIconComponent={props.valueIconComponent}
-                onClear={onClear}
-                onClick={toggleMenu}
-                onSearch={onSearch}
-                onSearchFocus={onSearchFocus}
-                onSearchBlur={onSearchBlur}
-                onOptionRemove={onOptionRemove}
-            />
-            <Menu
-                open={open}
-                options={options}
-                value={value}
-                multi={multi}
-                error={error}
-                search={search}
-                selectedIndex={selectedIndex}
-                menuComponent={menuComponent}
-                labelComponent={labelComponent}
-                optionComponent={optionComponent}
-                hideSelectedOptions={hideSelectedOptions}
-                equalCompareProp={equalCompareProp}
-                equalCompareStrict={equalCompareStrict}
-                emptyText={emptyText}
-                rowHeight={rowHeight}
-                menuWidth={menuWidth}
-                menuHeight={menuHeight}
-                menuPosition={menuPosition}
-                onSelect={onOptionSelect}
-            />
-        </Container>
+                ref={ref}
+                data-role={props['data-role']}
+                onKeyUp={onKeyUp}
+                onKeyDown={onKeyDown}
+            >
+                {renderNativeSelect()}
+                <Value
+                    clearable={clearable}
+                    searchable={searchable}
+                    open={open}
+                    disabled={disabled}
+                    multi={multi}
+                    mobile={native}
+                    focused={focused}
+                    options={props.options}
+                    placeholder={placeholder}
+                    error={error}
+                    value={value}
+                    search={search}
+                    keepSearchOnBlur={keepSearchOnBlur}
+                    equalCompareProp={equalCompareProp}
+                    equalCompareStrict={equalCompareStrict}
+                    labelComponent={labelComponent}
+                    valueComponentSingle={valueComponentSingle}
+                    valueComponentMulti={valueComponentMulti}
+                    arrowComponent={arrowComponent}
+                    clearComponent={clearComponent}
+                    valueIconComponent={props.valueIconComponent}
+                    onClear={onClear}
+                    onClick={toggleMenu}
+                    onSearch={onSearch}
+                    onSearchFocus={onSearchFocus}
+                    onSearchBlur={onSearchBlur}
+                    onOptionRemove={onOptionRemove}
+                />
+                <Menu
+                    open={open}
+                    options={options}
+                    value={value}
+                    multi={multi}
+                    error={error}
+                    search={search}
+                    selectedIndex={selectedIndex}
+                    menuComponent={menuComponent}
+                    labelComponent={labelComponent}
+                    optionComponent={optionComponent}
+                    hideSelectedOptions={hideSelectedOptions}
+                    equalCompareProp={equalCompareProp}
+                    equalCompareStrict={equalCompareStrict}
+                    emptyText={emptyText}
+                    rowHeight={rowHeight}
+                    menuWidth={menuWidth}
+                    menuHeight={menuHeight}
+                    menuPosition={menuPosition}
+                    onSelect={onOptionSelect}
+                />
+            </Container>
+        </StyleSheetManager>
     );
 }
 

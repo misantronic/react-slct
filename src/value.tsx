@@ -38,19 +38,19 @@ export interface ValueProps {
 }
 
 interface SearchProps {
-    canSearch?: boolean;
+    cansearch?: 'true';
 }
 
 interface ValueContainerProps {
-    mobile?: boolean;
+    mobile?: 'true';
     disabled?: boolean;
-    focused?: boolean;
-    error?: boolean;
+    focused?: 'true';
+    error?: 'true';
 }
 
 interface ValueLeftProps {
-    multi?: boolean;
-    hasValue?: boolean;
+    multi?: 'true';
+    hasValue?: 'true';
 }
 
 const Button = styled.button`
@@ -143,7 +143,7 @@ const Search = styled.span<SearchProps>`
     user-select: text;
 
     ${(props) =>
-        props.canSearch
+        props.cansearch
             ? css`
                   opacity: 1;
                   position: relative;
@@ -219,15 +219,15 @@ export class Value extends React.PureComponent<ValueProps> {
                 data-role="value"
                 className="react-slct-value"
                 disabled={disabled}
-                mobile={mobile}
-                focused={focused}
-                error={error}
+                mobile={mobile ? 'true' : undefined}
+                focused={focused ? 'true' : undefined}
+                error={error ? 'true' : undefined}
                 onClick={this.onClick}
             >
                 <ValueLeft
                     className="value-left"
-                    multi={multi}
-                    hasValue={!!valueOptions.length}
+                    multi={multi ? 'true' : undefined}
+                    hasValue={!!valueOptions.length ? 'true' : undefined}
                 >
                     {ValueIconComponent && <ValueIconComponent />}
                     {searchAtStart && this.renderSearch()}
@@ -285,7 +285,7 @@ export class Value extends React.PureComponent<ValueProps> {
             <Search
                 className="search"
                 contentEditable
-                canSearch={canSearch}
+                cansearch={canSearch ? 'true' : undefined}
                 onInput={this.onSearch}
                 onKeyDown={this.onKeyDown}
                 onFocus={onSearchFocus}
