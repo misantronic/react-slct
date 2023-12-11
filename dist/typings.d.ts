@@ -121,7 +121,7 @@ export interface ValueComponentMultiProps<T = any> extends ValueComponentSingleP
     onRemove(value: T): void;
 }
 export type LabelComponentProps<T = any> = Option<T> & {
-    active: boolean;
+    active?: 'true';
     type: 'value-single' | 'value-multi' | 'option';
 };
 type RectSize = number | 'auto';

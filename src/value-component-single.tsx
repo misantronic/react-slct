@@ -6,12 +6,12 @@ export const ValueComponentSingle = React.memo(
     (props: ValueComponentSingleProps) => {
         const Label = props.labelComponent || (SelectLabel as any);
         const className = ['value-single', props.className]
-            .filter(c => Boolean(c))
+            .filter((c) => Boolean(c))
             .join(' ');
 
         return (
             <Label
-                active
+                active="true"
                 type="value-single"
                 className={className}
                 {...props.option}
