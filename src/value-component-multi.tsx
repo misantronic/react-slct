@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { ValueComponentMultiProps } from './typings';
 import { SelectLabel } from './label';
+import { ValueComponentMultiProps } from './typings';
 
 interface RemoveProps<T = any> {
     value: T;
@@ -88,7 +88,7 @@ export class ValueComponentMulti<T = any> extends React.PureComponent<
                 <Remove value={option.value} onClick={onRemove}>
                     ×
                 </Remove>
-                <Label type="value-multi" active {...option}>
+                <Label type="value-multi" active="true" {...option}>
                     {option.label}
                 </Label>
             </TagContainer>
