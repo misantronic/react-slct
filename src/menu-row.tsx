@@ -48,7 +48,7 @@ export const MenuRow = memo(({ index, style, data }: MenuRowProps) => {
                         ? 'true'
                         : undefined
                 }
-                selected={selectedIndex === index ? 'true' : undefined}
+                selected={selectedIndex === index}
                 search={search}
                 onSelect={onSelect}
             />

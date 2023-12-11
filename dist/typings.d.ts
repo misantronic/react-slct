@@ -105,7 +105,7 @@ export interface OptionComponentProps<T extends Option = any> {
     className?: string;
     option: T;
     active?: 'true';
-    selected?: 'true';
+    selected?: boolean;
     height?: number;
     labelComponent: SelectProps['labelComponent'];
     search?: string;
