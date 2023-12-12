@@ -111,7 +111,7 @@ export interface MenuContainerProps {
 export interface OptionComponentProps<T extends Option = any> {
     className?: string;
     option: T;
-    active?: 'true';
+    active?: boolean;
     selected?: boolean;
     height?: number;
     labelComponent: SelectProps['labelComponent'];
@@ -132,7 +132,7 @@ export interface ValueComponentMultiProps<T = any>
 }
 
 export type LabelComponentProps<T = any> = Option<T> & {
-    active?: 'true';
+    active?: boolean;
     type: 'value-single' | 'value-multi' | 'option';
 };
 

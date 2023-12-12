@@ -38,19 +38,19 @@ export interface ValueProps {
 }
 
 interface SearchProps {
-    cansearch?: 'true';
+    cansearch?: boolean;
 }
 
 interface ValueContainerProps {
-    mobile?: 'true';
+    mobile?: boolean;
     disabled?: boolean;
-    focused?: 'true';
-    error?: 'true';
+    focused?: boolean;
+    error?: boolean;
 }
 
 interface ValueLeftProps {
-    multi?: 'true';
-    hasvalue?: 'true';
+    multi?: boolean;
+    hasvalue?: boolean;
 }
 
 const Button = styled.button`
@@ -219,15 +219,15 @@ export class Value extends React.PureComponent<ValueProps> {
                 data-role="value"
                 className="react-slct-value"
                 disabled={disabled}
-                mobile={mobile ? 'true' : undefined}
-                focused={focused ? 'true' : undefined}
-                error={error ? 'true' : undefined}
+                mobile={mobile}
+                focused={focused}
+                error={error}
                 onClick={this.onClick}
             >
                 <ValueLeft
                     className="value-left"
-                    multi={multi ? 'true' : undefined}
-                    hasvalue={!!valueOptions.length ? 'true' : undefined}
+                    multi={multi}
+                    hasvalue={!!valueOptions.length}
                 >
                     {ValueIconComponent && <ValueIconComponent />}
                     {searchAtStart && this.renderSearch()}
@@ -285,7 +285,7 @@ export class Value extends React.PureComponent<ValueProps> {
             <Search
                 className="search"
                 contentEditable
-                cansearch={canSearch ? 'true' : undefined}
+                cansearch={canSearch}
                 onInput={this.onSearch}
                 onKeyDown={this.onKeyDown}
                 onFocus={onSearchFocus}

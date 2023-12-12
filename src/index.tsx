@@ -1,7 +1,8 @@
 import * as React from 'react';
-import styled, { StyleSheetManager, css } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Menu } from './menu';
 import { MenuContainer } from './menu-container';
+import { StyleSheetManager } from './styled-sheet-manager';
 import {
     LabelComponentProps,
     MenuComponentProps,
@@ -48,7 +49,7 @@ const Container = styled.div<{ disabled?: boolean }>`
     user-select: none;
 `;
 
-const NativeSelect = styled.select<{ native?: 'true' }>`
+const NativeSelect = styled.select<{ native?: boolean }>`
     display: block;
     opacity: 0;
     position: absolute;
@@ -591,7 +592,7 @@ function SelectImpl<T = any>(
                 value={value}
                 disabled={propDisabled}
                 required={required}
-                native={native ? 'true' : undefined}
+                native={native}
                 tabIndex={-1}
                 data-role={dataRole}
                 onChange={onChangeNativeSelect}
@@ -624,7 +625,7 @@ function SelectImpl<T = any>(
     ].filter((c) => Boolean(c));
 
     return (
-        <StyleSheetManager shouldForwardProp={() => true}>
+        <StyleSheetManager>
             <Container
                 className={classNames.join(' ')}
                 disabled={disabled}

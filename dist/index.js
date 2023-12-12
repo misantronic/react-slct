@@ -7,6 +7,7 @@ const styled_components_1 = require("styled-components");
 const menu_1 = require("./menu");
 Object.defineProperty(exports, "Menu", { enumerable: true, get: function () { return menu_1.Menu; } });
 const menu_container_1 = require("./menu-container");
+const styled_sheet_manager_1 = require("./styled-sheet-manager");
 const utils_1 = require("./utils");
 Object.defineProperty(exports, "keys", { enumerable: true, get: function () { return utils_1.keys; } });
 const value_1 = require("./value");
@@ -420,7 +421,7 @@ function SelectImpl(props, ref) {
             ? props.value.map(findOptionIndex)
             : findOptionIndex(props.value || '');
         const propDisabled = disabled ? disabled : required ? false : !native;
-        return (React.createElement(NativeSelect, { ref: nativeSelect, multiple: multi, value: value, disabled: propDisabled, required: required, native: native ? 'true' : undefined, tabIndex: -1, "data-role": dataRole, onChange: onChangeNativeSelect },
+        return (React.createElement(NativeSelect, { ref: nativeSelect, multiple: multi, value: value, disabled: propDisabled, required: required, native: native, tabIndex: -1, "data-role": dataRole, onChange: onChangeNativeSelect },
             React.createElement("option", { value: "", disabled: !clearable }, placeholder),
             options.map((option, i) => (React.createElement("option", { key: (0, utils_1.toKey)(option.value, props.equalCompareProp), value: `${i}`, disabled: option.disabled }, option.label)))));
     }
@@ -433,7 +434,7 @@ function SelectImpl(props, ref) {
         open && 'open',
         error && 'has-error'
     ].filter((c) => Boolean(c));
-    return (React.createElement(styled_components_1.StyleSheetManager, { shouldForwardProp: () => true },
+    return (React.createElement(styled_sheet_manager_1.StyleSheetManager, null,
         React.createElement(Container, { className: classNames.join(' '), disabled: disabled, ref: ref, "data-role": props['data-role'], onKeyUp: onKeyUp, onKeyDown: onKeyDown },
             renderNativeSelect(),
             React.createElement(value_1.Value, { clearable: clearable, searchable: searchable, open: open, disabled: disabled, multi: multi, mobile: native, focused: focused, options: props.options, placeholder: placeholder, error: error, value: value, search: search, keepSearchOnBlur: keepSearchOnBlur, equalCompareProp: equalCompareProp, equalCompareStrict: equalCompareStrict, labelComponent: labelComponent, valueComponentSingle: valueComponentSingle, valueComponentMulti: valueComponentMulti, arrowComponent: arrowComponent, clearComponent: clearComponent, valueIconComponent: props.valueIconComponent, onClear: onClear, onClick: toggleMenu, onSearch: onSearch, onSearchFocus: onSearchFocus, onSearchBlur: onSearchBlur, onOptionRemove: onOptionRemove }),

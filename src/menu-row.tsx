@@ -36,18 +36,14 @@ export const MenuRow = memo(({ index, style, data }: MenuRowProps) => {
                 option={option}
                 labelComponent={labelComponent}
                 height={rowHeight}
-                active={
-                    currentValue.some((val) =>
-                        equal(
-                            val,
-                            option.value,
-                            equalCompareProp,
-                            equalCompareStrict
-                        )
+                active={currentValue.some((val) =>
+                    equal(
+                        val,
+                        option.value,
+                        equalCompareProp,
+                        equalCompareStrict
                     )
-                        ? 'true'
-                        : undefined
-                }
+                )}
                 selected={selectedIndex === index}
                 search={search}
                 onSelect={onSelect}
